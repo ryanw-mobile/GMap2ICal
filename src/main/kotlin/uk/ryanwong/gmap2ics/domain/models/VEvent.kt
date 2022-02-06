@@ -1,8 +1,5 @@
 package uk.ryanwong.gmap2ics.domain.models
 
-import java.time.LocalDateTime
-import java.time.ZoneId
-
 
 private val timeStampRegex = """(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)(.\d+)*Z""".toRegex()
 
@@ -17,7 +14,8 @@ data class VEvent(
     val summary: String,
     val location: String,
     val geo: LatLng?,
-    val description: String? = null
+    val description: String? = null,
+    val lastModified: String
 ) {
     data class LatLng(
         val latitude: Double,
@@ -37,7 +35,8 @@ data class VEvent(
                     longitude = timelineObject.eventLongitude
                 ),
                 dtTimeZone = timelineObject.eventTimeZone,
-                location = timelineObject.location
+                location = timelineObject.location,
+                lastModified =  timelineObject.lastEditTimeStamp
             )
 
         }
@@ -45,7 +44,6 @@ data class VEvent(
 
     fun export(): String {
         val stringBuilder = StringBuilder()
-        println(LocalDateTime.now().atZone(ZoneId.of("UTC")))
 
         stringBuilder.run {
             append("BEGIN:VEVENT\n")
@@ -55,7 +53,7 @@ data class VEvent(
             append(" 147.4943601668639;X-TITLE=\"$location\":geo:${geo?.latitude},${geo?.longitude}\n")
             append("UID:$uid\n")
             append("DTSTAMP:$dtStamp\n")
-            append("LOCATION:${location.replace(oldValue = ",",newValue="\\n")}\n")
+            append("LOCATION:${location.replace(oldValue = ",",newValue="\\,\\n")}\n")
 //            geo?.let { geo ->
 //                val googleMapUrl = "https://maps.google.com/?q=${geo.latitude},${geo.longitude}&ll=${geo.latitude},${geo.longitude}&z=14"
 //                    .replace(oldValue = ",",newValue="\\,")
@@ -67,7 +65,7 @@ data class VEvent(
             append("STATUS:CONFIRMED\n")
             append("SEQUENCE:1\n")
             append("SUMMARY:$summary\n")
-            append("LAST-MODIFIED:20220204T200841Z\n") // TODO: current timestamp
+            append("LAST-MODIFIED:$lastModified\n") // TODO: current timestamp
             append("DTSTART;TZID=$dtTimeZone:$dtStart\n")
             append("CREATED:$dtEnd\n")
             append("X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n")

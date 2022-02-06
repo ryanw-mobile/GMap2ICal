@@ -27,7 +27,11 @@ data class GMapTimelineObject(
             val eventLongitude = (placeVisit.location?.longitudeE7 ?: 0) * 0.0000001
 
             return GMapTimelineObject(
-                id = "123",
+                id = getLastEditTimeStamp(
+                    startTimeStamp = placeVisit.duration?.startTimestamp,
+                    endTimeStamp = placeVisit.duration?.endTimestamp,
+                    lastEditTimeStamp = placeVisit.lastEditedTimestamp
+                ), //        println(LocalDateTime.now().atZone(ZoneId.of("UTC")))
                 subject = "\uD83D\uDCCD ${placeVisit.location?.name}",
                 location = placeVisit.location?.address?.replace('\n', ',') ?: "",
                 startTimeStamp = placeVisit.duration?.startTimestamp,
@@ -83,7 +87,11 @@ data class GMapTimelineObject(
             }
 
             return GMapTimelineObject(
-                id = "123",
+                id = getLastEditTimeStamp(
+                    startTimeStamp = activitySegment.duration?.startTimestamp,
+                    endTimeStamp = activitySegment.duration?.endTimestamp,
+                    lastEditTimeStamp = activitySegment.lastEditedTimestamp
+                ), //        println(LocalDateTime.now().atZone(ZoneId.of("UTC")))
                 subject = subject,
                 location = activitySegment.endLocation?.address ?: "",
                 startTimeStamp = activitySegment.duration?.startTimestamp,

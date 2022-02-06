@@ -1,6 +1,7 @@
 package uk.ryanwong.gmap2ics
 
 import uk.ryanwong.gmap2ics.configs.RyanConfig
+import uk.ryanwong.gmap2ics.data.ICalExporter
 import uk.ryanwong.gmap2ics.data.JsonProcessor
 import uk.ryanwong.gmap2ics.data.models.ActivitySegment
 import uk.ryanwong.gmap2ics.data.models.PlaceVisit
@@ -14,35 +15,48 @@ private val configFile = RyanConfig() // Specify your config here
 
 fun main(args: Array<String>) {
     val jsonProcessor = JsonProcessor()
+    val fileList: List<String>?
 
-    getResourcesJsonFileList(absolutePath = configFile.jsonPath).forEach { filename ->
+    try {
+        fileList = getResourcesJsonFileList(absolutePath = configFile.jsonPath)
+    } catch (ex: Exception) {
+        println("☠️ Error getting json file list: ${ex.localizedMessage}")
+        return
+    }
+
+    fileList.forEach { filename ->
         println("\uD83D\uDDC2 Processing $filename")
 
-        val eventList : MutableList<VEvent> = mutableListOf()
+        val eventList: MutableList<VEvent> = mutableListOf()
 
         val timeline = jsonProcessor.parseTimeLine(
             filename = filename
         )
+
+        val iCalExporter = ICalExporter(configFile.icalPath)
+
         timeline?.timelineObjects?.let { timelineObjects ->
             for (timelineObject in timelineObjects) {
                 // Should be either activity or place visited, but no harm to also support cases with both
                 timelineObject.activitySegment?.let { activitySegment ->
                     processActivitySegment(activitySegment = activitySegment)?.let { gMapTimelineObject ->
-                        eventList.add(VEvent.from(timelineObject = gMapTimelineObject).also {
-                            println(it.summary)
-                        })
+                        eventList.add(VEvent.from(timelineObject = gMapTimelineObject))
                     }
                 }
                 timelineObject.placeVisit?.let { placeVisit ->
                     processPlaceVisit(placeVisit = placeVisit)?.let { gMapTimelineObject ->
-                        eventList.add(VEvent.from(timelineObject = gMapTimelineObject).also {
-                            println(it.summary)
-                        })
-
+                        eventList.add(VEvent.from(timelineObject = gMapTimelineObject))
                     }
                 }
             }
         }
+
+        // Exporting multiple events in one single ics file
+        iCalExporter.exportICal(
+            filename = filename.replace(".json", ".ics"), // casually reuse the filename
+            vEvents = eventList
+        )
+
         println("✅ Processed ${timeline?.timelineObjects?.size ?: 0} events")
     }
 }
@@ -62,7 +76,7 @@ private fun getResourcesJsonFileList(absolutePath: String): List<String> {
     return fileList
 }
 
-fun processActivitySegment(activitySegment: ActivitySegment) : GMapTimelineObject? {
+fun processActivitySegment(activitySegment: ActivitySegment): GMapTimelineObject? {
     val activityType = activitySegment.activityType?.let {
         try {
             ActivityType.valueOf(activitySegment.activityType)
@@ -89,6 +103,6 @@ fun processPlaceVisit(placeVisit: PlaceVisit): GMapTimelineObject? {
         return null
     }
 
-   // println(obj.toString())
+    // println(obj.toString())
     return timelineObject
 }
