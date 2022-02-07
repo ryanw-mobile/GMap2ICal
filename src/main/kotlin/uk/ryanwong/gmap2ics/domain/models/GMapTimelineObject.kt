@@ -74,17 +74,36 @@ data class GMapTimelineObject(
                 }
             } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
 
-            val subject = when (activityType) {
-//                ActivityType.WALKING -> {}
-                ActivityType.IN_PASSENGER_VEHICLE ->
-                    "\uD83D\uDE97 $distanceString ${parseActivityRouteText(activitySegment.startLocation?.name, activitySegment.endLocation?.name)}"
-
-                ActivityType.UNKNOWN_ACTIVITY_TYPE ->
-                    "❓ $distanceString ${parseActivityRouteText(activitySegment.startLocation?.name, activitySegment.endLocation?.name)}"
-
-                else ->
-                    "\uD83D\uDC40 ${activitySegment.activityType} for $distanceString ${parseActivityRouteText(activitySegment.startLocation?.name, activitySegment.endLocation?.name)}"
+            // Generate emoji label prefix for different activity types
+            val activityLabel = when (activityType) {
+                ActivityType.UNKNOWN_ACTIVITY_TYPE -> "❓"
+                ActivityType.BOATING -> "🚣‍♀️"
+                ActivityType.CYCLING -> "🚲"
+                ActivityType.FLYING -> "✈️"
+                ActivityType.HIKING -> "⛰"
+                ActivityType.IN_BUS -> "🚎"
+                ActivityType.IN_CABLECAR -> "🚠"
+                ActivityType.IN_FERRY -> "⛴"
+                ActivityType.IN_PASSENGER_VEHICLE -> "\uD83D\uDE97"
+                ActivityType.IN_SUBWAY -> "🚇"
+                ActivityType.IN_TAXI -> "🚖"
+                ActivityType.IN_TRAIN -> "🚆"
+                ActivityType.IN_TRAM -> "🚋"
+                ActivityType.IN_VEHICLE -> "🚐"
+                ActivityType.MOTORCYCLING -> "🏍"
+                ActivityType.RUNNING -> "🏃‍♀️"
+                ActivityType.SAILING -> "⛵️"
+                ActivityType.SKIING -> "⛷"
+                ActivityType.STILL -> "\uD83E\uDDCD"
+                ActivityType.WALKING -> "🚶‍♂️"
             }
+
+            val subject = "$activityLabel $distanceString ${
+                parseActivityRouteText(
+                    activitySegment.startLocation?.name,
+                    activitySegment.endLocation?.name
+                )
+            }"
 
             return GMapTimelineObject(
                 id = getLastEditTimeStamp(
@@ -112,7 +131,7 @@ data class GMapTimelineObject(
 private fun parseActivityRouteText(
     startLocation: String?,
     endLocation: String?
-) : String {
+): String {
     if (startLocation == null && endLocation == null) return ""
 
     val stringBuilder = StringBuilder()
