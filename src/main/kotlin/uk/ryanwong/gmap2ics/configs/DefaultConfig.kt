@@ -7,6 +7,9 @@ class DefaultConfig : Config {
 
     override val icalPath = "./src/main/resources"
 
+    override val exportPlaceVisit = true
+    override val exportActivitySegment = true
+
     override val ignoredActivityType = listOf(
         ActivityType.WALKING,
         ActivityType.IN_TAXI,

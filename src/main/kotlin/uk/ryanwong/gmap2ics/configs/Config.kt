@@ -9,6 +9,8 @@ import uk.ryanwong.gmap2ics.domain.ActivityType
 sealed interface Config {
     val jsonPath: String  // Location of the source Json Files
     val icalPath: String  // Location of the processed iCal output
+    val exportPlaceVisit: Boolean
+    val exportActivitySegment: Boolean
     val ignoredActivityType: List<ActivityType>
     val ignoredVisitedLocations: List<String> // Exact match
     val displayLogs: Boolean

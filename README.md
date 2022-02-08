@@ -22,8 +22,6 @@ This project is still making progress and is not ready for production use.
 - Getting the notes field to work 
 - Connect to Google Maps API to resolve places ID for driving events
 - Assign current timestamp to the last modified time field
-- Complete the list of activity types
-- Specify the subject format for more activity types
 - Smarter configuration and detection to skip events staying at home
 - Exception handling 
 - More test cases

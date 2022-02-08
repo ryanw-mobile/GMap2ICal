@@ -38,20 +38,23 @@ fun main(args: Array<String>) {
         timeline?.timelineObjects?.let { timelineObjects ->
             for (timelineObject in timelineObjects) {
                 // Should be either activity or place visited, but no harm to also support cases with both
-                timelineObject.activitySegment?.let { activitySegment ->
-                    processActivitySegment(activitySegment = activitySegment)?.let { gMapTimelineObject ->
-                        eventList.add(VEvent.from(timelineObject = gMapTimelineObject).also { vEvent ->
-                            if (configFile.displayLogs) println(vEvent.toString())
-                        })
+                if (configFile.exportActivitySegment)
+                    timelineObject.activitySegment?.let { activitySegment ->
+                        processActivitySegment(activitySegment = activitySegment)?.let { gMapTimelineObject ->
+                            eventList.add(VEvent.from(timelineObject = gMapTimelineObject).also { vEvent ->
+                                if (configFile.displayLogs) println(vEvent.toString())
+                            })
+                        }
                     }
-                }
-                timelineObject.placeVisit?.let { placeVisit ->
-                    processPlaceVisit(placeVisit = placeVisit)?.let { gMapTimelineObject ->
-                        eventList.add(VEvent.from(timelineObject = gMapTimelineObject).also { vEvent ->
-                            if (configFile.displayLogs) println(vEvent.toString())
-                        })
+
+                if (configFile.exportPlaceVisit)
+                    timelineObject.placeVisit?.let { placeVisit ->
+                        processPlaceVisit(placeVisit = placeVisit)?.let { gMapTimelineObject ->
+                            eventList.add(VEvent.from(timelineObject = gMapTimelineObject).also { vEvent ->
+                                if (configFile.displayLogs) println(vEvent.toString())
+                            })
+                        }
                     }
-                }
             }
         }
 
