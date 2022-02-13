@@ -1,5 +1,7 @@
 # GMap2ICS
-A small utility in Kotlin to convert Google Maps activity timeline to iCal (.ics) files for calendar import
+A small utility written in Kotlin to convert Google Maps activity timeline to iCal (.ics) files for calendar import. 
+
+This is not an Android App, you may just open the project using IntelliJ IDEA and run it on your desktop environment.
 
 ## Background
 I travelled quite a lot every year before the pandemic. Very often my daily itinerary changes at the last minute. This made me a headache recalling where I have been on a particular day.

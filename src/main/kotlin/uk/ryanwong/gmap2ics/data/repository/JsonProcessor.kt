@@ -1,4 +1,4 @@
-package uk.ryanwong.gmap2ics.data
+package uk.ryanwong.gmap2ics.data.repository
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -14,10 +14,10 @@ class JsonProcessor {
         registerModule(JavaTimeModule())
     }
 
-    fun parseTimeLine(filename: String) : TimelineObjects? {
+    fun parseTimeLine(filePath: String) : TimelineObjects? {
         val jsonString: String
         try {
-            jsonString = File(filename).readText(Charsets.UTF_8)
+            jsonString = File(filePath).readText(Charsets.UTF_8)
         } catch (npe: NullPointerException) {
             return null
         }
