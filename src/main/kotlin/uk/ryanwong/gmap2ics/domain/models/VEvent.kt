@@ -48,10 +48,10 @@ data class VEvent(
         stringBuilder.run {
             append("BEGIN:VEVENT\n")
             append("TRANSP:OPAQUE\n")
-            append("X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=\n")
-            append(" 147.4943601668639;X-TITLE=\"$location\":geo:${geo?.latitude},${geo?.longitude}\n")
             append("DTSTART;TZID=UTC:$dtStart\n")//$dtTimeZone
             append("DTEND;TZID=UTC:$dtEnd\n")//=$dtTimeZone
+            append("X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n")
+            append("X-TITLE=\"$location\":geo:${geo?.latitude},${geo?.longitude}\n")
             append("UID:$uid\n")
             append("DTSTAMP:$dtStamp\n")
             append("LOCATION:${location.replace(oldValue = ",",newValue="\\,\\n")}\n")
