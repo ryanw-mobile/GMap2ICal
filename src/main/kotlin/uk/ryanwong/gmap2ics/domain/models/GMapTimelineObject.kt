@@ -1,6 +1,7 @@
 package uk.ryanwong.gmap2ics.domain.models
 
 import uk.ryanwong.gmap2ics.data.models.ActivitySegment
+import uk.ryanwong.gmap2ics.data.models.ChildVisit
 import uk.ryanwong.gmap2ics.data.models.PlaceVisit
 import uk.ryanwong.gmap2ics.domain.ActivityType
 import us.dustinj.timezonemap.TimeZoneMap
@@ -40,6 +41,31 @@ data class GMapTimelineObject(
                     startTimeStamp = placeVisit.duration?.startTimestamp,
                     endTimeStamp = placeVisit.duration?.endTimestamp,
                     lastEditTimeStamp = placeVisit.lastEditedTimestamp
+                ),
+                eventLatitude = eventLatitude,
+                eventLongitude = eventLongitude,
+                eventTimeZone = timeZoneMap.getOverlappingTimeZone(eventLatitude, eventLongitude)?.zoneId ?: ""
+            )
+        }
+
+        fun from(childVisit: ChildVisit): GMapTimelineObject {
+            val eventLatitude = (childVisit.location.latitudeE7 ?: 0) * 0.0000001
+            val eventLongitude = (childVisit.location.longitudeE7 ?: 0) * 0.0000001
+
+            return GMapTimelineObject(
+                id = getLastEditTimeStamp(
+                    startTimeStamp = childVisit.duration?.startTimestamp,
+                    endTimeStamp = childVisit.duration?.endTimestamp,
+                    lastEditTimeStamp = childVisit.lastEditedTimestamp
+                ), //        println(LocalDateTime.now().atZone(ZoneId.of("UTC")))
+                subject = "\uD83D\uDCCD ${childVisit.location.name}",
+                location = childVisit.location.address?.replace('\n', ',') ?: "",
+                startTimeStamp = childVisit.duration?.startTimestamp,
+                endTimeStamp = childVisit.duration?.endTimestamp,
+                lastEditTimeStamp = getLastEditTimeStamp(
+                    startTimeStamp = childVisit.duration?.startTimestamp,
+                    endTimeStamp = childVisit.duration?.endTimestamp,
+                    lastEditTimeStamp = childVisit.lastEditedTimestamp
                 ),
                 eventLatitude = eventLatitude,
                 eventLongitude = eventLongitude,

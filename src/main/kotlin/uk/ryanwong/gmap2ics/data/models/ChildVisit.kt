@@ -11,7 +11,7 @@ data class ChildVisit(
     val editActionMetadata: EditActionMetadata? = null,
     val editConfirmationStatus: String? = null,
     val lastEditedTimestamp: String? = null,
-    val location: Location? = null,
+    val location: Location,
     val locationAssertionType: String? = null,
     val locationConfidence: Int? = null,
     val otherCandidateLocations: List<OtherCandidateLocation>? = null,

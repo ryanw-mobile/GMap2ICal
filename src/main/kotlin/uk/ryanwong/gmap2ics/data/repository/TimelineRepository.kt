@@ -47,11 +47,16 @@ class TimelineRepository(private val configFile: Config) {
                                 if (configFile.displayLogs) println(vEvent.toString())
                             })
                         }
+
+                        // If we have child-visits, we export them as individual events
+                        placeVisit.childVisits?.forEach { childVisit ->
+                            eventList.add(VEvent.from(GMapTimelineObject.from(childVisit)))
+                        }
                     }
             }
         }
         
-        println("✅ Processed ${timeline?.timelineObjects?.size ?: 0} events")
+        println("✅ Processed ${timeline?.timelineObjects?.size ?: 0} timeline entries.")
         return eventList
     }
 
@@ -86,9 +91,8 @@ class TimelineRepository(private val configFile: Config) {
             // println("🚫 ${activitySegment.activityType}")
             return null
         }
-        val timelineObject = GMapTimelineObject.from(activitySegment)
         // println(obj.toString())
-        return timelineObject
+        return GMapTimelineObject.from(activitySegment)
     }
 
     fun processPlaceVisit(placeVisit: PlaceVisit): GMapTimelineObject? {
