@@ -1,9 +1,9 @@
-package uk.ryanwong.gmap2ics.data.models
+package uk.ryanwong.gmap2ics.data.models.timeline
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class ChildVisit(
+data class PlaceVisit(
     val centerLatE7: Int? = null,
     val centerLngE7: Int? = null,
     val checkin: Checkin? = null,
@@ -20,5 +20,5 @@ data class ChildVisit(
     val placeVisitType: String? = null,
     val simplifiedRawPath: SimplifiedRawPath? = null,
     val visitConfidence: Int? = null,
-    val placeVisitLevel: Int? = null
+    val childVisits: List<ChildVisit>? = null,
 )

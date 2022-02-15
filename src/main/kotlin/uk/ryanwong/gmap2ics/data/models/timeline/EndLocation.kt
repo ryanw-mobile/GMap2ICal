@@ -1,9 +1,9 @@
-package uk.ryanwong.gmap2ics.data.models
+package uk.ryanwong.gmap2ics.data.models.timeline
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class StartLocation(
+data class EndLocation(
     val address: String? = null,
     val calibratedProbability: Double? = null,
     val latitudeE7: Int? = null,

@@ -1,8 +1,8 @@
 package uk.ryanwong.gmap2ics.data.repository
 
 import uk.ryanwong.gmap2ics.configs.Config
-import uk.ryanwong.gmap2ics.data.models.ActivitySegment
-import uk.ryanwong.gmap2ics.data.models.PlaceVisit
+import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment
+import uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisit
 import uk.ryanwong.gmap2ics.domain.ActivityType
 import uk.ryanwong.gmap2ics.domain.models.GMapTimelineObject
 import uk.ryanwong.gmap2ics.domain.models.VEvent

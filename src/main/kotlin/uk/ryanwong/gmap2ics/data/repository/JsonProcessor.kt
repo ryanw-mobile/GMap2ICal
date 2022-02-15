@@ -4,7 +4,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import uk.ryanwong.gmap2ics.data.models.TimelineObjects
+import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
 import java.io.File
 
 class JsonProcessor {

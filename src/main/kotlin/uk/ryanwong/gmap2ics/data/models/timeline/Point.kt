@@ -1,4 +1,4 @@
-package uk.ryanwong.gmap2ics.data.models
+package uk.ryanwong.gmap2ics.data.models.timeline
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 

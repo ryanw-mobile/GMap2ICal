@@ -1,8 +1,8 @@
 package uk.ryanwong.gmap2ics.domain.models
 
-import uk.ryanwong.gmap2ics.data.models.ActivitySegment
-import uk.ryanwong.gmap2ics.data.models.ChildVisit
-import uk.ryanwong.gmap2ics.data.models.PlaceVisit
+import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment
+import uk.ryanwong.gmap2ics.data.models.timeline.ChildVisit
+import uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisit
 import uk.ryanwong.gmap2ics.domain.ActivityType
 import us.dustinj.timezonemap.TimeZoneMap
 import java.text.DecimalFormat
