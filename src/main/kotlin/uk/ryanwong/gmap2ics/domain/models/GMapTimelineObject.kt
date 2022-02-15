@@ -85,7 +85,7 @@ data class GMapTimelineObject(
             }
 
             val distanceString = distanceInKilometers?.let { kilometers ->
-                if ("Europe/London" == eventTimeZone)
+                if (shouldShowMiles(eventTimeZone))
                     "${mileageFormat.format(kilometersToMiles(kilometers))}mi"
                 else
                     "${mileageFormat.format(kilometers)}km"
@@ -184,3 +184,7 @@ private fun getLastEditTimeStamp(
 }
 
 fun kilometersToMiles(meters: Double): Double = meters * 0.621
+
+private fun shouldShowMiles(timezone: String): Boolean {
+    return timezone == "Europe/London"
+}
