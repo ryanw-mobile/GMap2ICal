@@ -104,28 +104,7 @@ data class GMapTimelineObject(
             } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
 
             // Generate emoji label prefix for different activity types
-            val activityLabel = when (activityType) {
-                ActivityType.UNKNOWN_ACTIVITY_TYPE -> "❓"
-                ActivityType.BOATING -> "🚣‍♀️"
-                ActivityType.CYCLING -> "🚲"
-                ActivityType.FLYING -> "✈️"
-                ActivityType.HIKING -> "⛰"
-                ActivityType.IN_BUS -> "🚎"
-                ActivityType.IN_CABLECAR -> "🚠"
-                ActivityType.IN_FERRY -> "⛴"
-                ActivityType.IN_PASSENGER_VEHICLE -> "\uD83D\uDE97"
-                ActivityType.IN_SUBWAY -> "🚇"
-                ActivityType.IN_TAXI -> "🚖"
-                ActivityType.IN_TRAIN -> "🚆"
-                ActivityType.IN_TRAM -> "🚋"
-                ActivityType.IN_VEHICLE -> "🚐"
-                ActivityType.MOTORCYCLING -> "🏍"
-                ActivityType.RUNNING -> "🏃‍♀️"
-                ActivityType.SAILING -> "⛵️"
-                ActivityType.SKIING -> "⛷"
-                ActivityType.STILL -> "\uD83E\uDDCD"
-                ActivityType.WALKING -> "🚶‍♂️"
-            }
+            val activityLabel = activityType.getLabel()
 
             val subject = "$activityLabel $distanceString ${
                 parseActivityRouteText(
