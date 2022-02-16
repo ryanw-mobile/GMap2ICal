@@ -7,7 +7,7 @@ data class PlaceVisit(
     val centerLatE7: Int? = null,
     val centerLngE7: Int? = null,
     val checkin: Checkin? = null,
-    val duration: Duration? = null,
+    val duration: Duration,
     val editActionMetadata: EditActionMetadata? = null,
     val editConfirmationStatus: String? = null,
     val lastEditedTimestamp: String? = null,

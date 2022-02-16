@@ -19,11 +19,8 @@ This project is still making progress and is not ready for production use.
 
 ## Todo list
 
-- Fix timezone setting (now applying resolved time zones to UTC timestamps makes everything wrong)
-- Improve location (address) formatting
 - Getting the notes field to work 
 - Connect to Google Maps API to resolve places ID for driving events
-- Assign current timestamp to the last modified time field
 - Smarter configuration and detection to skip events staying at home
 - Exception handling 
 - More test cases

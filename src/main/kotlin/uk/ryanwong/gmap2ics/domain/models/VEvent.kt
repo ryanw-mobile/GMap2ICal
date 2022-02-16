@@ -1,8 +1,8 @@
 package uk.ryanwong.gmap2ics.domain.models
 
-
-private val timeStampRegex = """(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)(.\d+)*Z""".toRegex()
-
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 data class VEvent(
     val uid: String,
@@ -24,21 +24,28 @@ data class VEvent(
 
     companion object {
         fun from(timelineObject: GMapTimelineObject): VEvent {
+            val timeZone = timelineObject.eventTimeZone
+
             return VEvent(
                 uid = timelineObject.id,
-                dtStamp = timelineObject.lastEditTimeStamp.googleToICalTimeStamp(),
-                dtStart = timelineObject.startTimeStamp?.googleToICalTimeStamp() ?: "",
-                dtEnd = timelineObject.endTimeStamp?.googleToICalTimeStamp() ?: "",
+                dtStamp = timelineObject.lastEditTimeStamp,
+                dtStart = getLocalizedTimeStamp(
+                    timestamp = timelineObject.startTimeStamp,
+                    timezoneId = timelineObject.eventTimeZone?.zoneId ?: "UTC"
+                ),
+                dtEnd = getLocalizedTimeStamp(
+                    timestamp = timelineObject.endTimeStamp,
+                    timezoneId = timelineObject.eventTimeZone?.zoneId ?: "UTC"
+                ),
                 summary = timelineObject.subject,
                 geo = LatLng(
                     latitude = timelineObject.eventLatitude,
                     longitude = timelineObject.eventLongitude
                 ),
-                dtTimeZone = timelineObject.eventTimeZone,
+                dtTimeZone = timeZone?.zoneId ?: "UTC",
                 location = timelineObject.location,
-                lastModified =  timelineObject.lastEditTimeStamp
+                lastModified = timelineObject.lastEditTimeStamp
             )
-
         }
     }
 
@@ -48,17 +55,18 @@ data class VEvent(
         stringBuilder.run {
             append("BEGIN:VEVENT\n")
             append("TRANSP:OPAQUE\n")
-            append("DTSTART;TZID=UTC:$dtStart\n")//$dtTimeZone
-            append("DTEND;TZID=UTC:$dtEnd\n")//=$dtTimeZone
+            append("DTSTART;TZID=$dtTimeZone:$dtStart\n")
+            append("DTEND;TZID=$dtTimeZone:$dtEnd\n")
             append("X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n")
             append("X-TITLE=\"$location\":geo:${geo?.latitude},${geo?.longitude}\n")
             append("UID:$uid\n")
             append("DTSTAMP:$dtStamp\n")
-            append("LOCATION:${location.replace(oldValue = ",",newValue="\\,\\n")}\n")
+            append("LOCATION:${location.replace(oldValue = ",", newValue = "\\,\\n")}\n")
             append("SUMMARY:$summary\n")
             geo?.let { geo ->
-                val googleMapUrl = "https://maps.google.com/?q=${geo.latitude},${geo.longitude}&ll=${geo.latitude},${geo.longitude}&z=14"
-                    .replace(oldValue = ",",newValue="\\,")
+                val googleMapUrl =
+                    "https://maps.google.com/?q=${geo.latitude},${geo.longitude}&ll=${geo.latitude},${geo.longitude}&z=14"
+                        .replace(oldValue = ",", newValue = "\\,")
                 append("DESCRIPTION:$googleMapUrl\n")
             }
 //            description?.let { description ->
@@ -66,27 +74,19 @@ data class VEvent(
 //            }
             append("STATUS:CONFIRMED\n")
             append("SEQUENCE:1\n")
-            append("LAST-MODIFIED:$lastModified\n") // TODO: current timestamp
-            append("CREATED:$dtEnd\n")
+            append("LAST-MODIFIED:$lastModified\n") // iso timestamp
+            append("CREATED:$lastModified\n") // iso timestamp
             append("X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n")
             append("END:VEVENT\n")
         }
 
         return stringBuilder.toString()
     }
-
 }
 
-fun String.googleToICalTimeStamp(): String? {
-    val matchResult = timeStampRegex.find(this)
-
-    return matchResult?.let { result ->
-        val (year, month, day, hour, min, sec, _) = result.destructured
-        "$year${month.padStart(2, '0')}${day.padStart(2, '0')}T${hour.padStart(2, '0')}${
-            min.padStart(
-                2,
-                '0'
-            )
-        }${sec.padStart(2, '0')}"
-    }
+fun getLocalizedTimeStamp(timestamp: String, timezoneId: String): String {
+    return DateTimeFormatter
+        .ofPattern("yyyyMMdd'T'HHmmss")
+        .withZone(ZoneId.of(timezoneId))
+        .format(Instant.parse(timestamp))
 }

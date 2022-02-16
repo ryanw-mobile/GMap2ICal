@@ -8,7 +8,7 @@ data class ActivitySegment(
     val activityType: String? = null,
     val confidence: String? = null,
     val distance: Int? = null,
-    val duration: Duration? = null,
+    val duration: Duration,
     val editActionMetadata: EditActionMetadata? = null,
     val endLocation: EndLocation? = null,
     val parkingEvent: ParkingEvent? = null,

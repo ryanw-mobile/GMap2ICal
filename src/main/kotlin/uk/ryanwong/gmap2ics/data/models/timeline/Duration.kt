@@ -4,6 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Duration(
-    val endTimestamp: String? = null,
-    val startTimestamp: String? = null
+    val endTimestamp: String,
+    val startTimestamp: String
 )
