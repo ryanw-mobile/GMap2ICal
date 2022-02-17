@@ -14,4 +14,7 @@ sealed interface Config {
     val ignoredActivityType: List<ActivityType>
     val ignoredVisitedLocations: List<String> // Exact match
     val displayLogs: Boolean
+
+    val placesApiKey: String?
+    val enablePlacesApiLookup: Boolean
 }
