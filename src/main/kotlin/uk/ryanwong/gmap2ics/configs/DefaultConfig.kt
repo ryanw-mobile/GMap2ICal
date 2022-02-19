@@ -22,14 +22,22 @@ class DefaultConfig : Config {
         ActivityType.UNKNOWN_ACTIVITY_TYPE
     )
 
-    override val ignoredVisitedLocations = listOf(
-        "My Home",
+    override val ignoredVisitedPlaceIds = listOf(
+        "PlaceIds extracted from Json"
+//        "ChIJ85tY7jeue0gRZ9Sik4vVUnk"
     )
 
     override val displayLogs = true
     override val placesApiKey: String? = null
     override val enablePlacesApiLookup = false
     override val apiLanguageOverride = mapOf(
-        Pair("default", "en")
+        Pair("default", "en"),
+//        Pair("Asia/Hong_Kong", "zh-HK"),
+//        Pair("Asia/Tokyo", "ja"),
+//        Pair("Asia/Bangkok", "th"),
+//        Pair("Asia/Seoul", "ko"),
+//        Pair("Asia/Shanghai", "zh-CN"),
+//        Pair("Asia/Taipei", "zh-TW"),
+//        Pair("Europe/London", "en-GB")
     )
 }

@@ -12,7 +12,7 @@ sealed interface Config {
     val exportPlaceVisit: Boolean
     val exportActivitySegment: Boolean
     val ignoredActivityType: List<ActivityType>
-    val ignoredVisitedLocations: List<String> // Exact match
+    val ignoredVisitedPlaceIds: List<String> // Exact match
     val displayLogs: Boolean
 
     val placesApiKey: String?

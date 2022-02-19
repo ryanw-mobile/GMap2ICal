@@ -82,27 +82,26 @@ class TimelineRepository(private val configFile: Config) {
                 ActivityType.valueOf(activitySegment.activityType)
             } catch (e: IllegalArgumentException) {
                 if (configFile.displayLogs) {
-                    println("⚠️  ${activitySegment.activityType}")
+                    println("⚠️ Unknown activity type: ${activitySegment.activityType}")
                 }
                 ActivityType.UNKNOWN_ACTIVITY_TYPE
             }
         } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
 
         if (configFile.ignoredActivityType.contains(activityType)) {
-            // println("🚫 ${activitySegment.activityType}")
+            if (configFile.displayLogs) {
+                println("🚫 Ignored activity type ${activitySegment.activityType} at ${activitySegment.duration.startTimestamp}")
+            }
             return null
         }
-        // println(obj.toString())
         return GMapTimelineObject.from(activitySegment)
     }
 
     private fun processPlaceVisit(placeVisit: PlaceVisit): GMapTimelineObject? {
         val timelineObject = GMapTimelineObject.from(placeVisit)
-        if (configFile.ignoredVisitedLocations.contains(placeVisit.location?.name)) {
+        if (configFile.ignoredVisitedPlaceIds.contains(timelineObject.placeId)) {
             return null
         }
-
-        // println(obj.toString())
         return timelineObject
     }
 }

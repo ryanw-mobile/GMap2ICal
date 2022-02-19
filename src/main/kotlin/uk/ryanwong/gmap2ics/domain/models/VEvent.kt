@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter
 
 data class VEvent(
     val uid: String,
+    val placeId: String?,
     val dtStamp: String?,
     val organizer: String? = null,
     val dtStart: String,
@@ -28,6 +29,7 @@ data class VEvent(
 
             return VEvent(
                 uid = timelineObject.id,
+                placeId = timelineObject.placeId,
                 dtStamp = timelineObject.lastEditTimeStamp,
                 dtStart = getLocalizedTimeStamp(
                     timestamp = timelineObject.startTimeStamp,

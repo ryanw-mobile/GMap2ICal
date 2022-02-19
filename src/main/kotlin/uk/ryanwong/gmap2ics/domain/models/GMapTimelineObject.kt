@@ -17,6 +17,7 @@ private val timeZoneMap = TimeZoneMap.forEverywhere()
 
 data class GMapTimelineObject(
     val id: String,
+    val placeId: String?,
     val subject: String,
     val location: String,
     val startTimeStamp: String,
@@ -41,6 +42,7 @@ data class GMapTimelineObject(
 
             return GMapTimelineObject(
                 id = lastEditTimeStamp,
+                placeId = placeVisit.location.placeId,
                 subject = "\uD83D\uDCCD ${placeVisit.location.name}",
                 location = placeVisit.location.address?.replace('\n', ',') ?: "",
                 startTimeStamp = placeVisit.duration.startTimestamp,
@@ -70,6 +72,7 @@ data class GMapTimelineObject(
 
             return GMapTimelineObject(
                 id = lastEditTimeStamp,
+                placeId = childVisit.location.placeId,
                 subject = "\uD83D\uDCCD ${childVisit.location.name}",
                 location = childVisit.location.address?.replace('\n', ',') ?: "",
                 startTimeStamp = childVisit.duration.startTimestamp,
@@ -82,8 +85,8 @@ data class GMapTimelineObject(
         }
 
         fun from(activitySegment: ActivitySegment): GMapTimelineObject {
-            val eventLatitude = (activitySegment.endLocation?.latitudeE7 ?: 0) * 0.0000001
-            val eventLongitude = (activitySegment.endLocation?.longitudeE7 ?: 0) * 0.0000001
+            val eventLatitude = (activitySegment.endLocation.latitudeE7 ?: 0) * 0.0000001
+            val eventLongitude = (activitySegment.endLocation.longitudeE7 ?: 0) * 0.0000001
             val eventTimeZone = timeZoneMap.getOverlappingTimeZone(eventLatitude, eventLongitude)
 
             val distanceInKilometers: Double? = activitySegment.distance?.let { distance ->
@@ -113,8 +116,8 @@ data class GMapTimelineObject(
 
             val subject = "$activityLabel $distanceString ${
                 parseActivityRouteText(
-                    activitySegment.startLocation?.name,
-                    activitySegment.endLocation?.name
+                    activitySegment.startLocation.name,
+                    activitySegment.endLocation.name
                 )
             }"
 
@@ -129,8 +132,9 @@ data class GMapTimelineObject(
 
             return GMapTimelineObject(
                 id = lastEditTimeStamp,
+                placeId = activitySegment.endLocation.placeId, // Usually null
                 subject = subject,
-                location = activitySegment.endLocation?.address ?: "",
+                location = activitySegment.endLocation.address ?: "",
                 startTimeStamp = activitySegment.duration.startTimestamp,
                 endTimeStamp = activitySegment.duration.endTimestamp,
                 lastEditTimeStamp = lastEditTimeStamp,
