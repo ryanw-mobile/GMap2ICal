@@ -26,29 +26,36 @@ class TimelineRepository(private val configFile: Config) {
             filePath = filePath
         )
 
-        timeline?.timelineObjects?.let { timelineObjects ->
-            for (timelineObject in timelineObjects) {
+        timeline?.timelineObjects?.let { timelineDataObjects ->
+            for (timelineDataObject in timelineDataObjects) {
                 // Should be either activity or place visited, but no harm to also support cases with both
                 if (configFile.exportActivitySegment)
-                    timelineObject.activitySegment?.let { activitySegment ->
-                        processActivitySegment(activitySegment = activitySegment)?.let { gMapTimelineObject ->
-                            eventList.add(VEvent.from(timelineObject = gMapTimelineObject).also { vEvent ->
+                    timelineDataObject.activitySegment?.let { activitySegment ->
+                        val gMapTimelineObject = processActivitySegment(activitySegment = activitySegment)
+
+                        gMapTimelineObject?.let { timelineObject ->
+                            println("Timezone= ${timelineObject.eventTimeZone}")
+                            eventList.add(VEvent.from(timelineObject = timelineObject).also { vEvent ->
                                 if (configFile.displayLogs) println(vEvent.toString())
                             })
                         }
                     }
 
                 if (configFile.exportPlaceVisit)
-                    timelineObject.placeVisit?.let { placeVisit ->
-                        processPlaceVisit(placeVisit = placeVisit)?.let { gMapTimelineObject ->
-                            eventList.add(VEvent.from(timelineObject = gMapTimelineObject).also { vEvent ->
+                    timelineDataObject.placeVisit?.let { placeVisit ->
+                        val gMapTimelineObject = processPlaceVisit(placeVisit = placeVisit)
+                        gMapTimelineObject?.let { timelineObject ->
+                            eventList.add(VEvent.from(timelineObject = timelineObject).also { vEvent ->
                                 if (configFile.displayLogs) println(vEvent.toString())
                             })
                         }
 
                         // If we have child-visits, we export them as individual events
+                        // ChildVisit might have unconfirmed location which does not have a duration
                         placeVisit.childVisits?.forEach { childVisit ->
-                            eventList.add(VEvent.from(GMapTimelineObject.from(childVisit)))
+                            GMapTimelineObject.from(childVisit)?.let { timelineObject ->
+                                eventList.add(VEvent.from(timelineObject))
+                            }
                         }
                     }
             }
@@ -98,6 +105,4 @@ class TimelineRepository(private val configFile: Config) {
         // println(obj.toString())
         return timelineObject
     }
-
-
 }

@@ -52,7 +52,12 @@ data class GMapTimelineObject(
             )
         }
 
-        fun from(childVisit: ChildVisit): GMapTimelineObject {
+        // ChildVisit might have unconfirmed location which does not have a duration
+        fun from(childVisit: ChildVisit): GMapTimelineObject? {
+            if (childVisit.duration == null) {
+                return null
+            }
+
             val eventLatitude = childVisit.location.latitudeE7 * 0.0000001
             val eventLongitude = childVisit.location.longitudeE7 * 0.0000001
             val lastEditTimeStamp = getLastEditTimeStamp(
