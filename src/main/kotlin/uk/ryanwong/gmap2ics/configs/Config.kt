@@ -17,4 +17,9 @@ sealed interface Config {
 
     val placesApiKey: String?
     val enablePlacesApiLookup: Boolean
+
+    // Format: "locale", "Google Maps API Language Code"
+    // Reference: https://developers.google.com/maps/faq#languagesupport
+    // "default" will be used as catch-all
+    val apiLanguageOverride: Map<String, String>
 }

@@ -29,4 +29,7 @@ class DefaultConfig : Config {
     override val displayLogs = true
     override val placesApiKey: String? = null
     override val enablePlacesApiLookup = false
+    override val apiLanguageOverride = mapOf(
+        Pair("default", "en")
+    )
 }
