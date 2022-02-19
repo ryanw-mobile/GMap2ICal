@@ -1,30 +1,28 @@
 package uk.ryanwong.gmap2ics.data.repository
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment
 import uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisit
+import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
 import uk.ryanwong.gmap2ics.domain.ActivityType
 import uk.ryanwong.gmap2ics.domain.models.GMapTimelineObject
 import uk.ryanwong.gmap2ics.domain.models.VEvent
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.File
 
 class TimelineRepository(private val configFile: Config) {
-    val jsonProcessor = JsonProcessor()
-
-    fun getFileList(): List<String>? {
-        return try {
-            getResourcesJsonFileList(absolutePath = configFile.jsonPath)
-        } catch (ex: Exception) {
-            println("☠️ Error getting json file list: ${ex.localizedMessage}")
-            null
-        }
+    private val objectMapper = jacksonObjectMapper().apply {
+        registerKotlinModule()
+        registerModule(JavaTimeModule())
     }
 
     fun getEventList(filePath: String): List<VEvent> {
         val eventList = mutableListOf<VEvent>()
 
-        val timeline = jsonProcessor.parseTimeLine(
+        val timeline = parseTimeLine(
             filePath = filePath
         )
 
@@ -55,27 +53,23 @@ class TimelineRepository(private val configFile: Config) {
                     }
             }
         }
-        
+
         println("✅ Processed ${timeline?.timelineObjects?.size ?: 0} timeline entries.")
         return eventList
     }
 
-    /**
-     * Prepare a list of json files to be processed
-     */
-    private fun getResourcesJsonFileList(absolutePath: String): List<String> {
-        val fileList = mutableListOf<String>()
-        val projectDirAbsolutePath = Paths.get("").toAbsolutePath().toString()
-        val resourcesPath = Paths.get(projectDirAbsolutePath, absolutePath)
+    private fun parseTimeLine(filePath: String): TimelineObjects? {
+        val jsonString: String
+        try {
+            jsonString = File(filePath).readText(Charsets.UTF_8)
+        } catch (npe: NullPointerException) {
+            return null
+        }
 
-        Files.walk(resourcesPath)
-            .filter { file -> Files.isRegularFile(file) }
-            .filter { file -> file.toString().endsWith(suffix = ".json") }
-            .forEach { file -> fileList.add(file.toString()) }
-        return fileList
+        return objectMapper.readValue(content = jsonString)
     }
 
-    fun processActivitySegment(activitySegment: ActivitySegment): GMapTimelineObject? {
+    private fun processActivitySegment(activitySegment: ActivitySegment): GMapTimelineObject? {
         val activityType = activitySegment.activityType?.let {
             try {
                 ActivityType.valueOf(activitySegment.activityType)
@@ -95,7 +89,7 @@ class TimelineRepository(private val configFile: Config) {
         return GMapTimelineObject.from(activitySegment)
     }
 
-    fun processPlaceVisit(placeVisit: PlaceVisit): GMapTimelineObject? {
+    private fun processPlaceVisit(placeVisit: PlaceVisit): GMapTimelineObject? {
         val timelineObject = GMapTimelineObject.from(placeVisit)
         if (configFile.ignoredVisitedLocations.contains(placeVisit.location?.name)) {
             return null
@@ -104,4 +98,6 @@ class TimelineRepository(private val configFile: Config) {
         // println(obj.toString())
         return timelineObject
     }
+
+
 }
