@@ -16,6 +16,7 @@ data class VEvent(
     val location: String,
     val geo: LatLng?,
     val description: String? = null,
+    val url: String? = null,
     val lastModified: String
 ) {
     data class LatLng(
@@ -46,7 +47,9 @@ data class VEvent(
                 ),
                 dtTimeZone = timeZone?.zoneId ?: "UTC",
                 location = timelineObject.location,
-                lastModified = timelineObject.lastEditTimeStamp
+                url = timelineObject.placeUrl,
+                lastModified = timelineObject.lastEditTimeStamp,
+                description = timelineObject.description
             )
         }
     }
@@ -65,15 +68,18 @@ data class VEvent(
             append("DTSTAMP:$dtStamp\n")
             append("LOCATION:${location.replace(oldValue = ",", newValue = "\\,\\n")}\n")
             append("SUMMARY:$summary\n")
-            geo?.let { geo ->
-                val googleMapUrl =
-                    "https://maps.google.com/?q=${geo.latitude},${geo.longitude}&ll=${geo.latitude},${geo.longitude}&z=14"
-                        .replace(oldValue = ",", newValue = "\\,")
-                append("DESCRIPTION:$googleMapUrl\n")
-            }
-//            description?.let { description ->
-//                append("DESCRIPTION:$description\n")
+//            geo?.let { geo ->
+//                val googleMapUrl =
+//                    "https://maps.google.com/?q=${geo.latitude},${geo.longitude}&ll=${geo.latitude},${geo.longitude}&z=14"
+//                        .replace(oldValue = ",", newValue = "\\,")
+//                append("DESCRIPTION:$googleMapUrl\n")
 //            }
+            description?.let { description ->
+                append("DESCRIPTION:$description\n")
+            }
+            url?.let { url ->
+                append("URL;VALUE=URI:$url\n")
+            }
             append("STATUS:CONFIRMED\n")
             append("SEQUENCE:1\n")
             append("LAST-MODIFIED:$lastModified\n") // iso timestamp

@@ -11,9 +11,11 @@ import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
 import uk.ryanwong.gmap2ics.domain.ActivityType
 import uk.ryanwong.gmap2ics.domain.models.GMapTimelineObject
 import uk.ryanwong.gmap2ics.domain.models.VEvent
+import us.dustinj.timezonemap.TimeZoneMap
 import java.io.File
 
 class TimelineRepository(private val configFile: Config) {
+    private val timeZoneMap = TimeZoneMap.forEverywhere()
     private val objectMapper = jacksonObjectMapper().apply {
         registerKotlinModule()
         registerModule(JavaTimeModule())
@@ -53,7 +55,7 @@ class TimelineRepository(private val configFile: Config) {
                         // If we have child-visits, we export them as individual events
                         // ChildVisit might have unconfirmed location which does not have a duration
                         placeVisit.childVisits?.forEach { childVisit ->
-                            GMapTimelineObject.from(childVisit)?.let { timelineObject ->
+                            childVisit.toGMapTimelineObject(timeZoneMap)?.let { timelineObject ->
                                 eventList.add(VEvent.from(timelineObject))
                             }
                         }
@@ -77,6 +79,7 @@ class TimelineRepository(private val configFile: Config) {
     }
 
     private fun processActivitySegment(activitySegment: ActivitySegment): GMapTimelineObject? {
+        // Convert to enum
         val activityType = activitySegment.activityType?.let {
             try {
                 ActivityType.valueOf(activitySegment.activityType)
@@ -94,11 +97,11 @@ class TimelineRepository(private val configFile: Config) {
             }
             return null
         }
-        return GMapTimelineObject.from(activitySegment)
+        return activitySegment.toGMapTimelineObject(timeZoneMap)
     }
 
     private fun processPlaceVisit(placeVisit: PlaceVisit): GMapTimelineObject? {
-        val timelineObject = GMapTimelineObject.from(placeVisit)
+        val timelineObject = placeVisit.toGMapTimelineObject(timeZoneMap)
         if (configFile.ignoredVisitedPlaceIds.contains(timelineObject.placeId)) {
             return null
         }
