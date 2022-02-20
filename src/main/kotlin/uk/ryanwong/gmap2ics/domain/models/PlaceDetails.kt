@@ -13,8 +13,8 @@ data class PlaceDetails(
     val url: String
 ) {
     companion object {
-        fun from(placeDetails: uk.ryanwong.gmap2ics.data.models.places.PlaceDetails): PlaceDetails {
-            with(placeDetails.result) {
+        fun from(placeDetailsResult: uk.ryanwong.gmap2ics.data.models.places.Result): PlaceDetails {
+            with(placeDetailsResult) {
                 return PlaceDetails(
                     placeId = place_id,
                     name = name,
@@ -29,14 +29,21 @@ data class PlaceDetails(
     }
 
     fun getFormattedName(): String {
-        return try {
-            val placeType = PlaceType.valueOf(types[0].uppercase())
-            "${placeType.getLabel()} $name"
+        return resolveEnum()?.let {
+            "${it.getLabel()} $name"
+        } ?: "\uD83D\uDCCD $name"
+    }
 
-        } catch (ex: IllegalArgumentException) {
-            ex.printStackTrace()
-            "\uD83D\uDCCD $name"
+    private fun resolveEnum(): PlaceType? {
+        for (type in types) {
+            try {
+                return PlaceType.valueOf(type.uppercase())
+            } catch (ex: IllegalArgumentException) {
+                // do nothing
+            }
         }
+        println("⚠️ Unable to resolve any of the place types in $types for PlaceId $placeId")
+        return null
     }
 }
 

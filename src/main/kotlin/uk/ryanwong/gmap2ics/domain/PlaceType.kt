@@ -72,6 +72,7 @@ enum class PlaceType {
     PHARMACY,
     PHYSIOTHERAPIST,
     PLUMBER,
+    POINT_OF_INTEREST,
     POLICE,
     POST_OFFICE,
     PRIMARY_SCHOOL,
@@ -173,6 +174,7 @@ fun PlaceType.getLabel(): String {
         PlaceType.PHARMACY -> "💊"
         PlaceType.PHYSIOTHERAPIST -> "👨‍⚕️"
         PlaceType.PLUMBER -> "👨‍🔧"
+        PlaceType.POINT_OF_INTEREST -> "📍"
         PlaceType.POLICE -> "👮‍♀️"
         PlaceType.POST_OFFICE -> "📮"
         PlaceType.PRIMARY_SCHOOL -> "🏫"

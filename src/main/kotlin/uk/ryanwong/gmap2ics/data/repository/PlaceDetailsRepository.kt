@@ -26,8 +26,11 @@ class PlaceDetailsRepository(private val configFile: Config) {
                     placeDetailsService.getPlaceDetails(placeId = placeId, key = apiKey, language = it)
                 } ?: placeDetailsService.getPlaceDetails(placeId = placeId, key = apiKey)
 
-                return PlaceDetails.from(placeDetailsDataObject).also { placeDetailsDomainObject ->
-                    placesCache[placeId] = placeDetailsDomainObject
+                return placeDetailsDataObject.result?.let {
+                    PlaceDetails.from(placeDetailsResult = placeDetailsDataObject.result)
+                        .also { placeDetailsDomainObject ->
+                            placesCache[placeId] = placeDetailsDomainObject
+                        }
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()

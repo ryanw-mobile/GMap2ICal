@@ -41,7 +41,6 @@ class TimelineRepository(
                             val gMapTimelineObject = processActivitySegment(activitySegment = activitySegment)
 
                             gMapTimelineObject?.let { timelineObject ->
-                                println("Timezone= ${timelineObject.eventTimeZone}")
                                 eventList.add(VEvent.from(timelineObject = timelineObject).also { vEvent ->
                                     if (configFile.displayLogs) println(vEvent.toString())
                                 })
