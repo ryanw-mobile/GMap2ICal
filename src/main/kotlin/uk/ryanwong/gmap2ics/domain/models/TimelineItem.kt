@@ -2,7 +2,7 @@ package uk.ryanwong.gmap2ics.domain.models
 
 import us.dustinj.timezonemap.TimeZone
 
-data class GMapTimelineObject(
+data class TimelineItem(
     val id: String,
     val placeId: String?,
     val subject: String,

@@ -9,8 +9,8 @@ import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment
 import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
 import uk.ryanwong.gmap2ics.domain.ActivityType
-import uk.ryanwong.gmap2ics.domain.models.GMapTimelineObject
 import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
+import uk.ryanwong.gmap2ics.domain.models.TimelineItem
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import us.dustinj.timezonemap.TimeZoneMap
 import java.io.File
@@ -56,7 +56,7 @@ class TimelineRepository(
                                 ) else null
 
                             val gMapTimelineObject =
-                                placeVisit.toGMapTimelineObject(
+                                placeVisit.asTimelineItem(
                                     timeZoneMap = timeZoneMap,
                                     placeDetails = placeDetails
                                 )
@@ -84,7 +84,7 @@ class TimelineRepository(
                                         )
                                     else null
 
-                                childVisit.toGMapTimelineObject(timeZoneMap, placeDetails = childPlaceDetails)
+                                childVisit.asTimelineItem(timeZoneMap, placeDetails = childPlaceDetails)
                                     ?.let { timelineObject ->
                                         eventList
                                             .add(VEvent.from(timelineObject = timelineObject))
@@ -113,7 +113,7 @@ class TimelineRepository(
         return objectMapper.readValue(content = jsonString)
     }
 
-    private fun processActivitySegment(activitySegment: ActivitySegment): GMapTimelineObject? {
+    private fun processActivitySegment(activitySegment: ActivitySegment): TimelineItem? {
         // Convert to enum
         val activityType = activitySegment.activityType?.let {
             try {
@@ -132,6 +132,6 @@ class TimelineRepository(
             }
             return null
         }
-        return activitySegment.toGMapTimelineObject(timeZoneMap)
+        return activitySegment.asTimelineItem(timeZoneMap)
     }
 }

@@ -3,7 +3,7 @@ package uk.ryanwong.gmap2ics.data.models.timeline
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import uk.ryanwong.gmap2ics.domain.ActivityType
 import uk.ryanwong.gmap2ics.domain.getLabel
-import uk.ryanwong.gmap2ics.domain.models.GMapTimelineObject
+import uk.ryanwong.gmap2ics.domain.models.TimelineItem
 import us.dustinj.timezonemap.TimeZone
 import us.dustinj.timezonemap.TimeZoneMap
 import java.text.DecimalFormat
@@ -28,7 +28,7 @@ data class ActivitySegment(
 ) {
     private val mileageFormat = DecimalFormat("#,###.#")
 
-    fun toGMapTimelineObject(timeZoneMap: TimeZoneMap): GMapTimelineObject {
+    fun asTimelineItem(timeZoneMap: TimeZoneMap): TimelineItem {
         val eventLatitude = (endLocation.latitudeE7 ?: 0) * 0.0000001
         val eventLongitude = (endLocation.longitudeE7 ?: 0) * 0.0000001
         val eventTimeZone = timeZoneMap.getOverlappingTimeZone(eventLatitude, eventLongitude)
@@ -70,7 +70,7 @@ data class ActivitySegment(
         // TODO: If Location API enabled, try to fetch starting and ending from there
         // However chances are we have cached the starting point - also we need to cache the destination
 
-        return GMapTimelineObject(
+        return TimelineItem(
             id = lastEditTimeStamp,
             placeId = endLocation.placeId, // Usually null
             subject = subject,

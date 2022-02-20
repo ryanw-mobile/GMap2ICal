@@ -25,7 +25,7 @@ data class VEvent(
     )
 
     companion object {
-        fun from(timelineObject: GMapTimelineObject): VEvent {
+        fun from(timelineObject: TimelineItem): VEvent {
             val timeZone = timelineObject.eventTimeZone
 
             return VEvent(

@@ -1,8 +1,8 @@
 package uk.ryanwong.gmap2ics.data.models.timeline
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import uk.ryanwong.gmap2ics.domain.models.GMapTimelineObject
 import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
+import uk.ryanwong.gmap2ics.domain.models.TimelineItem
 import us.dustinj.timezonemap.TimeZone
 import us.dustinj.timezonemap.TimeZoneMap
 
@@ -22,12 +22,12 @@ data class PlaceVisit(
     val visitConfidence: Int? = null,
     val childVisits: List<ChildVisit>? = null,
 ) {
-    fun toGMapTimelineObject(timeZoneMap: TimeZoneMap, placeDetails: PlaceDetails? = null): GMapTimelineObject {
+    fun asTimelineItem(timeZoneMap: TimeZoneMap, placeDetails: PlaceDetails? = null): TimelineItem {
 
         val lastEditTimeStamp = lastEditedTimestamp ?: duration.endTimestamp
         val url = placeDetails?.url ?: "https://www.google.com/maps/place/?q=place_id:${location.placeId}"
 
-        return GMapTimelineObject(
+        return TimelineItem(
             id = lastEditTimeStamp,
             placeId = location.placeId,
             subject = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
