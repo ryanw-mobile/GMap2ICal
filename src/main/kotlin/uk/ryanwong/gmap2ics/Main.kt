@@ -22,13 +22,18 @@ fun main(args: Array<String>) {
         extension = "json"
     )
 
+    val filenameSuffix = if (configFile.exportPlaceVisit && configFile.exportActivitySegment) "_all"
+    else if (configFile.exportPlaceVisit) "_places"
+    else "_activities"
+
     fileList?.forEach { filename ->
         println("\uD83D\uDDC2 Processing $filename")
         val eventList: List<VEvent> = timelineRepository.getEventList(filePath = filename)
 
         // Exporting multiple events in one single ics file
         iCalExporter.exportICal(
-            filename = filename.replace(".json", ".ics"), // casually reuse the filename
+            filename = filename.replace(oldValue = configFile.jsonPath, newValue = configFile.icalPath)
+                .replace(oldValue = ".json", newValue = "$filenameSuffix.ics"), // casually reuse the filename
             vEvents = eventList
         )
     }
