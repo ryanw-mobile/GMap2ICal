@@ -4,17 +4,21 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import kotlinx.coroutines.runBlocking
 import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment
-import uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisit
 import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
 import uk.ryanwong.gmap2ics.domain.ActivityType
 import uk.ryanwong.gmap2ics.domain.models.GMapTimelineObject
+import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import us.dustinj.timezonemap.TimeZoneMap
 import java.io.File
 
-class TimelineRepository(private val configFile: Config) {
+class TimelineRepository(
+    private val configFile: Config,
+    private val placeDetailsRepository: PlaceDetailsRepository
+) {
     private val timeZoneMap = TimeZoneMap.forEverywhere()
     private val objectMapper = jacksonObjectMapper().apply {
         registerKotlinModule()
@@ -28,38 +32,70 @@ class TimelineRepository(private val configFile: Config) {
             filePath = filePath
         )
 
-        timeline?.timelineObjects?.let { timelineDataObjects ->
-            for (timelineDataObject in timelineDataObjects) {
-                // Should be either activity or place visited, but no harm to also support cases with both
-                if (configFile.exportActivitySegment)
-                    timelineDataObject.activitySegment?.let { activitySegment ->
-                        val gMapTimelineObject = processActivitySegment(activitySegment = activitySegment)
+       runBlocking {
+            timeline?.timelineObjects?.let { timelineDataObjects ->
+                for (timelineDataObject in timelineDataObjects) {
+                    // Should be either activity or place visited, but no harm to also support cases with both
+                    if (configFile.exportActivitySegment)
+                        timelineDataObject.activitySegment?.let { activitySegment ->
+                            val gMapTimelineObject = processActivitySegment(activitySegment = activitySegment)
 
-                        gMapTimelineObject?.let { timelineObject ->
-                            println("Timezone= ${timelineObject.eventTimeZone}")
-                            eventList.add(VEvent.from(timelineObject = timelineObject).also { vEvent ->
-                                if (configFile.displayLogs) println(vEvent.toString())
-                            })
-                        }
-                    }
-
-                if (configFile.exportPlaceVisit)
-                    timelineDataObject.placeVisit?.let { placeVisit ->
-                        val gMapTimelineObject = processPlaceVisit(placeVisit = placeVisit)
-                        gMapTimelineObject?.let { timelineObject ->
-                            eventList.add(VEvent.from(timelineObject = timelineObject).also { vEvent ->
-                                if (configFile.displayLogs) println(vEvent.toString())
-                            })
-                        }
-
-                        // If we have child-visits, we export them as individual events
-                        // ChildVisit might have unconfirmed location which does not have a duration
-                        placeVisit.childVisits?.forEach { childVisit ->
-                            childVisit.toGMapTimelineObject(timeZoneMap)?.let { timelineObject ->
-                                eventList.add(VEvent.from(timelineObject))
+                            gMapTimelineObject?.let { timelineObject ->
+                                println("Timezone= ${timelineObject.eventTimeZone}")
+                                eventList.add(VEvent.from(timelineObject = timelineObject).also { vEvent ->
+                                    if (configFile.displayLogs) println(vEvent.toString())
+                                })
                             }
                         }
-                    }
+
+                    if (configFile.exportPlaceVisit)
+                        timelineDataObject.placeVisit?.let { placeVisit ->
+                            val placeDetails: PlaceDetails? =
+                                if (configFile.enablePlacesApiLookup) placeDetailsRepository.getPlaceDetails(
+                                    placeId = placeVisit.location.placeId,
+                                    placeTimeZoneId = placeVisit.getEventTimeZone(timeZoneMap)?.zoneId
+                                ) else null
+
+                            val gMapTimelineObject =
+                                placeVisit.toGMapTimelineObject(
+                                    timeZoneMap = timeZoneMap,
+                                    placeDetails = placeDetails
+                                )
+
+                            if (!configFile.ignoredVisitedPlaceIds.contains(gMapTimelineObject.placeId)) {
+                                eventList
+                                    .add(VEvent.from(timelineObject = gMapTimelineObject)
+                                        .also { vEvent ->
+                                            if (configFile.displayLogs) println(vEvent.toString())
+                                        })
+                            }
+
+                            // If we have child-visits, we export them as individual events
+                            // ChildVisit might have unconfirmed location which does not have a duration
+                            placeVisit.childVisits?.forEach { childVisit ->
+                                if (configFile.ignoredVisitedPlaceIds.contains(childVisit.location.placeId)) {
+                                    return@forEach
+                                }
+
+                                val childPlaceDetails: PlaceDetails? =
+                                    if (configFile.enablePlacesApiLookup)
+                                        placeDetailsRepository.getPlaceDetails(
+                                            placeId = childVisit.location.placeId,
+                                            placeTimeZoneId = childVisit.getEventTimeZone(timeZoneMap)?.zoneId
+                                        )
+                                    else null
+
+                                childVisit.toGMapTimelineObject(timeZoneMap, placeDetails = childPlaceDetails)
+                                    ?.let { timelineObject ->
+                                        eventList
+                                            .add(VEvent.from(timelineObject = timelineObject))
+                                            .also { vEvent ->
+                                                if (configFile.displayLogs) println(vEvent.toString())
+                                            }
+                                    }
+                            }
+                        }
+                }
             }
         }
 
@@ -98,13 +134,5 @@ class TimelineRepository(private val configFile: Config) {
             return null
         }
         return activitySegment.toGMapTimelineObject(timeZoneMap)
-    }
-
-    private fun processPlaceVisit(placeVisit: PlaceVisit): GMapTimelineObject? {
-        val timelineObject = placeVisit.toGMapTimelineObject(timeZoneMap)
-        if (configFile.ignoredVisitedPlaceIds.contains(timelineObject.placeId)) {
-            return null
-        }
-        return timelineObject
     }
 }

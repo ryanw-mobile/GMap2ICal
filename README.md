@@ -19,8 +19,6 @@ This project is still making progress and is not ready for production use.
 
 ## Todo list
 
-- Getting the notes field to work 
-- Connect to Google Maps API to resolve places ID for driving events
-- Smarter configuration and detection to skip events staying at home
+- Including more details for ActivitySegment
 - Exception handling 
 - More test cases

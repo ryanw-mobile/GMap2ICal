@@ -2,6 +2,8 @@ package uk.ryanwong.gmap2ics.data.models.timeline
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import uk.ryanwong.gmap2ics.domain.models.GMapTimelineObject
+import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
+import us.dustinj.timezonemap.TimeZone
 import us.dustinj.timezonemap.TimeZoneMap
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -20,27 +22,30 @@ data class PlaceVisit(
     val visitConfidence: Int? = null,
     val childVisits: List<ChildVisit>? = null,
 ) {
-    fun toGMapTimelineObject(timeZoneMap: TimeZoneMap): GMapTimelineObject {
-        val eventLatitude = location.latitudeE7 * 0.0000001
-        val eventLongitude = location.longitudeE7 * 0.0000001
-        val lastEditTimeStamp = lastEditedTimestamp ?: duration.endTimestamp
-        val url = "https://www.google.com/maps/place/?q=place_id:${location.placeId}"
+    fun toGMapTimelineObject(timeZoneMap: TimeZoneMap, placeDetails: PlaceDetails? = null): GMapTimelineObject {
 
-        // TODO: If Location API enabled, try to fetch details from there
+        val lastEditTimeStamp = lastEditedTimestamp ?: duration.endTimestamp
+        val url = placeDetails?.url ?: "https://www.google.com/maps/place/?q=place_id:${location.placeId}"
 
         return GMapTimelineObject(
             id = lastEditTimeStamp,
             placeId = location.placeId,
-            subject = "\uD83D\uDCCD ${location.name}",
-            location = location.address?.replace('\n', ',') ?: "",
+            subject = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
+            location = placeDetails?.formattedAddress ?: location.address?.replace('\n', ',') ?: "",
             startTimeStamp = duration.startTimestamp,
             endTimeStamp = duration.endTimestamp,
             lastEditTimeStamp = lastEditTimeStamp,
-            eventLatitude = eventLatitude,
-            eventLongitude = eventLongitude,
-            eventTimeZone = timeZoneMap.getOverlappingTimeZone(eventLatitude, eventLongitude),
+            eventLatitude = placeDetails?.lat ?: (location.latitudeE7 * 0.0000001),
+            eventLongitude = placeDetails?.lng ?: (location.longitudeE7 * 0.0000001),
+            eventTimeZone = getEventTimeZone(timeZoneMap),
             placeUrl = url,
             description = "Place ID:\\n${location.placeId}\\n\\nGoogle Maps URL:\\n$url"
         )
+    }
+
+    fun getEventTimeZone(timeZoneMap: TimeZoneMap): TimeZone? {
+        val eventLatitude = location.latitudeE7 * 0.0000001
+        val eventLongitude = location.longitudeE7 * 0.0000001
+        return timeZoneMap.getOverlappingTimeZone(eventLatitude, eventLongitude)
     }
 }

@@ -40,6 +40,7 @@ enum class PlaceType {
     FUNERAL_HOME,
     FURNITURE_STORE,
     GAS_STATION,
+    GROCERY_OR_SUPERMARKET,
     GYM,
     HAIR_CARE,
     HARDWARE_STORE,
@@ -140,6 +141,7 @@ fun PlaceType.getLabel(): String {
         PlaceType.FUNERAL_HOME -> "⚰️"
         PlaceType.FURNITURE_STORE -> "🪑"
         PlaceType.GAS_STATION -> "⛽️"
+        PlaceType.GROCERY_OR_SUPERMARKET -> "\uD83D\uDED2"
         PlaceType.GYM -> "💪"
         PlaceType.HAIR_CARE -> "💇‍♂️"
         PlaceType.HARDWARE_STORE -> "🛠"
