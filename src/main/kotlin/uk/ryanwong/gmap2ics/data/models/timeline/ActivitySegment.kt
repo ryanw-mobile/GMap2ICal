@@ -18,10 +18,10 @@ data class ActivitySegment(
     val confidence: String? = null,
     val distance: Int? = null,
     val duration: Duration,
-    val endLocation: EndLocation,
+    val endLocation: ActivityLocation,
     // val parkingEvent: ParkingEvent? = null,
     val simplifiedRawPath: SimplifiedRawPath? = null,
-    val startLocation: StartLocation,
+    val startLocation: ActivityLocation,
     val waypointPath: WaypointPath? = null,
     val lastEditedTimestamp: String? = null,
     val activityConfidence: Int? = null
