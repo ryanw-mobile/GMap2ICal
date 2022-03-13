@@ -20,8 +20,9 @@ data class ActivitySegment(
     val duration: Duration,
     val endLocation: ActivityLocation,
     // val parkingEvent: ParkingEvent? = null,
-    val simplifiedRawPath: SimplifiedRawPath? = null,
     val startLocation: ActivityLocation,
+    val roadSegment: List<RoadSegment>? = null,
+    // val simplifiedRawPath: SimplifiedRawPath? = null,
     val waypointPath: WaypointPath? = null,
     val lastEditedTimestamp: String? = null,
     val activityConfidence: Int? = null
@@ -51,7 +52,7 @@ data class ActivitySegment(
             try {
                 ActivityType.valueOf(activityType)
             } catch (e: IllegalArgumentException) {
-                println("⚠️  Activity ${activityType} unknown, mapping as UNKNOWN_ACTIVITY_TYPE")
+                println("⚠️  Activity $activityType unknown, mapping as UNKNOWN_ACTIVITY_TYPE")
                 ActivityType.UNKNOWN_ACTIVITY_TYPE
             }
         } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE

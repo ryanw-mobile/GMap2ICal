@@ -26,8 +26,13 @@ class PlaceDetailsRepository(private val configFile: Config) {
                     placeDetailsService.getPlaceDetails(placeId = placeId, key = apiKey, language = it)
                 } ?: placeDetailsService.getPlaceDetails(placeId = placeId, key = apiKey)
 
-                return placeDetailsDataObject.result?.let {
-                    PlaceDetails.from(placeDetailsResult = placeDetailsDataObject.result)
+                if (!placeDetailsDataObject.isSuccessful) {
+                    println("⛔️ Error getting API results: ${placeDetailsDataObject.message()}")
+                    return null
+                }
+
+                return placeDetailsDataObject.body()?.result?.let { result ->
+                    PlaceDetails.from(placeDetailsResult = result)
                         .also { placeDetailsDomainObject ->
                             placesCache[placeId] = placeDetailsDomainObject
                         }
