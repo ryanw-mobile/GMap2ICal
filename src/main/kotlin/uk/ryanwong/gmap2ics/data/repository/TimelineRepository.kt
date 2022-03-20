@@ -32,7 +32,7 @@ class TimelineRepository(
             filePath = filePath
         )
 
-       runBlocking {
+        runBlocking {
             timeline?.timelineObjects?.let { timelineDataObjects ->
                 for (timelineDataObject in timelineDataObjects) {
                     // Should be either activity or place visited, but no harm to also support cases with both
@@ -113,7 +113,7 @@ class TimelineRepository(
         return objectMapper.readValue(content = jsonString)
     }
 
-    private fun processActivitySegment(activitySegment: ActivitySegment): TimelineItem? {
+    private suspend fun processActivitySegment(activitySegment: ActivitySegment): TimelineItem? {
         // Convert to enum
         val activityType = activitySegment.activityType?.let {
             try {
@@ -132,6 +132,10 @@ class TimelineRepository(
             }
             return null
         }
-        return activitySegment.asTimelineItem(timeZoneMap)
+
+        return activitySegment.asTimelineItem(
+            timeZoneMap = timeZoneMap,
+            placeDetailsRepository = placeDetailsRepository
+        )
     }
 }
