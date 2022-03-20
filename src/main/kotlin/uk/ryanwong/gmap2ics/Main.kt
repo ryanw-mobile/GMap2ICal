@@ -6,6 +6,7 @@ import uk.ryanwong.gmap2ics.data.getFileList
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.domain.models.VEvent
+import kotlin.system.exitProcess
 
 private val configFile = RyanConfig() // Specify your config here
 
@@ -37,4 +38,6 @@ fun main(args: Array<String>) {
             vEvents = eventList
         )
     }
+
+    exitProcess(0)
 }

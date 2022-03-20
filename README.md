@@ -3,6 +3,8 @@ A small utility written in Kotlin to convert Google Maps activity timeline to iC
 
 This is not an Android App, you may just open the project using IntelliJ IDEA and run it on your desktop environment.
 
+As this is my first non-Android Kotlin project, I would allow myself to utilize it as a playground, and to make all kind of mistakes in order to learn and improve.
+
 ## Background
 I travelled quite a lot every year before the pandemic. Very often my daily itinerary changes at the last minute. This made me a headache recalling where I have been on a particular day.
 
@@ -15,10 +17,11 @@ That is why I am trying another way round: By setting Google Maps to regularly e
 By doing so, I can keep a full record of the places I have actually been, and also the rough mileages I have spent on the road.
 
 ## Status
-This project is still making progress and is not ready for production use.
+This project is still making progress and is not ready for production use. I have been pretty occupied at work recently, therefore the primary goal is to have something that is good enough to solve my problem.
 
 ## Todo list
 
 - Including more details for ActivitySegment
 - Exception handling 
 - More test cases
+- Compose Desktop UI
