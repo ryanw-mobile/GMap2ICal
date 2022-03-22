@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import uk.ryanwong.gmap2ics.domain.ActivityType
 import uk.ryanwong.gmap2ics.domain.getLabel
+import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.models.TimelineItem
 import us.dustinj.timezonemap.TimeZone
 import us.dustinj.timezonemap.TimeZoneMap
@@ -61,14 +62,35 @@ data class ActivitySegment(
         // Generate emoji label prefix for different activity types
         val activityLabel = activityType.getLabel()
 
-        // TODO: If Location API enabled, try to fetch starting and ending from there
-        // However chances are we have cached the starting point - also we need to cache the destination
+        // If Location API enabled, try to fetch starting and ending from there
+        val startPlaceDetail = startLocation.placeId?.let { placeId ->
+            placeDetailsRepository.getPlaceDetails(
+                placeId = placeId,
+                placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
+            )
+        }
+        val endPlaceDetail = endLocation.placeId?.let { placeId ->
+            placeDetailsRepository.getPlaceDetails(
+                placeId = placeId,
+                placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
+            )
+        }
+
         val subject = "$activityLabel $distanceString ${
             parseActivityRouteText(
-                startLocation.name,
-                endLocation.name
+                startPlaceDetail = startPlaceDetail,
+                endPlaceDetail = endPlaceDetail,
+                startLocation = startLocation.name,
+                endLocation = endLocation.name
             )
         }"
+
+        val description = parseTimelineDescription(
+            startPlaceDetail = startPlaceDetail,
+            endPlaceDetail = endPlaceDetail,
+            placeDetailsRepository = placeDetailsRepository,
+            timeZoneMap = timeZoneMap
+        )
 
         return TimelineItem(
             id = lastEditTimeStamp,
@@ -83,23 +105,22 @@ data class ActivitySegment(
             eventTimeZone = eventTimeZone,
             placeUrl = endLocation.placeId?.let { endLocation.getGoogleMapsPlaceIdLink() }
                 ?: endLocation.getGoogleMapsLatLngLink(),
-            description = parseTimelineDescription(
-                placeDetailsRepository = placeDetailsRepository,
-                timeZoneMap = timeZoneMap
-            )
+            description = description
         )
     }
 
     private suspend fun parseTimelineDescription(
+        startPlaceDetail: PlaceDetails?,
+        endPlaceDetail: PlaceDetails?,
         placeDetailsRepository: PlaceDetailsRepository,
         timeZoneMap: TimeZoneMap
     ): String {
         // Try to extract more meaningful information than just the miles travelled
-        val startLocationText =
-            getStartLocationText(placeDetailsRepository = placeDetailsRepository, timeZoneMap = timeZoneMap)
-        val endLocationText =
-            getEndLocationText(placeDetailsRepository = placeDetailsRepository, timeZoneMap = timeZoneMap)
+        val startLocationText = getStartLocationText(placeDetail = startPlaceDetail)
+        val endLocationText = getEndLocationText(placeDetail = endPlaceDetail)
 
+        // Segments are less accurate than start and end locations,
+        // but still have some values if the start and end locations do not have a valid placeId
         val firstSegmentText = waypointPath?.roadSegment?.first()?.placeId?.let { placeId ->
             val placeDetail = placeDetailsRepository.getPlaceDetails(
                 placeId = placeId,
@@ -122,52 +143,34 @@ data class ActivitySegment(
                 lastSegmentText
     }
 
-    private suspend fun getStartLocationText(
-        placeDetailsRepository: PlaceDetailsRepository,
-        timeZoneMap: TimeZoneMap
-    ): String {
-        return startLocation.placeId?.let { placeId ->
-            val placeDetail = placeDetailsRepository.getPlaceDetails(
-                placeId = placeId,
-                placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
-            )
-            "Start Location: ${placeDetail?.formattedAddress}\\n${startLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
+    private fun getStartLocationText(placeDetail: PlaceDetails?): String {
+        return placeDetail?.let {
+            "Start Location: ${placeDetail.formattedAddress}\\n${startLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
         }
             ?: "Start Location: ${startLocation.getFormattedLatitude()}, ${startLocation.getFormattedLongitude()}\\n${startLocation.getGoogleMapsLatLngLink()}\\n\\n"
 
     }
 
-    private suspend fun getEndLocationText(
-        placeDetailsRepository: PlaceDetailsRepository,
-        timeZoneMap: TimeZoneMap
-    ): String {
-        return endLocation.placeId?.let { placeId ->
-            val placeDetail = placeDetailsRepository.getPlaceDetails(
-                placeId = placeId,
-                placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
-            )
-            "End Location: ${placeDetail?.formattedAddress}\\n${endLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
+    private fun getEndLocationText(placeDetail: PlaceDetails?): String {
+        return placeDetail?.let {
+            "End Location: ${placeDetail.formattedAddress}\\n${endLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
         }
             ?: "End Location: ${endLocation.getFormattedLatitude()}, ${endLocation.getFormattedLongitude()}\\n${endLocation.getGoogleMapsLatLngLink()}\\n\\n"
     }
 
     private fun parseActivityRouteText(
+        startPlaceDetail: PlaceDetails?,
+        endPlaceDetail: PlaceDetails?,
         startLocation: String?,
         endLocation: String?
     ): String {
-        if (startLocation == null && endLocation == null) return ""
-
-        val stringBuilder = StringBuilder()
-        stringBuilder.append("(")
-        startLocation?.let { location ->
-            stringBuilder.append(location)
+        // PlaceDetails are the most reliable source
+        if (startPlaceDetail != null || endPlaceDetail != null) {
+            return "(${startPlaceDetail?.name} ➡ ${endPlaceDetail?.name})"
         }
-        endLocation?.let { location ->
-            stringBuilder.append("➡ $location")
-        }
-        stringBuilder.append(")")
 
-        return stringBuilder.toString()
+        return if (startLocation == null && endLocation == null) ""
+        else "(${startLocation} ➡ ${endLocation})"
     }
 
     private fun kilometersToMiles(meters: Double): Double = meters * 0.621
