@@ -29,7 +29,6 @@ data class ActivitySegment(
     val activityConfidence: Int? = null
 ) {
     private val mileageFormat = DecimalFormat("#,###.#")
-    private val latLngFormat = DecimalFormat("###.######")
 
     suspend fun asTimelineItem(timeZoneMap: TimeZoneMap, placeDetailsRepository: PlaceDetailsRepository): TimelineItem {
         val eventLatitude = (endLocation.latitudeE7 ?: 0) * 0.0000001
@@ -82,8 +81,8 @@ data class ActivitySegment(
             eventLatitude = eventLatitude,
             eventLongitude = eventLongitude,
             eventTimeZone = eventTimeZone,
-            placeUrl = endLocation.placeId?.let { placeId -> "https://www.google.com/maps/place/?q=place_id:${placeId}" }
-                ?: getGoogleMapLatLngLink(endLocation.latitudeE7, endLocation.longitudeE7),
+            placeUrl = endLocation.placeId?.let { endLocation.getGoogleMapsPlaceIdLink() }
+                ?: endLocation.getGoogleMapsLatLngLink(),
             description = parseTimelineDescription(
                 placeDetailsRepository = placeDetailsRepository,
                 timeZoneMap = timeZoneMap
@@ -127,18 +126,14 @@ data class ActivitySegment(
         placeDetailsRepository: PlaceDetailsRepository,
         timeZoneMap: TimeZoneMap
     ): String {
-        val latitude = startLocation.latitudeE7?.times(0.0000001) ?: 0.0
-        val longitude = startLocation.longitudeE7?.times(0.0000001) ?: 0.0
         return startLocation.placeId?.let { placeId ->
             val placeDetail = placeDetailsRepository.getPlaceDetails(
                 placeId = placeId,
                 placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
             )
-            "Start Location: ${placeDetail?.formattedAddress}\\nhttps://www.google.com/maps/place/?q=place_id:${placeId}\\n\\n"
+            "Start Location: ${placeDetail?.formattedAddress}\\n${startLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
         }
-            ?: "Start Location: ${latLngFormat.format(latitude)}, ${latLngFormat.format(longitude)}\\nhttps://maps.google.com?q=${
-                latLngFormat.format(latitude)
-            },${latLngFormat.format(longitude)}\\n\\n"
+            ?: "Start Location: ${startLocation.getFormattedLatitude()}, ${startLocation.getFormattedLongitude()}\\n${startLocation.getGoogleMapsLatLngLink()}\\n\\n"
 
     }
 
@@ -146,26 +141,14 @@ data class ActivitySegment(
         placeDetailsRepository: PlaceDetailsRepository,
         timeZoneMap: TimeZoneMap
     ): String {
-        val latitude = endLocation.latitudeE7?.times(0.0000001) ?: 0.0
-        val longitude = endLocation.longitudeE7?.times(0.0000001) ?: 0.0
         return endLocation.placeId?.let { placeId ->
             val placeDetail = placeDetailsRepository.getPlaceDetails(
                 placeId = placeId,
                 placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
             )
-            "End Location: ${placeDetail?.formattedAddress}\\nhttps://www.google.com/maps/place/?q=place_id:${placeId}\\n\\n"
+            "End Location: ${placeDetail?.formattedAddress}\\n${endLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
         }
-            ?: "End Location: ${latLngFormat.format(latitude)}, ${latLngFormat.format(longitude)}\\nhttps://maps.google.com?q=${
-                latLngFormat.format(
-                    latitude
-                )
-            },${latLngFormat.format(longitude)}\\n\\n"
-    }
-
-    private fun getGoogleMapLatLngLink(latitudeE7: Int?, longitudeE7: Int?): String {
-        val latitude = latitudeE7?.times(0.0000001) ?: 0.0
-        val longitude = longitudeE7?.times(0.0000001) ?: 0.0
-        return "https://maps.google.com?q=${latLngFormat.format(latitude)},${latLngFormat.format(longitude)}"
+            ?: "End Location: ${endLocation.getFormattedLatitude()}, ${endLocation.getFormattedLongitude()}\\n${endLocation.getGoogleMapsLatLngLink()}\\n\\n"
     }
 
     private fun parseActivityRouteText(
@@ -193,9 +176,9 @@ data class ActivitySegment(
         return timezone?.zoneId == "Europe/London"
     }
 
-    fun getEventTimeZone(timeZoneMap: TimeZoneMap): TimeZone? {
-        val eventLatitude = endLocation.latitudeE7?.times(0.0000001) ?: 0.0
-        val eventLongitude = endLocation.longitudeE7?.times(0.0000001) ?: 0.0
+    private fun getEventTimeZone(timeZoneMap: TimeZoneMap): TimeZone? {
+        val eventLatitude = endLocation.getLatitude() ?: 0.0
+        val eventLongitude = endLocation.getLongitude() ?: 0.0
         return timeZoneMap.getOverlappingTimeZone(eventLatitude, eventLongitude)
     }
 

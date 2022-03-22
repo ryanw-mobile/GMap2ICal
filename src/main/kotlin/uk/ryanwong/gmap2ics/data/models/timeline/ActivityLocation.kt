@@ -1,6 +1,7 @@
 package uk.ryanwong.gmap2ics.data.models.timeline
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import java.text.DecimalFormat
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ActivityLocation(
@@ -12,4 +13,37 @@ data class ActivityLocation(
     val name: String? = null,
     val placeId: String? = null,
     val semanticType: String? = null,
-)
+) {
+    private val latLngFormat = DecimalFormat("###.######")
+
+    fun getLatitude(): Double? {
+        return latitudeE7?.times(0.0000001)
+    }
+
+    fun getLongitude(): Double? {
+        return longitudeE7?.times(0.0000001)
+    }
+
+    fun getFormattedLatitude(): String? {
+        return latitudeE7?.let { latitude ->
+            latLngFormat.format(latitude.times(0.0000001))
+        }
+    }
+
+    fun getFormattedLongitude(): String? {
+        return longitudeE7?.let { longitude ->
+            latLngFormat.format(longitude.times(0.0000001))
+        }
+    }
+
+    fun getGoogleMapsLatLngLink(): String {
+        return if (latitudeE7 == null || longitudeE7 == null) ""
+        else "https://maps.google.com?q=${getFormattedLatitude()},${getFormattedLongitude()}"
+    }
+
+    fun getGoogleMapsPlaceIdLink(): String {
+        return placeId?.let {
+            "https://www.google.com/maps/place/?q=place_id:$it"
+        } ?: ""
+    }
+}
