@@ -17,11 +17,24 @@ That is why I am trying another way round: By setting Google Maps to regularly e
 By doing so, I can keep a full record of the places I have actually been, and also the rough mileages I have spent on the road.
 
 ## Status
-This project is still making progress and is not ready for production use. I have been pretty occupied at work recently, therefore the primary goal is to have something that is good enough to solve my problem.
+A basic implementation bare enough to convert and export the data for personal use is done.
+
+Further effort is required to improve the coding/architecture, and to complete the items on the Todo List.
+
+## How to prepare the data set for processing
+
+1. Go to [Google Takeout](https://takeout.google.com/) 
+2. Make sure you have included **"Location History"** in your export request.
+3. Create an export and wait for completion. _This process can take a long time (possibly hours or days) to complete. You'll receive an email when your export is done._
+4. Unzip the data file. 
+5. The JSON files under `/Location History/Semantic Location History` are the files we need.
+6. Move the JSON files to a directory, for example `./src/main/resources` of this project.
+7. Update, or create yor own configuration file `uk.ryanwong.gmap2ics.configs.DefaultConfig` to specify the input and output paths.
+8. If you have created a duplicated configuration file, update the file path in `Main.kt` 
+9. Run the project on IntelliJ IDEA
 
 ## Todo list
 
-- Including more details for ActivitySegment
 - Exception handling 
 - More test cases
 - Compose Desktop UI
