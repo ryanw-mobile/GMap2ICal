@@ -50,7 +50,7 @@ class TimelineRepository(
                     if (configFile.exportPlaceVisit)
                         timelineDataObject.placeVisit?.let { placeVisit ->
                             val placeDetails: PlaceDetails? =
-                                if (configFile.enablePlacesApiLookup) placeDetailsRepository.getPlaceDetails(
+                                if (configFile.enablePlacesApiLookup && placeVisit.location.placeId != null) placeDetailsRepository.getPlaceDetails(
                                     placeId = placeVisit.location.placeId,
                                     placeTimeZoneId = placeVisit.getEventTimeZone(timeZoneMap)?.zoneId
                                 ) else null
@@ -77,7 +77,7 @@ class TimelineRepository(
                                 }
 
                                 val childPlaceDetails: PlaceDetails? =
-                                    if (configFile.enablePlacesApiLookup)
+                                    if (configFile.enablePlacesApiLookup && childVisit.location.placeId != null)
                                         placeDetailsRepository.getPlaceDetails(
                                             placeId = childVisit.location.placeId,
                                             placeTimeZoneId = childVisit.getEventTimeZone(timeZoneMap)?.zoneId

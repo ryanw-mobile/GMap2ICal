@@ -11,6 +11,6 @@ data class Location(
     val locationConfidence: Double? = null,
     val longitudeE7: Int,
     val name: String? = null,
-    val placeId: String,
+    val placeId: String? = null,
     val semanticType: String? = null,
 )
