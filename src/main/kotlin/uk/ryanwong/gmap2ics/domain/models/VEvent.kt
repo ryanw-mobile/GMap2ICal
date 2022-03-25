@@ -63,10 +63,20 @@ data class VEvent(
             append("DTSTART;TZID=$dtTimeZone:$dtStart\n")
             append("DTEND;TZID=$dtTimeZone:$dtEnd\n")
             append("X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n")
-            append("X-TITLE=\"$location\":geo:${geo?.latitude},${geo?.longitude}\n")
+            append(
+                "X-TITLE=\"${
+                    location.replace(oldValue = "\n", newValue = "\\, ")
+                }\":geo:${geo?.latitude},${geo?.longitude}\n"
+            )
             append("UID:$uid\n")
             append("DTSTAMP:$dtStamp\n")
-            append("LOCATION:${location.replace(oldValue = ",", newValue = "\\,\\n")}\n")
+            append(
+                "LOCATION:${
+                    location
+                        .replace(oldValue = "\n", newValue = ", ")
+                        .replace(oldValue = ",", newValue = "\\,\\n")
+                }\n"
+            )
             append("SUMMARY:$summary\n")
 //            geo?.let { geo ->
 //                val googleMapUrl =
