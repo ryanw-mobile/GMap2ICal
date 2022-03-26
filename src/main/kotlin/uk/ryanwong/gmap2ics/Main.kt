@@ -12,12 +12,10 @@ private val configFile = RyanConfig() // Specify your config here
 
 fun main(args: Array<String>) {
     val placeDetailsRepository = PlaceDetailsRepository(configFile = configFile)
-    val timelineRepository =
-        TimelineRepository(
-            configFile = configFile,
-            placeDetailsRepository = placeDetailsRepository
-        )
-    val iCalExporter = ICalExporter(targetLocation = configFile.icalPath)
+    val timelineRepository = TimelineRepository(
+        configFile = configFile,
+        placeDetailsRepository = placeDetailsRepository
+    )
     val fileList = getFileList(
         absolutePath = configFile.jsonPath,
         extension = "json"
@@ -32,7 +30,7 @@ fun main(args: Array<String>) {
         val eventList: List<VEvent> = timelineRepository.getEventList(filePath = filename)
 
         // Exporting multiple events in one single ics file
-        iCalExporter.exportICal(
+        ICalExporter.exportICal(
             filename = filename.replace(oldValue = configFile.jsonPath, newValue = configFile.icalPath)
                 .replace(oldValue = ".json", newValue = "$filenameSuffix.ics"), // casually reuse the filename
             vEvents = eventList
