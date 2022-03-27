@@ -63,9 +63,10 @@ data class VEvent(
             append("DTSTART;TZID=$dtTimeZone:$dtStart\n")
             append("DTEND;TZID=$dtTimeZone:$dtEnd\n")
             append("X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n")
+            val xTitle = location.ifBlank { "${geo?.latitude},${geo?.longitude}" }
             append(
                 "X-TITLE=\"${
-                    location.replace(oldValue = "\n", newValue = "\\, ")
+                    xTitle.replace(oldValue = "\n", newValue = "\\, ")
                 }\":geo:${geo?.latitude},${geo?.longitude}\n"
             )
             append("UID:$uid\n")
