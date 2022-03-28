@@ -10,8 +10,7 @@ data class TimelineItem(
     val startTimeStamp: String,
     val endTimeStamp: String,
     val lastEditTimeStamp: String,
-    val eventLatitude: Double,
-    val eventLongitude: Double,
+    val eventLatLng: LatLng,
     val eventTimeZone: TimeZone?,
     val placeUrl: String? = null,
     val description: String? = null

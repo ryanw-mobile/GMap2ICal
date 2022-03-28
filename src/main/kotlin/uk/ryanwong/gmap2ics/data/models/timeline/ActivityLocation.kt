@@ -24,21 +24,21 @@ data class ActivityLocation(
         return longitudeE7?.times(0.0000001)
     }
 
-    fun getFormattedLatitude(): String? {
-        return latitudeE7?.let { latitude ->
+    fun getFormattedLatLng(): String? {
+        val lat = latitudeE7?.let { latitude ->
             latLngFormat.format(latitude.times(0.0000001))
         }
-    }
-
-    fun getFormattedLongitude(): String? {
-        return longitudeE7?.let { longitude ->
+        val lng = longitudeE7?.let { longitude ->
             latLngFormat.format(longitude.times(0.0000001))
         }
+
+        return if (lat != null && lng != null) "$lat, $lng"
+        else null
     }
 
     fun getGoogleMapsLatLngLink(): String {
         return if (latitudeE7 == null || longitudeE7 == null) ""
-        else "https://maps.google.com?q=${getFormattedLatitude()},${getFormattedLongitude()}"
+        else "https://maps.google.com?q=${getFormattedLatLng()}"
     }
 
     fun getGoogleMapsPlaceIdLink(): String {

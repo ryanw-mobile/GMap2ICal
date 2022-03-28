@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import uk.ryanwong.gmap2ics.domain.ActivityType
 import uk.ryanwong.gmap2ics.domain.getLabel
+import uk.ryanwong.gmap2ics.domain.models.LatLng
 import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.models.TimelineItem
 import us.dustinj.timezonemap.TimeZone
@@ -100,8 +101,10 @@ data class ActivitySegment(
             startTimeStamp = duration.startTimestamp,
             endTimeStamp = duration.endTimestamp,
             lastEditTimeStamp = lastEditTimeStamp,
-            eventLatitude = eventLatitude,
-            eventLongitude = eventLongitude,
+            eventLatLng = LatLng(
+                latitude = eventLatitude,
+                longitude = eventLongitude
+            ),
             eventTimeZone = eventTimeZone,
             placeUrl = endLocation.placeId?.let { endLocation.getGoogleMapsPlaceIdLink() }
                 ?: endLocation.getGoogleMapsLatLngLink(),
@@ -147,7 +150,7 @@ data class ActivitySegment(
         return placeDetail?.let {
             "Start Location: ${placeDetail.formattedAddress}\\n${startLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
         }
-            ?: "Start Location: ${startLocation.getFormattedLatitude()}, ${startLocation.getFormattedLongitude()}\\n${startLocation.getGoogleMapsLatLngLink()}\\n\\n"
+            ?: "Start Location: ${startLocation.getFormattedLatLng()}\\n${startLocation.getGoogleMapsLatLngLink()}\\n\\n"
 
     }
 
@@ -155,7 +158,7 @@ data class ActivitySegment(
         return placeDetail?.let {
             "End Location: ${placeDetail.formattedAddress}\\n${endLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
         }
-            ?: "End Location: ${endLocation.getFormattedLatitude()}, ${endLocation.getFormattedLongitude()}\\n${endLocation.getGoogleMapsLatLngLink()}\\n\\n"
+            ?: "End Location: ${endLocation.getFormattedLatLng()}\\n${endLocation.getGoogleMapsLatLngLink()}\\n\\n"
     }
 
     private fun parseActivityRouteText(

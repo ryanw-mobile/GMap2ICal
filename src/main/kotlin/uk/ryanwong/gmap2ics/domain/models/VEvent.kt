@@ -19,11 +19,6 @@ data class VEvent(
     val url: String? = null,
     val lastModified: String
 ) {
-    data class LatLng(
-        val latitude: Double,
-        val longitude: Double
-    )
-
     companion object {
         fun from(timelineObject: TimelineItem): VEvent {
             val timeZone = timelineObject.eventTimeZone
@@ -41,10 +36,7 @@ data class VEvent(
                     timezoneId = timelineObject.eventTimeZone?.zoneId ?: "UTC"
                 ),
                 summary = timelineObject.subject,
-                geo = LatLng(
-                    latitude = timelineObject.eventLatitude,
-                    longitude = timelineObject.eventLongitude
-                ),
+                geo = timelineObject.eventLatLng,
                 dtTimeZone = timeZone?.zoneId ?: "UTC",
                 location = timelineObject.location,
                 url = timelineObject.placeUrl,
@@ -63,11 +55,11 @@ data class VEvent(
             append("DTSTART;TZID=$dtTimeZone:$dtStart\n")
             append("DTEND;TZID=$dtTimeZone:$dtEnd\n")
             append("X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n")
-            val xTitle = location.ifBlank { "${geo?.latitude},${geo?.longitude}" }
+            val xTitle = location.ifBlank { geo?.getFormattedLatLng() ?: "0,0" }
             append(
                 "X-TITLE=\"${
                     xTitle.replace(oldValue = "\n", newValue = "\\, ")
-                }\":geo:${geo?.latitude},${geo?.longitude}\n"
+                }\":geo:${geo?.getFormattedLatLng() ?: "0,0"}\n"
             )
             append("UID:$uid\n")
             append("DTSTAMP:$dtStamp\n")

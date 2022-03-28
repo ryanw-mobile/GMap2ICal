@@ -1,6 +1,7 @@
 package uk.ryanwong.gmap2ics.data.models.timeline
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import uk.ryanwong.gmap2ics.domain.models.LatLng
 import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.models.TimelineItem
 import us.dustinj.timezonemap.TimeZone
@@ -35,8 +36,10 @@ data class PlaceVisit(
             startTimeStamp = duration.startTimestamp,
             endTimeStamp = duration.endTimestamp,
             lastEditTimeStamp = lastEditTimeStamp,
-            eventLatitude = placeDetails?.lat ?: (location.latitudeE7 * 0.0000001),
-            eventLongitude = placeDetails?.lng ?: (location.longitudeE7 * 0.0000001),
+            eventLatLng = placeDetails?.geo ?: LatLng(
+                latitude = location.latitudeE7 * 0.0000001,
+                longitude = location.longitudeE7 * 0.0000001
+            ),
             eventTimeZone = getEventTimeZone(timeZoneMap),
             placeUrl = url,
             description = "Place ID:\\n${location.placeId}\\n\\nGoogle Maps URL:\\n$url"

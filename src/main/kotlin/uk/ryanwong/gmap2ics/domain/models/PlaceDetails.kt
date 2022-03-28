@@ -8,8 +8,7 @@ data class PlaceDetails(
     val placeId: String,
     val name: String,
     val formattedAddress: String,
-    val lat: Double,
-    val lng: Double,
+    val geo: LatLng,
     val types: List<String>,
     val url: String
 ) {
@@ -20,8 +19,10 @@ data class PlaceDetails(
                     placeId = place_id,
                     name = name,
                     formattedAddress = formatted_address,
-                    lat = geometry.location.lat,
-                    lng = geometry.location.lng,
+                    geo = LatLng(
+                        latitude = geometry.location.lat,
+                        longitude = geometry.location.lng
+                    ),
                     types = types,
                     url = url
                 )
