@@ -32,7 +32,7 @@ data class ActivityLocation(
             latLngFormat.format(longitude.times(0.0000001))
         }
 
-        return if (lat != null && lng != null) "$lat, $lng"
+        return if (lat != null && lng != null) "$lat,$lng"
         else null
     }
 

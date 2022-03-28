@@ -41,7 +41,7 @@ class TimelineRepository(
                             val gMapTimelineObject = processActivitySegment(activitySegment = activitySegment)
 
                             gMapTimelineObject?.let { timelineObject ->
-                                eventList.add(VEvent.from(timelineObject = timelineObject).also { vEvent ->
+                                eventList.add(VEvent.from(timelineItem = timelineObject).also { vEvent ->
                                     if (configFile.displayLogs) println(vEvent.toString())
                                 })
                             }
@@ -63,7 +63,7 @@ class TimelineRepository(
 
                             if (!configFile.ignoredVisitedPlaceIds.contains(gMapTimelineObject.placeId)) {
                                 eventList
-                                    .add(VEvent.from(timelineObject = gMapTimelineObject)
+                                    .add(VEvent.from(timelineItem = gMapTimelineObject)
                                         .also { vEvent ->
                                             if (configFile.displayLogs) println(vEvent.toString())
                                         })
@@ -87,7 +87,7 @@ class TimelineRepository(
                                 childVisit.asTimelineItem(timeZoneMap, placeDetails = childPlaceDetails)
                                     ?.let { timelineObject ->
                                         eventList
-                                            .add(VEvent.from(timelineObject = timelineObject))
+                                            .add(VEvent.from(timelineItem = timelineObject))
                                             .also { vEvent ->
                                                 if (configFile.displayLogs) println(vEvent.toString())
                                             }

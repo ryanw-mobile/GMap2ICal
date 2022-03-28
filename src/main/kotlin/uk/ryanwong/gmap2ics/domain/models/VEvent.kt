@@ -20,28 +20,28 @@ data class VEvent(
     val lastModified: String
 ) {
     companion object {
-        fun from(timelineObject: TimelineItem): VEvent {
-            val timeZone = timelineObject.eventTimeZone
+        fun from(timelineItem: TimelineItem): VEvent {
+            val timeZone = timelineItem.eventTimeZone
 
             return VEvent(
-                uid = timelineObject.id,
-                placeId = timelineObject.placeId,
-                dtStamp = timelineObject.lastEditTimeStamp,
+                uid = timelineItem.id,
+                placeId = timelineItem.placeId,
+                dtStamp = timelineItem.lastEditTimeStamp,
                 dtStart = getLocalizedTimeStamp(
-                    timestamp = timelineObject.startTimeStamp,
-                    timezoneId = timelineObject.eventTimeZone?.zoneId ?: "UTC"
+                    timestamp = timelineItem.startTimeStamp,
+                    timezoneId = timelineItem.eventTimeZone?.zoneId ?: "UTC"
                 ),
                 dtEnd = getLocalizedTimeStamp(
-                    timestamp = timelineObject.endTimeStamp,
-                    timezoneId = timelineObject.eventTimeZone?.zoneId ?: "UTC"
+                    timestamp = timelineItem.endTimeStamp,
+                    timezoneId = timelineItem.eventTimeZone?.zoneId ?: "UTC"
                 ),
-                summary = timelineObject.subject,
-                geo = timelineObject.eventLatLng,
+                summary = timelineItem.subject,
+                geo = timelineItem.eventLatLng,
                 dtTimeZone = timeZone?.zoneId ?: "UTC",
-                location = timelineObject.location,
-                url = timelineObject.placeUrl,
-                lastModified = timelineObject.lastEditTimeStamp,
-                description = timelineObject.description
+                location = timelineItem.location,
+                url = timelineItem.placeUrl,
+                lastModified = timelineItem.lastEditTimeStamp,
+                description = timelineItem.description
             )
         }
     }

@@ -10,9 +10,6 @@ import uk.ryanwong.gmap2ics.domain.models.TimelineItem
 import us.dustinj.timezonemap.TimeZone
 import us.dustinj.timezonemap.TimeZoneMap
 import java.text.DecimalFormat
-import java.time.Instant
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ActivitySegment(
@@ -86,18 +83,37 @@ data class ActivitySegment(
             )
         }"
 
+        // Try to extract more meaningful information than just the miles travelled
+        val startLocationText = getStartLocationText(placeDetail = startPlaceDetail)
+        val endLocationText = getEndLocationText(placeDetail = endPlaceDetail)
+
+        val firstPlaceDetail = waypointPath?.roadSegment?.first()?.placeId?.let { placeId ->
+            placeDetailsRepository.getPlaceDetails(
+                placeId = placeId,
+                placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
+            )
+        }
+
+        val lastPlaceDetail = waypointPath?.roadSegment?.last()?.placeId?.let { placeId ->
+            placeDetailsRepository.getPlaceDetails(
+                placeId = placeId,
+                placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
+            )
+        }
+
         val description = parseTimelineDescription(
-            startPlaceDetail = startPlaceDetail,
-            endPlaceDetail = endPlaceDetail,
-            placeDetailsRepository = placeDetailsRepository,
-            timeZoneMap = timeZoneMap
+            startLocationText = startLocationText,
+            endLocationText = endLocationText,
+            startPlaceDetail = firstPlaceDetail,
+            endPlaceDetail = lastPlaceDetail
         )
 
         return TimelineItem(
             id = lastEditTimeStamp,
             placeId = endLocation.placeId, // Usually null
             subject = subject,
-            location = endLocation.address ?: "",
+            location = endLocation.address ?: lastPlaceDetail?.formattedAddress ?: endLocation.getFormattedLatLng()
+            ?: "Unknown",
             startTimeStamp = duration.startTimestamp,
             endTimeStamp = duration.endTimestamp,
             lastEditTimeStamp = lastEditTimeStamp,
@@ -112,32 +128,21 @@ data class ActivitySegment(
         )
     }
 
-    private suspend fun parseTimelineDescription(
+    private fun parseTimelineDescription(
         startPlaceDetail: PlaceDetails?,
         endPlaceDetail: PlaceDetails?,
-        placeDetailsRepository: PlaceDetailsRepository,
-        timeZoneMap: TimeZoneMap
+        startLocationText: String,
+        endLocationText: String
     ): String {
-        // Try to extract more meaningful information than just the miles travelled
-        val startLocationText = getStartLocationText(placeDetail = startPlaceDetail)
-        val endLocationText = getEndLocationText(placeDetail = endPlaceDetail)
-
         // Segments are less accurate than start and end locations,
         // but still have some values if the start and end locations do not have a valid placeId
-        val firstSegmentText = waypointPath?.roadSegment?.first()?.placeId?.let { placeId ->
-            val placeDetail = placeDetailsRepository.getPlaceDetails(
-                placeId = placeId,
-                placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
-            )
-            "First segment: ${placeDetail?.formattedAddress}\\nhttps://www.google.com/maps/place/?q=place_id:${placeId}\\n\\n"
+
+        val firstSegmentText = startPlaceDetail?.let { placeDetail ->
+            "First segment: ${placeDetail.formattedAddress}\\nhttps://www.google.com/maps/place/?q=place_id:${placeDetail.placeId}\\n\\n"
         } ?: ""
 
-        val lastSegmentText = waypointPath?.roadSegment?.last()?.placeId?.let { placeId ->
-            val placeDetail = placeDetailsRepository.getPlaceDetails(
-                placeId = placeId,
-                placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
-            )
-            "Last segment: ${placeDetail?.formattedAddress}\\nhttps://www.google.com/maps/place/?q=place_id:${placeId}\\n\\n"
+        val lastSegmentText = endPlaceDetail?.let { placeDetail ->
+            "Last segment: ${placeDetail.formattedAddress}\\nhttps://www.google.com/maps/place/?q=place_id:${placeDetail.placeId}\\n\\n"
         } ?: ""
 
         return startLocationText +
@@ -188,8 +193,8 @@ data class ActivitySegment(
         return timeZoneMap.getOverlappingTimeZone(eventLatitude, eventLongitude)
     }
 
-    private fun getCurrentIsoTimestamp() = DateTimeFormatter
-        .ofPattern("yyyyMMddTHHmmssZ")
-        .withZone(ZoneOffset.UTC)
-        .format(Instant.now())
+//    private fun getCurrentIsoTimestamp() = DateTimeFormatter
+//        .ofPattern("yyyyMMddTHHmmssZ")
+//        .withZone(ZoneOffset.UTC)
+//        .format(Instant.now())
 }
