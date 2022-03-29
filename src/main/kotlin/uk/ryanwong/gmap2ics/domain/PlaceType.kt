@@ -64,6 +64,7 @@ enum class PlaceType {
     MOVIE_THEATER,
     MOVING_COMPANY,
     MUSEUM,
+    NATURAL_FEATURE,
     NIGHT_CLUB,
     PAINTER,
     PARK,
@@ -166,6 +167,7 @@ fun PlaceType.getLabel(): String {
         PlaceType.MOVIE_THEATER -> "🎬"
         PlaceType.MOVING_COMPANY -> "📦"
         PlaceType.MUSEUM -> "🛖"
+        PlaceType.NATURAL_FEATURE -> "🌱"
         PlaceType.NIGHT_CLUB -> "🎤"
         PlaceType.PAINTER -> "🎨"
         PlaceType.PARK -> "🏞"

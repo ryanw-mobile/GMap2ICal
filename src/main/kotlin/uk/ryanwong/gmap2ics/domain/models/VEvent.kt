@@ -58,7 +58,8 @@ data class VEvent(
             val xTitle = location.ifBlank { geo?.getFormattedLatLng() ?: "0,0" }
             append(
                 "X-TITLE=\"${
-                    xTitle.replace(oldValue = "\n", newValue = "\\, ")
+                    xTitle.replace(oldValue = "\n", newValue = ", ")
+                        .replace(oldValue = ",", newValue = "\\,")
                 }\":geo:${geo?.getFormattedLatLng() ?: "0,0"}\n"
             )
             append("UID:$uid\n")
@@ -81,7 +82,7 @@ data class VEvent(
                 append("DESCRIPTION:$description\n")
             }
             url?.let { url ->
-                append("URL;VALUE=URI:$url\n")
+                append("URL;VALUE=URI:${url.replace(oldValue = ",", newValue = "\\,")}\n")
             }
             append("STATUS:CONFIRMED\n")
             append("SEQUENCE:1\n")
