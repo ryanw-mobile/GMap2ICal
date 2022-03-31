@@ -89,6 +89,7 @@ enum class PlaceType {
     STADIUM,
     STORAGE,
     STORE,
+    STREET_ADDRESS,
     SUBWAY_STATION,
     SUPERMARKET,
     SYNAGOGUE,
@@ -192,6 +193,7 @@ fun PlaceType.getLabel(): String {
         PlaceType.STADIUM -> "🏟"
         PlaceType.STORAGE -> "📦"
         PlaceType.STORE -> "🏬"
+        PlaceType.STREET_ADDRESS -> "🛣"
         PlaceType.SUBWAY_STATION -> "🚇"
         PlaceType.SUPERMARKET -> "🛒"
         PlaceType.SYNAGOGUE -> "🕍"
