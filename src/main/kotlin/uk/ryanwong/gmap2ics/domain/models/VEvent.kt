@@ -57,9 +57,10 @@ data class VEvent(
             append("X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n")
             val xTitle = location.ifBlank { geo?.getFormattedLatLng() ?: "0,0" }
             append(
+                // X-Title string has not much value. keep that simple.
                 "X-TITLE=\"${
-                    xTitle.replace(oldValue = "\n", newValue = ", ")
-                        .replace(oldValue = ",", newValue = "\\,")
+                    xTitle.replace(oldValue = "\n", newValue = " ")
+                        .replace(oldValue = ",", newValue = " ")
                 }\":geo:${geo?.getFormattedLatLng() ?: "0,0"}\n"
             )
             append("UID:$uid\n")
@@ -68,7 +69,7 @@ data class VEvent(
                 "LOCATION:${
                     location
                         .replace(oldValue = "\n", newValue = ", ")
-                        .replace(oldValue = ",", newValue = "\\,\\n")
+                        .replace(oldValue = ",", newValue = "\\,")
                 }\n"
             )
             append("SUMMARY:$summary\n")
