@@ -1,4 +1,5 @@
 # GMap2iCal - Google Maps to iCal
+### My first Compose for Desktop App
 
 <div style="text-align:center"><img src="preview.png" /></div>.
 
@@ -29,6 +30,8 @@ the road.
 
 ## Status
 
+Converting this command-line App to a Kotlin Desktop App.
+
 A basic implementation bare enough to convert and export the data for personal use is done.
 
 The presentation for driving starting and ending locations is to be improved. This is because the location data (
@@ -53,5 +56,6 @@ Further effort is required to improve the coding/architecture, and to complete t
 ## Todo list
 
 - Exception handling
-- More test cases
-- Compose Desktop UI
+- Test cases
+- Proper MVVM(?) architecture?
+- Migrate Retrofit to Ktor
