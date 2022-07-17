@@ -3,7 +3,6 @@ package uk.ryanwong.gmap2ics.data.models.timeline
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import uk.ryanwong.gmap2ics.domain.ActivityType
-import uk.ryanwong.gmap2ics.domain.getLabel
 import uk.ryanwong.gmap2ics.domain.models.LatLng
 import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.models.TimelineItem
@@ -58,7 +57,7 @@ data class ActivitySegment(
         } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
 
         // Generate emoji label prefix for different activity types
-        val activityLabel = activityType.getLabel()
+        val activityLabel = activityType.label
 
         // If Location API enabled, try to fetch starting and ending from there
         val startPlaceDetail = startLocation.placeId?.let { placeId ->
