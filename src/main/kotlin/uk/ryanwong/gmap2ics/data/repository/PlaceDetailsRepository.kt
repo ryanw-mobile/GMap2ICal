@@ -1,10 +1,13 @@
 package uk.ryanwong.gmap2ics.data.repository
 
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
 import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.api.PlacesDetailApi
 import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
 
 class PlaceDetailsRepository(private val configFile: Config) {
+    private val client = HttpClient(CIO)
     private val placeDetailsService = PlacesDetailApi.retrofitService
     private val placesCache = mutableMapOf<String, PlaceDetails>()
 
