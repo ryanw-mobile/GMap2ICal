@@ -3,6 +3,7 @@ package uk.ryanwong.gmap2ics.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,8 +15,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,7 +39,8 @@ fun mainScreen(
         title = "GMap2iCal - Google Maps to iCal",
         state = rememberWindowState(width = 640.dp, height = 480.dp)
     ) {
-        val statusMessage = mainScreenViewModel.statusMessage.collectAsState()
+        val statusMessage by mainScreenViewModel.statusMessage.collectAsState()
+        val jsonPath by mainScreenViewModel.jsonPath.collectAsState()
 
         MaterialTheme {
             Column(
@@ -52,8 +56,28 @@ fun mainScreen(
                         .padding(vertical = 24.dp),
                 )
 
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = "JSON Path",
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+
+                    TextField(
+                        value = jsonPath,
+                        onValueChange = {},
+                        interactionSource = MutableInteractionSource(),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
                 Text(
-                    text = statusMessage.value,
+                    text = statusMessage,
                     modifier = Modifier.fillMaxWidth()
                         .padding(all = 16.dp)
                         .background(color = Color.White)
