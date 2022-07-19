@@ -31,8 +31,8 @@ data class PlaceDetails(
     }
 
     fun getFormattedName(): String {
-        return resolveEnum()?.let {
-            "${it.getLabel()} $name"
+        return resolveEnum()?.let { placeType ->
+            "${placeType.getLabel()} $name"
         } ?: "\uD83D\uDCCD $name"
     }
 
@@ -42,6 +42,7 @@ data class PlaceDetails(
                 return PlaceType.valueOf(type.uppercase())
             } catch (ex: IllegalArgumentException) {
                 // do nothing
+                ex.printStackTrace()
             }
         }
         println("⚠️ Unable to resolve any of the place types in $types for PlaceId $placeId")
