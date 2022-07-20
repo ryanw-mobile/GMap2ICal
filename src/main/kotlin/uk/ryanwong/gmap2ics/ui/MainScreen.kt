@@ -182,7 +182,7 @@ private fun SettingsColumn(
                 .semantics { role = Role.Checkbox }
         ) {
             Checkbox(
-                checked = enablePlacesApiLookup,
+                checked = exportActivitySegment,
                 onCheckedChange = onExportActivitySegmentChanged
             )
             Text(
@@ -199,7 +199,7 @@ private fun SettingsColumn(
                 .semantics { role = Role.Checkbox }
         ) {
             Checkbox(
-                checked = exportActivitySegment,
+                checked = enablePlacesApiLookup,
                 onCheckedChange = onEnabldPlaceApiLookupChanged
             )
             Text(
