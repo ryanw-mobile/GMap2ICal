@@ -33,15 +33,19 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
 import uk.ryanwong.gmap2ics.ui.models.MainScreenViewModel
+import java.util.Locale
+import java.util.ResourceBundle.getBundle
 
 @Composable
 fun mainScreen(
     onCloseRequest: () -> Unit,
     mainScreenViewModel: MainScreenViewModel
 ) {
+    val resourceBundle = getBundle("resources", Locale.ENGLISH)
+
     Window(
         onCloseRequest = onCloseRequest,
-        title = "GMap2iCal - Google Maps to iCal",
+        title = resourceBundle.getString("gmap2ical.google.maps.to.ical"),
         state = rememberWindowState(width = 800.dp, height = 560.dp)
     ) {
         val statusMessage by mainScreenViewModel.statusMessage.collectAsState()
@@ -57,7 +61,7 @@ fun mainScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = "Google Maps to iCal converter",
+                    text = resourceBundle.getString("google.maps.to.ical.converter"),
                     textAlign = TextAlign.Center,
                     fontSize = 24.sp,
                     modifier = Modifier
@@ -99,12 +103,12 @@ fun mainScreen(
                     Button(
                         onClick = { mainScreenViewModel.startConvertion() }
                     ) {
-                        Text(text = "Convert")
+                        Text(text = resourceBundle.getString("convert"))
                     }
                     Button(
                         onClick = onCloseRequest
                     ) {
-                        Text(text = "Exit App")
+                        Text(text = resourceBundle.getString("exit.app"))
                     }
                 }
             }
@@ -123,13 +127,15 @@ private fun SettingsColumn(
     onExportActivitySegmentChanged: (Boolean) -> Unit,
     onEnabldPlaceApiLookupChanged: (Boolean) -> Unit
 ) {
+    val resourceBundle = getBundle("resources", Locale.ENGLISH)
+
     Column(
         modifier = Modifier
             .fillMaxWidth(0.5f)
             .padding(horizontal = 16.dp)
     ) {
         Text(
-            text = "JSON Path",
+            text = resourceBundle.getString("json.path"),
             style = MaterialTheme.typography.body2,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
@@ -142,7 +148,7 @@ private fun SettingsColumn(
         )
 
         Text(
-            text = "iCal Path",
+            text = resourceBundle.getString("ical.path"),
             style = MaterialTheme.typography.body2,
             modifier = Modifier
                 .padding(horizontal = 8.dp)
@@ -169,7 +175,7 @@ private fun SettingsColumn(
                 onCheckedChange = onExportPlaceVisitChanged
             )
             Text(
-                text = "Export Places Visited",
+                text = resourceBundle.getString("export.places.visited"),
                 style = MaterialTheme.typography.body2,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
@@ -186,7 +192,7 @@ private fun SettingsColumn(
                 onCheckedChange = onExportActivitySegmentChanged
             )
             Text(
-                text = "Enable Places API Lookup",
+                text = resourceBundle.getString("enable.places.api.lookup"),
                 style = MaterialTheme.typography.body2,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
@@ -203,7 +209,7 @@ private fun SettingsColumn(
                 onCheckedChange = onEnabldPlaceApiLookupChanged
             )
             Text(
-                text = "Export Activity Segments",
+                text = resourceBundle.getString("export.activity.segments"),
                 style = MaterialTheme.typography.body2,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
