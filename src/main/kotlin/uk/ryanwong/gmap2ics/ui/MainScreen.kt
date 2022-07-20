@@ -3,25 +3,30 @@ package uk.ryanwong.gmap2ics.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
+import androidx.compose.material.Checkbox
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,10 +42,14 @@ fun mainScreen(
     Window(
         onCloseRequest = onCloseRequest,
         title = "GMap2iCal - Google Maps to iCal",
-        state = rememberWindowState(width = 640.dp, height = 480.dp)
+        state = rememberWindowState(width = 800.dp, height = 560.dp)
     ) {
         val statusMessage by mainScreenViewModel.statusMessage.collectAsState()
         val jsonPath by mainScreenViewModel.jsonPath.collectAsState()
+        val iCalPath by mainScreenViewModel.iCalPath.collectAsState()
+        val exportPlaceVisit by mainScreenViewModel.exportPlaceVisit.collectAsState()
+        val exportActivitySegment by mainScreenViewModel.exportActivitySegment.collectAsState()
+        val enablePlacesApiLookup by mainScreenViewModel.enablePlacesApiLookup.collectAsState()
 
         MaterialTheme {
             Column(
@@ -57,41 +66,34 @@ fun mainScreen(
                 )
 
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
+                    modifier = Modifier.fillMaxWidth()
+                        .wrapContentHeight()
                 ) {
-                    Text(
-                        text = "JSON Path",
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .align(Alignment.CenterVertically)
+                    SettingsColumn(
+                        jsonPath = jsonPath,
+                        iCalPath = iCalPath,
+                        exportPlaceVisit = exportPlaceVisit,
+                        exportActivitySegment = exportActivitySegment,
+                        enablePlacesApiLookup = enablePlacesApiLookup,
+                        onExportPlaceVisitChanged = { enabled -> mainScreenViewModel.setExportPlaceVisit(enabled) },
+                        onExportActivitySegmentChanged = { enabled ->
+                            mainScreenViewModel.setExportActivitySegment(enabled)
+                        },
+                        onEnabldPlaceApiLookupChanged = { enabled ->
+                            mainScreenViewModel.setEnablePlacesApiLookup(enabled)
+                        },
                     )
 
-                    TextField(
-                        value = jsonPath,
-                        onValueChange = {},
-                        interactionSource = MutableInteractionSource(),
-                        modifier = Modifier.fillMaxWidth()
+                    StatusColumn(
+                        statusMessage = statusMessage
                     )
                 }
 
-                Text(
-                    text = statusMessage,
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(all = 16.dp)
-                        .background(color = Color.White)
-                        .height(80.dp)
-                        .scrollable(
-                            enabled = true,
-                            orientation = Orientation.Vertical,
-                            state = rememberScrollState()
-                        )
-                )
-
                 Row(
                     modifier = Modifier
-                        .align(alignment = Alignment.CenterHorizontally),
+                        .wrapContentSize()
+                        .align(alignment = Alignment.CenterHorizontally)
+                        .padding(vertical = 16.dp),
                     horizontalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     Button(
@@ -107,5 +109,129 @@ fun mainScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun SettingsColumn(
+    jsonPath: String,
+    iCalPath: String,
+    exportPlaceVisit: Boolean,
+    exportActivitySegment: Boolean,
+    enablePlacesApiLookup: Boolean,
+    onExportPlaceVisitChanged: (Boolean) -> Unit,
+    onExportActivitySegmentChanged: (Boolean) -> Unit,
+    onEnabldPlaceApiLookupChanged: (Boolean) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(0.5f)
+            .padding(horizontal = 16.dp)
+    ) {
+        Text(
+            text = "JSON Path",
+            style = MaterialTheme.typography.body2,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
+
+        Text(
+            text = jsonPath,
+            style = MaterialTheme.typography.caption,
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 8.dp)
+        )
+
+        Text(
+            text = "iCal Path",
+            style = MaterialTheme.typography.body2,
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .padding(top = 16.dp)
+        )
+
+        Text(
+            text = iCalPath,
+            style = MaterialTheme.typography.caption,
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 8.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .semantics { role = Role.Checkbox }
+        ) {
+            Checkbox(
+                checked = exportPlaceVisit,
+                onCheckedChange = onExportPlaceVisitChanged
+            )
+            Text(
+                text = "Export Places Visited",
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .semantics { role = Role.Checkbox }
+        ) {
+            Checkbox(
+                checked = enablePlacesApiLookup,
+                onCheckedChange = onExportActivitySegmentChanged
+            )
+            Text(
+                text = "Enable Places API Lookup",
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .semantics { role = Role.Checkbox }
+        ) {
+            Checkbox(
+                checked = exportActivitySegment,
+                onCheckedChange = onEnabldPlaceApiLookupChanged
+            )
+            Text(
+                text = "Export Activity Segments",
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun StatusColumn(
+    statusMessage: String
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+    ) {
+        Text(
+            text = statusMessage,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(360.dp)
+                .padding(horizontal = 32.dp)
+                .background(color = Color.White)
+                .scrollable(
+                    enabled = true,
+                    orientation = Orientation.Vertical,
+                    state = rememberScrollState()
+                )
+        )
     }
 }

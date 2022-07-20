@@ -1,6 +1,5 @@
 package uk.ryanwong.gmap2ics.ui.models
 
-import androidx.compose.ui.text.input.TextFieldValue
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import uk.ryanwong.gmap2ics.configs.Config
@@ -16,11 +15,11 @@ class MainScreenViewModel(
     private var _statusMessage = MutableStateFlow("")
     val statusMessage: StateFlow<String> = _statusMessage
 
-    private var _jsonPath = MutableStateFlow(TextFieldValue(""))
-    val jsonPath: StateFlow<TextFieldValue> = _jsonPath
+    private var _jsonPath = MutableStateFlow("")
+    val jsonPath: StateFlow<String> = _jsonPath
 
-    private var _iCalPath = MutableStateFlow(TextFieldValue(""))
-    val iCalPath: StateFlow<TextFieldValue> = _iCalPath
+    private var _iCalPath = MutableStateFlow("")
+    val iCalPath: StateFlow<String> = _iCalPath
 
     private var _exportPlaceVisit = MutableStateFlow(false)
     val exportPlaceVisit: StateFlow<Boolean> = _exportPlaceVisit
@@ -35,8 +34,8 @@ class MainScreenViewModel(
         // Default values, overridable from UI
         // TODO: might provide as profiles
         with(configFile) {
-            _iCalPath.value = TextFieldValue(text = icalPath)
-            _jsonPath.value = TextFieldValue(text = jsonPath)
+            _iCalPath.value = icalPath
+            _jsonPath.value = jsonPath
             _exportPlaceVisit.value = exportPlaceVisit
             _exportActivitySegment.value = exportActivitySegment
             _enablePlacesApiLookup.value = enablePlacesApiLookup
@@ -46,12 +45,12 @@ class MainScreenViewModel(
     fun startConvertion() {
 
         val fileList = getFileList(
-            absolutePath = configFile.jsonPath,
+            absolutePath = _jsonPath.value,
             extension = "json"
         )
 
-        val filenameSuffix = if (configFile.exportPlaceVisit && configFile.exportActivitySegment) "_all"
-        else if (configFile.exportPlaceVisit) "_places"
+        val filenameSuffix = if (_exportPlaceVisit.value && _exportActivitySegment.value) "_all"
+        else if (_exportPlaceVisit.value) "_places"
         else "_activities"
 
         fileList?.forEach { filename ->
@@ -60,11 +59,23 @@ class MainScreenViewModel(
 
             // Exporting multiple events in one single ics file
             ICalExporter.exportICal(
-                filename = filename.replace(oldValue = configFile.jsonPath, newValue = configFile.icalPath)
+                filename = filename.replace(oldValue = _jsonPath.value, newValue = _iCalPath.value)
                     .replace(oldValue = ".json", newValue = "$filenameSuffix.ics"), // casually reuse the filename
                 vEvents = eventList
             )
         }
+    }
+
+    fun setExportPlaceVisit(enabled: Boolean) {
+        _exportPlaceVisit.value = enabled
+    }
+
+    fun setExportActivitySegment(enabled: Boolean) {
+        _exportActivitySegment.value = enabled
+    }
+
+    fun setEnablePlacesApiLookup(enabled: Boolean) {
+        _enablePlacesApiLookup.value = enabled
     }
 
     private fun appendStatus(status: String) {
