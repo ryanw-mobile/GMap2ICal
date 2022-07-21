@@ -1,6 +1,8 @@
 package uk.ryanwong.gmap2ics.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
@@ -24,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -134,33 +138,77 @@ private fun SettingsColumn(
             .fillMaxWidth(0.5f)
             .padding(horizontal = 16.dp)
     ) {
-        Text(
-            text = resourceBundle.getString("json.path"),
-            style = MaterialTheme.typography.body2,
-            modifier = Modifier.padding(horizontal = 8.dp)
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth(1f)
+        ) {
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(horizontal = 8.dp)
+            ) {
+                Image(
+                    painter = painterResource(resourcePath = "/drawables/folder.png"),
+                    contentDescription = resourceBundle.getString("change.folder"),
+                    modifier = Modifier
+                        .clickable(onClick = {})
+                        .padding(all = 4.dp)
+                        .size(size = 24.dp)
+                )
+            }
 
-        Text(
-            text = jsonPath,
-            style = MaterialTheme.typography.caption,
-            modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = 8.dp)
-        )
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = resourceBundle.getString("json.path"),
+                    style = MaterialTheme.typography.body2,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
 
-        Text(
-            text = resourceBundle.getString("ical.path"),
-            style = MaterialTheme.typography.body2,
+                Text(
+                    text = jsonPath,
+                    style = MaterialTheme.typography.caption,
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                )
+            }
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(horizontal = 8.dp)
+                .fillMaxWidth(1f)
                 .padding(top = 16.dp)
-        )
+        ) {
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(horizontal = 8.dp)
+            ) {
+                Image(
+                    painter = painterResource(resourcePath = "/drawables/folder.png"),
+                    contentDescription = resourceBundle.getString("change.folder"),
+                    modifier = Modifier
+                        .clickable(onClick = {})
+                        .padding(all = 4.dp)
+                        .size(size = 24.dp)
+                )
+            }
 
-        Text(
-            text = iCalPath,
-            style = MaterialTheme.typography.caption,
-            modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = 8.dp)
-        )
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = resourceBundle.getString("ical.path"),
+                    style = MaterialTheme.typography.body2,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+
+                Text(
+                    text = iCalPath,
+                    style = MaterialTheme.typography.caption,
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
