@@ -7,11 +7,15 @@ import uk.ryanwong.gmap2ics.data.ICalExporter
 import uk.ryanwong.gmap2ics.data.getFileList
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.domain.models.VEvent
+import uk.ryanwong.gmap2ics.ui.MainScreenUIState
 
 class MainScreenViewModel(
     val configFile: Config,
     val timelineRepository: TimelineRepository
 ) {
+    private var _mainScreenUIState = MutableStateFlow(MainScreenUIState.READY)
+    val mainScreenUIState: StateFlow<MainScreenUIState> = _mainScreenUIState
+
     private var _statusMessage = MutableStateFlow("")
     val statusMessage: StateFlow<String> = _statusMessage
 
@@ -76,6 +80,14 @@ class MainScreenViewModel(
 
     fun setEnablePlacesApiLookup(enabled: Boolean) {
         _enablePlacesApiLookup.value = enabled
+    }
+
+    fun onChangeJsonPath() {
+        _mainScreenUIState.value = MainScreenUIState.SHOW_CHANGE_JSON_PATH_DIALOG
+    }
+
+    fun onChangeICalPath() {
+        _mainScreenUIState.value = MainScreenUIState.SHOW_CHANGE_ICAL_PATH_DIALOG
     }
 
     private fun appendStatus(status: String) {

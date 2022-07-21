@@ -52,12 +52,19 @@ fun mainScreen(
         title = resourceBundle.getString("gmap2ical.google.maps.to.ical"),
         state = rememberWindowState(width = 800.dp, height = 560.dp)
     ) {
+        val uiState by mainScreenViewModel.mainScreenUIState.collectAsState()
         val statusMessage by mainScreenViewModel.statusMessage.collectAsState()
         val jsonPath by mainScreenViewModel.jsonPath.collectAsState()
         val iCalPath by mainScreenViewModel.iCalPath.collectAsState()
         val exportPlaceVisit by mainScreenViewModel.exportPlaceVisit.collectAsState()
         val exportActivitySegment by mainScreenViewModel.exportActivitySegment.collectAsState()
         val enablePlacesApiLookup by mainScreenViewModel.enablePlacesApiLookup.collectAsState()
+
+        when (uiState) {
+            MainScreenUIState.SHOW_CHANGE_JSON_PATH_DIALOG -> {}
+            MainScreenUIState.SHOW_CHANGE_ICAL_PATH_DIALOG -> {}
+            else -> {}
+        }
 
         MaterialTheme {
             Column(
@@ -90,6 +97,8 @@ fun mainScreen(
                         onEnabldPlaceApiLookupChanged = { enabled ->
                             mainScreenViewModel.setEnablePlacesApiLookup(enabled)
                         },
+                        onChangeJsonPath = { mainScreenViewModel.onChangeJsonPath() },
+                        onChangeICalPath = { mainScreenViewModel.onChangeICalPath() }
                     )
 
                     StatusColumn(
@@ -129,7 +138,9 @@ private fun SettingsColumn(
     enablePlacesApiLookup: Boolean,
     onExportPlaceVisitChanged: (Boolean) -> Unit,
     onExportActivitySegmentChanged: (Boolean) -> Unit,
-    onEnabldPlaceApiLookupChanged: (Boolean) -> Unit
+    onEnabldPlaceApiLookupChanged: (Boolean) -> Unit,
+    onChangeJsonPath: () -> Unit,
+    onChangeICalPath: () -> Unit
 ) {
     val resourceBundle = getBundle("resources", Locale.ENGLISH)
 
@@ -151,7 +162,7 @@ private fun SettingsColumn(
                     painter = painterResource(resourcePath = "/drawables/folder.png"),
                     contentDescription = resourceBundle.getString("change.folder"),
                     modifier = Modifier
-                        .clickable(onClick = {})
+                        .clickable(onClick = onChangeJsonPath)
                         .padding(all = 4.dp)
                         .size(size = 24.dp)
                 )
@@ -188,7 +199,7 @@ private fun SettingsColumn(
                     painter = painterResource(resourcePath = "/drawables/folder.png"),
                     contentDescription = resourceBundle.getString("change.folder"),
                     modifier = Modifier
-                        .clickable(onClick = {})
+                        .clickable(onClick = onChangeICalPath)
                         .padding(all = 4.dp)
                         .size(size = 24.dp)
                 )
