@@ -1,7 +1,7 @@
 # GMap2iCal - Google Maps to iCal
 ### My first Compose for Desktop App
 
-<div style="text-align:center"><img src="screenshot.png" /></div>
+<div style="text-align:center"><img src="screenshot-220721.png" /></div>
 
 A small utility written in Kotlin to convert Google Maps activity timeline to iCal (.ics) files for calendar import.
 
