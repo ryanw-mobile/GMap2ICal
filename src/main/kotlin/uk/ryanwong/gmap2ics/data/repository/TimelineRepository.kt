@@ -4,7 +4,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment
 import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
@@ -25,14 +26,14 @@ class TimelineRepository(
         registerModule(JavaTimeModule())
     }
 
-    fun getEventList(filePath: String): List<VEvent> {
+    suspend fun getEventList(filePath: String): List<VEvent> {
         val eventList = mutableListOf<VEvent>()
 
         val timeline = parseTimeLine(
             filePath = filePath
         )
 
-        runBlocking {
+        withContext(Dispatchers.IO) {
             timeline?.timelineObjects?.let { timelineDataObjects ->
                 for (timelineDataObject in timelineDataObjects) {
                     // Should be either activity or place visited, but no harm to also support cases with both

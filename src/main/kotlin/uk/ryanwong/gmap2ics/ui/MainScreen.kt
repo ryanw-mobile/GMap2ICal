@@ -22,6 +22,7 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -36,9 +37,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.ui.models.MainScreenViewModel
 import java.util.Locale
 import java.util.ResourceBundle.getBundle
+import javax.swing.JFileChooser
+import javax.swing.UIManager
 
 @Composable
 fun mainScreen(
@@ -60,10 +65,18 @@ fun mainScreen(
         val exportActivitySegment by mainScreenViewModel.exportActivitySegment.collectAsState()
         val enablePlacesApiLookup by mainScreenViewModel.enablePlacesApiLookup.collectAsState()
 
-        when (uiState) {
-            MainScreenUIState.SHOW_CHANGE_JSON_PATH_DIALOG -> {}
-            MainScreenUIState.SHOW_CHANGE_ICAL_PATH_DIALOG -> {}
-            else -> {}
+        LaunchedEffect(uiState) {
+            when (uiState) {
+                MainScreenUIState.SHOW_CHANGE_JSON_PATH_DIALOG -> {
+                    val newPath = chooseDirectorySwing(currentDirectoryPath = jsonPath)
+                    mainScreenViewModel.setJsonPath(path = newPath)
+                }
+                MainScreenUIState.SHOW_CHANGE_ICAL_PATH_DIALOG -> {
+                    val newPath = chooseDirectorySwing(currentDirectoryPath = iCalPath)
+                    mainScreenViewModel.setICalPath(path = newPath)
+                }
+                else -> {}
+            }
         }
 
         MaterialTheme {
@@ -298,5 +311,27 @@ private fun StatusColumn(
                     state = rememberScrollState()
                 )
         )
+    }
+}
+
+private suspend fun chooseDirectorySwing(currentDirectoryPath: String): String? = withContext(Dispatchers.IO) {
+    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+
+    val chooser = JFileChooser(currentDirectoryPath).apply {
+        fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
+        isVisible = true
+    }
+
+    return@withContext when (val code = chooser.showOpenDialog(null)) {
+        JFileChooser.APPROVE_OPTION -> chooser.selectedFile.absolutePath
+        JFileChooser.CANCEL_OPTION -> null
+        JFileChooser.ERROR_OPTION -> {
+            //  error("An error occurred while executing JFileChooser::showOpenDialog")
+            null
+        }
+        else -> {
+            //error("Unknown return code '${code}' from JFileChooser::showOpenDialog")
+            null
+        }
     }
 }

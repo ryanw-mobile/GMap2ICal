@@ -1,7 +1,10 @@
 package uk.ryanwong.gmap2ics.ui.models
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.ICalExporter
 import uk.ryanwong.gmap2ics.data.getFileList
@@ -57,16 +60,18 @@ class MainScreenViewModel(
         else if (_exportPlaceVisit.value) "_places"
         else "_activities"
 
-        fileList?.forEach { filename ->
-            appendStatus(status = "\uD83D\uDDC2 Processing $filename")
-            val eventList: List<VEvent> = timelineRepository.getEventList(filePath = filename)
+        CoroutineScope(Dispatchers.Default).launch {
+            fileList?.forEach { filename ->
+                appendStatus(status = "\uD83D\uDDC2 Processing $filename")
+                val eventList: List<VEvent> = timelineRepository.getEventList(filePath = filename)
 
-            // Exporting multiple events in one single ics file
-            ICalExporter.exportICal(
-                filename = filename.replace(oldValue = _jsonPath.value, newValue = _iCalPath.value)
-                    .replace(oldValue = ".json", newValue = "$filenameSuffix.ics"), // casually reuse the filename
-                vEvents = eventList
-            )
+                // Exporting multiple events in one single ics file
+                ICalExporter.exportICal(
+                    filename = filename.replace(oldValue = _jsonPath.value, newValue = _iCalPath.value)
+                        .replace(oldValue = ".json", newValue = "$filenameSuffix.ics"), // casually reuse the filename
+                    vEvents = eventList
+                )
+            }
         }
     }
 
@@ -88,6 +93,14 @@ class MainScreenViewModel(
 
     fun onChangeICalPath() {
         _mainScreenUIState.value = MainScreenUIState.SHOW_CHANGE_ICAL_PATH_DIALOG
+    }
+
+    fun setJsonPath(path: String?) {
+        path?.let { _jsonPath.value = it }
+    }
+
+    fun setICalPath(path: String?) {
+        path?.let { _iCalPath.value = it }
     }
 
     private fun appendStatus(status: String) {
