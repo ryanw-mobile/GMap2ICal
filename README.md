@@ -1,7 +1,7 @@
 # GMap2iCal - Google Maps to iCal
 ### My first Compose for Desktop App
 
-<div style="text-align:center"><img src="preview.png" /></div>.
+<div style="text-align:center"><img src="screenshot.png" /></div>
 
 A small utility written in Kotlin to convert Google Maps activity timeline to iCal (.ics) files for calendar import.
 
@@ -40,6 +40,8 @@ coordinates and place Ids) returned by Google Maps are not always accurate (or e
 Further effort is required to improve the coding/architecture, and to complete the items on the Todo List.
 
 ## How to prepare the data set for processing
+
+<div style="text-align:center"><img src="preview.png" /></div>.
 
 1. Go to [Google Takeout](https://takeout.google.com/)
 2. Make sure you have included **"Location History"** in your export request.
