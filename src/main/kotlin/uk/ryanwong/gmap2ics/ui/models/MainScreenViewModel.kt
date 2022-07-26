@@ -12,6 +12,7 @@ import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.domain.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState
+import java.nio.file.Paths
 import java.util.Locale
 import java.util.ResourceBundle
 
@@ -40,6 +41,8 @@ class MainScreenViewModel(
 
     private var _enablePlacesApiLookup = MutableStateFlow(false)
     val enablePlacesApiLookup: StateFlow<Boolean> = _enablePlacesApiLookup
+
+    private val projectBasePath = Paths.get("").toAbsolutePath().toString().plus("/")
 
     init {
         // Default values, overridable from UI
@@ -106,7 +109,13 @@ class MainScreenViewModel(
     fun updateJsonPath(jFileChooserResult: JFileChooserResult) {
         when (jFileChooserResult) {
             is JFileChooserResult.AbsolutePath -> {
-                _jsonPath.value = jFileChooserResult.absolutePath
+                val absolutePath = if (jFileChooserResult.absolutePath.startsWith(projectBasePath)) {
+                    jFileChooserResult.absolutePath.removePrefix(projectBasePath)
+                } else {
+                    jFileChooserResult.absolutePath
+                }
+
+                _jsonPath.value = absolutePath
                 _mainScreenUIState.value = MainScreenUIState.Ready
             }
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
@@ -118,7 +127,13 @@ class MainScreenViewModel(
     fun updateICalPath(jFileChooserResult: JFileChooserResult) {
         when (jFileChooserResult) {
             is JFileChooserResult.AbsolutePath -> {
-                _iCalPath.value = jFileChooserResult.absolutePath
+                val absolutePath = if (jFileChooserResult.absolutePath.startsWith(projectBasePath)) {
+                    jFileChooserResult.absolutePath.removePrefix(projectBasePath)
+                } else {
+                    jFileChooserResult.absolutePath
+                }
+
+                _iCalPath.value = absolutePath
                 _mainScreenUIState.value = MainScreenUIState.Ready
             }
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
