@@ -221,7 +221,7 @@ class MainScreenViewModelTest : FreeSpec() {
 
         "updateICalPath" - {
             "When JFileChooserResult is AbsolutePath" - {
-                "should correctly trim the path" {
+                "should correctly trim the path if it contains the base path" {
                     // 🔴 Given
                     setupViewModel()
                     mainScreenViewModel.onChangeICalPath()
@@ -234,6 +234,21 @@ class MainScreenViewModelTest : FreeSpec() {
 
                     // 🟢 Then
                     mainScreenViewModel.iCalPath.first() shouldBe "sample-folder1/sample-folder2"
+                }
+
+                "should keep the correct path if AbsolutePath does not contains the base path" {
+                    // 🔴 Given
+                    setupViewModel()
+                    mainScreenViewModel.onChangeICalPath()
+
+                    // 🟡 When
+                    val jFileChooserResult = JFileChooserResult.AbsolutePath(
+                        absolutePath =  "/sample-folder3/sample-folder4"
+                    )
+                    mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
+
+                    // 🟢 Then
+                    mainScreenViewModel.iCalPath.first() shouldBe "/sample-folder3/sample-folder4"
                 }
 
                 "should set MainScreenUIState = Ready" {
