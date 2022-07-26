@@ -19,7 +19,8 @@ import java.util.ResourceBundle
 class MainScreenViewModel(
     val configFile: Config,
     val timelineRepository: TimelineRepository,
-    private val resourceBundle: ResourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH)
+    private val resourceBundle: ResourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH),
+    private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/")
 ) {
     private var _mainScreenUIState: MutableStateFlow<MainScreenUIState> = MutableStateFlow(MainScreenUIState.Ready)
     val mainScreenUIState: StateFlow<MainScreenUIState> = _mainScreenUIState
@@ -42,7 +43,6 @@ class MainScreenViewModel(
     private var _enablePlacesApiLookup = MutableStateFlow(false)
     val enablePlacesApiLookup: StateFlow<Boolean> = _enablePlacesApiLookup
 
-    private val projectBasePath = Paths.get("").toAbsolutePath().toString().plus("/")
 
     init {
         // Default values, overridable from UI
@@ -109,13 +109,7 @@ class MainScreenViewModel(
     fun updateJsonPath(jFileChooserResult: JFileChooserResult) {
         when (jFileChooserResult) {
             is JFileChooserResult.AbsolutePath -> {
-                val absolutePath = if (jFileChooserResult.absolutePath.startsWith(projectBasePath)) {
-                    jFileChooserResult.absolutePath.removePrefix(projectBasePath)
-                } else {
-                    jFileChooserResult.absolutePath
-                }
-
-                _jsonPath.value = absolutePath
+                _jsonPath.value = stripBasePath(jFileChooserResult.absolutePath)
                 _mainScreenUIState.value = MainScreenUIState.Ready
             }
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
@@ -127,18 +121,20 @@ class MainScreenViewModel(
     fun updateICalPath(jFileChooserResult: JFileChooserResult) {
         when (jFileChooserResult) {
             is JFileChooserResult.AbsolutePath -> {
-                val absolutePath = if (jFileChooserResult.absolutePath.startsWith(projectBasePath)) {
-                    jFileChooserResult.absolutePath.removePrefix(projectBasePath)
-                } else {
-                    jFileChooserResult.absolutePath
-                }
-
-                _iCalPath.value = absolutePath
+                _iCalPath.value = stripBasePath(jFileChooserResult.absolutePath)
                 _mainScreenUIState.value = MainScreenUIState.Ready
             }
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
             else -> _mainScreenUIState.value =
                 MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.ical.path"))
+        }
+    }
+
+    private fun stripBasePath(absolutePath: String): String {
+        return if (absolutePath.startsWith(projectBasePath)) {
+            absolutePath.removePrefix(projectBasePath)
+        } else {
+            absolutePath
         }
     }
 
