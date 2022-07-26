@@ -9,12 +9,16 @@ import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.ICalExporter
 import uk.ryanwong.gmap2ics.data.getFileList
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
+import uk.ryanwong.gmap2ics.domain.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState
+import java.util.Locale
+import java.util.ResourceBundle
 
 class MainScreenViewModel(
     val configFile: Config,
-    val timelineRepository: TimelineRepository
+    val timelineRepository: TimelineRepository,
+    private val resourceBundle: ResourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH)
 ) {
     private var _mainScreenUIState: MutableStateFlow<MainScreenUIState> = MutableStateFlow(MainScreenUIState.Ready)
     val mainScreenUIState: StateFlow<MainScreenUIState> = _mainScreenUIState
@@ -99,14 +103,22 @@ class MainScreenViewModel(
         }
     }
 
-    fun updateJsonPath(path: String?) {
-        path?.let { _jsonPath.value = it }
-        _mainScreenUIState.value = MainScreenUIState.Ready
+    fun updateJsonPath(jFileChooserResult: JFileChooserResult) {
+        when (jFileChooserResult) {
+            is JFileChooserResult.AbsolutePath -> _jsonPath.value = jFileChooserResult.absolutePath
+            is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
+            else -> _mainScreenUIState.value =
+                MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.json.path"))
+        }
     }
 
-    fun updateICalPath(path: String?) {
-        path?.let { _iCalPath.value = it }
-        _mainScreenUIState.value = MainScreenUIState.Ready
+    fun updateICalPath(jFileChooserResult: JFileChooserResult) {
+        when (jFileChooserResult) {
+            is JFileChooserResult.AbsolutePath -> _iCalPath.value = jFileChooserResult.absolutePath
+            is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
+            else -> _mainScreenUIState.value =
+                MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.ical.path"))
+        }
     }
 
     private fun appendStatus(status: String) {

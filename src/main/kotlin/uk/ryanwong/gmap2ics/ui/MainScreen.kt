@@ -35,6 +35,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import uk.ryanwong.gmap2ics.domain.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.ui.components.CheckBoxItem
 import uk.ryanwong.gmap2ics.ui.models.MainScreenViewModel
 import java.util.Locale
@@ -65,18 +66,18 @@ fun mainScreen(
         LaunchedEffect(uiState) {
             when (uiState) {
                 is MainScreenUIState.ShowChangeJsonPathDialog -> {
-                    val newPath = chooseDirectorySwing(
+                    val jFileChooserResult = chooseDirectorySwing(
                         dialogTitle = resourceBundle.getString("json.source.location"),
                         currentDirectoryPath = jsonPath
                     )
-                    mainScreenViewModel.updateJsonPath(path = newPath)
+                    mainScreenViewModel.updateJsonPath(jFileChooserResult = jFileChooserResult)
                 }
                 is MainScreenUIState.ShowChangeICalPathDialog -> {
-                    val newPath = chooseDirectorySwing(
+                    val jFileChooserResult = chooseDirectorySwing(
                         dialogTitle = resourceBundle.getString("ical.output.location"),
                         currentDirectoryPath = iCalPath
                     )
-                    mainScreenViewModel.updateICalPath(path = newPath)
+                    mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
                 }
                 is MainScreenUIState.Error -> {
                     // TODO: Show error message
@@ -295,7 +296,7 @@ private fun StatusColumn(
     }
 }
 
-private suspend fun chooseDirectorySwing(dialogTitle: String, currentDirectoryPath: String): String? =
+private suspend fun chooseDirectorySwing(dialogTitle: String, currentDirectoryPath: String): JFileChooserResult =
     withContext(Dispatchers.IO) {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
 
@@ -305,16 +306,9 @@ private suspend fun chooseDirectorySwing(dialogTitle: String, currentDirectoryPa
             this.dialogTitle = dialogTitle
         }
 
-        return@withContext when (chooser.showOpenDialog(null)) {
-            JFileChooser.APPROVE_OPTION -> chooser.selectedFile.absolutePath
-            JFileChooser.CANCEL_OPTION -> null
-            JFileChooser.ERROR_OPTION -> {
-                //  error("An error occurred while executing JFileChooser::showOpenDialog")
-                null
-            }
-            else -> {
-                //error("Unknown return code '${code}' from JFileChooser::showOpenDialog")
-                null
-            }
+        return@withContext when (val returnCode = chooser.showOpenDialog(null)) {
+            JFileChooser.APPROVE_OPTION -> JFileChooserResult.AbsolutePath(absolutePath = chooser.selectedFile.absolutePath)
+            JFileChooser.CANCEL_OPTION -> JFileChooserResult.Cancelled
+            else -> JFileChooserResult.Error(errorCode = returnCode)
         }
     }
