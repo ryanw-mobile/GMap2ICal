@@ -1,5 +1,9 @@
 package uk.ryanwong.gmap2ics.domain.models
 
-class VEventKtTest {
+import io.kotest.core.spec.style.FreeSpec
 
+class VEventKtTest : FreeSpec() {
+    init {
+
+    }
 }

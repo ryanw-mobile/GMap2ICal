@@ -12,14 +12,14 @@ import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.domain.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState
+import uk.ryanwong.gmap2ics.ui.utils.DefaultResourceBundle
+import uk.ryanwong.gmap2ics.ui.utils.ResourceBundleWrapper
 import java.nio.file.Paths
-import java.util.Locale
-import java.util.ResourceBundle
 
 class MainScreenViewModel(
     val configFile: Config,
     val timelineRepository: TimelineRepository,
-    private val resourceBundle: ResourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH),
+    private val resourceBundle: ResourceBundleWrapper = DefaultResourceBundle(),
     private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/")
 ) {
     private var _mainScreenUIState: MutableStateFlow<MainScreenUIState> = MutableStateFlow(MainScreenUIState.Ready)

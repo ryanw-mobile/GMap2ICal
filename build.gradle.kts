@@ -30,7 +30,7 @@ dependencies {
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
     // kotest
-    testImplementation("io.kotest:kotest-runner-junit5:5.3.1")
+    testImplementation("io.kotest:kotest-runner-junit4:5.3.1")
     testImplementation("io.kotest:kotest-assertions-core:5.3.1")
     testImplementation("io.kotest:kotest-property:5.3.1")
 }
@@ -44,9 +44,7 @@ compose.desktop {
 group = "me.rwong"
 version = "1.0-SNAPSHOT"
 
-tasks.test {
-    useJUnitPlatform()
-}
+tasks.withType<Test> { useJUnitPlatform() }
 
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "1.8"
