@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
-import androidx.compose.material.Checkbox
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -29,9 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.role
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,6 +35,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import uk.ryanwong.gmap2ics.ui.components.CheckBoxItem
 import uk.ryanwong.gmap2ics.ui.models.MainScreenViewModel
 import java.util.Locale
 import java.util.ResourceBundle.getBundle
@@ -245,58 +242,25 @@ private fun SettingsColumn(
 
         Spacer(modifier = spacerModifier)
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .semantics { role = Role.Checkbox }
-        ) {
-            Checkbox(
-                checked = exportPlaceVisit,
-                onCheckedChange = onExportPlaceVisitChanged
-            )
-            Text(
-                text = resourceBundle.getString("export.places.visited"),
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-        }
+        CheckBoxItem(
+            text = resourceBundle.getString("export.places.visited"),
+            checked = exportPlaceVisit,
+            onCheckedChange = onExportPlaceVisitChanged
+        )
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .semantics { role = Role.Checkbox }
-        ) {
-            Checkbox(
-                checked = enablePlacesApiLookup,
-                onCheckedChange = onEnabldPlaceApiLookupChanged
-            )
-            Text(
-                text = resourceBundle.getString("export.activity.segments"),
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-        }
+        CheckBoxItem(
+            text = resourceBundle.getString("export.activity.segments"),
+            checked = enablePlacesApiLookup,
+            onCheckedChange = onEnabldPlaceApiLookupChanged
+        )
 
         Spacer(modifier = spacerModifier)
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .semantics { role = Role.Checkbox }
-        ) {
-            Checkbox(
-                checked = exportActivitySegment,
-                onCheckedChange = onExportActivitySegmentChanged
-            )
-            Text(
-                text = resourceBundle.getString("enable.places.api.lookup"),
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-        }
+        CheckBoxItem(
+            text = resourceBundle.getString("enable.places.api.lookup"),
+            checked = exportActivitySegment,
+            onCheckedChange = onExportActivitySegmentChanged
+        )
     }
 }
 
