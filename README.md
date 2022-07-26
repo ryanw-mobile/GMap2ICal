@@ -28,11 +28,27 @@ calendars.
 By doing so, I can keep a full record of the places I have actually been, and also the rough mileages I have spent on
 the road.
 
+## Skills covered:
+
+Trying to reuse all my Android development knowledge as possible, otherwise native replacements have been applied.
+
+### High level architecture
+
+* Kotlin
+* Kotlin Flow and Coroutine
+* Compose UI
+* MVVM architecture
+* [Travis-CI](https://travis-ci.org/) - CI
+
+### Major libraries used
+
+* [JUnit 5](https://github.com/junit-team/junit5) - Tests
+* [KOTest](https://kotest.io/) - Test framework
+* [Retrofit2](https://square.github.io/retrofit/) - will be replaced by Ktor soon
+
 ## Status
 
-Converting this command-line App to a Kotlin Desktop App.
-
-A basic implementation bare enough to convert and export the data for personal use is done.
+Converting this command-line App to a Kotlin Desktop App. The current HEAD is not working properly yet.
 
 The presentation for driving starting and ending locations is to be improved. This is because the location data (
 coordinates and place Ids) returned by Google Maps are not always accurate (or even not exists).
@@ -58,6 +74,4 @@ Further effort is required to improve the coding/architecture, and to complete t
 ## Todo list
 
 - Exception handling
-- Test cases
-- Proper MVVM(?) architecture?
 - Migrate Retrofit to Ktor
