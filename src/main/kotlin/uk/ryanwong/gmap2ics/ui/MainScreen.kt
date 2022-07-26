@@ -67,13 +67,16 @@ fun mainScreen(
 
         LaunchedEffect(uiState) {
             when (uiState) {
-                MainScreenUIState.SHOW_CHANGE_JSON_PATH_DIALOG -> {
+                is MainScreenUIState.ShowChangeJsonPathDialog -> {
                     val newPath = chooseDirectorySwing(currentDirectoryPath = jsonPath)
-                    mainScreenViewModel.setJsonPath(path = newPath)
+                    mainScreenViewModel.updateJsonPath(path = newPath)
                 }
-                MainScreenUIState.SHOW_CHANGE_ICAL_PATH_DIALOG -> {
+                is MainScreenUIState.ShowChangeICalPathDialog -> {
                     val newPath = chooseDirectorySwing(currentDirectoryPath = iCalPath)
-                    mainScreenViewModel.setICalPath(path = newPath)
+                    mainScreenViewModel.updateICalPath(path = newPath)
+                }
+                is MainScreenUIState.Error -> {
+                    // TODO: Show error message
                 }
                 else -> {}
             }

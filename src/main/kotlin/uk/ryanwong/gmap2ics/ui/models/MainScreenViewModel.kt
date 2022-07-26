@@ -16,7 +16,7 @@ class MainScreenViewModel(
     val configFile: Config,
     val timelineRepository: TimelineRepository
 ) {
-    private var _mainScreenUIState = MutableStateFlow(MainScreenUIState.READY)
+    private var _mainScreenUIState: MutableStateFlow<MainScreenUIState> = MutableStateFlow(MainScreenUIState.Ready)
     val mainScreenUIState: StateFlow<MainScreenUIState> = _mainScreenUIState
 
     private var _statusMessage = MutableStateFlow("")
@@ -88,19 +88,25 @@ class MainScreenViewModel(
     }
 
     fun onChangeJsonPath() {
-        _mainScreenUIState.value = MainScreenUIState.SHOW_CHANGE_JSON_PATH_DIALOG
+        if (_mainScreenUIState.value is MainScreenUIState.Ready) {
+            _mainScreenUIState.value = MainScreenUIState.ShowChangeJsonPathDialog
+        }
     }
 
     fun onChangeICalPath() {
-        _mainScreenUIState.value = MainScreenUIState.SHOW_CHANGE_ICAL_PATH_DIALOG
+        if (_mainScreenUIState.value is MainScreenUIState.Ready) {
+            _mainScreenUIState.value = MainScreenUIState.ShowChangeICalPathDialog
+        }
     }
 
-    fun setJsonPath(path: String?) {
+    fun updateJsonPath(path: String?) {
         path?.let { _jsonPath.value = it }
+        _mainScreenUIState.value = MainScreenUIState.Ready
     }
 
-    fun setICalPath(path: String?) {
+    fun updateICalPath(path: String?) {
         path?.let { _iCalPath.value = it }
+        _mainScreenUIState.value = MainScreenUIState.Ready
     }
 
     private fun appendStatus(status: String) {

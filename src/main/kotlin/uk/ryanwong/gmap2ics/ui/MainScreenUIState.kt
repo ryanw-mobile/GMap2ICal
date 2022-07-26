@@ -1,8 +1,9 @@
 package uk.ryanwong.gmap2ics.ui
 
-enum class MainScreenUIState {
-    READY,
-    PROCESSING,
-    SHOW_CHANGE_JSON_PATH_DIALOG,
-    SHOW_CHANGE_ICAL_PATH_DIALOG
+sealed class MainScreenUIState {
+    object Ready : MainScreenUIState()
+    object Processing : MainScreenUIState()
+    object ShowChangeJsonPathDialog : MainScreenUIState()
+    object ShowChangeICalPathDialog : MainScreenUIState()
+    data class Error(val errMsg: String) : MainScreenUIState()
 }
