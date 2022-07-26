@@ -160,6 +160,12 @@ private fun SettingsColumn(
 ) {
     val resourceBundle = getBundle("resources", Locale.ENGLISH)
 
+    val spacerModifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 16.dp)
+        .height(height = 1.dp)
+        .background(color = Color.Gray)
+
     Column(
         modifier = Modifier
             .fillMaxWidth(0.5f)
@@ -237,7 +243,7 @@ private fun SettingsColumn(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = spacerModifier)
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -263,15 +269,17 @@ private fun SettingsColumn(
                 .semantics { role = Role.Checkbox }
         ) {
             Checkbox(
-                checked = exportActivitySegment,
-                onCheckedChange = onExportActivitySegmentChanged
+                checked = enablePlacesApiLookup,
+                onCheckedChange = onEnabldPlaceApiLookupChanged
             )
             Text(
-                text = resourceBundle.getString("enable.places.api.lookup"),
+                text = resourceBundle.getString("export.activity.segments"),
                 style = MaterialTheme.typography.body2,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
         }
+
+        Spacer(modifier = spacerModifier)
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -280,11 +288,11 @@ private fun SettingsColumn(
                 .semantics { role = Role.Checkbox }
         ) {
             Checkbox(
-                checked = enablePlacesApiLookup,
-                onCheckedChange = onEnabldPlaceApiLookupChanged
+                checked = exportActivitySegment,
+                onCheckedChange = onExportActivitySegmentChanged
             )
             Text(
-                text = resourceBundle.getString("export.activity.segments"),
+                text = resourceBundle.getString("enable.places.api.lookup"),
                 style = MaterialTheme.typography.body2,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
