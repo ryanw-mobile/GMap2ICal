@@ -65,11 +65,17 @@ fun mainScreen(
         LaunchedEffect(uiState) {
             when (uiState) {
                 is MainScreenUIState.ShowChangeJsonPathDialog -> {
-                    val newPath = chooseDirectorySwing(currentDirectoryPath = jsonPath)
+                    val newPath = chooseDirectorySwing(
+                        dialogTitle = resourceBundle.getString("json.source.location"),
+                        currentDirectoryPath = jsonPath
+                    )
                     mainScreenViewModel.updateJsonPath(path = newPath)
                 }
                 is MainScreenUIState.ShowChangeICalPathDialog -> {
-                    val newPath = chooseDirectorySwing(currentDirectoryPath = iCalPath)
+                    val newPath = chooseDirectorySwing(
+                        dialogTitle = resourceBundle.getString("ical.output.location"),
+                        currentDirectoryPath = iCalPath
+                    )
                     mainScreenViewModel.updateICalPath(path = newPath)
                 }
                 is MainScreenUIState.Error -> {
@@ -289,24 +295,26 @@ private fun StatusColumn(
     }
 }
 
-private suspend fun chooseDirectorySwing(currentDirectoryPath: String): String? = withContext(Dispatchers.IO) {
-    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+private suspend fun chooseDirectorySwing(dialogTitle: String, currentDirectoryPath: String): String? =
+    withContext(Dispatchers.IO) {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
 
-    val chooser = JFileChooser(currentDirectoryPath).apply {
-        fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
-        isVisible = true
-    }
+        val chooser = JFileChooser(currentDirectoryPath).apply {
+            fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
+            isVisible = true
+            this.dialogTitle = dialogTitle
+        }
 
-    return@withContext when (val code = chooser.showOpenDialog(null)) {
-        JFileChooser.APPROVE_OPTION -> chooser.selectedFile.absolutePath
-        JFileChooser.CANCEL_OPTION -> null
-        JFileChooser.ERROR_OPTION -> {
-            //  error("An error occurred while executing JFileChooser::showOpenDialog")
-            null
-        }
-        else -> {
-            //error("Unknown return code '${code}' from JFileChooser::showOpenDialog")
-            null
+        return@withContext when (chooser.showOpenDialog(null)) {
+            JFileChooser.APPROVE_OPTION -> chooser.selectedFile.absolutePath
+            JFileChooser.CANCEL_OPTION -> null
+            JFileChooser.ERROR_OPTION -> {
+                //  error("An error occurred while executing JFileChooser::showOpenDialog")
+                null
+            }
+            else -> {
+                //error("Unknown return code '${code}' from JFileChooser::showOpenDialog")
+                null
+            }
         }
     }
-}
