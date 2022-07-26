@@ -1,4 +1,11 @@
 package uk.ryanwong.gmap2ics.data.repository
 
-class MockPlaceDetailsRepository {
+import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
+
+class MockPlaceDetailsRepository : PlaceDetailsRepository {
+
+    var getPlaceDetailsResponse: PlaceDetails? = null
+    override suspend fun getPlaceDetails(placeId: String, placeTimeZoneId: String?): PlaceDetails? {
+        return getPlaceDetailsResponse
+    }
 }
