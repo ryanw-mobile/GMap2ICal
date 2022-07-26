@@ -105,7 +105,10 @@ class MainScreenViewModel(
 
     fun updateJsonPath(jFileChooserResult: JFileChooserResult) {
         when (jFileChooserResult) {
-            is JFileChooserResult.AbsolutePath -> _jsonPath.value = jFileChooserResult.absolutePath
+            is JFileChooserResult.AbsolutePath -> {
+                _jsonPath.value = jFileChooserResult.absolutePath
+                _mainScreenUIState.value = MainScreenUIState.Ready
+            }
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
             else -> _mainScreenUIState.value =
                 MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.json.path"))
@@ -114,7 +117,10 @@ class MainScreenViewModel(
 
     fun updateICalPath(jFileChooserResult: JFileChooserResult) {
         when (jFileChooserResult) {
-            is JFileChooserResult.AbsolutePath -> _iCalPath.value = jFileChooserResult.absolutePath
+            is JFileChooserResult.AbsolutePath -> {
+                _iCalPath.value = jFileChooserResult.absolutePath
+                _mainScreenUIState.value = MainScreenUIState.Ready
+            }
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
             else -> _mainScreenUIState.value =
                 MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.ical.path"))
