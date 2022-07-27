@@ -1,5 +1,6 @@
 package uk.ryanwong.gmap2ics.ui.components
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import java.util.Locale
 import java.util.ResourceBundle
 
 @Composable
@@ -60,5 +62,18 @@ fun PathPickerItem(
                     .padding(horizontal = 8.dp)
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun PathPickerItemPreview() {
+    MaterialTheme {
+        PathPickerItem(
+            title = "some very very very very very very very very very very very very very very very very very very very very long text",
+            currentPath = "some very very very very very very very very very very very very very very very very very very very very long path",
+            onClick = {},
+            resourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH)
+        )
     }
 }
