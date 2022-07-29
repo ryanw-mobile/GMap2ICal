@@ -1,9 +1,9 @@
 package uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import uk.ryanwong.gmap2ics.domain.models.LatLng
-import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
-import uk.ryanwong.gmap2ics.domain.models.TimelineItem
+import uk.ryanwong.gmap2ics.app.models.LatLng
+import uk.ryanwong.gmap2ics.app.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.TimelineItem
 import us.dustinj.timezonemap.TimeZone
 import us.dustinj.timezonemap.TimeZoneMap
 

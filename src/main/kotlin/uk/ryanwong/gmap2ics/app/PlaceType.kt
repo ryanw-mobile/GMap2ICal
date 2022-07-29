@@ -1,4 +1,4 @@
-package uk.ryanwong.gmap2ics.domain
+package uk.ryanwong.gmap2ics.app
 
 enum class PlaceType {
     ACCOUNTING,

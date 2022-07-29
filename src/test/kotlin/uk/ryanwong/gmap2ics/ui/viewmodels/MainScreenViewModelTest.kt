@@ -6,7 +6,7 @@ import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.flow.first
 import uk.ryanwong.gmap2ics.configs.MockConfig
 import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
-import uk.ryanwong.gmap2ics.domain.models.JFileChooserResult
+import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState
 import uk.ryanwong.gmap2ics.ui.utils.MockResourceBundle
 

@@ -3,7 +3,7 @@ package uk.ryanwong.gmap2ics.data.repository
 import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
-import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.PlaceDetails
 
 class PlaceDetailsRepositoryImpl(
     private val configFile: Config,

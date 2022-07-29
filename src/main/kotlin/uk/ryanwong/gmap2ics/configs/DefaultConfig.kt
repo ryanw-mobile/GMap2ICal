@@ -1,6 +1,6 @@
 package uk.ryanwong.gmap2ics.configs
 
-import uk.ryanwong.gmap2ics.domain.ActivityType
+import uk.ryanwong.gmap2ics.app.ActivityType
 
 class DefaultConfig : Config {
     override val jsonPath = "./src/main/resources"

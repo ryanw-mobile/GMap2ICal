@@ -1,4 +1,4 @@
-package uk.ryanwong.gmap2ics.domain.models
+package uk.ryanwong.gmap2ics.app.models
 
 sealed class JFileChooserResult {
     data class Error(val errorCode: Int) : JFileChooserResult()

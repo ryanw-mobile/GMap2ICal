@@ -31,7 +31,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import uk.ryanwong.gmap2ics.domain.models.JFileChooserResult
+import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.ui.components.CheckBoxItem
 import uk.ryanwong.gmap2ics.ui.components.PathPickerItem
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel

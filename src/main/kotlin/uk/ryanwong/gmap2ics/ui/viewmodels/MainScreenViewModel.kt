@@ -8,8 +8,8 @@ import kotlinx.coroutines.launch
 import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
-import uk.ryanwong.gmap2ics.domain.models.JFileChooserResult
-import uk.ryanwong.gmap2ics.domain.models.VEvent
+import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
+import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState
 import uk.ryanwong.gmap2ics.ui.utils.DefaultResourceBundle
 import uk.ryanwong.gmap2ics.ui.utils.ResourceBundleWrapper

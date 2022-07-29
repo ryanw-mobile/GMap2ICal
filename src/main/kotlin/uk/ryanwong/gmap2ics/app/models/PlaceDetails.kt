@@ -1,7 +1,7 @@
-package uk.ryanwong.gmap2ics.domain.models
+package uk.ryanwong.gmap2ics.app.models
 
-import uk.ryanwong.gmap2ics.domain.PlaceType
-import uk.ryanwong.gmap2ics.domain.getLabel
+import uk.ryanwong.gmap2ics.app.PlaceType
+import uk.ryanwong.gmap2ics.app.getLabel
 
 data class PlaceDetails(
     val placeId: String,

@@ -9,10 +9,10 @@ import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivitySegment
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.TimelineObjects
-import uk.ryanwong.gmap2ics.domain.ActivityType
-import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
-import uk.ryanwong.gmap2ics.domain.models.TimelineItem
-import uk.ryanwong.gmap2ics.domain.models.VEvent
+import uk.ryanwong.gmap2ics.app.ActivityType
+import uk.ryanwong.gmap2ics.app.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.TimelineItem
+import uk.ryanwong.gmap2ics.app.models.VEvent
 import us.dustinj.timezonemap.TimeZoneMap
 import java.io.File
 

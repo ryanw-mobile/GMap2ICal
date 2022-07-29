@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.data.source.local.LocalDataSource
 import uk.ryanwong.gmap2ics.data.source.local.LocalDataSourceImpl
-import uk.ryanwong.gmap2ics.domain.models.VEvent
+import uk.ryanwong.gmap2ics.app.models.VEvent
 
 class LocalFileRepositoryImpl(
     private val localDataSource: LocalDataSource = LocalDataSourceImpl(),

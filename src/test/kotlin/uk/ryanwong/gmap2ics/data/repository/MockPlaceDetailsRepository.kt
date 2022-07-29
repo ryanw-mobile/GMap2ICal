@@ -1,6 +1,6 @@
 package uk.ryanwong.gmap2ics.data.repository
 
-import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.PlaceDetails
 
 class MockPlaceDetailsRepository : PlaceDetailsRepository {
 

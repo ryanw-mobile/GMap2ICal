@@ -1,4 +1,4 @@
-package uk.ryanwong.gmap2ics.domain.models
+package uk.ryanwong.gmap2ics.app.models
 
 import java.time.Instant
 import java.time.ZoneId

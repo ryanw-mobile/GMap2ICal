@@ -2,8 +2,8 @@ package uk.ryanwong.gmap2ics.data.repository
 
 import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment
 import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
-import uk.ryanwong.gmap2ics.domain.models.TimelineItem
-import uk.ryanwong.gmap2ics.domain.models.VEvent
+import uk.ryanwong.gmap2ics.app.models.TimelineItem
+import uk.ryanwong.gmap2ics.app.models.VEvent
 
 class MockTimelineRepository : TimelineRepository {
 

@@ -1,4 +1,4 @@
-package uk.ryanwong.gmap2ics.domain.models
+package uk.ryanwong.gmap2ics.app.models
 
 import io.kotest.core.spec.style.FreeSpec
 
