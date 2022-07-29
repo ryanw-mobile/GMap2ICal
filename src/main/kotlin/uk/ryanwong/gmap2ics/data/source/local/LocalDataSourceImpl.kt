@@ -1,5 +1,6 @@
 package uk.ryanwong.gmap2ics.data.source.local
 
+import java.io.FileWriter
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -19,6 +20,12 @@ class LocalDataSourceImpl : LocalDataSource {
         } catch (ex: Exception) {
             println("☠️ Error getting json file list: ${ex.localizedMessage}")
             null
+        }
+    }
+
+    override suspend fun fileWriter(filename: String, contents: String) {
+        FileWriter(filename, false).use { fileWriter ->
+            fileWriter.write(contents)
         }
     }
 }
