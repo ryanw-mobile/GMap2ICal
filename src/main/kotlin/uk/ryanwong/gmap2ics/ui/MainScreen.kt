@@ -131,7 +131,7 @@ fun mainScreen(
                     horizontalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     Button(
-                        onClick = { mainScreenViewModel.startConvertion() }
+                        onClick = { mainScreenViewModel.startConversion() }
                     ) {
                         Text(text = resourceBundle.getString("convert"))
                     }

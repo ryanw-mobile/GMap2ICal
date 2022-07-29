@@ -12,6 +12,12 @@ class LocalFileRepositoryImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LocalFileRepository {
 
+    override suspend fun getFileList(absolutePath: String, extension: String): List<String>? {
+        return withContext(dispatcher) {
+            localDataSource.getFileList(absolutePath = absolutePath, extension = extension)
+        }
+    }
+
     override suspend fun exportICal(filename: String, vEvents: List<VEvent>) {
         withContext(dispatcher) {
             println("💾 Exporting events in iCal format to $filename")

@@ -6,8 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import uk.ryanwong.gmap2ics.configs.Config
-import uk.ryanwong.gmap2ics.data.ICalExporter
-import uk.ryanwong.gmap2ics.data.getFileList
+import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.domain.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.domain.models.VEvent
@@ -19,6 +18,7 @@ import java.nio.file.Paths
 class MainScreenViewModel(
     val configFile: Config,
     val timelineRepository: TimelineRepository,
+    val localFileRepository: LocalFileRepository,
     private val resourceBundle: ResourceBundleWrapper = DefaultResourceBundle(),
     private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/")
 ) {
@@ -56,24 +56,24 @@ class MainScreenViewModel(
         }
     }
 
-    fun startConvertion() {
-
-        val fileList = getFileList(
-            absolutePath = _jsonPath.value,
-            extension = "json"
-        )
-
-        val filenameSuffix = if (_exportPlaceVisit.value && _exportActivitySegment.value) "_all"
-        else if (_exportPlaceVisit.value) "_places"
-        else "_activities"
-
+    fun startConversion() {
         CoroutineScope(Dispatchers.Default).launch {
+            val fileList = localFileRepository.getFileList(
+                absolutePath = _jsonPath.value,
+                extension = "json"
+            )
+
+            val filenameSuffix = if (_exportPlaceVisit.value && _exportActivitySegment.value) "_all"
+            else if (_exportPlaceVisit.value) "_places"
+            else "_activities"
+
+
             fileList?.forEach { filename ->
                 appendStatus(status = "\uD83D\uDDC2 Processing $filename")
                 val eventList: List<VEvent> = timelineRepository.getEventList(filePath = filename)
 
                 // Exporting multiple events in one single ics file
-                ICalExporter.exportICal(
+                localFileRepository.exportICal(
                     filename = filename.replace(oldValue = _jsonPath.value, newValue = _iCalPath.value)
                         .replace(oldValue = ".json", newValue = "$filenameSuffix.ics"), // casually reuse the filename
                     vEvents = eventList
@@ -112,6 +112,7 @@ class MainScreenViewModel(
                 _jsonPath.value = stripBasePath(jFileChooserResult.absolutePath)
                 _mainScreenUIState.value = MainScreenUIState.Ready
             }
+
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
             else -> _mainScreenUIState.value =
                 MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.json.path"))
@@ -124,6 +125,7 @@ class MainScreenViewModel(
                 _iCalPath.value = stripBasePath(jFileChooserResult.absolutePath)
                 _mainScreenUIState.value = MainScreenUIState.Ready
             }
+
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
             else -> _mainScreenUIState.value =
                 MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.ical.path"))
