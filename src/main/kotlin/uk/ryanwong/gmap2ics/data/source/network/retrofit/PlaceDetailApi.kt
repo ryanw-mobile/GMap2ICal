@@ -1,4 +1,4 @@
-package uk.ryanwong.gmap2ics.data.api
+package uk.ryanwong.gmap2ics.data.source.network.retrofit
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi

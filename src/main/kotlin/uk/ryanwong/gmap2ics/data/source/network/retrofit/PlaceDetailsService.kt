@@ -1,4 +1,4 @@
-package uk.ryanwong.gmap2ics.data.api
+package uk.ryanwong.gmap2ics.data.source.network.retrofit
 
 import org.jetbrains.annotations.Nullable
 import retrofit2.Response

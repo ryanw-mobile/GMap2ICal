@@ -1,14 +1,15 @@
 package uk.ryanwong.gmap2ics.data.repository
 
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
 import uk.ryanwong.gmap2ics.configs.Config
-import uk.ryanwong.gmap2ics.data.api.PlacesDetailApi
+import uk.ryanwong.gmap2ics.data.source.network.NetworkDataSource
+import uk.ryanwong.gmap2ics.data.source.network.retrofit.RetrofitNetworkDataSource
 import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
 
-class PlaceDetailsRepositoryImpl(private val configFile: Config) : PlaceDetailsRepository {
-    private val client = HttpClient(CIO)
-    private val placeDetailsService = PlacesDetailApi.retrofitService
+class PlaceDetailsRepositoryImpl(
+    private val configFile: Config,
+    private val networkDataSource: NetworkDataSource = RetrofitNetworkDataSource()
+) : PlaceDetailsRepository {
+
     private val placesCache = mutableMapOf<String, PlaceDetails>()
 
     override suspend fun getPlaceDetails(placeId: String, placeTimeZoneId: String?): PlaceDetails? {
@@ -26,8 +27,8 @@ class PlaceDetailsRepositoryImpl(private val configFile: Config) : PlaceDetailsR
 
             try {
                 val placeDetailsDataObject = language?.let {
-                    placeDetailsService.getPlaceDetails(placeId = placeId, key = apiKey, language = it)
-                } ?: placeDetailsService.getPlaceDetails(placeId = placeId, key = apiKey)
+                    networkDataSource.getPlaceDetails(placeId = placeId, key = apiKey, language = it)
+                } ?: networkDataSource.getPlaceDetails(placeId = placeId, key = apiKey)
 
                 if (!placeDetailsDataObject.isSuccessful) {
                     println("⛔️ Error getting API results: ${placeDetailsDataObject.message()}")
