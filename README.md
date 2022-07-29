@@ -1,14 +1,20 @@
 # GMap2iCal - Google Maps to iCal
 ### My first Compose for Desktop App
 
-<div style="text-align:center"><img src="screenshot-220721.png" /></div>
-
 A small utility written in Kotlin to convert Google Maps activity timeline to iCal (.ics) files for calendar import.
 
-This is not an Android App, you may just open the project using IntelliJ IDEA and run it on your desktop environment.
+This is not an Android App. It can be built and executed using IntelliJ IDEA on the desktop environment.
 
-As this is my first non-Android Kotlin project, I would allow myself to utilize it as a playground, and to make all kind
-of mistakes in order to learn and improve.
+<div style="text-align:center"><img src="screenshot-220721.png" /></div>
+
+## TLDR - Status
+
+Transforming the command line program to a desktop app. Simply this project is not yet functioning properly.
+
+This is my first non-Android Kotlin project. I am still finding out the right architecture and pattern for it.
+It is within expectation that everything inside this project can be messy.
+
+I treat this as my playground that allows me to make all kinds of experiments and mistakes. While I thank you for your visit, I would appreciate if you could take things easy when you see me doing something crazy here. Thank you. 
 
 ## Background
 
@@ -35,25 +41,16 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 ### High level architecture
 
 * Kotlin
-* Kotlin Flow and Coroutine
+* Kotlin Flow and Coroutines
 * Compose UI
 * MVVM architecture
-* [Travis-CI](https://travis-ci.org/) - CI
+* [Travis-CI](https://travis-ci.org/) - CI - to be replaced by Bitrise
 
 ### Major libraries used
 
 * [JUnit 5](https://github.com/junit-team/junit5) - Tests
 * [KOTest](https://kotest.io/) - Test framework
-* [Retrofit2](https://square.github.io/retrofit/) - will be replaced by Ktor soon
-
-## Status
-
-Converting this command-line App to a Kotlin Desktop App. The current HEAD is not working properly yet.
-
-The presentation for driving starting and ending locations is to be improved. This is because the location data (
-coordinates and place Ids) returned by Google Maps are not always accurate (or even not exists).
-
-Further effort is required to improve the coding/architecture, and to complete the items on the Todo List.
+* [Retrofit2](https://square.github.io/retrofit/) - to be replaced by Ktor soon
 
 ## How to prepare the data set for processing
 
@@ -75,3 +72,5 @@ Further effort is required to improve the coding/architecture, and to complete t
 
 - Exception handling
 - Migrate Retrofit to Ktor
+- The presentation for driving starting and ending locations is to be improved. This is because the location data (
+  coordinates and place Ids) returned by Google Maps are not always accurate (even not exists).
