@@ -5,7 +5,7 @@ import uk.ryanwong.gmap2ics.configs.RyanConfig
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepositoryImpl
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImpl
 import uk.ryanwong.gmap2ics.ui.mainScreen
-import uk.ryanwong.gmap2ics.ui.models.MainScreenViewModel
+import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 
 fun main() = application {
 

@@ -1,4 +1,4 @@
-package uk.ryanwong.gmap2ics.ui.models
+package uk.ryanwong.gmap2ics.ui.viewmodels
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe

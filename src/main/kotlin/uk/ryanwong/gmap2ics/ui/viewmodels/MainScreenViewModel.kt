@@ -1,4 +1,4 @@
-package uk.ryanwong.gmap2ics.ui.models
+package uk.ryanwong.gmap2ics.ui.viewmodels
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
