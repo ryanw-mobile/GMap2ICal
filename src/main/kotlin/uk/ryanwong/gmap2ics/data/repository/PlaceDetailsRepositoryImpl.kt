@@ -1,13 +1,13 @@
 package uk.ryanwong.gmap2ics.data.repository
 
 import uk.ryanwong.gmap2ics.configs.Config
-import uk.ryanwong.gmap2ics.data.source.network.NetworkDataSource
-import uk.ryanwong.gmap2ics.data.source.network.retrofit.RetrofitNetworkDataSource
+import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
+import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
 import uk.ryanwong.gmap2ics.domain.models.PlaceDetails
 
 class PlaceDetailsRepositoryImpl(
     private val configFile: Config,
-    private val networkDataSource: NetworkDataSource = RetrofitNetworkDataSource()
+    private val networkDataSource: GoogleApiDataSource = RetrofitGoogleApiDataSource()
 ) : PlaceDetailsRepository {
 
     private val placesCache = mutableMapOf<String, PlaceDetails>()

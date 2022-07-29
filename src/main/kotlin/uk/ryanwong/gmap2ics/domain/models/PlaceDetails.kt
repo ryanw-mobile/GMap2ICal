@@ -1,6 +1,5 @@
 package uk.ryanwong.gmap2ics.domain.models
 
-import uk.ryanwong.gmap2ics.data.models.places.Result
 import uk.ryanwong.gmap2ics.domain.PlaceType
 import uk.ryanwong.gmap2ics.domain.getLabel
 
@@ -13,7 +12,7 @@ data class PlaceDetails(
     val url: String
 ) {
     companion object {
-        fun from(placeDetailsResult: Result): PlaceDetails {
+        fun from(placeDetailsResult: uk.ryanwong.gmap2ics.data.source.googleapi.models.places.Result): PlaceDetails {
             with(placeDetailsResult) {
                 return PlaceDetails(
                     placeId = place_id,
