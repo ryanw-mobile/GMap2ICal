@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
+ */
+
 package uk.ryanwong.gmap2ics.configs
 
 import uk.ryanwong.gmap2ics.app.ActivityType

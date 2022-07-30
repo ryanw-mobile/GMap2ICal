@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
+ */
+
 package uk.ryanwong.gmap2ics.data.source.googleapi.retrofit
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory

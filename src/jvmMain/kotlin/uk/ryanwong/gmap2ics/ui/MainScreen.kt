@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
+ */
+
 package uk.ryanwong.gmap2ics.ui
 
 import androidx.compose.foundation.background

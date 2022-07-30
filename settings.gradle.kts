@@ -1,4 +1,6 @@
-// Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
+/*
+ * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
+ */
 pluginManagement {
     repositories {
         google()

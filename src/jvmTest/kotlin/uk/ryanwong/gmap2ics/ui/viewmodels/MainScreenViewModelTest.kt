@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
+ */
+
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
 import io.kotest.core.spec.style.FreeSpec
