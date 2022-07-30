@@ -74,3 +74,4 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 - Migrate Retrofit to Ktor
 - The presentation for driving starting and ending locations is to be improved. This is because the location data (
   coordinates and place Ids) returned by Google Maps are not always accurate (even not exists).
+- Database to permanently cache Google Maps Location API results
