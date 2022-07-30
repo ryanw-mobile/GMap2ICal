@@ -34,7 +34,6 @@ class TimelineRepositoryImpl(
                 val eventList = mutableListOf<VEvent>()
                 val timeline = parseTimeLine(filePath = filePath)
 
-
                 timeline.getOrNull()?.timelineObjects?.let { timelineDataObjects ->
                     for (timelineDataObject in timelineDataObjects) {
                         // Should be either activity or place visited, but no harm to also support cases with both

@@ -5,11 +5,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
+import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
-import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
-import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState
 import uk.ryanwong.gmap2ics.ui.utils.DefaultResourceBundle
 import uk.ryanwong.gmap2ics.ui.utils.ResourceBundleWrapper
@@ -68,9 +68,10 @@ class MainScreenViewModel(
             else "_activities"
 
 
-            fileList?.forEach { filename ->
+            fileList.getOrNull()?.forEach { filename ->
                 appendStatus(status = "\uD83D\uDDC2 Processing $filename")
-                val eventList: List<VEvent> = timelineRepository.getEventList(filePath = filename)
+                val eventList: List<VEvent> =
+                    timelineRepository.getEventList(filePath = filename).getOrNull() ?: emptyList()
 
                 // Exporting multiple events in one single ics file
                 localFileRepository.exportICal(

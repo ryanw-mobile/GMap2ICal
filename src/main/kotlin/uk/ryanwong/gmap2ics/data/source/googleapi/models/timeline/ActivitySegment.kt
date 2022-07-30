@@ -1,11 +1,11 @@
 package uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.LatLng
 import uk.ryanwong.gmap2ics.app.models.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.TimelineItem
+import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import us.dustinj.timezonemap.TimeZone
 import us.dustinj.timezonemap.TimeZoneMap
 import java.text.DecimalFormat
@@ -64,13 +64,13 @@ data class ActivitySegment(
             placeDetailsRepository.getPlaceDetails(
                 placeId = placeId,
                 placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
-            )
+            ).getOrNull()
         }
         val endPlaceDetail = endLocation.placeId?.let { placeId ->
             placeDetailsRepository.getPlaceDetails(
                 placeId = placeId,
                 placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
-            )
+            ).getOrNull()
         }
 
         val subject = "$activityLabel $distanceString ${
@@ -90,14 +90,14 @@ data class ActivitySegment(
             placeDetailsRepository.getPlaceDetails(
                 placeId = placeId,
                 placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
-            )
+            ).getOrNull()
         }
 
         val lastPlaceDetail = waypointPath?.roadSegment?.last()?.placeId?.let { placeId ->
             placeDetailsRepository.getPlaceDetails(
                 placeId = placeId,
                 placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
-            )
+            ).getOrNull()
         }
 
         val description = parseTimelineDescription(
