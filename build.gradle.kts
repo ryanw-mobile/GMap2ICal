@@ -2,6 +2,8 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
+@file:Suppress("HardCodedStringLiteral")
+
 import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
@@ -38,7 +40,7 @@ kotlin {
                 implementation("com.squareup.moshi:moshi-kotlin:1.13.0")
                 implementation("com.squareup.retrofit2:retrofit:2.9.0")
                 implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
                 implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-cio:$ktorVersion")
