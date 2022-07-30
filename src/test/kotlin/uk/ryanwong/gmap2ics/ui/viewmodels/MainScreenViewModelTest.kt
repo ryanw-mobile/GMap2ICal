@@ -4,21 +4,29 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.flow.first
-import uk.ryanwong.gmap2ics.configs.MockConfig
-import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
+import uk.ryanwong.gmap2ics.configs.MockConfig
+import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository
+import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState
 import uk.ryanwong.gmap2ics.ui.utils.MockResourceBundle
 
 class MainScreenViewModelTest : FreeSpec() {
 
     lateinit var mainScreenViewModel: MainScreenViewModel
+    lateinit var mockTimelineRepository: MockTimelineRepository
+    lateinit var mockLocalFileRepository: MockLocalFileRepository
+
     private val mockProjectBasePath = "/default-base-path/default-sub-folder/"
 
     private fun setupViewModel() {
+        mockTimelineRepository = MockTimelineRepository()
+        mockLocalFileRepository = MockLocalFileRepository()
+
         mainScreenViewModel = MainScreenViewModel(
             configFile = MockConfig(),
-            timelineRepository = MockTimelineRepository(),
+            timelineRepository = mockTimelineRepository,
+            localFileRepository = mockLocalFileRepository,
             resourceBundle = MockResourceBundle(),
             projectBasePath = mockProjectBasePath
         )
@@ -243,7 +251,7 @@ class MainScreenViewModelTest : FreeSpec() {
 
                     // 🟡 When
                     val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath =  "/sample-folder3/sample-folder4"
+                        absolutePath = "/sample-folder3/sample-folder4"
                     )
                     mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
 
