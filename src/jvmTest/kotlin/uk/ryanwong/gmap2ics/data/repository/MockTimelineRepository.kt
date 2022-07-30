@@ -7,18 +7,18 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.TimelineObject
 
 class MockTimelineRepository : TimelineRepository {
 
-    var getEventListResponse: List<VEvent>? = null
-    override suspend fun getEventList(filePath: String): List<VEvent> {
-        return getEventListResponse ?: emptyList()
+    var getEventListResponse: Result<List<VEvent>>? = null
+    override suspend fun getEventList(filePath: String): Result<List<VEvent>> {
+        return getEventListResponse ?: Result.failure(Exception("mock response unavailable"))
     }
 
-    var parseTimeLineResponse: TimelineObjects? = null
-    override fun parseTimeLine(filePath: String): TimelineObjects? {
-        return parseTimeLineResponse
+    var parseTimeLineResponse: Result<TimelineObjects>? = null
+    override suspend fun parseTimeLine(filePath: String): Result<TimelineObjects> {
+        return parseTimeLineResponse ?: Result.failure(Exception("mock response unavailable"))
     }
 
-    var processActivitySegmentResponse: TimelineItem? = null
-    override suspend fun processActivitySegment(activitySegment: ActivitySegment): TimelineItem? {
-        return processActivitySegmentResponse
+    var processActivitySegmentResponse: Result<TimelineItem>? = null
+    override suspend fun processActivitySegment(activitySegment: ActivitySegment): Result<TimelineItem> {
+        return processActivitySegmentResponse ?: Result.failure(Exception("mock response unavailable"))
     }
 }

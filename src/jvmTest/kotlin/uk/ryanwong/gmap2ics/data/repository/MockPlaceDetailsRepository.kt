@@ -4,8 +4,8 @@ import uk.ryanwong.gmap2ics.app.models.PlaceDetails
 
 class MockPlaceDetailsRepository : PlaceDetailsRepository {
 
-    var getPlaceDetailsResponse: PlaceDetails? = null
-    override suspend fun getPlaceDetails(placeId: String, placeTimeZoneId: String?): PlaceDetails? {
-        return getPlaceDetailsResponse
+    var getPlaceDetailsResponse: Result<PlaceDetails>? = null
+    override suspend fun getPlaceDetails(placeId: String, placeTimeZoneId: String?): Result<PlaceDetails> {
+        return getPlaceDetailsResponse ?: Result.failure(Exception("mock response unavailable"))
     }
 }
