@@ -137,6 +137,10 @@ class MainScreenViewModel(
         }
     }
 
+    fun notifyErrorMessageDisplayed() {
+        _mainScreenUIState.value = MainScreenUIState.Ready
+    }
+
     private fun stripBasePath(absolutePath: String): String {
         return if (absolutePath.startsWith(projectBasePath)) {
             absolutePath.removePrefix(projectBasePath)

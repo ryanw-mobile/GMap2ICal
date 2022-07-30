@@ -21,10 +21,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,9 +35,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.ui.components.CheckBoxItem
+import uk.ryanwong.gmap2ics.ui.components.ErrorAlertDialog
 import uk.ryanwong.gmap2ics.ui.components.PathPickerItem
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import java.util.Locale
@@ -56,6 +59,7 @@ fun mainScreen(
         title = resourceBundle.getString("gmap2ical.google.maps.to.ical"),
         state = rememberWindowState(width = 800.dp, height = 560.dp)
     ) {
+        val coroutineScope = rememberCoroutineScope()
         val uiState by mainScreenViewModel.mainScreenUIState.collectAsState()
         val statusMessage by mainScreenViewModel.statusMessage.collectAsState()
         val jsonPath by mainScreenViewModel.jsonPath.collectAsState()
@@ -64,27 +68,35 @@ fun mainScreen(
         val exportActivitySegment by mainScreenViewModel.exportActivitySegment.collectAsState()
         val enablePlacesApiLookup by mainScreenViewModel.enablePlacesApiLookup.collectAsState()
 
-        LaunchedEffect(uiState) {
-            when (uiState) {
-                is MainScreenUIState.ShowChangeJsonPathDialog -> {
+        when (uiState) {
+            is MainScreenUIState.ShowChangeJsonPathDialog -> {
+                coroutineScope.launch {
                     val jFileChooserResult = chooseDirectorySwing(
                         dialogTitle = resourceBundle.getString("json.source.location"),
                         currentDirectoryPath = jsonPath
                     )
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = jFileChooserResult)
                 }
-                is MainScreenUIState.ShowChangeICalPathDialog -> {
+            }
+
+            is MainScreenUIState.ShowChangeICalPathDialog -> {
+                coroutineScope.launch {
                     val jFileChooserResult = chooseDirectorySwing(
                         dialogTitle = resourceBundle.getString("ical.output.location"),
                         currentDirectoryPath = iCalPath
                     )
                     mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
                 }
-                is MainScreenUIState.Error -> {
-                    // TODO: Show error message
-                }
-                else -> {}
             }
+
+            is MainScreenUIState.Error -> {
+                ErrorAlertDialog(
+                    text = (uiState as MainScreenUIState.Error).errMsg,
+                    onDismissRequest = { mainScreenViewModel.notifyErrorMessageDisplayed() }
+                )
+            }
+
+            else -> {}
         }
 
         MaterialTheme {
