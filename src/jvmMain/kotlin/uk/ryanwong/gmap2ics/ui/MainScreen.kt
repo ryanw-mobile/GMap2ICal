@@ -147,14 +147,22 @@ fun mainScreen(
                     horizontalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     Button(
+                        shape = MaterialTheme.shapes.small,
                         onClick = { mainScreenViewModel.startConversion() }
                     ) {
-                        Text(text = resourceBundle.getString("convert"))
+                        Text(
+                            text = resourceBundle.getString("convert"),
+                            modifier = Modifier.wrapContentSize()
+                        )
                     }
                     Button(
+                        shape = MaterialTheme.shapes.small,
                         onClick = onCloseRequest
                     ) {
-                        Text(text = resourceBundle.getString("exit.app"))
+                        Text(
+                            text = resourceBundle.getString("exit.app"),
+                            modifier = Modifier.wrapContentSize()
+                        )
                     }
                 }
             }
