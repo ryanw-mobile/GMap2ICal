@@ -4,24 +4,25 @@
 
 package uk.ryanwong.gmap2ics.ui
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -110,12 +111,13 @@ fun mainScreen(
                     fontSize = 24.sp,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .wrapContentWidth()
                         .padding(vertical = 24.dp),
                 )
 
                 Row(
                     modifier = Modifier.fillMaxWidth()
-                        .wrapContentHeight()
+                        .height(IntrinsicSize.Max)
                 ) {
                     SettingsColumn(
                         jsonPath = jsonPath,
@@ -236,25 +238,37 @@ private fun SettingsColumn(
 
 @Composable
 private fun StatusColumn(
-    statusMessage: String
+    statusMessage: List<String>
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .background(color = Color.White)
+            .scrollable(
+                enabled = true,
+                orientation = Orientation.Vertical,
+                state = rememberScrollState()
+            )
     ) {
-        Text(
-            text = statusMessage,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(360.dp)
-                .padding(horizontal = 32.dp)
-                .background(color = Color.White)
-                .scrollable(
-                    enabled = true,
-                    orientation = Orientation.Vertical,
-                    state = rememberScrollState()
-                )
+        statusMessage.forEach { message ->
+            Text(
+                text = message,
+                color = Color.Black,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(all = 8.dp)
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun StatusColumnPreview() {
+    MaterialTheme {
+        StatusColumn(
+            statusMessage = listOf("some very very very very very very very very very very very very very very very very very very very very  long text"),
         )
     }
 }

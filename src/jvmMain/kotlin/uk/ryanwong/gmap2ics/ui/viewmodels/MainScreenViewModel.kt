@@ -29,8 +29,8 @@ class MainScreenViewModel(
     private var _mainScreenUIState: MutableStateFlow<MainScreenUIState> = MutableStateFlow(MainScreenUIState.Ready)
     val mainScreenUIState: StateFlow<MainScreenUIState> = _mainScreenUIState
 
-    private var _statusMessage = MutableStateFlow("")
-    val statusMessage: StateFlow<String> = _statusMessage
+    private var _statusMessage = MutableStateFlow<List<String>>(emptyList())
+    val statusMessage: StateFlow<List<String>> = _statusMessage
 
     private var _jsonPath = MutableStateFlow("")
     val jsonPath: StateFlow<String> = _jsonPath
@@ -57,6 +57,7 @@ class MainScreenViewModel(
             _exportPlaceVisit.value = exportPlaceVisit
             _exportActivitySegment.value = exportActivitySegment
             _enablePlacesApiLookup.value = enablePlacesApiLookup
+            appendStatus(status = "Config file loaded")
         }
     }
 
@@ -67,10 +68,19 @@ class MainScreenViewModel(
                 extension = "json"
             )
 
-            val filenameSuffix = if (_exportPlaceVisit.value && _exportActivitySegment.value) "_all"
-            else if (_exportPlaceVisit.value) "_places"
-            else "_activities"
+            if (fileList.isFailure) {
+                _mainScreenUIState.value =
+                    MainScreenUIState.Error(errMsg = processResultFailure(throwable = fileList.exceptionOrNull()))
+                return@launch
+            } else {
+                appendStatus(status = "${fileList.getOrNull()?.size ?: 0} files to be processed")
+            }
 
+            val outputFilenameSuffix = when {
+                _exportPlaceVisit.value && _exportActivitySegment.value -> "_all"
+                _exportPlaceVisit.value -> "_places"
+                else -> "_activities"
+            }
 
             fileList.getOrNull()?.forEach { filename ->
                 appendStatus(status = "\uD83D\uDDC2 Processing $filename")
@@ -80,10 +90,16 @@ class MainScreenViewModel(
                 // Exporting multiple events in one single ics file
                 localFileRepository.exportICal(
                     filename = filename.replace(oldValue = _jsonPath.value, newValue = _iCalPath.value)
-                        .replace(oldValue = ".json", newValue = "$filenameSuffix.ics"), // casually reuse the filename
+                        .replace(
+                            oldValue = ".json",
+                            newValue = "$outputFilenameSuffix.ics"
+                        ), // casually reuse the filename
                     vEvents = eventList
                 )
             }
+
+            appendStatus(status = "conversion completed.")
+            _mainScreenUIState.value = MainScreenUIState.Ready
         }
     }
 
@@ -150,6 +166,11 @@ class MainScreenViewModel(
     }
 
     private fun appendStatus(status: String) {
-        _statusMessage.value.plus("\n$status")
+        _statusMessage.value = _statusMessage.value + status
+    }
+
+    private fun processResultFailure(throwable: Throwable?): String {
+        throwable?.printStackTrace()
+        return throwable?.localizedMessage ?: "unknown error"
     }
 }
