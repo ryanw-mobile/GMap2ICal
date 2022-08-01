@@ -57,7 +57,7 @@ class MainScreenViewModel(
             _exportPlaceVisit.value = exportPlaceVisit
             _exportActivitySegment.value = exportActivitySegment
             _enablePlacesApiLookup.value = enablePlacesApiLookup
-            appendStatus(status = "Config file loaded")
+            appendStatus(status = "Config file loaded".plus(configFile.javaClass.packageName))
         }
     }
 
@@ -70,7 +70,12 @@ class MainScreenViewModel(
 
             if (fileList.isFailure) {
                 _mainScreenUIState.value =
-                    MainScreenUIState.Error(errMsg = processResultFailure(throwable = fileList.exceptionOrNull()))
+                    MainScreenUIState.Error(
+                        errMsg = processResultFailure(
+                            userFriendlyMessage = "Error getting json file list",
+                            throwable = fileList.exceptionOrNull()
+                        )
+                    )
                 return@launch
             } else {
                 appendStatus(status = "${fileList.getOrNull()?.size ?: 0} files to be processed")
@@ -172,5 +177,10 @@ class MainScreenViewModel(
     private fun processResultFailure(throwable: Throwable?): String {
         throwable?.printStackTrace()
         return throwable?.localizedMessage ?: "unknown error"
+    }
+
+    private fun processResultFailure(userFriendlyMessage: String, throwable: Throwable?): String {
+        throwable?.printStackTrace()
+        return "☠️ $userFriendlyMessage: ".plus(throwable?.localizedMessage ?: "unknown error")
     }
 }

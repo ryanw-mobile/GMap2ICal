@@ -29,10 +29,6 @@ class LocalDataSourceImpl(
                     .filter { file -> file.toString().endsWith(suffix = ".$extension") }
                     .forEach { file -> fileList.add(file.toString()) }
                 fileList
-//                } catch (ex: Exception) {
-//                    println("☠️ Error getting json file list: ${ex.localizedMessage}")
-//                    null
-//                }
             }.except<CancellationException, _>()
         }
     }
