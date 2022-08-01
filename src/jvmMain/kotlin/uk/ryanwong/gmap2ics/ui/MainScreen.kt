@@ -10,13 +10,13 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
@@ -117,7 +117,7 @@ fun mainScreen(
 
                 Row(
                     modifier = Modifier.fillMaxWidth()
-                        .height(IntrinsicSize.Max)
+                        .weight(weight = 1f, fill = true)
                 ) {
                     SettingsColumn(
                         jsonPath = jsonPath,
@@ -133,11 +133,13 @@ fun mainScreen(
                             mainScreenViewModel.setEnablePlacesApiLookup(enabled)
                         },
                         onChangeJsonPath = { mainScreenViewModel.onChangeJsonPath() },
-                        onChangeICalPath = { mainScreenViewModel.onChangeICalPath() }
+                        onChangeICalPath = { mainScreenViewModel.onChangeICalPath() },
+                        modifier = Modifier.weight(weight = 0.5f, fill = true)
                     )
 
                     StatusColumn(
-                        statusMessage = statusMessage
+                        statusMessage = statusMessage,
+                        modifier = Modifier.weight(weight = 0.5f, fill = true)
                     )
                 }
 
@@ -183,20 +185,20 @@ private fun SettingsColumn(
     onExportActivitySegmentChanged: (Boolean) -> Unit,
     onEnablePlaceApiLookupChanged: (Boolean) -> Unit,
     onChangeJsonPath: () -> Unit,
-    onChangeICalPath: () -> Unit
+    onChangeICalPath: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val resourceBundle = getBundle("resources", Locale.ENGLISH)
 
-    val spacerModifier = Modifier
+    val spacerModifier = modifier
         .fillMaxWidth()
+        .wrapContentHeight()
         .padding(vertical = 16.dp)
         .height(height = 1.dp)
         .background(color = Color.Gray)
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth(0.5f)
-            .padding(horizontal = 16.dp)
+        modifier = modifier.padding(horizontal = 16.dp)
     ) {
         PathPickerItem(
             title = resourceBundle.getString("json.path"),
@@ -238,10 +240,11 @@ private fun SettingsColumn(
 
 @Composable
 private fun StatusColumn(
-    statusMessage: List<String>
+    statusMessage: List<String>,
+    modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
             .background(color = Color.White)
