@@ -129,7 +129,7 @@ fun mainScreen(
                         onExportActivitySegmentChanged = { enabled ->
                             mainScreenViewModel.setExportActivitySegment(enabled)
                         },
-                        onEnabldPlaceApiLookupChanged = { enabled ->
+                        onEnablePlaceApiLookupChanged = { enabled ->
                             mainScreenViewModel.setEnablePlacesApiLookup(enabled)
                         },
                         onChangeJsonPath = { mainScreenViewModel.onChangeJsonPath() },
@@ -181,7 +181,7 @@ private fun SettingsColumn(
     enablePlacesApiLookup: Boolean,
     onExportPlaceVisitChanged: (Boolean) -> Unit,
     onExportActivitySegmentChanged: (Boolean) -> Unit,
-    onEnabldPlaceApiLookupChanged: (Boolean) -> Unit,
+    onEnablePlaceApiLookupChanged: (Boolean) -> Unit,
     onChangeJsonPath: () -> Unit,
     onChangeICalPath: () -> Unit
 ) {
@@ -223,7 +223,7 @@ private fun SettingsColumn(
         CheckBoxItem(
             text = resourceBundle.getString("export.activity.segments"),
             checked = enablePlacesApiLookup,
-            onCheckedChange = onEnabldPlaceApiLookupChanged
+            onCheckedChange = onEnablePlaceApiLookupChanged
         )
 
         Spacer(modifier = spacerModifier)
