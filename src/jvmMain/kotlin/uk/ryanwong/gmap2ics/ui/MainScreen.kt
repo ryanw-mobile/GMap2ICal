@@ -70,7 +70,7 @@ fun mainScreen(
         val enablePlacesApiLookup by mainScreenViewModel.enablePlacesApiLookup.collectAsState()
 
         when (uiState) {
-            is MainScreenUIState.ShowChangeJsonPathDialog -> {
+            is MainScreenUIState.ChangeJsonPath -> {
                 coroutineScope.launch {
                     val jFileChooserResult = chooseDirectorySwing(
                         dialogTitle = resourceBundle.getString("json.source.location"),
@@ -80,7 +80,7 @@ fun mainScreen(
                 }
             }
 
-            is MainScreenUIState.ShowChangeICalPathDialog -> {
+            is MainScreenUIState.ChangeICalPath -> {
                 coroutineScope.launch {
                     val jFileChooserResult = chooseDirectorySwing(
                         dialogTitle = resourceBundle.getString("ical.output.location"),

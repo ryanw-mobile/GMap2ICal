@@ -90,7 +90,7 @@ class MainScreenViewModelTest : FreeSpec() {
                     mainScreenViewModel.onChangeJsonPath()
 
                     // 🟢 Then
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.ShowChangeJsonPathDialog
+                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.ChangeJsonPath
                 }
             }
 
@@ -104,7 +104,7 @@ class MainScreenViewModelTest : FreeSpec() {
                     mainScreenViewModel.onChangeJsonPath()
 
                     // 🟢 Then
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.ShowChangeICalPathDialog
+                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.ChangeICalPath
                 }
             }
 
@@ -134,7 +134,7 @@ class MainScreenViewModelTest : FreeSpec() {
                     mainScreenViewModel.onChangeICalPath()
 
                     // 🟢 Then
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.ShowChangeICalPathDialog
+                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.ChangeICalPath
                 }
             }
 
@@ -148,7 +148,7 @@ class MainScreenViewModelTest : FreeSpec() {
                     mainScreenViewModel.onChangeICalPath()
 
                     // 🟢 Then
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.ShowChangeJsonPathDialog
+                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.ChangeJsonPath
                 }
             }
 

@@ -122,13 +122,13 @@ class MainScreenViewModel(
 
     fun onChangeJsonPath() {
         if (_mainScreenUIState.value is MainScreenUIState.Ready) {
-            _mainScreenUIState.value = MainScreenUIState.ShowChangeJsonPathDialog
+            _mainScreenUIState.value = MainScreenUIState.ChangeJsonPath
         }
     }
 
     fun onChangeICalPath() {
         if (_mainScreenUIState.value is MainScreenUIState.Ready) {
-            _mainScreenUIState.value = MainScreenUIState.ShowChangeICalPathDialog
+            _mainScreenUIState.value = MainScreenUIState.ChangeICalPath
         }
     }
 
