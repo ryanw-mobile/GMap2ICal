@@ -59,9 +59,17 @@ class MainScreenViewModel(
             _enablePlacesApiLookup.value = enablePlacesApiLookup
             appendStatus(status = "Config file loaded".plus(configFile.javaClass.packageName))
         }
+
+        CoroutineScope(Dispatchers.Default).launch {
+            timelineRepository.statusLog.collect { status ->
+                status?.let { appendStatus(status = it) }
+            }
+        }
     }
 
     fun startConversion() {
+        _mainScreenUIState.value = MainScreenUIState.Processing
+
         CoroutineScope(Dispatchers.Default).launch {
             val fileList = localFileRepository.getFileList(
                 absolutePath = _jsonPath.value,

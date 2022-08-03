@@ -40,7 +40,7 @@ class TimelineRepositoryImpl(
     }
 
     private var _statusLog: MutableStateFlow<String?> = MutableStateFlow(null)
-    val statusLog: StateFlow<String?> = _statusLog
+    override val statusLog: StateFlow<String?> = _statusLog
 
     override suspend fun getEventList(filePath: String): Result<List<VEvent>> {
         return withContext(dispatcher) {
