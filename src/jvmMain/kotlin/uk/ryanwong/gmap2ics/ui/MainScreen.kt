@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -151,6 +153,7 @@ fun mainScreen(
                     horizontalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     Button(
+                        enabled = (uiState == MainScreenUIState.Ready),
                         shape = MaterialTheme.shapes.small,
                         onClick = { mainScreenViewModel.startConversion() }
                     ) {
@@ -243,7 +246,8 @@ private fun StatusColumn(
     statusMessage: List<String>,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    LazyColumn(
+        userScrollEnabled = true,
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
@@ -254,10 +258,11 @@ private fun StatusColumn(
                 state = rememberScrollState()
             )
     ) {
-        statusMessage.forEach { message ->
+        itemsIndexed(items = statusMessage) { _, message ->
             Text(
                 text = message,
                 color = Color.Black,
+                fontSize = 11.sp,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(all = 8.dp)

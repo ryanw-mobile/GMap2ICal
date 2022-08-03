@@ -11,7 +11,7 @@ This is an experiment, to see if in the future I can lead a project overlooking 
 
 ## TLDR - Status
 
-Transforming the command line program to a desktop app. Simply this project is not yet functioning properly.
+Basic functionality restored. It should work but the UI is to be improved.
 
 This is my first non-Android Kotlin project. I am still finding out the right architecture and pattern for it.
 It is within expectation that everything inside this project can be messy.
@@ -72,7 +72,6 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 
 ## Todo list
 
-- No.1 issue: properly design the UI for dynamic window size (without ConstraintLayout?)
 - Exception handling
 - Migrate Retrofit to Ktor
 - The presentation for driving starting and ending locations is to be improved. This is because the location data (
