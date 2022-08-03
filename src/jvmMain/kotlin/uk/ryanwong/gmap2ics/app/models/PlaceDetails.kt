@@ -5,7 +5,6 @@
 package uk.ryanwong.gmap2ics.app.models
 
 import uk.ryanwong.gmap2ics.app.PlaceType
-import uk.ryanwong.gmap2ics.app.getLabel
 
 data class PlaceDetails(
     val placeId: String,
@@ -35,7 +34,7 @@ data class PlaceDetails(
 
     fun getFormattedName(): String {
         return resolveEnum()?.let { placeType ->
-            "${placeType.getLabel()} $name"
+            "${placeType.emoji} $name"
         } ?: "\uD83D\uDCCD $name"
     }
 
