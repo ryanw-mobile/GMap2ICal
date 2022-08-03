@@ -24,8 +24,6 @@ class LocalFileRepositoryImpl(
 
     override suspend fun exportICal(filename: String, vEvents: List<VEvent>): Result<Unit> {
         return withContext(dispatcher) {
-            println("💾 Exporting events in iCal format to $filename")
-
             // Preparing the file contents to write in one go
             val stringBuilder = StringBuilder()
 

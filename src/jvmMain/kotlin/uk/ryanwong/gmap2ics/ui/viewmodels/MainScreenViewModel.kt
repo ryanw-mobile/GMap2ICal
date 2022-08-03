@@ -93,13 +93,12 @@ class MainScreenViewModel(
                     timelineRepository.getEventList(filePath = filename).getOrNull() ?: emptyList()
 
                 // Exporting multiple events in one single ics file
+                appendStatus(status = "💾 Exporting events in iCal format to $filename")
                 localFileRepository.exportICal(
+                    vEvents = eventList,
                     filename = filename.replace(oldValue = _jsonPath.value, newValue = _iCalPath.value)
-                        .replace(
-                            oldValue = ".json",
-                            newValue = "$outputFilenameSuffix.ics"
-                        ), // casually reuse the filename
-                    vEvents = eventList
+                        // casually reuse the filename
+                        .replace(oldValue = ".json", newValue = "$outputFilenameSuffix.ics")
                 )
             }
 
