@@ -17,7 +17,7 @@ interface Config {
     val exportActivitySegment: Boolean
     val ignoredActivityType: List<ActivityType>
     val ignoredVisitedPlaceIds: List<String> // Exact match
-    val displayLogs: Boolean
+    val verboseLogs: Boolean
 
     val placesApiKey: String?
     val enablePlacesApiLookup: Boolean

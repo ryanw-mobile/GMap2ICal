@@ -47,6 +47,9 @@ class MainScreenViewModel(
     private var _enablePlacesApiLookup = MutableStateFlow(false)
     val enablePlacesApiLookup: StateFlow<Boolean> = _enablePlacesApiLookup
 
+    private var _verboseLogs = MutableStateFlow(false)
+    val verboseLogs: StateFlow<Boolean> = _verboseLogs
+
 
     init {
         // Default values, overridable from UI
@@ -57,6 +60,7 @@ class MainScreenViewModel(
             _exportPlaceVisit.value = exportPlaceVisit
             _exportActivitySegment.value = exportActivitySegment
             _enablePlacesApiLookup.value = enablePlacesApiLookup
+            _verboseLogs.value = verboseLogs
             appendStatus(status = "Config file loaded".plus(configFile.javaClass.packageName))
         }
 
@@ -98,7 +102,15 @@ class MainScreenViewModel(
             fileList.getOrNull()?.forEach { filename ->
                 appendStatus(status = "\uD83D\uDDC2 Processing $filename")
                 val eventList: List<VEvent> =
-                    timelineRepository.getEventList(filePath = filename).getOrNull() ?: emptyList()
+                    timelineRepository.getEventList(
+                        filePath = filename,
+                        ignoredActivityType = configFile.ignoredActivityType,
+                        ignoredVisitedPlaceIds = configFile.ignoredVisitedPlaceIds,
+                        exportActivitySegment = _exportActivitySegment.value,
+                        exportPlaceVisit = _exportPlaceVisit.value,
+                        enablePlacesApiLookup = _enablePlacesApiLookup.value,
+                        verboseLogs = _verboseLogs.value
+                    ).getOrNull() ?: emptyList()
 
                 // Exporting multiple events in one single ics file
                 appendStatus(status = "💾 Exporting events in iCal format to $filename")
@@ -125,6 +137,10 @@ class MainScreenViewModel(
 
     fun setEnablePlacesApiLookup(enabled: Boolean) {
         _enablePlacesApiLookup.value = enabled
+    }
+
+    fun setVerboseLogs(enabled: Boolean) {
+        _verboseLogs.value = enabled
     }
 
     fun onChangeJsonPath() {

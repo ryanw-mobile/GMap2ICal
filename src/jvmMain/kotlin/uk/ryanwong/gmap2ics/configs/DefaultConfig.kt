@@ -31,7 +31,7 @@ class DefaultConfig : Config {
 //        "ChIJ85tY7jeue0gRZ9Sik4vVUnk"
     )
 
-    override val displayLogs = true
+    override val verboseLogs = true
     override val placesApiKey: String? = null
     override val enablePlacesApiLookup = false
     override val apiLanguageOverride = mapOf(

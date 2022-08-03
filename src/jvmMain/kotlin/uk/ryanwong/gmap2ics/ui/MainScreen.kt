@@ -70,6 +70,7 @@ fun mainScreen(
         val exportPlaceVisit by mainScreenViewModel.exportPlaceVisit.collectAsState()
         val exportActivitySegment by mainScreenViewModel.exportActivitySegment.collectAsState()
         val enablePlacesApiLookup by mainScreenViewModel.enablePlacesApiLookup.collectAsState()
+        val verboseLogs by mainScreenViewModel.verboseLogs.collectAsState()
 
         when (uiState) {
             is MainScreenUIState.ChangeJsonPath -> {
@@ -127,6 +128,7 @@ fun mainScreen(
                         exportPlaceVisit = exportPlaceVisit,
                         exportActivitySegment = exportActivitySegment,
                         enablePlacesApiLookup = enablePlacesApiLookup,
+                        verboseLogs = verboseLogs,
                         onExportPlaceVisitChanged = { enabled -> mainScreenViewModel.setExportPlaceVisit(enabled) },
                         onExportActivitySegmentChanged = { enabled ->
                             mainScreenViewModel.setExportActivitySegment(enabled)
@@ -134,6 +136,7 @@ fun mainScreen(
                         onEnablePlaceApiLookupChanged = { enabled ->
                             mainScreenViewModel.setEnablePlacesApiLookup(enabled)
                         },
+                        onVerboseLogsChanged = { enabled -> mainScreenViewModel.setVerboseLogs(enabled) },
                         onChangeJsonPath = { mainScreenViewModel.onChangeJsonPath() },
                         onChangeICalPath = { mainScreenViewModel.onChangeICalPath() },
                         modifier = Modifier.weight(weight = 0.5f, fill = true)
@@ -184,9 +187,11 @@ private fun SettingsColumn(
     exportPlaceVisit: Boolean,
     exportActivitySegment: Boolean,
     enablePlacesApiLookup: Boolean,
+    verboseLogs: Boolean,
     onExportPlaceVisitChanged: (Boolean) -> Unit,
     onExportActivitySegmentChanged: (Boolean) -> Unit,
     onEnablePlaceApiLookupChanged: (Boolean) -> Unit,
+    onVerboseLogsChanged: (Boolean) -> Unit,
     onChangeJsonPath: () -> Unit,
     onChangeICalPath: () -> Unit,
     modifier: Modifier = Modifier
@@ -237,6 +242,12 @@ private fun SettingsColumn(
             text = resourceBundle.getString("enable.places.api.lookup"),
             checked = exportActivitySegment,
             onCheckedChange = onExportActivitySegmentChanged
+        )
+
+        CheckBoxItem(
+            text = resourceBundle.getString("verbose.log.mode"),
+            checked = verboseLogs,
+            onCheckedChange = onVerboseLogsChanged
         )
     }
 }

@@ -22,7 +22,6 @@ fun main() = application {
         mainScreenViewModel = MainScreenViewModel(
             configFile = configFile,
             timelineRepository = TimelineRepositoryImpl(
-                configFile = configFile,
                 placeDetailsRepository = PlaceDetailsRepositoryImpl(configFile = configFile)
             ),
             localFileRepository = LocalFileRepositoryImpl()
