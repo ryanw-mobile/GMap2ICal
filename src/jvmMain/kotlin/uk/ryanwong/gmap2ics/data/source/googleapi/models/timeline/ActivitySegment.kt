@@ -61,7 +61,7 @@ data class ActivitySegment(
         } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
 
         // Generate emoji label prefix for different activity types
-        val activityLabel = activityType.label
+        val activityLabel = activityType.emoji
 
         // If Location API enabled, try to fetch starting and ending from there
         val startPlaceDetail = startLocation.placeId?.let { placeId ->

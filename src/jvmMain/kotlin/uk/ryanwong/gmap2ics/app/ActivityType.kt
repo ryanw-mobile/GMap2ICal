@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.app
 
-enum class ActivityType(val label: String) {
+enum class ActivityType(val emoji: String) {
     UNKNOWN_ACTIVITY_TYPE("❓"),
     BOATING("🚣‍♀️"),
     CYCLING("🚲"),
