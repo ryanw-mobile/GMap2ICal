@@ -17,17 +17,12 @@ class LocalFileRepositoryImpl(
 ) : LocalFileRepository {
 
     override suspend fun getFileList(absolutePath: String, extension: String): Result<List<String>> {
-        return withContext(dispatcher) {
-            localDataSource.getFileList(absolutePath = absolutePath, extension = extension)
-        }
+        return localDataSource.getFileList(absolutePath = absolutePath, extension = extension)
     }
 
     override suspend fun exportICal(filename: String, vEvents: List<VEvent>): Result<Unit> {
         return withContext(dispatcher) {
-            // Preparing the file contents to write in one go
-            val stringBuilder = StringBuilder()
-
-            stringBuilder.run {
+            val stringBuilder = StringBuilder().run {
                 append("BEGIN:VCALENDAR\n")
                 append("VERSION:2.0\n")
 
