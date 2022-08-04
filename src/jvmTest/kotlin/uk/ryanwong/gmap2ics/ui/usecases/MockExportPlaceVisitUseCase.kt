@@ -8,11 +8,12 @@ import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.PlaceVisit
 
 class MockExportPlaceVisitUseCase : ExportPlaceVisitUseCase {
+    var useCaseResponse: VEvent? = null
     override suspend fun invoke(
         placeVisit: PlaceVisit,
         enablePlacesApiLookup: Boolean,
         ignoredVisitedPlaceIds: List<String>
     ): VEvent? {
-        TODO("Not yet implemented")
+        return useCaseResponse
     }
 }

@@ -9,11 +9,11 @@ import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivitySegment
 
 class MockExportActivitySegmentUseCase : ExportActivitySegmentUseCase {
-
+    var useCaseResponse: Result<Pair<VEvent, String?>>? = null
     override suspend fun invoke(
         activitySegment: ActivitySegment,
         ignoredActivityType: List<ActivityType>
     ): Result<Pair<VEvent, String?>> {
-        TODO("Not yet implemented")
+        return useCaseResponse ?: Result.failure(Exception("mock response unavailable"))
     }
 }
