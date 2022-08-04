@@ -23,11 +23,11 @@ class PlaceDetailsRepositoryImpl(
     private val placesCache = mutableMapOf<String, PlaceDetails>()
 
     override suspend fun getPlaceDetails(placeId: String, placeTimeZoneId: String?): Result<PlaceDetails> {
-        return withContext(dispatcher) {
-            if (placesCache.contains(key = placeId)) {
-                Result.success(placesCache.getValue(placeId))
-            }
+        if (placesCache.contains(key = placeId)) {
+            return Result.success(placesCache.getValue(placeId))
+        }
 
+        return withContext(dispatcher) {
             // Do API lookup and cache the results
             // If user does not supply an API Key means we always return null
             configFile.placesApiKey?.let { apiKey ->
@@ -37,22 +37,29 @@ class PlaceDetailsRepositoryImpl(
                 )
 
                 Result.runCatching {
-                    val placeDetailsDataObject = language?.let {
-                        networkDataSource.getPlaceDetails(placeId = placeId, key = apiKey, language = it)
-                    } ?: networkDataSource.getPlaceDetails(placeId = placeId, key = apiKey)
+                    val placeDetailsResponse =
+                        networkDataSource.getPlaceDetails(placeId = placeId, key = apiKey, language = language)
 
-                    if (!placeDetailsDataObject.isSuccessful) {
-                        throw Exception("⛔️ Error getting API results: ${placeDetailsDataObject.message()}")
+                    if (!placeDetailsResponse.isSuccessful) {
+                        throw GetPlaceDetailsAPIErrorException(apiErrorMessage = placeDetailsResponse.message())
                     }
 
-                    placeDetailsDataObject.body()?.result?.let { result ->
+                    placeDetailsResponse.body()?.result?.let { result ->
                         PlaceDetails.from(placeDetailsResult = result)
                             .also { placeDetailsDomainObject ->
                                 placesCache[placeId] = placeDetailsDomainObject
                             }
-                    } ?: throw Exception("not found")
+                    } ?: throw PlaceDetailsNotFoundException(placeId = placeId)
                 }.except<CancellationException, _>()
-            } ?: Result.failure(Exception("not found"))
+            } ?: Result.failure(PlaceDetailsNotFoundException(placeId = placeId))
         }
     }
+}
+
+class GetPlaceDetailsAPIErrorException(apiErrorMessage: String) : Exception() {
+    override val message = "⛔️ Error getting API results: $apiErrorMessage"
+}
+
+class PlaceDetailsNotFoundException(placeId: String) : Exception() {
+    override val message = "⛔️ placeId $placeId not found"
 }
