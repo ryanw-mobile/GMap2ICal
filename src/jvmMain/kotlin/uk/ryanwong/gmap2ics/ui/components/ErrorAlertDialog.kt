@@ -8,10 +8,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,7 +35,7 @@ fun ErrorAlertDialog(
             ) {
                 Button(
                     onClick = onDismissRequest,
-                    shape = MaterialTheme.shapes.small,
+                    shape = CircleShape,
                     modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                 ) {
                     Text(text = "OK")

@@ -26,6 +26,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -161,7 +162,7 @@ fun mainScreen(
                 ) {
                     Button(
                         enabled = (uiState == MainScreenUIState.Ready),
-                        shape = MaterialTheme.shapes.small,
+                        shape = CircleShape,
                         onClick = { mainScreenViewModel.startConversion() }
                     ) {
                         Text(
@@ -170,7 +171,7 @@ fun mainScreen(
                         )
                     }
                     Button(
-                        shape = MaterialTheme.shapes.small,
+                        shape = CircleShape,
                         onClick = onCloseRequest
                     ) {
                         Text(
