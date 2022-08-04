@@ -13,6 +13,9 @@ import uk.ryanwong.gmap2ics.configs.MockConfig
 import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState
+import uk.ryanwong.gmap2ics.ui.usecases.MockExportActivitySegmentUseCase
+import uk.ryanwong.gmap2ics.ui.usecases.MockExportChildVisitUseCase
+import uk.ryanwong.gmap2ics.ui.usecases.MockExportPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.ui.utils.MockResourceBundle
 
 class MainScreenViewModelTest : FreeSpec() {
@@ -20,17 +23,26 @@ class MainScreenViewModelTest : FreeSpec() {
     lateinit var mainScreenViewModel: MainScreenViewModel
     lateinit var mockTimelineRepository: MockTimelineRepository
     lateinit var mockLocalFileRepository: MockLocalFileRepository
+    lateinit var mockExportActivitySegmentUseCase: MockExportActivitySegmentUseCase
+    lateinit var mockExportPlaceVisitUseCase: MockExportPlaceVisitUseCase
+    lateinit var mockExportChildVisitUseCase: MockExportChildVisitUseCase
 
     private val mockProjectBasePath = "/default-base-path/default-sub-folder/"
 
     private fun setupViewModel() {
         mockTimelineRepository = MockTimelineRepository()
         mockLocalFileRepository = MockLocalFileRepository()
+        mockExportActivitySegmentUseCase = MockExportActivitySegmentUseCase()
+        mockExportPlaceVisitUseCase = MockExportPlaceVisitUseCase()
+        mockExportChildVisitUseCase = MockExportChildVisitUseCase()
 
         mainScreenViewModel = MainScreenViewModel(
             configFile = MockConfig(),
             timelineRepository = mockTimelineRepository,
             localFileRepository = mockLocalFileRepository,
+            exportActivitySegmentUseCase = mockExportActivitySegmentUseCase,
+            exportPlaceVisitUseCase = mockExportPlaceVisitUseCase,
+            exportChildVisitUseCase = mockExportChildVisitUseCase,
             resourceBundle = MockResourceBundle(),
             projectBasePath = mockProjectBasePath
         )

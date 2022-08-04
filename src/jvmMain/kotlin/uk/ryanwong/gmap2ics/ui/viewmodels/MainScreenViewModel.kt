@@ -17,12 +17,18 @@ import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState
 import uk.ryanwong.gmap2ics.ui.utils.DefaultResourceBundle
 import uk.ryanwong.gmap2ics.ui.utils.ResourceBundleWrapper
+import uk.ryanwong.gmap2ics.ui.usecases.ExportActivitySegmentUseCase
+import uk.ryanwong.gmap2ics.ui.usecases.ExportChildVisitUseCase
+import uk.ryanwong.gmap2ics.ui.usecases.ExportPlaceVisitUseCase
 import java.nio.file.Paths
 
 class MainScreenViewModel(
-    val configFile: Config,
-    val timelineRepository: TimelineRepository,
-    val localFileRepository: LocalFileRepository,
+    private val configFile: Config,
+    private val timelineRepository: TimelineRepository,
+    private val localFileRepository: LocalFileRepository,
+    private val exportActivitySegmentUseCase: ExportActivitySegmentUseCase,
+    private val exportChildVisitUseCase: ExportChildVisitUseCase,
+    private val exportPlaceVisitUseCase: ExportPlaceVisitUseCase,
     private val resourceBundle: ResourceBundleWrapper = DefaultResourceBundle(),
     private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/")
 ) {
@@ -50,7 +56,6 @@ class MainScreenViewModel(
     private var _verboseLogs = MutableStateFlow(false)
     val verboseLogs: StateFlow<Boolean> = _verboseLogs
 
-
     init {
         // Default values, overridable from UI
         // TODO: might provide as profiles
@@ -65,7 +70,7 @@ class MainScreenViewModel(
         }
 
         CoroutineScope(Dispatchers.Default).launch {
-            timelineRepository.statusLog.collect { status ->
+            exportActivitySegmentUseCase.statusLog.collect { status ->
                 status?.let { appendStatus(status = it) }
             }
         }
@@ -101,16 +106,7 @@ class MainScreenViewModel(
 
             fileList.getOrNull()?.forEach { filename ->
                 appendStatus(status = "\uD83D\uDDC2 Processing $filename")
-                val eventList: List<VEvent> =
-                    timelineRepository.getEventList(
-                        filePath = filename,
-                        ignoredActivityType = configFile.ignoredActivityType,
-                        ignoredVisitedPlaceIds = configFile.ignoredVisitedPlaceIds,
-                        exportActivitySegment = _exportActivitySegment.value,
-                        exportPlaceVisit = _exportPlaceVisit.value,
-                        enablePlacesApiLookup = _enablePlacesApiLookup.value,
-                        verboseLogs = _verboseLogs.value
-                    ).getOrNull() ?: emptyList()
+                val eventList: List<VEvent> = getEventList(filePath = filename)
 
                 // Exporting multiple events in one single ics file
                 appendStatus(status = "💾 Exporting events in iCal format to $filename")
@@ -125,6 +121,64 @@ class MainScreenViewModel(
             appendStatus(status = "conversion completed.")
             _mainScreenUIState.value = MainScreenUIState.Ready
         }
+    }
+
+    private suspend fun getEventList(filePath: String): List<VEvent> {
+        val eventList = mutableListOf<VEvent>()
+        val timeline = timelineRepository.parseTimeLine(filePath = filePath)
+
+        timeline.getOrNull()?.timelineObjects?.let { timelineDataObjects ->
+            for (timelineDataObject in timelineDataObjects) {
+                // Should be either activity or place visited, but no harm to also support cases with both
+                if (_exportActivitySegment.value) {
+                    timelineDataObject.activitySegment?.let { activitySegment ->
+                        val vEventResult = exportActivitySegmentUseCase(
+                            activitySegment = activitySegment,
+                            ignoredActivityType = configFile.ignoredActivityType,
+                            verboseLogs = _verboseLogs.value
+                        )
+
+                        vEventResult.getOrNull()?.let { vEvent ->
+                            eventList.add(vEvent)
+                            if (_verboseLogs.value) appendStatus(vEvent.toString())
+                        }
+                        vEventResult.exceptionOrNull()?.message?.let {
+                            if (_verboseLogs.value) {
+                                appendStatus(it)
+                            }
+                        }
+                    }
+                }
+
+                if (_exportPlaceVisit.value) {
+                    timelineDataObject.placeVisit?.let { placeVisit ->
+                        exportPlaceVisitUseCase(
+                            placeVisit = placeVisit,
+                            enablePlacesApiLookup = _enablePlacesApiLookup.value,
+                            ignoredVisitedPlaceIds = configFile.ignoredVisitedPlaceIds,
+                        )?.let { vEvent ->
+                            eventList.add(vEvent)
+                            if (_verboseLogs.value) appendStatus(vEvent.toString())
+                        }
+
+                        // If we have child-visits, we export them as individual events
+                        // ChildVisit might have unconfirmed location which does not have a duration
+                        placeVisit.childVisits?.forEach { childVisit ->
+                            exportChildVisitUseCase(
+                                childVisit = childVisit,
+                                ignoredVisitedPlaceIds = configFile.ignoredVisitedPlaceIds,
+                                enablePlacesApiLookup = _enablePlacesApiLookup.value
+                            )?.let { vEvent ->
+                                eventList.add(vEvent)
+                                if (_verboseLogs.value) appendStatus(vEvent.toString())
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        appendStatus("✅ Processed ${timeline?.getOrNull()?.timelineObjects?.size ?: 0} timeline entries.")
+        return eventList
     }
 
     fun setExportPlaceVisit(enabled: Boolean) {
