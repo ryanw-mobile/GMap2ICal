@@ -33,22 +33,29 @@ data class PlaceDetails(
     }
 
     fun getFormattedName(): String {
-        return resolveEnum()?.let { placeType ->
+        return try {
+            val placeType = resolveEnum()
             "${placeType.emoji} $name"
-        } ?: "\uD83D\uDCCD $name"
+        } catch (ex: PlaceTypeNotFoundException) {
+            ex.printStackTrace()
+            "\uD83D\uDCCD $name"
+        }
     }
 
-    private fun resolveEnum(): PlaceType? {
+    private fun resolveEnum(): PlaceType {
         for (type in types) {
             try {
                 return PlaceType.valueOf(type.uppercase())
             } catch (ex: IllegalArgumentException) {
-                // do nothing
+                // do nothing - look for the next one as substitute
                 ex.printStackTrace()
             }
         }
-        println("⚠️ Unable to resolve any of the place types in $types for PlaceId $placeId")
-        return null
+        throw PlaceTypeNotFoundException(types = types, placeId = placeId)
     }
 }
 
+class PlaceTypeNotFoundException(val types: List<String>, val placeId: String) : Exception() {
+    override val message: String
+        get() = "⚠️ Unable to resolve any of the place types in $types for PlaceId $placeId"
+}
