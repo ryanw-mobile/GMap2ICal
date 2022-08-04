@@ -7,11 +7,11 @@ This is not an Android App. It can be built and executed using IntelliJ IDEA on 
 
 This is an experiment, to see if in the future I can lead a project overlooking cross-platform product development, with the Kotlin/Android team being the core. 
 
-<div style="text-align:center"><img src="screenshot-220721.png" /></div>
+<div style="text-align:center"><img src="screenshot-220804.png" /></div>
 
 ## TLDR - Status
 
-Basic functionality restored. It should work but the UI is to be improved.
+Basic functionality restored. More configurations will be provided through the UI instead of the config file.
 
 This is my first non-Android Kotlin project. I am still finding out the right architecture and pattern for it.
 It is within expectation that everything inside this project can be messy.
@@ -44,9 +44,9 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 
 * Kotlin
 * Kotlin Flow and Coroutines
-* Compose UI
+* Compose Desktop UI
 * MVVM architecture
-* [Travis-CI](https://travis-ci.org/) - CI - to be replaced by Bitrise
+* [Bitrise](https://app.bitrise.io/) - CI
 
 ### Major libraries used
 
@@ -72,8 +72,8 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 
 ## Todo list
 
-- Exception handling
 - Migrate Retrofit to Ktor
+- More decent dependency injection (Dagger not the best option, so will be Koin)
 - The presentation for driving starting and ending locations is to be improved. This is because the location data (
   coordinates and place Ids) returned by Google Maps are not always accurate (even not exists).
 - Database to permanently cache Google Maps Location API results
