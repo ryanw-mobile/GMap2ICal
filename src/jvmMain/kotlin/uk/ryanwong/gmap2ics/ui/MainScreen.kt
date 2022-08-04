@@ -5,10 +5,12 @@
 package uk.ryanwong.gmap2ics.ui
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +25,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -258,31 +261,42 @@ private fun StatusColumn(
     statusMessage: List<String>,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        verticalArrangement = Arrangement.Top,
-        userScrollEnabled = true,
-        state = rememberLazyListState(),
-        reverseLayout = true,
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
-            .background(color = Color.White)
-            .scrollable(
-                enabled = true,
-                orientation = Orientation.Vertical,
-                state = rememberScrollState()
-            )
-    ) {
-        itemsIndexed(items = statusMessage) { _, message ->
-            Text(
-                text = message,
-                color = Color.Black,
-                fontSize = 11.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = 8.dp)
-            )
+    Box(modifier = modifier) {
+        val scrollState = rememberLazyListState()
+
+        LazyColumn(
+            verticalArrangement = Arrangement.Top,
+            userScrollEnabled = true,
+            state = scrollState,
+            reverseLayout = true,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+                .background(color = Color.White)
+                .scrollable(
+                    enabled = true,
+                    orientation = Orientation.Vertical,
+                    state = rememberScrollState()
+                )
+        ) {
+            itemsIndexed(items = statusMessage) { _, message ->
+                Text(
+                    text = message,
+                    color = Color.Black,
+                    fontSize = 11.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 8.dp)
+                )
+            }
         }
+
+        VerticalScrollbar(
+            reverseLayout = true,
+            adapter = rememberScrollbarAdapter(scrollState = scrollState),
+            modifier = Modifier.align(Alignment.CenterEnd)
+                .padding(end = 16.dp)
+        )
     }
 }
 
