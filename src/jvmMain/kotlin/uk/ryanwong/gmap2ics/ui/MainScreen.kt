@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -258,7 +259,10 @@ private fun StatusColumn(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
+        verticalArrangement = Arrangement.Top,
         userScrollEnabled = true,
+        state = rememberLazyListState(),
+        reverseLayout = true,
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
