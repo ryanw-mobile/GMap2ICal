@@ -7,8 +7,6 @@ package uk.ryanwong.gmap2ics.ui.usecases
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.VEvent
@@ -23,39 +21,42 @@ class ExportActivitySegmentUseCaseImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ExportActivitySegmentUseCase {
 
-    private var _statusLog: MutableStateFlow<String?> = MutableStateFlow(null)
-    override val statusLog: StateFlow<String?> = _statusLog
-
     override suspend operator fun invoke(
         activitySegment: ActivitySegment,
-        ignoredActivityType: List<ActivityType>,
-        verboseLogs: Boolean
-    ): Result<VEvent> {
+        ignoredActivityType: List<ActivityType>
+    ): Result<Pair<VEvent, String?>> {
         return withContext(dispatcher) {
             Result.runCatching {
+                var statusLog: String? = null
+
                 // Convert to enum
-                val activityType = activitySegment.activityType?.let {
+                val activityType = activitySegment.activityType?.let { activityType ->
                     try {
-                        ActivityType.valueOf(activitySegment.activityType)
+                        ActivityType.valueOf(activityType)
                     } catch (e: IllegalArgumentException) {
-                        if (verboseLogs) {
-                            _statusLog.value = "⚠️ Unknown activity type: ${activitySegment.activityType}"
-                        }
+                        statusLog = "⚠️ Unknown activity type: $activityType"
                         ActivityType.UNKNOWN_ACTIVITY_TYPE
                     }
                 } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
 
                 if (ignoredActivityType.contains(activityType)) {
-                    throw Exception("🚫 Ignored activity type ${activitySegment.activityType} at ${activitySegment.duration.startTimestamp}")
+                    throw IgnoredActivityTypeException(
+                        activityType = activitySegment.activityType,
+                        startTimestamp = activitySegment.duration.startTimestamp
+                    )
                 }
 
-                val gMapTimelineObject = activitySegment.asTimelineItem(
+                val timelineItem = activitySegment.asTimelineItem(
                     timeZoneMap = timeZoneMap,
                     placeDetailsRepository = placeDetailsRepository
                 )
 
-                VEvent.from(timelineItem = gMapTimelineObject)
+                Pair(VEvent.from(timelineItem = timelineItem), statusLog)
             }.except<CancellationException, _>()
         }
     }
+}
+
+class IgnoredActivityTypeException(val activityType: String?, startTimestamp: String) : Exception() {
+    override val message: String = "🚫 Ignored activity type $activityType at $startTimestamp"
 }

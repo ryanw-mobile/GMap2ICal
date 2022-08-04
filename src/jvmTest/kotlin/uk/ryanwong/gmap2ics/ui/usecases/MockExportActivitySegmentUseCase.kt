@@ -4,20 +4,16 @@
 
 package uk.ryanwong.gmap2ics.ui.usecases
 
-import kotlinx.coroutines.flow.StateFlow
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivitySegment
 
-class MockExportActivitySegmentUseCase: ExportActivitySegmentUseCase {
-    override val statusLog: StateFlow<String?>
-        get() = TODO("Not yet implemented")
+class MockExportActivitySegmentUseCase : ExportActivitySegmentUseCase {
 
     override suspend fun invoke(
         activitySegment: ActivitySegment,
-        ignoredActivityType: List<ActivityType>,
-        verboseLogs: Boolean
-    ): Result<VEvent> {
+        ignoredActivityType: List<ActivityType>
+    ): Result<Pair<VEvent, String?>> {
         TODO("Not yet implemented")
     }
 }

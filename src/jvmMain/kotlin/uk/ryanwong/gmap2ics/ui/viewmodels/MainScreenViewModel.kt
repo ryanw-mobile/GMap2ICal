@@ -15,11 +15,11 @@ import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState
-import uk.ryanwong.gmap2ics.ui.utils.DefaultResourceBundle
-import uk.ryanwong.gmap2ics.ui.utils.ResourceBundleWrapper
 import uk.ryanwong.gmap2ics.ui.usecases.ExportActivitySegmentUseCase
 import uk.ryanwong.gmap2ics.ui.usecases.ExportChildVisitUseCase
 import uk.ryanwong.gmap2ics.ui.usecases.ExportPlaceVisitUseCase
+import uk.ryanwong.gmap2ics.ui.utils.DefaultResourceBundle
+import uk.ryanwong.gmap2ics.ui.utils.ResourceBundleWrapper
 import java.nio.file.Paths
 
 class MainScreenViewModel(
@@ -67,12 +67,6 @@ class MainScreenViewModel(
             _enablePlacesApiLookup.value = enablePlacesApiLookup
             _verboseLogs.value = verboseLogs
             appendStatus(status = "Config file loaded".plus(configFile.javaClass.packageName))
-        }
-
-        CoroutineScope(Dispatchers.Default).launch {
-            exportActivitySegmentUseCase.statusLog.collect { status ->
-                status?.let { appendStatus(status = it) }
-            }
         }
     }
 
@@ -134,19 +128,15 @@ class MainScreenViewModel(
                     timelineDataObject.activitySegment?.let { activitySegment ->
                         val vEventResult = exportActivitySegmentUseCase(
                             activitySegment = activitySegment,
-                            ignoredActivityType = configFile.ignoredActivityType,
-                            verboseLogs = _verboseLogs.value
+                            ignoredActivityType = configFile.ignoredActivityType
                         )
 
-                        vEventResult.getOrNull()?.let { vEvent ->
+                        vEventResult.getOrNull()?.let { (vEvent, logEntry) ->
                             eventList.add(vEvent)
-                            if (_verboseLogs.value) appendStatus(vEvent.toString())
+                            logEntry?.let { appendStatus(status = it) }
+                            appendStatusForVerboseMode(status = vEvent.toString())
                         }
-                        vEventResult.exceptionOrNull()?.message?.let {
-                            if (_verboseLogs.value) {
-                                appendStatus(it)
-                            }
-                        }
+                        vEventResult.exceptionOrNull()?.message?.let { appendStatusForVerboseMode(status = it) }
                     }
                 }
 
@@ -158,7 +148,7 @@ class MainScreenViewModel(
                             ignoredVisitedPlaceIds = configFile.ignoredVisitedPlaceIds,
                         )?.let { vEvent ->
                             eventList.add(vEvent)
-                            if (_verboseLogs.value) appendStatus(vEvent.toString())
+                            appendStatusForVerboseMode(status = vEvent.toString())
                         }
 
                         // If we have child-visits, we export them as individual events
@@ -170,7 +160,7 @@ class MainScreenViewModel(
                                 enablePlacesApiLookup = _enablePlacesApiLookup.value
                             )?.let { vEvent ->
                                 eventList.add(vEvent)
-                                if (_verboseLogs.value) appendStatus(vEvent.toString())
+                                appendStatusForVerboseMode(status = vEvent.toString())
                             }
                         }
                     }
@@ -244,6 +234,12 @@ class MainScreenViewModel(
             absolutePath.removePrefix(projectBasePath)
         } else {
             absolutePath
+        }
+    }
+
+    private fun appendStatusForVerboseMode(status: String) {
+        if (_verboseLogs.value) {
+            appendStatus(status)
         }
     }
 
