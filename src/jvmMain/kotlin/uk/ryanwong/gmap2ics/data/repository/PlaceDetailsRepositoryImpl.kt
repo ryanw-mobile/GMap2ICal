@@ -7,12 +7,10 @@ package uk.ryanwong.gmap2ics.data.repository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import uk.ryanwong.gmap2ics.app.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.Place
 import uk.ryanwong.gmap2ics.configs.Config
-import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
-import kotlin.coroutines.cancellation.CancellationException
 
 class PlaceDetailsRepositoryImpl(
     private val configFile: Config,
@@ -20,9 +18,9 @@ class PlaceDetailsRepositoryImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : PlaceDetailsRepository {
 
-    private val placesCache = mutableMapOf<String, PlaceDetails>()
+    private val placesCache = mutableMapOf<String, Place>()
 
-    override suspend fun getPlaceDetails(placeId: String, placeTimeZoneId: String?): Result<PlaceDetails> {
+    override suspend fun getPlaceDetails(placeId: String, placeTimeZoneId: String?): Result<Place> {
         if (placesCache.contains(key = placeId)) {
             return Result.success(placesCache.getValue(placeId))
         }
@@ -36,21 +34,12 @@ class PlaceDetailsRepositoryImpl(
                     defaultValue = configFile.apiLanguageOverride.get(key = "default")
                 )
 
-                Result.runCatching {
-                    val placeDetailsResponse =
-                        networkDataSource.getPlaceDetails(placeId = placeId, key = apiKey, language = language)
-
-                    if (!placeDetailsResponse.isSuccessful) {
-                        throw GetPlaceDetailsAPIErrorException(apiErrorMessage = placeDetailsResponse.message())
-                    }
-
-                    placeDetailsResponse.body()?.result?.let { result ->
-                        PlaceDetails.from(placeDetailsResult = result)
-                            .also { placeDetailsDomainObject ->
-                                placesCache[placeId] = placeDetailsDomainObject
-                            }
-                    } ?: throw PlaceDetailsNotFoundException(placeId = placeId)
-                }.except<CancellationException, _>()
+                val placeResult =
+                    networkDataSource.getPlaceDetails(placeId = placeId, key = apiKey, language = language)
+                placeResult.getOrNull()?.let { place ->
+                    placesCache[placeId] = place
+                }
+                placeResult
             } ?: Result.failure(PlaceDetailsNotFoundException(placeId = placeId))
         }
     }
