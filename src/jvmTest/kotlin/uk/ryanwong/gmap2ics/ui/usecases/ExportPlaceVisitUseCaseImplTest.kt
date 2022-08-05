@@ -4,14 +4,18 @@
 
 package uk.ryanwong.gmap2ics.ui.usecases
 
+import com.esri.core.geometry.Polygon
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockkObject
 import uk.ryanwong.gmap2ics.app.models.LatLng
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Duration
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Location
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.PlaceVisit
+import us.dustinj.timezonemap.TimeZone
 import us.dustinj.timezonemap.TimeZoneMap
 
 class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
@@ -20,12 +24,20 @@ class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
     lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
 
     private fun setupUseCase() {
+        val timeZoneMap = TimeZoneMap.forEverywhere()
+        mockkObject(timeZoneMap)
+        every { timeZoneMap.getOverlappingTimeZone(any(), any()) } returns TimeZone(
+            zoneId = "Asia/Tokyo", // Need real zone as it affects time calculation
+            region = Polygon()
+        )
         mockPlaceDetailsRepository = MockPlaceDetailsRepository()
 
         exportPlaceVisitUseCase = ExportPlaceVisitUseCaseImpl(
             placeDetailsRepository = mockPlaceDetailsRepository,
-            timeZoneMap = TimeZoneMap.forEverywhere() // TODO: MockK required
+            timeZoneMap = timeZoneMap
         )
+
+
     }
 
     init {
