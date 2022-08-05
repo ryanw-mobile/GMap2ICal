@@ -4,6 +4,9 @@
 
 package uk.ryanwong.gmap2ics.data.source.googleapi.models.places
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Geometry(
     val location: Location
 )
