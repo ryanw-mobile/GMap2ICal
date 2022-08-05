@@ -50,6 +50,7 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation("io.mockk:mockk:1.12.5")
                 // kotest
                 implementation("io.kotest:kotest-runner-junit5:5.3.1")
                 implementation("io.kotest:kotest-assertions-core:5.3.1")
