@@ -16,23 +16,25 @@ import java.text.DecimalFormat
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ActivitySegment(
-    val activities: List<uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Activity>? = null,
+    val activities: List<Activity>? = null,
     val activityType: String? = null,
     val confidence: String? = null,
     val distance: Int? = null,
     val duration: Duration,
-    val endLocation: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivityLocation,
+    val endLocation: ActivityLocation,
     // val parkingEvent: ParkingEvent? = null,
-    val startLocation: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivityLocation,
-    // val roadSegment: List<RoadSegment>? = null,
-    // val simplifiedRawPath: SimplifiedRawPath? = null,
+    val startLocation: ActivityLocation,
     val waypointPath: WaypointPath? = null,
     val lastEditedTimestamp: String? = null,
     val activityConfidence: Int? = null
 ) {
     private val mileageFormat = DecimalFormat("#,###.#")
 
-    suspend fun asTimelineItem(timeZoneMap: TimeZoneMap, placeDetailsRepository: PlaceDetailsRepository): TimelineItem {
+    // TODO: Not so good to pass in Repository
+    suspend fun asTimelineItem(
+        timeZoneMap: TimeZoneMap,
+        placeDetailsRepository: PlaceDetailsRepository
+    ): TimelineItem {
         val eventLatitude = (endLocation.latitudeE7 ?: 0) * 0.0000001
         val eventLongitude = (endLocation.longitudeE7 ?: 0) * 0.0000001
         val eventTimeZone = timeZoneMap.getOverlappingTimeZone(eventLatitude, eventLongitude)

@@ -23,7 +23,6 @@ data class PlaceVisit(
     val placeConfidence: String? = null,
     val placeVisitImportance: String? = null,
     val placeVisitType: String? = null,
-    val simplifiedRawPath: SimplifiedRawPath? = null,
     val visitConfidence: Int? = null,
     val childVisits: List<ChildVisit>? = null,
 ) {
