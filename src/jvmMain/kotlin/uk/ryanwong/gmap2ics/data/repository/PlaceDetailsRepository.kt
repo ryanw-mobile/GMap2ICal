@@ -4,8 +4,8 @@
 
 package uk.ryanwong.gmap2ics.data.repository
 
-import uk.ryanwong.gmap2ics.app.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.Place
 
 interface PlaceDetailsRepository {
-    suspend fun getPlaceDetails(placeId: String, placeTimeZoneId: String?): Result<PlaceDetails>
+    suspend fun getPlaceDetails(placeId: String, placeTimeZoneId: String?): Result<Place>
 }

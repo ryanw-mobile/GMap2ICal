@@ -7,7 +7,7 @@ package uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.LatLng
-import uk.ryanwong.gmap2ics.app.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.Place
 import uk.ryanwong.gmap2ics.app.models.TimelineItem
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import us.dustinj.timezonemap.TimeZone
@@ -132,8 +132,8 @@ data class ActivitySegment(
     }
 
     private fun parseTimelineDescription(
-        startPlaceDetail: PlaceDetails?,
-        endPlaceDetail: PlaceDetails?,
+        startPlaceDetail: Place?,
+        endPlaceDetail: Place?,
         startLocationText: String,
         endLocationText: String
     ): String {
@@ -154,7 +154,7 @@ data class ActivitySegment(
                 lastSegmentText
     }
 
-    private fun getStartLocationText(placeDetail: PlaceDetails?): String {
+    private fun getStartLocationText(placeDetail: Place?): String {
         return placeDetail?.let {
             "Start Location: ${placeDetail.formattedAddress}\\n${startLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
         }
@@ -162,7 +162,7 @@ data class ActivitySegment(
 
     }
 
-    private fun getEndLocationText(placeDetail: PlaceDetails?): String {
+    private fun getEndLocationText(placeDetail: Place?): String {
         return placeDetail?.let {
             "End Location: ${placeDetail.formattedAddress}\\n${endLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
         }
@@ -170,8 +170,8 @@ data class ActivitySegment(
     }
 
     private fun parseActivityRouteText(
-        startPlaceDetail: PlaceDetails?,
-        endPlaceDetail: PlaceDetails?,
+        startPlaceDetail: Place?,
+        endPlaceDetail: Place?,
         startLocation: String?,
         endLocation: String?
     ): String {
