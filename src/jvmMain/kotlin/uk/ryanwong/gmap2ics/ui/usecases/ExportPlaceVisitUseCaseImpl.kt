@@ -19,6 +19,10 @@ class ExportPlaceVisitUseCaseImpl(
         enablePlacesApiLookup: Boolean,
         ignoredVisitedPlaceIds: List<String>
     ): VEvent? {
+        if (ignoredVisitedPlaceIds.contains(placeVisit.location.placeId)) {
+            return null
+        }
+
         val place: Place? =
             if (enablePlacesApiLookup && placeVisit.location.placeId != null) placeDetailsRepository.getPlaceDetails(
                 placeId = placeVisit.location.placeId,
@@ -28,8 +32,6 @@ class ExportPlaceVisitUseCaseImpl(
 
         val timelineItem = placeVisit.asTimelineItem(timeZoneMap = timeZoneMap, place = place)
 
-        return if (!ignoredVisitedPlaceIds.contains(timelineItem.placeId)) {
-            VEvent.from(timelineItem = timelineItem)
-        } else null
+        return VEvent.from(timelineItem = timelineItem)
     }
 }
