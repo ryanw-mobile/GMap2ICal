@@ -1,4 +1,4 @@
-# GMap2iCal - Google Maps to iCal
+# GMap2iCal - Google Maps Timeline to iCal
 ### My first Compose for Desktop App
 
 A small utility written in Kotlin to convert Google Maps activity timeline to iCal (.ics) files for calendar import.
@@ -33,7 +33,7 @@ That is why I am trying another way round: By setting Google Maps to regularly e
 files, I can then process them using this Kotlin utility, and generate iCal (.ICS) files which I can then import to my
 calendars.
 
-By doing so, I can keep a full record of the places I have actually been, and also the rough mileages I have spent on
+By doing so, I can keep a full record for the places I have actually been, and also the rough mileages I have spent on
 the road.
 
 ## Skills covered:
@@ -52,6 +52,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 
 * [JUnit 5](https://github.com/junit-team/junit5) - Tests
 * [KOTest](https://kotest.io/) - Test framework
+* [MockK](https://mockk.io/) - Mocking library
 * [Retrofit2](https://square.github.io/retrofit/) - to be replaced by Ktor soon
 
 ## How to prepare the data set for processing
