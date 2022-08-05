@@ -5,9 +5,6 @@
 package uk.ryanwong.gmap2ics.ui.usecases
 
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.except
@@ -17,43 +14,40 @@ import us.dustinj.timezonemap.TimeZoneMap
 
 class ExportActivitySegmentUseCaseImpl(
     private val placeDetailsRepository: PlaceDetailsRepository,
-    private val timeZoneMap: TimeZoneMap = TimeZoneMap.forEverywhere(),
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val timeZoneMap: TimeZoneMap = TimeZoneMap.forEverywhere()
 ) : ExportActivitySegmentUseCase {
 
     override suspend operator fun invoke(
         activitySegment: ActivitySegment,
         ignoredActivityType: List<ActivityType>
     ): Result<Pair<VEvent, String?>> {
-        return withContext(dispatcher) {
-            Result.runCatching {
-                var statusLog: String? = null
+        return Result.runCatching {
+            var statusLog: String? = null
 
-                // Convert to enum
-                val activityType = activitySegment.activityType?.let { activityType ->
-                    try {
-                        ActivityType.valueOf(activityType)
-                    } catch (e: IllegalArgumentException) {
-                        statusLog = "⚠️ Unknown activity type: $activityType"
-                        ActivityType.UNKNOWN_ACTIVITY_TYPE
-                    }
-                } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
-
-                if (ignoredActivityType.contains(activityType)) {
-                    throw IgnoredActivityTypeException(
-                        activityType = activitySegment.activityType,
-                        startTimestamp = activitySegment.duration.startTimestamp
-                    )
+            // Convert to enum
+            val activityType = activitySegment.activityType?.let { activityType ->
+                try {
+                    ActivityType.valueOf(activityType)
+                } catch (e: IllegalArgumentException) {
+                    statusLog = "⚠️ Unknown activity type: $activityType"
+                    ActivityType.UNKNOWN_ACTIVITY_TYPE
                 }
+            } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
 
-                val timelineItem = activitySegment.asTimelineItem(
-                    timeZoneMap = timeZoneMap,
-                    placeDetailsRepository = placeDetailsRepository
+            if (ignoredActivityType.contains(activityType)) {
+                throw IgnoredActivityTypeException(
+                    activityType = activitySegment.activityType,
+                    startTimestamp = activitySegment.duration.startTimestamp
                 )
+            }
 
-                Pair(VEvent.from(timelineItem = timelineItem), statusLog)
-            }.except<CancellationException, _>()
-        }
+            val timelineItem = activitySegment.asTimelineItem(
+                timeZoneMap = timeZoneMap,
+                placeDetailsRepository = placeDetailsRepository
+            )
+
+            Pair(VEvent.from(timelineItem = timelineItem), statusLog)
+        }.except<CancellationException, _>()
     }
 }
 
