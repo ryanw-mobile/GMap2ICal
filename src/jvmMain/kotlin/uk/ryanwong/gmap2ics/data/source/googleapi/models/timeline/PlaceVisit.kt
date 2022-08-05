@@ -16,7 +16,7 @@ data class PlaceVisit(
     val centerLatE7: Int? = null,
     val centerLngE7: Int? = null,
     val duration: Duration,
-    val lastEditedTimestamp: String?,
+    val lastEditedTimestamp: String? = null,
     val location: Location,
     val locationAssertionType: String? = null,
     val locationConfidence: Int? = null,
