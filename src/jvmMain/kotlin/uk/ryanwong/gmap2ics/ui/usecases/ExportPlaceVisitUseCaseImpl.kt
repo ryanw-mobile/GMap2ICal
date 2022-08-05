@@ -26,10 +26,10 @@ class ExportPlaceVisitUseCaseImpl(
             ).getOrNull()
             else null
 
-        val gMapTimelineObject = placeVisit.asTimelineItem(timeZoneMap = timeZoneMap, place = place)
+        val timelineItem = placeVisit.asTimelineItem(timeZoneMap = timeZoneMap, place = place)
 
-        return if (!ignoredVisitedPlaceIds.contains(gMapTimelineObject.placeId)) {
-            VEvent.from(timelineItem = gMapTimelineObject)
+        return if (!ignoredVisitedPlaceIds.contains(timelineItem.placeId)) {
+            VEvent.from(timelineItem = timelineItem)
         } else null
     }
 }
