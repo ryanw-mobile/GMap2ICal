@@ -22,7 +22,7 @@ import us.dustinj.timezonemap.TimeZoneMap
 internal class ExportChildVisitUseCaseImplTest : FreeSpec() {
 
     /**
-     * Test Plan - Very much like the exportChildVisitUseCase, but Child Visit contains more optional data fields
+     * Test Plan - Very much like the ExportPlaceVisitUseCase, but Child Visit contains more optional data fields
      * 1. If the given placeId is in ignoredVisitedPlaceIds: always return null for all enablePlacesApiLookup cases
      * 2. If !enablePlacesApiLookup, just convert to timeline and then VEvent
      * 3. If enablePlacesApiLookup, either add getPlaceDetails() to timeline then VEvent, else same as #2
