@@ -5,11 +5,11 @@
 package uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import org.jetbrains.skia.impl.Log
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.LatLng
 import uk.ryanwong.gmap2ics.app.models.Place
 import uk.ryanwong.gmap2ics.app.models.TimelineItem
-import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import us.dustinj.timezonemap.TimeZone
 import us.dustinj.timezonemap.TimeZoneMap
 import java.text.DecimalFormat
@@ -30,14 +30,16 @@ data class ActivitySegment(
 ) {
     private val mileageFormat = DecimalFormat("#,###.#")
 
-    // TODO: Not so good to pass in Repository
-    suspend fun asTimelineItem(
-        timeZoneMap: TimeZoneMap,
-        placeDetailsRepository: PlaceDetailsRepository
+    fun asTimelineItem(
+        shouldShowMiles: Boolean,
+        firstPlaceDetail: Place?,
+        lastPlaceDetail: Place?,
+        startPlaceDetail: Place?,
+        endPlaceDetail: Place?,
+        eventTimeZone: TimeZone?
     ): TimelineItem {
         val eventLatitude = (endLocation.latitudeE7 ?: 0) * 0.0000001
         val eventLongitude = (endLocation.longitudeE7 ?: 0) * 0.0000001
-        val eventTimeZone = timeZoneMap.getOverlappingTimeZone(eventLatitude, eventLongitude)
         val lastEditTimeStamp = lastEditedTimestamp ?: duration.endTimestamp
 
         val distanceInKilometers: Double? = distance?.let { distance ->
@@ -47,7 +49,7 @@ data class ActivitySegment(
         }
 
         val distanceString = distanceInKilometers?.let { kilometers ->
-            if (shouldShowMiles(eventTimeZone))
+            if (shouldShowMiles)
                 "${mileageFormat.format(kilometersToMiles(kilometers))}mi"
             else
                 "${mileageFormat.format(kilometers)}km"
@@ -57,29 +59,12 @@ data class ActivitySegment(
             try {
                 ActivityType.valueOf(activityType)
             } catch (e: IllegalArgumentException) {
-                println("⚠️  Activity $activityType unknown, mapping as UNKNOWN_ACTIVITY_TYPE")
+                Log.warn("⚠️  Activity $activityType unknown, mapping as UNKNOWN_ACTIVITY_TYPE")
                 ActivityType.UNKNOWN_ACTIVITY_TYPE
             }
         } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
 
-        // Generate emoji label prefix for different activity types
-        val activityLabel = activityType.emoji
-
-        // If Location API enabled, try to fetch starting and ending from there
-        val startPlaceDetail = startLocation.placeId?.let { placeId ->
-            placeDetailsRepository.getPlaceDetails(
-                placeId = placeId,
-                placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
-            ).getOrNull()
-        }
-        val endPlaceDetail = endLocation.placeId?.let { placeId ->
-            placeDetailsRepository.getPlaceDetails(
-                placeId = placeId,
-                placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
-            ).getOrNull()
-        }
-
-        val subject = "$activityLabel $distanceString ${
+        val subject = "${activityType.emoji} $distanceString ${
             parseActivityRouteText(
                 startPlaceDetail = startPlaceDetail,
                 endPlaceDetail = endPlaceDetail,
@@ -91,20 +76,6 @@ data class ActivitySegment(
         // Try to extract more meaningful information than just the miles travelled
         val startLocationText = getStartLocationText(placeDetail = startPlaceDetail)
         val endLocationText = getEndLocationText(placeDetail = endPlaceDetail)
-
-        val firstPlaceDetail = waypointPath?.roadSegment?.first()?.placeId?.let { placeId ->
-            placeDetailsRepository.getPlaceDetails(
-                placeId = placeId,
-                placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
-            ).getOrNull()
-        }
-
-        val lastPlaceDetail = waypointPath?.roadSegment?.last()?.placeId?.let { placeId ->
-            placeDetailsRepository.getPlaceDetails(
-                placeId = placeId,
-                placeTimeZoneId = getEventTimeZone(timeZoneMap = timeZoneMap)?.zoneId
-            ).getOrNull()
-        }
 
         val description = parseTimelineDescription(
             startLocationText = startLocationText,
@@ -141,7 +112,6 @@ data class ActivitySegment(
     ): String {
         // Segments are less accurate than start and end locations,
         // but still have some values if the start and end locations do not have a valid placeId
-
         val firstSegmentText = startPlaceDetail?.let { placeDetail ->
             "First segment: ${placeDetail.formattedAddress}\\nhttps://www.google.com/maps/place/?q=place_id:${placeDetail.placeId}\\n\\n"
         } ?: ""
@@ -157,16 +127,16 @@ data class ActivitySegment(
     }
 
     private fun getStartLocationText(placeDetail: Place?): String {
-        return placeDetail?.let {
-            "Start Location: ${placeDetail.formattedAddress}\\n${startLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
+        return placeDetail?.let { place ->
+            "Start Location: ${place.formattedAddress}\\n${startLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
         }
             ?: "Start Location: ${startLocation.getFormattedLatLng()}\\n${startLocation.getGoogleMapsLatLngLink()}\\n\\n"
 
     }
 
     private fun getEndLocationText(placeDetail: Place?): String {
-        return placeDetail?.let {
-            "End Location: ${placeDetail.formattedAddress}\\n${endLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
+        return placeDetail?.let { place ->
+            "End Location: ${place.formattedAddress}\\n${endLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
         }
             ?: "End Location: ${endLocation.getFormattedLatLng()}\\n${endLocation.getGoogleMapsLatLngLink()}\\n\\n"
     }
@@ -188,11 +158,7 @@ data class ActivitySegment(
 
     private fun kilometersToMiles(meters: Double): Double = meters * 0.621
 
-    private fun shouldShowMiles(timezone: TimeZone?): Boolean {
-        return timezone?.zoneId == "Europe/London"
-    }
-
-    private fun getEventTimeZone(timeZoneMap: TimeZoneMap): TimeZone? {
+    fun getEventTimeZone(timeZoneMap: TimeZoneMap): TimeZone? {
         val eventLatitude = endLocation.getLatitude() ?: 0.0
         val eventLongitude = endLocation.getLongitude() ?: 0.0
         return timeZoneMap.getOverlappingTimeZone(eventLatitude, eventLongitude)

@@ -19,7 +19,6 @@ internal class ExportActivitySegmentUseCaseImplTest : FreeSpec() {
      * 1. If the given activityType is in ignoredActivityType: always throw IgnoredActivityTypeException
      * 2. If the given activityType cannot be resolved, will be assigned  ActivityType.UNKNOWN_ACTIVITY_TYPE and export normally
      * 3. Otherwise should behave normally.
-     * TODO: activitySegment.asTimelineItem requires repository. Possibly move that to this usecase and test it.
      */
 
     lateinit var exportActivitySegmentUseCaseImpl: ExportActivitySegmentUseCaseImpl

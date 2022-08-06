@@ -10,6 +10,7 @@ import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivitySegment
+import us.dustinj.timezonemap.TimeZone
 import us.dustinj.timezonemap.TimeZoneMap
 
 class ExportActivitySegmentUseCaseImpl(
@@ -41,13 +42,55 @@ class ExportActivitySegmentUseCaseImpl(
                 )
             }
 
+            // Extra information required by timelineItem
+            val eventTimeZone = activitySegment.getEventTimeZone(timeZoneMap = timeZoneMap)
+            val firstPlaceDetail = activitySegment.waypointPath?.roadSegment?.first()?.placeId?.let { placeId ->
+                placeDetailsRepository.getPlaceDetails(
+                    placeId = placeId,
+                    placeTimeZoneId = eventTimeZone?.zoneId
+                ).getOrNull()
+            }
+
+            val lastPlaceDetail = activitySegment.waypointPath?.roadSegment?.last()?.placeId?.let { placeId ->
+                placeDetailsRepository.getPlaceDetails(
+                    placeId = placeId,
+                    placeTimeZoneId = eventTimeZone?.zoneId
+                ).getOrNull()
+            }
+
+            // If Location API enabled, try to fetch starting and ending from there
+            val startPlaceDetail = activitySegment.startLocation.placeId?.let { placeId ->
+                placeDetailsRepository.getPlaceDetails(
+                    placeId = placeId,
+                    placeTimeZoneId = eventTimeZone?.zoneId
+                ).getOrNull()
+            }
+            val endPlaceDetail = activitySegment.endLocation.placeId?.let { placeId ->
+                placeDetailsRepository.getPlaceDetails(
+                    placeId = placeId,
+                    placeTimeZoneId = eventTimeZone?.zoneId
+                ).getOrNull()
+            }
+
             val timelineItem = activitySegment.asTimelineItem(
-                timeZoneMap = timeZoneMap,
-                placeDetailsRepository = placeDetailsRepository
+                shouldShowMiles = shouldShowMiles(eventTimeZone),
+                firstPlaceDetail = firstPlaceDetail,
+                lastPlaceDetail = lastPlaceDetail,
+                startPlaceDetail = startPlaceDetail,
+                endPlaceDetail = endPlaceDetail,
+                eventTimeZone = eventTimeZone
             )
 
             Pair(VEvent.from(timelineItem = timelineItem), statusLog)
         }.except<CancellationException, _>()
+    }
+
+    /**
+     * Only when the activity happened in UK we display values in miles.
+     * Others are in kilometers.
+     */
+    private fun shouldShowMiles(timezone: TimeZone?): Boolean {
+        return timezone?.zoneId == "Europe/London"
     }
 }
 
