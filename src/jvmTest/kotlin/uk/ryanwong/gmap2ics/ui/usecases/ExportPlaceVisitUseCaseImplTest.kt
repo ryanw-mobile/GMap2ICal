@@ -41,8 +41,8 @@ class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
         location = Location(
             placeId = "location-id-to-be-ignored",
             // meaningless values just to match the format
-            latitudeE7 = 224800000,
-            longitudeE7 = 1141400000
+            latitudeE7 = 263383300,
+            longitudeE7 = 1278000000
         )
     )
 
