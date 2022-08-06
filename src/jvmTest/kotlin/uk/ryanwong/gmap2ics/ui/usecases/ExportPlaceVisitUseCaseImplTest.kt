@@ -20,14 +20,21 @@ import us.dustinj.timezonemap.TimeZoneMap
 
 class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
 
-    lateinit var exportPlaceVisitUseCase: ExportPlaceVisitUseCaseImpl
-    lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
+    /**
+     * Test Plan
+     * 1. If the given placeId is in ignoredVisitedPlaceIds: always return null for all enablePlacesApiLookup cases
+     * 2. If !enablePlacesApiLookup, just convert to timeline and then VEvent
+     * 3. If enablePlacesApiLookup, either add getPlaceDetails() to timeline then VEvent, else same as #2
+     */
+
+    private lateinit var exportPlaceVisitUseCase: ExportPlaceVisitUseCaseImpl
+    private lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
 
     private fun setupUseCase() {
         val timeZoneMap = TimeZoneMap.forEverywhere()
         mockkObject(timeZoneMap)
         every { timeZoneMap.getOverlappingTimeZone(any(), any()) } returns TimeZone(
-            zoneId = "Asia/Tokyo", // Need real zone as it affects time calculation
+            zoneId = "Asia/Tokyo", // Needs real zone as it affects time calculation
             region = Polygon()
         )
         mockPlaceDetailsRepository = MockPlaceDetailsRepository()
@@ -36,8 +43,6 @@ class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
             placeDetailsRepository = mockPlaceDetailsRepository,
             timeZoneMap = timeZoneMap
         )
-
-
     }
 
     init {
