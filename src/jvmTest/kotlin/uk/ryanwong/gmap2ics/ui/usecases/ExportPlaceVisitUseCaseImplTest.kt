@@ -189,6 +189,48 @@ class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
                     )
                 }
 
+                "should return correct VEvent if repository Place query is success with unknown place type" {
+                    // 🔴 Given
+                    setupUseCase()
+                    val placeVisit = mockPlaceVisitToBeKept
+                    val enabledPlacesApiLookup = true
+                    val ignoredVisitedPlaceIds: List<String> = listOf("location-id-to-be-ignored")
+                    mockPlaceDetailsRepository.getPlaceResponse = Result.success(
+                        Place(
+                            placeId = "location-id-to-be-kept",
+                            name = "some-place-name",
+                            formattedAddress = "some-formatted-address",
+                            geo = LatLng(latitude = 26.3383300, longitude = 127.8),
+                            types = listOf("some-place-type"),
+                            url = "https://some.url/"
+                        )
+                    )
+
+                    // 🟡 When
+                    val vEvent = exportPlaceVisitUseCase(
+                        placeVisit = placeVisit,
+                        enablePlacesApiLookup = enabledPlacesApiLookup,
+                        ignoredVisitedPlaceIds = ignoredVisitedPlaceIds
+                    )
+
+                    // 🟢 Then
+                    vEvent shouldBe VEvent(
+                        uid = "2011-11-11T11:22:22.222Z",
+                        placeId = "location-id-to-be-kept",
+                        dtStamp = "2011-11-11T11:22:22.222Z",
+                        organizer = null,
+                        dtStart = "20111111T201111",
+                        dtEnd = "20111111T202222",
+                        dtTimeZone = "Asia/Tokyo",
+                        summary = "\uD83D\uDCCD some-place-name",
+                        location = "some-formatted-address",
+                        geo = LatLng(latitude = 26.33833, longitude = 127.8),
+                        description = "Place ID:\\nlocation-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/",
+                        url = "https://some.url/",
+                        lastModified = "2011-11-11T11:22:22.222Z"
+                    )
+                }
+
                 "should return correct VEvent if repository Place query is failure" {
                     // 🔴 Given
                     setupUseCase()
