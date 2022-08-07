@@ -43,13 +43,14 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 ### High level architecture
 
 * Kotlin
-* Kotlin Flow and Coroutines
+* Kotlin Flow, Coroutines, Serialization
 * Compose Desktop UI
 * MVVM architecture
 * [Bitrise](https://app.bitrise.io/) - CI
 
 ### Major libraries used
 
+* [Jackson](https://github.com/FasterXML/jackson) - JSON parser
 * [JUnit 5](https://github.com/junit-team/junit5) - Tests
 * [KOTest](https://kotest.io/) - Test framework
 * [MockK](https://mockk.io/) - Mocking library
