@@ -24,11 +24,12 @@ class ExportPlaceVisitUseCaseImpl(
         }
 
         val place: Place? =
-            if (enablePlacesApiLookup && placeVisit.location.placeId != null) placeDetailsRepository.getPlaceDetails(
-                placeId = placeVisit.location.placeId,
-                placeTimeZoneId = placeVisit.getEventTimeZone(timeZoneMap)?.zoneId
-            ).getOrNull()
-            else null
+            if (enablePlacesApiLookup && placeVisit.location.placeId != null) {
+                placeDetailsRepository.getPlaceDetails(
+                    placeId = placeVisit.location.placeId,
+                    placeTimeZoneId = placeVisit.getEventTimeZone(timeZoneMap)?.zoneId
+                ).getOrNull()
+            } else null
 
         val timelineItem = placeVisit.asTimelineItem(timeZoneMap = timeZoneMap, place = place)
 

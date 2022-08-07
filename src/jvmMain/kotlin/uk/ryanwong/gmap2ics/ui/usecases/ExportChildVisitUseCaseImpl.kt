@@ -27,12 +27,12 @@ class ExportChildVisitUseCaseImpl(
         // If we have child-visits, we export them as individual events
         // ChildVisit might have unconfirmed location which does not have a duration
         val childPlace: Place? =
-            if (enablePlacesApiLookup && childVisit.location.placeId != null)
+            if (enablePlacesApiLookup && childVisit.location.placeId != null) {
                 placeDetailsRepository.getPlaceDetails(
                     placeId = childVisit.location.placeId,
                     placeTimeZoneId = childVisit.getEventTimeZone(timeZoneMap)?.zoneId
                 ).getOrNull()
-            else null
+            } else null
 
         return childVisit.asTimelineItem(timeZoneMap = timeZoneMap, place = childPlace)
             ?.let { timelineItem ->
