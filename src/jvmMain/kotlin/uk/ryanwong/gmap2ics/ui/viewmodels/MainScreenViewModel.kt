@@ -92,29 +92,32 @@ class MainScreenViewModel(
                 appendStatus(status = "${fileList.getOrNull()?.size ?: 0} files to be processed")
             }
 
-            val outputFilenameSuffix = when {
-                _exportPlaceVisit.value && _exportActivitySegment.value -> "_all"
-                _exportPlaceVisit.value -> "_places"
-                else -> "_activities"
-            }
-
+            // Exporting multiple events in one single ics file
             fileList.getOrNull()?.forEach { filename ->
                 appendStatus(status = "\uD83D\uDDC2 Processing $filename")
                 val eventList: List<VEvent> = getEventList(filePath = filename)
-
-                // Exporting multiple events in one single ics file
                 appendStatus(status = "💾 Exporting events in iCal format to $filename")
                 localFileRepository.exportICal(
                     vEvents = eventList,
-                    filename = filename.replace(oldValue = _jsonPath.value, newValue = _iCalPath.value)
-                        // casually reuse the filename
-                        .replace(oldValue = ".json", newValue = "$outputFilenameSuffix.ics")
+                    filename = getOutputFilename(originalFilename = filename)
                 )
             }
 
             appendStatus(status = "conversion completed.")
             _mainScreenUIState.value = MainScreenUIState.Ready
         }
+    }
+
+    private fun getOutputFilename(originalFilename: String): String {
+        val outputFilenameSuffix = when {
+            _exportPlaceVisit.value && _exportActivitySegment.value -> "_all"
+            _exportPlaceVisit.value -> "_places"
+            else -> "_activities"
+        }
+
+        return originalFilename.replace(oldValue = _jsonPath.value, newValue = _iCalPath.value)
+            // casually reuse the filename
+            .replace(oldValue = ".json", newValue = "$outputFilenameSuffix.ics")
     }
 
     private suspend fun getEventList(filePath: String): List<VEvent> {
