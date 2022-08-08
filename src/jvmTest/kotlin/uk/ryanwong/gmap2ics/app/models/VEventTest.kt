@@ -10,7 +10,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.startWith
 import java.time.format.DateTimeParseException
 
-class VEventKtTest : FreeSpec() {
+class VEventTest : FreeSpec() {
     init {
 
         "getLocalizedTimeStamp" - {
