@@ -61,11 +61,12 @@ fun mainScreen(
     mainScreenViewModel: MainScreenViewModel
 ) {
     val resourceBundle = getBundle("resources", Locale.ENGLISH)
+    val windowState = rememberWindowState(width = 800.dp, height = 560.dp)
 
     Window(
         onCloseRequest = onCloseRequest,
         title = resourceBundle.getString("gmap2ical.google.maps.to.ical"),
-        state = rememberWindowState(width = 800.dp, height = 560.dp)
+        state = windowState
     ) {
         val coroutineScope = rememberCoroutineScope()
         val uiState by mainScreenViewModel.mainScreenUIState.collectAsState()
@@ -263,12 +264,13 @@ private fun StatusColumn(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
-        val scrollState = rememberLazyListState()
+        val lazyListState = rememberLazyListState()
+        val scrollState = rememberScrollState()
 
         LazyColumn(
             verticalArrangement = Arrangement.Top,
             userScrollEnabled = true,
-            state = scrollState,
+            state = lazyListState,
             reverseLayout = true,
             modifier = Modifier
                 .fillMaxSize()
@@ -277,7 +279,7 @@ private fun StatusColumn(
                 .scrollable(
                     enabled = true,
                     orientation = Orientation.Vertical,
-                    state = rememberScrollState()
+                    state = scrollState
                 )
         ) {
             itemsIndexed(items = statusMessage) { _, message ->
@@ -292,9 +294,10 @@ private fun StatusColumn(
             }
         }
 
+        val scrollbarAdapter = rememberScrollbarAdapter(scrollState = lazyListState)
         VerticalScrollbar(
             reverseLayout = true,
-            adapter = rememberScrollbarAdapter(scrollState = scrollState),
+            adapter = scrollbarAdapter,
             modifier = Modifier.align(Alignment.CenterEnd)
                 .padding(end = 16.dp)
         )
