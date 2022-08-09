@@ -42,6 +42,21 @@ internal class VEventTest : FreeSpec() {
         description = "Place ID:\nsome-place-id\n\nGoogle Maps URL:\nhttps://www.google.com/maps/place/?q=place_id:some-place-id"
     )
 
+    private val mockTimelineItemNoZoneId = TimelineItem(
+        id = "2011-11-11T12:12:12.222Z",
+        placeId = "some-place-id",
+        subject = "\uD83D\uDCCD some-subject",
+        location = "some-location",
+        startTimeStamp = "2011-11-11T11:11:11.111Z",
+        endTimeStamp = "2011-11-11T12:12:12.222Z",
+        lastEditTimeStamp = "2011-11-11T12:12:12.222Z",
+        eventLatLng = LatLng(latitude = 22.4799999, longitude = 127.7999999),
+        eventTimeZone = null,
+        placeUrl = "https://www.google.com/maps/place/?q=place_id:some-place-id",
+        description = "Place ID:\nsome-place-id\n\nGoogle Maps URL:\nhttps://www.google.com/maps/place/?q=place_id:some-place-id"
+    )
+
+
     init {
         "from" - {
             "Should convert TimelineItem to VEvent correctly" {
@@ -60,6 +75,31 @@ internal class VEventTest : FreeSpec() {
                     dtStart = "20111111T201111",
                     dtEnd = "20111111T211212",
                     dtTimeZone = "Asia/Tokyo",
+                    summary = "📍 some-subject",
+                    location = "some-location",
+                    geo = LatLng(latitude = 22.4799999, longitude = 127.7999999),
+                    description = "Place ID:\nsome-place-id\n\nGoogle Maps URL:\nhttps://www.google.com/maps/place/?q=place_id:some-place-id",
+                    url = "https://www.google.com/maps/place/?q=place_id:some-place-id",
+                    lastModified = "2011-11-11T12:12:12.222Z"
+                )
+            }
+
+            "Should use UTC timezone to convert TimelineItem to VEvent if eventTimeZone is null" {
+                // 🔴 Given
+                val timelineItem = mockTimelineItemNoZoneId
+
+                // 🟡 When
+                val vEvent = VEvent.from(timelineItem = timelineItem)
+
+                // 🟢 Then
+                vEvent shouldBe VEvent(
+                    uid = "2011-11-11T12:12:12.222Z",
+                    placeId = "some-place-id",
+                    dtStamp = "2011-11-11T12:12:12.222Z",
+                    organizer = null,
+                    dtStart = "20111111T111111",
+                    dtEnd = "20111111T121212",
+                    dtTimeZone = "UTC",
                     summary = "📍 some-subject",
                     location = "some-location",
                     geo = LatLng(latitude = 22.4799999, longitude = 127.7999999),
