@@ -4,12 +4,9 @@
 
 package uk.ryanwong.gmap2ics.ui.usecases
 
-import com.esri.core.geometry.Polygon
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
-import io.mockk.every
-import io.mockk.mockkObject
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Activity
@@ -17,8 +14,7 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivityLocati
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivitySegment
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Duration
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.WaypointPath
-import us.dustinj.timezonemap.TimeZone
-import us.dustinj.timezonemap.TimeZoneMap
+import uk.ryanwong.gmap2ics.utils.timezonemap.MockTimeZoneMap
 
 internal class ExportActivitySegmentUseCaseImplTest : FreeSpec() {
 
@@ -34,7 +30,7 @@ internal class ExportActivitySegmentUseCaseImplTest : FreeSpec() {
 
     private lateinit var exportActivitySegmentUseCase: ExportActivitySegmentUseCaseImpl
     private lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
-    private val timeZoneMap = TimeZoneMap.forEverywhere()
+    private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
 
     private val mockActivitySegment = ActivitySegment(
         activities = listOf(
@@ -73,24 +69,20 @@ internal class ExportActivitySegmentUseCaseImplTest : FreeSpec() {
         activityConfidence = null
     )
 
-    private fun setupUseCase(zoneId: String) {
-        mockkObject(timeZoneMap)
-        every { timeZoneMap.getOverlappingTimeZone(any(), any()) } returns TimeZone(
-            zoneId = zoneId, // Needs real zone as it affects time calculation
-            region = Polygon()
-        )
+    private fun setupUseCase() {
         mockPlaceDetailsRepository = MockPlaceDetailsRepository()
 
         exportActivitySegmentUseCase = ExportActivitySegmentUseCaseImpl(
             placeDetailsRepository = mockPlaceDetailsRepository,
-            timeZoneMap = timeZoneMap
+            timeZoneMap = mockTimeZoneMap
         )
     }
 
     init {
         "should return IgnoredActivityTypeException if activityType is in ignoredActivityType" {
             // 🔴 Given
-            setupUseCase(zoneId = "Asia/Tokyo")
+            setupUseCase()
+            mockTimeZoneMap.mockZoneId = "Asia/Tokyo"
             val activitySegment = mockActivitySegment
             val ignoredActivityType: List<ActivityType> = listOf(ActivityType.FLYING)
 

@@ -18,7 +18,7 @@ import uk.ryanwong.gmap2ics.ui.usecases.MockExportChildVisitUseCase
 import uk.ryanwong.gmap2ics.ui.usecases.MockExportPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.ui.utils.MockResourceBundle
 
-class MainScreenViewModelTest : FreeSpec() {
+internal class MainScreenViewModelTest : FreeSpec() {
 
     lateinit var mainScreenViewModel: MainScreenViewModel
     lateinit var mockTimelineRepository: MockTimelineRepository

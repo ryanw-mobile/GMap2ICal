@@ -10,12 +10,12 @@ import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivitySegment
+import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
-import us.dustinj.timezonemap.TimeZoneMap
 
 class ExportActivitySegmentUseCaseImpl(
     private val placeDetailsRepository: PlaceDetailsRepository,
-    private val timeZoneMap: TimeZoneMap = TimeZoneMap.forEverywhere()
+    private val timeZoneMap: TimeZoneMapWrapper
 ) : ExportActivitySegmentUseCase {
 
     override suspend operator fun invoke(

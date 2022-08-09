@@ -50,6 +50,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 
 ### Major libraries used
 
+* [Time Zone Map](https://github.com/dustin-johnson/timezonemap) - determine time zone 
 * [Jackson](https://github.com/FasterXML/jackson) - JSON parser
 * [JUnit 5](https://github.com/junit-team/junit5) - Tests
 * [KOTest](https://kotest.io/) - Test framework

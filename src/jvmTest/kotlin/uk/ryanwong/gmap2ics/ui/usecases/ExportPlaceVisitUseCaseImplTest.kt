@@ -4,11 +4,8 @@
 
 package uk.ryanwong.gmap2ics.ui.usecases
 
-import com.esri.core.geometry.Polygon
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import io.mockk.every
-import io.mockk.mockkObject
 import uk.ryanwong.gmap2ics.app.models.LatLng
 import uk.ryanwong.gmap2ics.app.models.Place
 import uk.ryanwong.gmap2ics.app.models.VEvent
@@ -16,10 +13,9 @@ import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Duration
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Location
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.PlaceVisit
-import us.dustinj.timezonemap.TimeZone
-import us.dustinj.timezonemap.TimeZoneMap
+import uk.ryanwong.gmap2ics.utils.timezonemap.MockTimeZoneMap
 
-class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
+internal class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
 
     /**
      * Test Plan
@@ -30,7 +26,7 @@ class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
 
     private lateinit var exportPlaceVisitUseCase: ExportPlaceVisitUseCaseImpl
     private lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
-    private val timeZoneMap = TimeZoneMap.forEverywhere()
+    private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
 
     private val mockPlaceVisitIgnored = PlaceVisit(
         duration = Duration(
@@ -61,16 +57,11 @@ class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
     )
 
     private fun setupUseCase() {
-        mockkObject(timeZoneMap)
-        every { timeZoneMap.getOverlappingTimeZone(any(), any()) } returns TimeZone(
-            zoneId = "Asia/Tokyo", // Needs real zone as it affects time calculation
-            region = Polygon()
-        )
         mockPlaceDetailsRepository = MockPlaceDetailsRepository()
 
         exportPlaceVisitUseCase = ExportPlaceVisitUseCaseImpl(
             placeDetailsRepository = mockPlaceDetailsRepository,
-            timeZoneMap = timeZoneMap
+            timeZoneMap = mockTimeZoneMap
         )
     }
 

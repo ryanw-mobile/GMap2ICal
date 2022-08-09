@@ -10,8 +10,8 @@ import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.LatLng
 import uk.ryanwong.gmap2ics.app.models.Place
 import uk.ryanwong.gmap2ics.app.models.TimelineItem
+import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
-import us.dustinj.timezonemap.TimeZoneMap
 import java.text.DecimalFormat
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -157,10 +157,10 @@ data class ActivitySegment(
 
     private fun kilometersToMiles(meters: Double): Double = meters * 0.621
 
-    fun getEventTimeZone(timeZoneMap: TimeZoneMap): TimeZone? {
+    fun getEventTimeZone(timeZoneMap: TimeZoneMapWrapper): TimeZone? {
         val eventLatitude = endLocation.getLatitude() ?: 0.0
         val eventLongitude = endLocation.getLongitude() ?: 0.0
-        return timeZoneMap.getOverlappingTimeZone(eventLatitude, eventLongitude)
+        return timeZoneMap.getOverlappingTimeZone(degreesLatitude = eventLatitude, degreesLongitude = eventLongitude)
     }
 
 //    private fun getCurrentIsoTimestamp() = DateTimeFormatter

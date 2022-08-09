@@ -7,7 +7,7 @@ package uk.ryanwong.gmap2ics.app.models
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 
-class LatLngTest : FreeSpec() {
+internal class LatLngTest : FreeSpec() {
     init {
         "LatLng" - {
             "should return rounded LatLng in a correct format" {

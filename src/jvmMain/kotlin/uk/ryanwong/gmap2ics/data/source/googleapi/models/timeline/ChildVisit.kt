@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import uk.ryanwong.gmap2ics.app.models.LatLng
 import uk.ryanwong.gmap2ics.app.models.Place
 import uk.ryanwong.gmap2ics.app.models.TimelineItem
+import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
-import us.dustinj.timezonemap.TimeZoneMap
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ChildVisit(
@@ -25,7 +25,7 @@ data class ChildVisit(
     val visitConfidence: Int? = null,
 ) {
     // ChildVisit might have unconfirmed location which does not have a duration
-    fun asTimelineItem(timeZoneMap: TimeZoneMap, place: Place? = null): TimelineItem? {
+    fun asTimelineItem(timeZoneMap: TimeZoneMapWrapper, place: Place? = null): TimelineItem? {
         if (duration == null) {
             return null
         }
@@ -51,9 +51,9 @@ data class ChildVisit(
         )
     }
 
-    fun getEventTimeZone(timeZoneMap: TimeZoneMap): TimeZone? {
+    fun getEventTimeZone(timeZoneMap: TimeZoneMapWrapper): TimeZone? {
         val eventLatitude = location.latitudeE7 * 0.0000001
         val eventLongitude = location.longitudeE7 * 0.0000001
-        return timeZoneMap.getOverlappingTimeZone(eventLatitude, eventLongitude)
+        return timeZoneMap.getOverlappingTimeZone(degreesLatitude = eventLatitude, degreesLongitude = eventLongitude)
     }
 }

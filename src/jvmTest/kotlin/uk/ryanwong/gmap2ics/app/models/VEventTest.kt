@@ -13,7 +13,7 @@ import us.dustinj.timezonemap.TimeZone
 import java.time.format.DateTimeParseException
 import java.time.zone.ZoneRulesException
 
-class VEventTest : FreeSpec() {
+internal class VEventTest : FreeSpec() {
 
     /**
      * Test Plan -
