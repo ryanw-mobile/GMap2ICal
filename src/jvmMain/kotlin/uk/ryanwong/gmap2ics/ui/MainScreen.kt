@@ -268,24 +268,24 @@ private fun StatusColumn(
         val lazyListState = rememberLazyListState()
         val scrollState = rememberScrollState()
 
-        LazyColumn(
-            verticalArrangement = Arrangement.Top,
-            userScrollEnabled = true,
-            state = lazyListState,
-            reverseLayout = true,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
-                .background(color = Color.White)
-                .scrollable(
-                    enabled = true,
-                    orientation = Orientation.Vertical,
-                    state = scrollState
-                )
-        ) {
-            itemsIndexed(items = statusMessage) { _, message ->
-                // Making text selectable helps crosscheck source files for debugging purpose
-                SelectionContainer {
+        // Making text selectable helps crosscheck source files for debugging purpose
+        SelectionContainer {
+            LazyColumn(
+                verticalArrangement = Arrangement.Top,
+                userScrollEnabled = true,
+                state = lazyListState,
+                reverseLayout = true,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+                    .background(color = Color.White)
+                    .scrollable(
+                        enabled = true,
+                        orientation = Orientation.Vertical,
+                        state = scrollState
+                    )
+            ) {
+                itemsIndexed(items = statusMessage) { _, message ->
                     Text(
                         text = message,
                         color = Color.Black,
