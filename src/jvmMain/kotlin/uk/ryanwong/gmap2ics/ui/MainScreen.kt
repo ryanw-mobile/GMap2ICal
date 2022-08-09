@@ -27,6 +27,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -283,14 +284,17 @@ private fun StatusColumn(
                 )
         ) {
             itemsIndexed(items = statusMessage) { _, message ->
-                Text(
-                    text = message,
-                    color = Color.Black,
-                    fontSize = 11.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = 8.dp)
-                )
+                // Making text selectable helps crosscheck source files for debugging purpose
+                SelectionContainer {
+                    Text(
+                        text = message,
+                        color = Color.Black,
+                        fontSize = 11.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = 8.dp)
+                    )
+                }
             }
         }
 
