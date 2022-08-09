@@ -48,23 +48,19 @@ internal class ExportActivitySegmentUseCaseImplTest : FreeSpec() {
         duration = Duration(endTimestamp = "2011-11-11T11:22:22.222Z", startTimestamp = "2011-11-11T11:11:11.111Z"),
         endLocation = ActivityLocation(
             address = null,
-            calibratedProbability = null,
             latitudeE7 = 263393300,
             locationConfidence = null,
             longitudeE7 = 1278500000,
             name = null,
-            placeId = null,
-            semanticType = null
+            placeId = null
         ),
         startLocation = ActivityLocation(
             address = null,
-            calibratedProbability = null,
             latitudeE7 = 263383300,
             locationConfidence = null,
             longitudeE7 = 1278000000,
             name = null,
             placeId = null,
-            semanticType = null
         ),
         waypointPath = WaypointPath(
             confidence = 1.0,

@@ -39,23 +39,17 @@ internal class ExportChildVisitUseCaseImplTest : FreeSpec() {
         editConfirmationStatus = "NOT_CONFIRMED",
         lastEditedTimestamp = null,
         location = Location(
-            accuracyMetres = null,
             address = "some-address",
-            calibratedProbability = null,
             latitudeE7 = 263383300,
             locationConfidence = 70.794174,
             longitudeE7 = 1278000000,
             name = "some-name",
             placeId = "place-id-to-be-ignored",
-            semanticType = null
         ),
-        locationAssertionType = null,
         locationConfidence = 55,
         placeConfidence = "LOW_CONFIDENCE",
-        placeVisitImportance = null,
         placeVisitType = "SINGLE_PLACE",
         visitConfidence = 89,
-        placeVisitLevel = null
     )
 
     private val mockChildVisitToBeKept = ChildVisit(
@@ -65,25 +59,18 @@ internal class ExportChildVisitUseCaseImplTest : FreeSpec() {
         editConfirmationStatus = "NOT_CONFIRMED",
         lastEditedTimestamp = null,
         location = Location(
-            accuracyMetres = null,
             address = "some-address",
-            calibratedProbability = null,
             latitudeE7 = 263383300,
             locationConfidence = 70.794174,
             longitudeE7 = 1278000000,
             name = "some-name",
             placeId = "place-id-to-be-kept",
-            semanticType = null
         ),
-        locationAssertionType = null,
         locationConfidence = 55,
         placeConfidence = "LOW_CONFIDENCE",
-        placeVisitImportance = null,
         placeVisitType = "SINGLE_PLACE",
-        visitConfidence = 89,
-        placeVisitLevel = null
+        visitConfidence = 89
     )
-
 
     private fun setupUseCase() {
         mockkObject(timeZoneMap)

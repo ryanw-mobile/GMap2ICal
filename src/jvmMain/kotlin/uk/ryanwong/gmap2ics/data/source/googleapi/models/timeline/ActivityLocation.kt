@@ -10,13 +10,11 @@ import java.text.DecimalFormat
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ActivityLocation(
     val address: String? = null,
-    val calibratedProbability: Double? = null,
     val latitudeE7: Int? = null,
     val locationConfidence: Double? = null,
     val longitudeE7: Int? = null,
     val name: String? = null,
-    val placeId: String? = null,
-    val semanticType: String? = null,
+    val placeId: String? = null
 ) {
     private val latLngFormat = DecimalFormat("###.######")
 

@@ -19,13 +19,10 @@ data class ChildVisit(
     val editConfirmationStatus: String? = null,
     val lastEditedTimestamp: String? = null,
     val location: Location,
-    val locationAssertionType: String? = null,
     val locationConfidence: Int? = null,
     val placeConfidence: String? = null,
-    val placeVisitImportance: String? = null,
     val placeVisitType: String? = null,
     val visitConfidence: Int? = null,
-    val placeVisitLevel: Int? = null
 ) {
     // ChildVisit might have unconfirmed location which does not have a duration
     fun asTimelineItem(timeZoneMap: TimeZoneMap, place: Place? = null): TimelineItem? {
