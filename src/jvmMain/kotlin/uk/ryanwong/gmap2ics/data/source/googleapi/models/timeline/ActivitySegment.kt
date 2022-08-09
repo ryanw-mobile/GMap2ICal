@@ -22,7 +22,6 @@ data class ActivitySegment(
     val distance: Int? = null,
     val duration: Duration,
     val endLocation: ActivityLocation,
-    // val parkingEvent: ParkingEvent? = null,
     val startLocation: ActivityLocation,
     val waypointPath: WaypointPath? = null,
     val lastEditedTimestamp: String? = null,

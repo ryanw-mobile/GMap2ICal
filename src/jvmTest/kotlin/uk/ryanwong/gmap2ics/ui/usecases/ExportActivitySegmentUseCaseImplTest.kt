@@ -16,7 +16,6 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Activity
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivityLocation
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivitySegment
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Duration
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Waypoint
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.WaypointPath
 import us.dustinj.timezonemap.TimeZone
 import us.dustinj.timezonemap.TimeZoneMap
@@ -72,11 +71,7 @@ internal class ExportActivitySegmentUseCaseImplTest : FreeSpec() {
             distanceMeters = 17.61099772105995,
             roadSegment = null,
             source = "BACKFILLED",
-            travelMode = "WALK",
-            waypoints = listOf(
-                Waypoint(latE7 = 263383310, lngE7 = 1278010000),
-                Waypoint(latE7 = 263383320, lngE7 = 1278020000)
-            )
+            travelMode = "WALK"
         ),
         lastEditedTimestamp = null,
         activityConfidence = null
