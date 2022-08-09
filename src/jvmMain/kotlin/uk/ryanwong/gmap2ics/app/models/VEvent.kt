@@ -25,28 +25,30 @@ data class VEvent(
 ) {
     companion object {
         fun from(timelineItem: TimelineItem): VEvent {
-            val timeZone = timelineItem.eventTimeZone
+            with(timelineItem) {
+                val timeZoneId = eventTimeZone?.zoneId ?: "UTC"
 
-            return VEvent(
-                uid = timelineItem.id,
-                placeId = timelineItem.placeId,
-                dtStamp = timelineItem.lastEditTimeStamp,
-                dtStart = getLocalizedTimeStamp(
-                    timestamp = timelineItem.startTimeStamp,
-                    timezoneId = timelineItem.eventTimeZone?.zoneId ?: "UTC"
-                ),
-                dtEnd = getLocalizedTimeStamp(
-                    timestamp = timelineItem.endTimeStamp,
-                    timezoneId = timelineItem.eventTimeZone?.zoneId ?: "UTC"
-                ),
-                summary = timelineItem.subject,
-                geo = timelineItem.eventLatLng,
-                dtTimeZone = timeZone?.zoneId ?: "UTC",
-                location = timelineItem.location,
-                url = timelineItem.placeUrl,
-                lastModified = timelineItem.lastEditTimeStamp,
-                description = timelineItem.description
-            )
+                return VEvent(
+                    uid = id,
+                    placeId = placeId,
+                    dtStamp = lastEditTimeStamp,
+                    dtStart = getLocalizedTimeStamp(
+                        timestamp = startTimeStamp,
+                        timezoneId = timeZoneId
+                    ),
+                    dtEnd = getLocalizedTimeStamp(
+                        timestamp = endTimeStamp,
+                        timezoneId = timeZoneId
+                    ),
+                    summary = subject,
+                    geo = eventLatLng,
+                    dtTimeZone = timeZoneId,
+                    location = location,
+                    url = placeUrl,
+                    lastModified = lastEditTimeStamp,
+                    description = description
+                )
+            }
         }
     }
 
