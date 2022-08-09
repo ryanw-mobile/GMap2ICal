@@ -137,7 +137,7 @@ class MainScreenViewModel(
                         vEventResult.getOrNull()?.let { (vEvent, logEntry) ->
                             eventList.add(vEvent)
                             logEntry?.let { appendStatus(status = it) }
-                            appendStatusForVerboseMode(status = vEvent.toString())
+                            printLogForVerboseMode(status = vEvent.toString())
                         }
                         vEventResult.exceptionOrNull()?.message?.let { appendStatusForVerboseMode(status = it) }
                     }
@@ -151,7 +151,7 @@ class MainScreenViewModel(
                             ignoredVisitedPlaceIds = configFile.ignoredVisitedPlaceIds,
                         )?.let { vEvent ->
                             eventList.add(vEvent)
-                            appendStatusForVerboseMode(status = vEvent.toString())
+                            printLogForVerboseMode(status = vEvent.toString())
                         }
 
                         // If we have child-visits, we export them as individual events
@@ -163,7 +163,7 @@ class MainScreenViewModel(
                                 enablePlacesApiLookup = _enablePlacesApiLookup.value
                             )?.let { vEvent ->
                                 eventList.add(vEvent)
-                                appendStatusForVerboseMode(status = vEvent.toString())
+                                printLogForVerboseMode(status = vEvent.toString())
                             }
                         }
                     }
@@ -243,6 +243,13 @@ class MainScreenViewModel(
     private fun appendStatusForVerboseMode(status: String) {
         if (_verboseLogs.value) {
             appendStatus(status)
+        }
+    }
+
+    // Designed for object printout - output to console instead of UI
+    private fun printLogForVerboseMode(status: String) {
+        if (_verboseLogs.value) {
+            println(status)
         }
     }
 

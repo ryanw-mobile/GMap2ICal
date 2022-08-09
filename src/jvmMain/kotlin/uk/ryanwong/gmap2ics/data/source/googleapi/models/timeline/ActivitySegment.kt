@@ -5,7 +5,6 @@
 package uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import org.jetbrains.skia.impl.Log
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.LatLng
 import uk.ryanwong.gmap2ics.app.models.Place
@@ -58,7 +57,7 @@ data class ActivitySegment(
             try {
                 ActivityType.valueOf(activityType)
             } catch (e: IllegalArgumentException) {
-                Log.warn("⚠️  Activity $activityType unknown, mapping as UNKNOWN_ACTIVITY_TYPE")
+                println("⚠️  Activity $activityType unknown, mapping as UNKNOWN_ACTIVITY_TYPE")
                 ActivityType.UNKNOWN_ACTIVITY_TYPE
             }
         } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
