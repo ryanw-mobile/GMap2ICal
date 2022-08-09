@@ -5,19 +5,21 @@ A small utility written in Kotlin to convert Google Maps Activity Timeline to iC
 
 This is not an Android App. It can be built and executed using IntelliJ IDEA on the desktop environment.
 
-This is an experiment, to see if in the future I can lead a project overlooking cross-platform product development, with the Kotlin/Android team being the core. 
+This is my first non-Android Kotlin project. It is within expectation that everything inside this project can be messy. I treat this as my playground that allows me to make all kinds of experiments and mistakes. While I thank you for your visit, I would appreciate if you could take things easy when you see me doing something crazy here. Thank you.
 
 <div style="text-align:center"><img src="screenshot-220804.png" /></div>
 
-## TLDR - Status
+## TLDR - Status and Roadmap
 
-This App is fully functional. 
+This App is fully functional.
 
-UI will be improved by providing more configurable items, and be more user friendly.
+* More unit tests are being written to increase coverage. <br/>_My only wish is that if Greg got a chance getting in here, he won't be leaving disappointed by not seeing the tests he expected._
+* Migrate Retrofit to Ktor
+* Integrate SQLite as preferences store, and Google Maps Place API caches
+* Dependency Injection. Probably Koin
+* Full RW MobiMedia UK commercial grade UI revamp - phase out hardcoded config profiles.
 
-More unit tests are being written to increase coverage. My only wish is that if Greg got a chance getting in here, he won't be leaving disappointed by not seeing the tests he expected.
-
-This is my first non-Android Kotlin project. It is within expectation that everything inside this project can be messy. I treat this as my playground that allows me to make all kinds of experiments and mistakes. While I thank you for your visit, I would appreciate if you could take things easy when you see me doing something crazy here. Thank you. 
+I am doing all these alone. I am not sure if I would give up halfway doing this. I am trying my best.
 
 ## Background
 
@@ -72,11 +74,3 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
    output paths.
 8. If you have created a duplicated configuration file, update the file path in `Main.kt`
 9. Run the project on IntelliJ IDEA
-
-## Todo list
-
-- Migrate Retrofit to Ktor
-- More decent dependency injection (Dagger not the best option, so will be Koin)
-- The presentation for driving starting and ending locations is to be improved. This is because the location data (
-  coordinates and place Ids) returned by Google Maps are not always accurate (even not exists).
-- Database to permanently cache Google Maps Location API results
