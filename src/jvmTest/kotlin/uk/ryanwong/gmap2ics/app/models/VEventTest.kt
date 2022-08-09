@@ -110,6 +110,41 @@ internal class VEventTest : FreeSpec() {
             }
         }
 
+        "export" - {
+            "Should export correct iCal string" {
+                // 🔴 Given
+                val timelineItem = mockTimelineItem
+                val vEvent = VEvent.from(timelineItem = timelineItem)
+
+                // 🟡 When
+                val iCalString = vEvent.export()
+
+                // 🟢 Then
+                iCalString shouldBe "BEGIN:VEVENT\n" +
+                        "TRANSP:OPAQUE\n" +
+                        "DTSTART;TZID=Asia/Tokyo:20111111T201111\n" +
+                        "DTEND;TZID=Asia/Tokyo:20111111T211212\n" +
+                        "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
+                        "X-TITLE=\"some-location\":geo:22.48,127.8\n" +
+                        "UID:2011-11-11T12:12:12.222Z\n" +
+                        "DTSTAMP:2011-11-11T12:12:12.222Z\n" +
+                        "LOCATION:some-location\n" +
+                        "SUMMARY:\uD83D\uDCCD some-subject\n" +
+                        "DESCRIPTION:Place ID:\n" +
+                        "some-place-id\n" +
+                        "\n" +
+                        "Google Maps URL:\n" +
+                        "https://www.google.com/maps/place/?q=place_id:some-place-id\n" +
+                        "URL;VALUE=URI:https://www.google.com/maps/place/?q=place_id:some-place-id\n" +
+                        "STATUS:CONFIRMED\n" +
+                        "SEQUENCE:1\n" +
+                        "LAST-MODIFIED:2011-11-11T12:12:12.222Z\n" +
+                        "CREATED:2011-11-11T12:12:12.222Z\n" +
+                        "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
+                        "END:VEVENT\n"
+            }
+        }
+
         "getLocalizedTimeStamp" - {
             "Should return correct localized Time Stamp for good timestamp and timezoneId" {
                 // 🔴 Given
