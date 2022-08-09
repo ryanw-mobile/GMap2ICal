@@ -1,7 +1,7 @@
 # GMap2iCal - Google Maps Timeline to iCal
 ### My first Compose for Desktop App
 
-A small utility written in Kotlin to convert Google Maps activity timeline to iCal (.ics) files for calendar import.
+A small utility written in Kotlin to convert Google Maps Activity Timeline to iCal (.ics) files for calendar import.
 
 This is not an Android App. It can be built and executed using IntelliJ IDEA on the desktop environment.
 
@@ -11,12 +11,13 @@ This is an experiment, to see if in the future I can lead a project overlooking 
 
 ## TLDR - Status
 
-Basic functionality restored. More configurations will be provided through the UI instead of the config file.
+This App is fully functional. 
 
-This is my first non-Android Kotlin project. I am still finding out the right architecture and pattern for it.
-It is within expectation that everything inside this project can be messy.
+UI will be improved by providing more configurable items, and be more user friendly.
 
-I treat this as my playground that allows me to make all kinds of experiments and mistakes. While I thank you for your visit, I would appreciate if you could take things easy when you see me doing something crazy here. Thank you. 
+More unit tests are being written to increase coverage. My only wish is that if Greg got a chance getting in here, he won't be leaving disappointed by not seeing the tests he expected.
+
+This is my first non-Android Kotlin project. It is within expectation that everything inside this project can be messy. I treat this as my playground that allows me to make all kinds of experiments and mistakes. While I thank you for your visit, I would appreciate if you could take things easy when you see me doing something crazy here. Thank you. 
 
 ## Background
 
@@ -45,8 +46,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * Kotlin
 * Kotlin Flow, Coroutines, Serialization
 * Compose Desktop UI
-* MVVM architecture
-* [Bitrise](https://app.bitrise.io/) - CI
+* MVVM architecture with use-cases
 
 ### Major libraries used
 
@@ -57,7 +57,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * [MockK](https://mockk.io/) - Mocking library
 * [Retrofit2](https://square.github.io/retrofit/) - to be replaced by Ktor soon
 
-## How to prepare the data set for processing
+## How to export the Google Maps Timeline as the data set for processing
 
 <div style="text-align:center"><img src="preview.png" /></div>.
 
