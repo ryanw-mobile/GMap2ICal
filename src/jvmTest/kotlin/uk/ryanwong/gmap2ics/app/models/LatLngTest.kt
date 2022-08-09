@@ -12,8 +12,8 @@ class LatLngTest : FreeSpec() {
         "LatLng" - {
             "should return rounded LatLng in a correct format" {
                 // 🔴 Given
-                val latitude = 12.12345678
-                val longitude = 123.12345678
+                val latitude = 12.1234567
+                val longitude = 123.1234567
 
                 // 🟡 When
                 val latlng = LatLng(latitude = latitude, longitude = longitude)

@@ -36,7 +36,7 @@ class VEventTest : FreeSpec() {
         startTimeStamp = "2011-11-11T11:11:11.111Z",
         endTimeStamp = "2011-11-11T12:12:12.222Z",
         lastEditTimeStamp = "2011-11-11T12:12:12.222Z",
-        eventLatLng = LatLng(latitude = 22.47999999999999, longitude = 127.7999999999999),
+        eventLatLng = LatLng(latitude = 22.4799999, longitude = 127.7999999),
         eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon()),
         placeUrl = "https://www.google.com/maps/place/?q=place_id:some-place-id",
         description = "Place ID:\nsome-place-id\n\nGoogle Maps URL:\nhttps://www.google.com/maps/place/?q=place_id:some-place-id"
@@ -62,7 +62,7 @@ class VEventTest : FreeSpec() {
                     dtTimeZone = "Asia/Tokyo",
                     summary = "📍 some-subject",
                     location = "some-location",
-                    geo = LatLng(latitude = 22.47999999999999, longitude = 127.7999999999999),
+                    geo = LatLng(latitude = 22.4799999, longitude = 127.7999999),
                     description = "Place ID:\nsome-place-id\n\nGoogle Maps URL:\nhttps://www.google.com/maps/place/?q=place_id:some-place-id",
                     url = "https://www.google.com/maps/place/?q=place_id:some-place-id",
                     lastModified = "2011-11-11T12:12:12.222Z"
