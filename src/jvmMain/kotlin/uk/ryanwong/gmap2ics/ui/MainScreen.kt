@@ -274,7 +274,6 @@ private fun StatusColumn(
                 verticalArrangement = Arrangement.Top,
                 userScrollEnabled = true,
                 state = lazyListState,
-                reverseLayout = true,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp)
@@ -300,7 +299,6 @@ private fun StatusColumn(
 
         val scrollbarAdapter = rememberScrollbarAdapter(scrollState = lazyListState)
         VerticalScrollbar(
-            reverseLayout = true,
             adapter = scrollbarAdapter,
             modifier = Modifier.align(Alignment.CenterEnd)
                 .padding(end = 16.dp)
