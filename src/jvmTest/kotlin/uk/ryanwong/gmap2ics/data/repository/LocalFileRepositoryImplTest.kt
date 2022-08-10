@@ -6,9 +6,11 @@ package uk.ryanwong.gmap2ics.data.repository
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import uk.ryanwong.gmap2ics.data.source.local.MockLocalDataSource
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class LocalFileRepositoryImplTest : FreeSpec() {
 
     private lateinit var localFileRepository: LocalFileRepositoryImpl
