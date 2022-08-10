@@ -13,7 +13,7 @@ import uk.ryanwong.gmap2ics.app.models.Place
 interface GoogleApiDataSource {
     suspend fun getPlaceDetails(
         placeId: String,
-        key: String,
+        apiKey: String,
         language: String? = null
     ): Result<Place>
 }

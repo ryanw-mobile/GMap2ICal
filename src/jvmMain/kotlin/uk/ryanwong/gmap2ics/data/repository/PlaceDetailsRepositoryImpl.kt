@@ -35,7 +35,7 @@ class PlaceDetailsRepositoryImpl(
                 )
 
                 val placeResult =
-                    networkDataSource.getPlaceDetails(placeId = placeId, key = apiKey, language = language)
+                    networkDataSource.getPlaceDetails(placeId = placeId, apiKey = apiKey, language = language)
                 placeResult.getOrNull()?.let { place ->
                     placesCache[placeId] = place
                 }

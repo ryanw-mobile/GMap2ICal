@@ -8,7 +8,7 @@ import uk.ryanwong.gmap2ics.app.models.Place
 import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 
 class KtorGoogleApiDataSource() : GoogleApiDataSource {
-    override suspend fun getPlaceDetails(placeId: String, key: String, language: String?): Result<Place> {
+    override suspend fun getPlaceDetails(placeId: String, apiKey: String, language: String?): Result<Place> {
         TODO("Not yet implemented")
     }
 }
