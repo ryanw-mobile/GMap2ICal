@@ -13,13 +13,11 @@ This is my first non-Android Kotlin project. It is within expectation that every
 
 This App is fully functional.
 
-* More unit tests are being written to increase coverage. <br/>_My only wish is that if Greg got a chance getting in here, he won't be leaving disappointed by not seeing the tests he expected._
+* More unit tests are being written to increase coverage.
 * Migrate Retrofit to Ktor
 * Integrate SQLite as preferences store, and Google Maps Place API caches
 * Dependency Injection. Probably Koin
-* Full RW MobiMedia UK commercial grade UI revamp - phase out hardcoded config profiles.
-
-I am doing all these alone. I am not sure if I would give up halfway doing this. I am trying my best.
+* Full RW MobiMedia UK commercial grade UX - phase out hardcoded config profiles. _This is expensive and subject to budget._
 
 ## Background
 
