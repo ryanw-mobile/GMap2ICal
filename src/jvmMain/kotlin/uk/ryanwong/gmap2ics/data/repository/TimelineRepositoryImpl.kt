@@ -12,6 +12,7 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import uk.ryanwong.gmap2ics.app.models.timeline.Timeline
 import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.TimelineObjects
 import uk.ryanwong.gmap2ics.data.source.local.LocalDataSource
@@ -27,12 +28,12 @@ class TimelineRepositoryImpl(
         registerModule(JavaTimeModule())
     }
 
-    override suspend fun parseTimeLine(filePath: String): Result<TimelineObjects> {
+    override suspend fun getTimeLine(filePath: String): Result<Timeline> {
         return withContext(dispatcher) {
             Result.runCatching {
                 val jsonString = localDataSource.getJsonString(filePath = filePath)
-                val retVal: TimelineObjects = objectMapper.readValue(content = jsonString)
-                retVal
+                val timelineObjects: TimelineObjects = objectMapper.readValue(content = jsonString)
+                Timeline.from(timelineObjects = timelineObjects)
             }.except<CancellationException, _>()
         }
     }

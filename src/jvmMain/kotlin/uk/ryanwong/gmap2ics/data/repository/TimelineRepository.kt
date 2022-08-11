@@ -4,8 +4,8 @@
 
 package uk.ryanwong.gmap2ics.data.repository
 
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.TimelineObjects
+import uk.ryanwong.gmap2ics.app.models.timeline.Timeline
 
 interface TimelineRepository {
-    suspend fun parseTimeLine(filePath: String): Result<TimelineObjects>
+    suspend fun getTimeLine(filePath: String): Result<Timeline>
 }
