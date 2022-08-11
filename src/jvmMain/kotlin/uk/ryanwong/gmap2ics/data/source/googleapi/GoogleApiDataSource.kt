@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.data.source.googleapi
 
-import uk.ryanwong.gmap2ics.app.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 
 /**
  * The idea for setting up this data source, is to encapsulate the implementation details of the network library.

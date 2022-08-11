@@ -6,6 +6,7 @@ package uk.ryanwong.gmap2ics.app.models
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 
 internal class LatLngTest : FreeSpec() {
     init {

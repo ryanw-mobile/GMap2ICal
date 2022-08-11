@@ -6,8 +6,8 @@ package uk.ryanwong.gmap2ics.ui.usecases
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.app.models.LatLng
-import uk.ryanwong.gmap2ics.app.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
+import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ChildVisit

@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.data.source.googleapi.retrofit
 
-import uk.ryanwong.gmap2ics.app.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.repository.GetPlaceDetailsAPIErrorException
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsNotFoundException

@@ -4,6 +4,7 @@
 
 package uk.ryanwong.gmap2ics.app.models
 
+import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import us.dustinj.timezonemap.TimeZone
 
 data class TimelineItem(

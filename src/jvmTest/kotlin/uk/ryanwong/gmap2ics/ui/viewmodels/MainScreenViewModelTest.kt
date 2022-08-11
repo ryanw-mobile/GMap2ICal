@@ -9,7 +9,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.flow.first
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
-import uk.ryanwong.gmap2ics.app.models.LatLng
+import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.configs.MockConfig
 import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository

@@ -4,10 +4,10 @@
 
 package uk.ryanwong.gmap2ics.ui.usecases
 
-import uk.ryanwong.gmap2ics.app.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.VEvent
+import uk.ryanwong.gmap2ics.app.models.timeline.ChildVisit
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ChildVisit
 import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 
 class VEventFromChildVisitUseCaseImpl(
@@ -25,7 +25,7 @@ class VEventFromChildVisitUseCaseImpl(
             if (enablePlacesApiLookup && childVisit.location.placeId != null) {
                 placeDetailsRepository.getPlaceDetails(
                     placeId = childVisit.location.placeId,
-                    placeTimeZoneId = childVisit.getEventTimeZone(timeZoneMap)?.zoneId
+                    placeTimeZoneId = childVisit.eventTimeZone?.zoneId
                 ).getOrNull()
             } else null
 

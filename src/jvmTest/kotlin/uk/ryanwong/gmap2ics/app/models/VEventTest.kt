@@ -9,6 +9,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.startWith
+import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import us.dustinj.timezonemap.TimeZone
 import java.time.format.DateTimeParseException
 import java.time.zone.ZoneRulesException

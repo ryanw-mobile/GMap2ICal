@@ -4,10 +4,10 @@
 
 package uk.ryanwong.gmap2ics.ui.usecases
 
-import uk.ryanwong.gmap2ics.app.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.VEvent
+import uk.ryanwong.gmap2ics.app.models.timeline.PlaceVisit
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.PlaceVisit
 import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 
 class VEventFromPlaceVisitUseCaseImpl(

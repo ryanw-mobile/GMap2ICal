@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.data.source.googleapi.ktor
 
-import uk.ryanwong.gmap2ics.app.models.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 
 class KtorGoogleApiDataSource() : GoogleApiDataSource {
