@@ -5,9 +5,6 @@
 package uk.ryanwong.gmap2ics.ui.usecases
 
 import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeTypeOf
-import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Activity
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivityLocation
@@ -19,7 +16,7 @@ import uk.ryanwong.gmap2ics.utils.timezonemap.MockTimeZoneMap
 internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
 
     /**
-     * Test Plan
+     * Test Plan -- to be revised
      * 1. If the given activityType is in ignoredActivityType: always throw IgnoredActivityTypeException
      * 2. If the given activityType cannot be resolved, will be assigned  ActivityType.UNKNOWN_ACTIVITY_TYPE and export normally
      * 3. "Europe/London" would show distances in miles, otherwise in kilometers
@@ -79,24 +76,23 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
     }
 
     init {
-        "should return IgnoredActivityTypeException if activityType is in ignoredActivityType" {
-            // 🔴 Given
-            setupUseCase()
-            mockTimeZoneMap.mockZoneId = "Asia/Tokyo"
-            val activitySegment = mockActivitySegment
-            val ignoredActivityType: List<ActivityType> = listOf(ActivityType.FLYING)
-
-            // 🟡 When
-            val result = vEventFromActivitySegmentUseCase(
-                activitySegment = activitySegment,
-                ignoredActivityType = ignoredActivityType
-            )
-
-            // 🟢 Then
-            with(result) {
-                isFailure shouldBe true
-                exceptionOrNull().shouldBeTypeOf<IgnoredActivityTypeException>()
-            }
-        }
+//        "should return IgnoredActivityTypeException if activityType is in ignoredActivityType" {
+//            // 🔴 Given
+//            setupUseCase()
+//            mockTimeZoneMap.mockZoneId = "Asia/Tokyo"
+//            val activitySegment = mockActivitySegment
+//            val ignoredActivityType: List<ActivityType> = listOf(ActivityType.FLYING)
+//
+//            // 🟡 When
+//            val result = vEventFromActivitySegmentUseCase(
+//                activitySegment = activitySegment
+//            )
+//
+//            // 🟢 Then
+//            with(result) {
+//                isFailure shouldBe true
+//                exceptionOrNull().shouldBeTypeOf<IgnoredActivityTypeException>()
+//            }
+//        }
     }
 }

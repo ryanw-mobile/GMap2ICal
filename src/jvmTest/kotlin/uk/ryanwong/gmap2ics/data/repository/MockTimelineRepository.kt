@@ -4,11 +4,11 @@
 
 package uk.ryanwong.gmap2ics.data.repository
 
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.TimelineObjects
+import uk.ryanwong.gmap2ics.app.models.timeline.Timeline
 
 class MockTimelineRepository : TimelineRepository {
-    var parseTimeLineResponse: Result<TimelineObjects>? = null
-    override suspend fun getTimeLine(filePath: String): Result<TimelineObjects> {
+    var parseTimeLineResponse: Result<Timeline>? = null
+    override suspend fun getTimeLine(filePath: String): Result<Timeline> {
         return parseTimeLineResponse ?: Result.failure(Exception("mock response unavailable"))
     }
 }

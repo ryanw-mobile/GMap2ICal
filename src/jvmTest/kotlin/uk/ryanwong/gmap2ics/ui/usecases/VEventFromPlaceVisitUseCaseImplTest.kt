@@ -6,13 +6,12 @@ package uk.ryanwong.gmap2ics.ui.usecases
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
-import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.VEvent
+import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
+import uk.ryanwong.gmap2ics.app.models.timeline.Location
+import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Duration
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Location
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.PlaceVisit
 import uk.ryanwong.gmap2ics.utils.timezonemap.MockTimeZoneMap
 
 internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
@@ -29,26 +28,28 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
     private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
 
     private val mockPlaceVisit = PlaceVisit(
-        duration = Duration(
-            // meaningless values just to match the format
-            startTimestamp = "2011-11-11T11:11:11.111Z",
-            endTimestamp = "2011-11-11T11:22:22.222Z"
-        ),
+        // meaningless values just to match the format
+        durationEndTimestamp = "2011-11-11T11:22:22.222Z",
+        durationStartTimestamp = "2011-11-11T11:11:11.111Z",
+        lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
         location = Location(
             placeId = "location-id-to-be-kept",
             // meaningless values just to match the format
             latitudeE7 = 263383300,
             longitudeE7 = 1278000000
+        ),
+        childVisits = emptyList(),
+        eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(
+            degreesLatitude = 26.3383300,
+            degreesLongitude = 127.8000000
         )
     )
 
     private fun setupUseCase() {
         mockPlaceDetailsRepository = MockPlaceDetailsRepository()
 
-        vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(
-            placeDetailsRepository = mockPlaceDetailsRepository,
-            timeZoneMap = mockTimeZoneMap
-        )
+        vEventFromPlaceVisitUseCase =
+            VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = mockPlaceDetailsRepository)
     }
 
     init {

@@ -5,7 +5,7 @@
 package uk.ryanwong.gmap2ics.ui.usecases
 
 import uk.ryanwong.gmap2ics.app.models.VEvent
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.PlaceVisit
+import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 
 class MockVEventFromPlaceVisitUseCase(private val mockUseCaseResponse: VEvent) : VEventFromPlaceVisitUseCase {
     override suspend fun invoke(
