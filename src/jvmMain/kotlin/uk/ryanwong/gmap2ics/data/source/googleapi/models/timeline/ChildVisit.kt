@@ -6,7 +6,7 @@ package uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import uk.ryanwong.gmap2ics.app.models.LatLng
-import uk.ryanwong.gmap2ics.app.models.Place
+import uk.ryanwong.gmap2ics.app.models.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.TimelineItem
 import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
@@ -25,23 +25,23 @@ data class ChildVisit(
     val visitConfidence: Int? = null,
 ) {
     // ChildVisit might have unconfirmed location which does not have a duration
-    fun asTimelineItem(timeZoneMap: TimeZoneMapWrapper, place: Place? = null): TimelineItem? {
+    fun asTimelineItem(timeZoneMap: TimeZoneMapWrapper, placeDetails: PlaceDetails? = null): TimelineItem? {
         if (duration == null) {
             return null
         }
 
         val lastEditTimeStamp = lastEditedTimestamp ?: duration.endTimestamp
-        val url = place?.url ?: "https://www.google.com/maps/place/?q=place_id:${location.placeId}"
+        val url = placeDetails?.url ?: "https://www.google.com/maps/place/?q=place_id:${location.placeId}"
 
         return TimelineItem(
             id = lastEditTimeStamp,
             placeId = location.placeId,
-            subject = place?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
-            location = place?.formattedAddress ?: location.address?.replace('\n', ',') ?: "",
+            subject = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
+            location = placeDetails?.formattedAddress ?: location.address?.replace('\n', ',') ?: "",
             startTimeStamp = duration.startTimestamp,
             endTimeStamp = duration.endTimestamp,
             lastEditTimeStamp = lastEditTimeStamp,
-            eventLatLng = place?.geo ?: LatLng(
+            eventLatLng = placeDetails?.geo ?: LatLng(
                 latitude = location.latitudeE7 * 0.0000001,
                 longitude = location.longitudeE7 * 0.0000001
             ),

@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.ui.usecases
 
-import uk.ryanwong.gmap2ics.app.models.Place
+import uk.ryanwong.gmap2ics.app.models.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.PlaceVisit
@@ -18,7 +18,7 @@ class ExportPlaceVisitUseCaseImpl(
         placeVisit: PlaceVisit,
         enablePlacesApiLookup: Boolean
     ): VEvent {
-        val place: Place? =
+        val placeDetails: PlaceDetails? =
             if (enablePlacesApiLookup && placeVisit.location.placeId != null) {
                 placeDetailsRepository.getPlaceDetails(
                     placeId = placeVisit.location.placeId,
@@ -26,7 +26,7 @@ class ExportPlaceVisitUseCaseImpl(
                 ).getOrNull()
             } else null
 
-        val timelineItem = placeVisit.asTimelineItem(timeZoneMap = timeZoneMap, place = place)
+        val timelineItem = placeVisit.asTimelineItem(timeZoneMap = timeZoneMap, placeDetails = placeDetails)
         return VEvent.from(timelineItem = timelineItem)
     }
 }

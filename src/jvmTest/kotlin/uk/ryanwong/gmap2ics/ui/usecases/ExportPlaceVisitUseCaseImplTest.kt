@@ -7,7 +7,7 @@ package uk.ryanwong.gmap2ics.ui.usecases
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.app.models.LatLng
-import uk.ryanwong.gmap2ics.app.models.Place
+import uk.ryanwong.gmap2ics.app.models.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Duration
@@ -88,8 +88,8 @@ internal class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
                 setupUseCase()
                 val placeVisit = mockPlaceVisit
                 val enabledPlacesApiLookup = true
-                mockPlaceDetailsRepository.getPlaceResponse = Result.success(
-                    Place(
+                mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+                    PlaceDetails(
                         placeId = "location-id-to-be-kept",
                         name = "some-place-name",
                         formattedAddress = "some-formatted-address",
@@ -128,8 +128,8 @@ internal class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
                 setupUseCase()
                 val placeVisit = mockPlaceVisit
                 val enabledPlacesApiLookup = true
-                mockPlaceDetailsRepository.getPlaceResponse = Result.success(
-                    Place(
+                mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+                    PlaceDetails(
                         placeId = "location-id-to-be-kept",
                         name = "some-place-name",
                         formattedAddress = "some-formatted-address",
@@ -168,7 +168,7 @@ internal class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
                 setupUseCase()
                 val placeVisit = mockPlaceVisit
                 val enabledPlacesApiLookup = true
-                mockPlaceDetailsRepository.getPlaceResponse = Result.failure(exception = Exception())
+                mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.failure(exception = Exception())
 
                 // 🟡 When
                 val vEvent = exportPlaceVisitUseCase(

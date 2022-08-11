@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.ui.usecases
 
-import uk.ryanwong.gmap2ics.app.models.Place
+import uk.ryanwong.gmap2ics.app.models.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ChildVisit
@@ -21,7 +21,7 @@ class ExportChildVisitUseCaseImpl(
     ): VEvent? {
         // If we have child-visits, we export them as individual events
         // ChildVisit might have unconfirmed location which does not have a duration, so return value can be null
-        val childPlace: Place? =
+        val childPlaceDetails: PlaceDetails? =
             if (enablePlacesApiLookup && childVisit.location.placeId != null) {
                 placeDetailsRepository.getPlaceDetails(
                     placeId = childVisit.location.placeId,
@@ -29,7 +29,7 @@ class ExportChildVisitUseCaseImpl(
                 ).getOrNull()
             } else null
 
-        return childVisit.asTimelineItem(timeZoneMap = timeZoneMap, place = childPlace)
+        return childVisit.asTimelineItem(timeZoneMap = timeZoneMap, placeDetails = childPlaceDetails)
             ?.let { timelineItem ->
                 VEvent.from(timelineItem = timelineItem)
             }

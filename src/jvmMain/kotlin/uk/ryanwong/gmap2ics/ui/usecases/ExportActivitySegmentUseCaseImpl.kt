@@ -44,14 +44,14 @@ class ExportActivitySegmentUseCaseImpl(
 
             // Extra information required by timelineItem
             val eventTimeZone = activitySegment.getEventTimeZone(timeZoneMap = timeZoneMap)
-            val firstPlaceDetail = activitySegment.waypointPath?.roadSegment?.first()?.placeId?.let { placeId ->
+            val firstPlaceDetails = activitySegment.waypointPath?.roadSegment?.first()?.placeId?.let { placeId ->
                 placeDetailsRepository.getPlaceDetails(
                     placeId = placeId,
                     placeTimeZoneId = eventTimeZone?.zoneId
                 ).getOrNull()
             }
 
-            val lastPlaceDetail = activitySegment.waypointPath?.roadSegment?.last()?.placeId?.let { placeId ->
+            val lastPlaceDetails = activitySegment.waypointPath?.roadSegment?.last()?.placeId?.let { placeId ->
                 placeDetailsRepository.getPlaceDetails(
                     placeId = placeId,
                     placeTimeZoneId = eventTimeZone?.zoneId
@@ -59,13 +59,13 @@ class ExportActivitySegmentUseCaseImpl(
             }
 
             // If Location API enabled, try to fetch starting and ending from there
-            val startPlaceDetail = activitySegment.startLocation.placeId?.let { placeId ->
+            val startPlaceDetails = activitySegment.startLocation.placeId?.let { placeId ->
                 placeDetailsRepository.getPlaceDetails(
                     placeId = placeId,
                     placeTimeZoneId = eventTimeZone?.zoneId
                 ).getOrNull()
             }
-            val endPlaceDetail = activitySegment.endLocation.placeId?.let { placeId ->
+            val endPlaceDetails = activitySegment.endLocation.placeId?.let { placeId ->
                 placeDetailsRepository.getPlaceDetails(
                     placeId = placeId,
                     placeTimeZoneId = eventTimeZone?.zoneId
@@ -74,10 +74,10 @@ class ExportActivitySegmentUseCaseImpl(
 
             val timelineItem = activitySegment.asTimelineItem(
                 shouldShowMiles = shouldShowMiles(eventTimeZone),
-                firstPlaceDetail = firstPlaceDetail,
-                lastPlaceDetail = lastPlaceDetail,
-                startPlaceDetail = startPlaceDetail,
-                endPlaceDetail = endPlaceDetail,
+                firstPlaceDetails = firstPlaceDetails,
+                lastPlaceDetails = lastPlaceDetails,
+                startPlaceDetails = startPlaceDetails,
+                endPlaceDetails = endPlaceDetails,
                 eventTimeZone = eventTimeZone
             )
 

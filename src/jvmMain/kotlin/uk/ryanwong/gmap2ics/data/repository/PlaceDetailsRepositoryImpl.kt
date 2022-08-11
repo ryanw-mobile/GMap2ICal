@@ -7,7 +7,7 @@ package uk.ryanwong.gmap2ics.data.repository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import uk.ryanwong.gmap2ics.app.models.Place
+import uk.ryanwong.gmap2ics.app.models.PlaceDetails
 import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
@@ -18,9 +18,9 @@ class PlaceDetailsRepositoryImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : PlaceDetailsRepository {
 
-    private val placesCache = mutableMapOf<String, Place>()
+    private val placesCache = mutableMapOf<String, PlaceDetails>()
 
-    override suspend fun getPlaceDetails(placeId: String, placeTimeZoneId: String?): Result<Place> {
+    override suspend fun getPlaceDetails(placeId: String, placeTimeZoneId: String?): Result<PlaceDetails> {
         if (placesCache.contains(key = placeId)) {
             return Result.success(placesCache.getValue(placeId))
         }
@@ -35,7 +35,7 @@ class PlaceDetailsRepositoryImpl(
                 )
 
                 val placeResult =
-                    networkDataSource.getPlaceDetails(placeId = placeId, apiKey = apiKey, language = language)
+                    networkDataSource.getMapsApiPlaceDetails(placeId = placeId, apiKey = apiKey, language = language)
                 placeResult.getOrNull()?.let { place ->
                     placesCache[placeId] = place
                 }

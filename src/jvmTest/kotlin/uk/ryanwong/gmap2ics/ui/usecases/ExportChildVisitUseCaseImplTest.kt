@@ -7,7 +7,7 @@ package uk.ryanwong.gmap2ics.ui.usecases
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.app.models.LatLng
-import uk.ryanwong.gmap2ics.app.models.Place
+import uk.ryanwong.gmap2ics.app.models.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ChildVisit
@@ -64,7 +64,6 @@ internal class ExportChildVisitUseCaseImplTest : FreeSpec() {
                 setupUseCase()
                 val childVisit = mockChildVisit
                 val enabledPlacesApiLookup = false
-                val ignoredVisitedPlaceIds: List<String> = listOf("place-id-to-be-ignored")
 
                 // 🟡 When
                 val vEvent = exportChildVisitUseCase(
@@ -97,9 +96,8 @@ internal class ExportChildVisitUseCaseImplTest : FreeSpec() {
                 setupUseCase()
                 val childVisit = mockChildVisit
                 val enabledPlacesApiLookup = true
-                val ignoredVisitedPlaceIds: List<String> = listOf("place-id-to-be-ignored")
-                mockPlaceDetailsRepository.getPlaceResponse = Result.success(
-                    Place(
+                mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+                    PlaceDetails(
                         placeId = "place-id-to-be-kept",
                         name = "some-place-name",
                         formattedAddress = "some-formatted-address",
@@ -138,9 +136,8 @@ internal class ExportChildVisitUseCaseImplTest : FreeSpec() {
                 setupUseCase()
                 val childVisit = mockChildVisit
                 val enabledPlacesApiLookup = true
-                val ignoredVisitedPlaceIds: List<String> = listOf("place-id-to-be-ignored")
-                mockPlaceDetailsRepository.getPlaceResponse = Result.success(
-                    Place(
+                mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+                    PlaceDetails(
                         placeId = "place-id-to-be-kept",
                         name = "some-place-name",
                         formattedAddress = "some-formatted-address",
@@ -179,8 +176,7 @@ internal class ExportChildVisitUseCaseImplTest : FreeSpec() {
                 setupUseCase()
                 val childVisit = mockChildVisit
                 val enabledPlacesApiLookup = true
-                val ignoredVisitedPlaceIds: List<String> = listOf("place-id-to-be-ignored")
-                mockPlaceDetailsRepository.getPlaceResponse = Result.failure(exception = Exception())
+                mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.failure(exception = Exception())
 
                 // 🟡 When
                 val vEvent = exportChildVisitUseCase(

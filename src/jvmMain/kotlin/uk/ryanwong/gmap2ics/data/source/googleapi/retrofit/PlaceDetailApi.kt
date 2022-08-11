@@ -17,7 +17,7 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 object PlacesDetailApi {
-    val retrofitService: PlaceDetailsService by lazy {
-        retrofit.create(PlaceDetailsService::class.java)
+    val retrofitService: PlaceDetailService by lazy {
+        retrofit.create(PlaceDetailService::class.java)
     }
 }
