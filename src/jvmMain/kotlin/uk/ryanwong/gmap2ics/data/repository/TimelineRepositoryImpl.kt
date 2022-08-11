@@ -14,10 +14,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.TimelineObjects
-import java.io.File
+import uk.ryanwong.gmap2ics.data.source.local.LocalDataSource
+import uk.ryanwong.gmap2ics.data.source.local.LocalDataSourceImpl
 import kotlin.coroutines.cancellation.CancellationException
 
 class TimelineRepositoryImpl(
+    private val localDataSource: LocalDataSource = LocalDataSourceImpl(),
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : TimelineRepository {
     private val objectMapper: ObjectMapper = jacksonObjectMapper().apply {
@@ -28,7 +30,7 @@ class TimelineRepositoryImpl(
     override suspend fun parseTimeLine(filePath: String): Result<TimelineObjects> {
         return withContext(dispatcher) {
             Result.runCatching {
-                val jsonString = File(filePath).readText(Charsets.UTF_8)
+                val jsonString = localDataSource.getJsonString(filePath = filePath)
                 val retVal: TimelineObjects = objectMapper.readValue(content = jsonString)
                 retVal
             }.except<CancellationException, _>()

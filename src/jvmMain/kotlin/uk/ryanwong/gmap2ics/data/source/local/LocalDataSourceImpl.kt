@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.data.except
+import java.io.File
 import java.io.FileWriter
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -30,6 +31,12 @@ class LocalDataSourceImpl(
                     .forEach { file -> fileList.add(file.toString()) }
                 fileList
             }.except<CancellationException, _>()
+        }
+    }
+
+    override suspend fun getJsonString(filePath: String) : String{
+        return withContext(dispatcher) {
+            File(filePath).readText(Charsets.UTF_8)
         }
     }
 

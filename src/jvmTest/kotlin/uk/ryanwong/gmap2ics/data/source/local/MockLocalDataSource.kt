@@ -20,4 +20,9 @@ class MockLocalDataSource : LocalDataSource {
         fileWriterContents = contents
         return fileWriterResponse ?: Result.failure(Exception("mock response unavailable"))
     }
+
+    var getJsonStringResponse: String = ""
+    override suspend fun getJsonString(filePath: String): String {
+        return getJsonStringResponse
+    }
 }
