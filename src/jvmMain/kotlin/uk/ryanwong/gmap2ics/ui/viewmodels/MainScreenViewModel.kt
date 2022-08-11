@@ -145,25 +145,27 @@ class MainScreenViewModel(
 
                 if (_exportPlaceVisit.value) {
                     timelineDataObject.placeVisit?.let { placeVisit ->
-                        exportPlaceVisitUseCase(
-                            placeVisit = placeVisit,
-                            enablePlacesApiLookup = _enablePlacesApiLookup.value,
-                            ignoredVisitedPlaceIds = configFile.ignoredVisitedPlaceIds,
-                        )?.let { vEvent ->
-                            eventList.add(vEvent)
-                            printLogForVerboseMode(status = vEvent.toString())
-                        }
+                        // If parent visit is to be ignored, child has no meaning to stay
+                        if (!configFile.ignoredVisitedPlaceIds.contains(placeVisit.location.placeId)) {
+                            exportPlaceVisitUseCase(
+                                placeVisit = placeVisit,
+                                enablePlacesApiLookup = _enablePlacesApiLookup.value
+                            ).let { vEvent ->
+                                eventList.add(vEvent)
+                                printLogForVerboseMode(status = vEvent.toString())
+                            }
 
-                        // If we have child-visits, we export them as individual events
-                        // ChildVisit might have unconfirmed location which does not have a duration
-                        placeVisit.childVisits?.forEach { childVisit ->
-                            if (!configFile.ignoredVisitedPlaceIds.contains(childVisit.location.placeId)) {
-                                exportChildVisitUseCase(
-                                    childVisit = childVisit,
-                                    enablePlacesApiLookup = _enablePlacesApiLookup.value
-                                )?.let { vEvent ->
-                                    eventList.add(vEvent)
-                                    printLogForVerboseMode(status = vEvent.toString())
+                            // If we have child-visits, we export them as individual events
+                            // ChildVisit might have unconfirmed location which does not have a duration
+                            placeVisit.childVisits?.forEach { childVisit ->
+                                if (!configFile.ignoredVisitedPlaceIds.contains(childVisit.location.placeId)) {
+                                    exportChildVisitUseCase(
+                                        childVisit = childVisit,
+                                        enablePlacesApiLookup = _enablePlacesApiLookup.value
+                                    )?.let { vEvent ->
+                                        eventList.add(vEvent)
+                                        printLogForVerboseMode(status = vEvent.toString())
+                                    }
                                 }
                             }
                         }

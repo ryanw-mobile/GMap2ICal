@@ -20,7 +20,7 @@ class ExportChildVisitUseCaseImpl(
         enablePlacesApiLookup: Boolean
     ): VEvent? {
         // If we have child-visits, we export them as individual events
-        // ChildVisit might have unconfirmed location which does not have a duration
+        // ChildVisit might have unconfirmed location which does not have a duration, so return value can be null
         val childPlace: Place? =
             if (enablePlacesApiLookup && childVisit.location.placeId != null) {
                 placeDetailsRepository.getPlaceDetails(

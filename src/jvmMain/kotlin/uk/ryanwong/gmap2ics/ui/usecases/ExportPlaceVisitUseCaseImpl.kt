@@ -16,13 +16,8 @@ class ExportPlaceVisitUseCaseImpl(
 ) : ExportPlaceVisitUseCase {
     override suspend operator fun invoke(
         placeVisit: PlaceVisit,
-        enablePlacesApiLookup: Boolean,
-        ignoredVisitedPlaceIds: List<String>
-    ): VEvent? {
-        if (ignoredVisitedPlaceIds.contains(placeVisit.location.placeId)) {
-            return null
-        }
-
+        enablePlacesApiLookup: Boolean
+    ): VEvent {
         val place: Place? =
             if (enablePlacesApiLookup && placeVisit.location.placeId != null) {
                 placeDetailsRepository.getPlaceDetails(
@@ -32,7 +27,6 @@ class ExportPlaceVisitUseCaseImpl(
             } else null
 
         val timelineItem = placeVisit.asTimelineItem(timeZoneMap = timeZoneMap, place = place)
-
         return VEvent.from(timelineItem = timelineItem)
     }
 }

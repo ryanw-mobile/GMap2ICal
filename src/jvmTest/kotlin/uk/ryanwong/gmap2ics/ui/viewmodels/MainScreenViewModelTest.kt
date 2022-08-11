@@ -9,6 +9,8 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.flow.first
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
+import uk.ryanwong.gmap2ics.app.models.LatLng
+import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.configs.MockConfig
 import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
@@ -29,11 +31,28 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
     private val mockProjectBasePath = "/default-base-path/default-sub-folder/"
 
-    private fun setupViewModel() {
+    private val mockDefaultVEvent = VEvent(
+        uid = "2011-11-11T11:22:22.222Z",
+        placeId = "location-id-to-be-kept",
+        dtStamp = "2011-11-11T11:22:22.222Z",
+        organizer = null,
+        dtStart = "20111111T201111",
+        dtEnd = "20111111T202222",
+        dtTimeZone = "Asia/Tokyo",
+        summary = "📍 some-summary",
+        location = "",
+        geo = LatLng(latitude = 26.33833, longitude = 127.8),
+        description = "Place ID:\\nlocation-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:location-id-to-be-kept",
+        url = "https://www.google.com/maps/place/?q=place_id:location-id-to-be-kept",
+        lastModified = "2011-11-11T11:22:22.222Z"
+    )
+
+    // These tests don't touch VEvent (yet), so we feed in a default mock result
+    private fun setupViewModel(mockUseCaseResponse: VEvent = mockDefaultVEvent) {
         mockTimelineRepository = MockTimelineRepository()
         mockLocalFileRepository = MockLocalFileRepository()
         mockExportActivitySegmentUseCase = MockExportActivitySegmentUseCase()
-        mockExportPlaceVisitUseCase = MockExportPlaceVisitUseCase()
+        mockExportPlaceVisitUseCase = MockExportPlaceVisitUseCase(mockUseCaseResponse = mockUseCaseResponse)
         mockExportChildVisitUseCase = MockExportChildVisitUseCase()
 
         mainScreenViewModel = MainScreenViewModel(
