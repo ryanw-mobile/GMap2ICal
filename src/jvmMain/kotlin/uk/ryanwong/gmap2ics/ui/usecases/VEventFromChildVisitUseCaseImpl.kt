@@ -10,10 +10,10 @@ import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ChildVisit
 import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 
-class ExportChildVisitUseCaseImpl(
+class VEventFromChildVisitUseCaseImpl(
     private val placeDetailsRepository: PlaceDetailsRepository,
     private val timeZoneMap: TimeZoneMapWrapper
-) : ExportChildVisitUseCase {
+) : VEventFromChildVisitUseCase {
 
     override suspend operator fun invoke(
         childVisit: ChildVisit,

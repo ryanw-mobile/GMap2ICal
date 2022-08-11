@@ -10,9 +10,9 @@ import uk.ryanwong.gmap2ics.data.repository.LocalFileRepositoryImpl
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepositoryImpl
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImpl
 import uk.ryanwong.gmap2ics.ui.mainScreen
-import uk.ryanwong.gmap2ics.ui.usecases.ExportActivitySegmentUseCaseImpl
-import uk.ryanwong.gmap2ics.ui.usecases.ExportChildVisitUseCaseImpl
-import uk.ryanwong.gmap2ics.ui.usecases.ExportPlaceVisitUseCaseImpl
+import uk.ryanwong.gmap2ics.ui.usecases.VEventFromActivitySegmentUseCaseImpl
+import uk.ryanwong.gmap2ics.ui.usecases.VEventFromChildVisitUseCaseImpl
+import uk.ryanwong.gmap2ics.ui.usecases.VEventFromPlaceVisitUseCaseImpl
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapImpl
 import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
@@ -34,15 +34,15 @@ fun main() = application {
             configFile = configFile,
             timelineRepository = TimelineRepositoryImpl(),
             localFileRepository = LocalFileRepositoryImpl(),
-            exportActivitySegmentUseCase = ExportActivitySegmentUseCaseImpl(
+            exportActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
                 placeDetailsRepository = placeDetailsRepository,
                 timeZoneMap = timeZoneMap
             ),
-            exportChildVisitUseCase = ExportChildVisitUseCaseImpl(
+            exportChildVisitUseCase = VEventFromChildVisitUseCaseImpl(
                 placeDetailsRepository = placeDetailsRepository,
                 timeZoneMap = timeZoneMap
             ),
-            exportPlaceVisitUseCase = ExportPlaceVisitUseCaseImpl(
+            exportPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(
                 placeDetailsRepository = placeDetailsRepository,
                 timeZoneMap = timeZoneMap
             )

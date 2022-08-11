@@ -5,11 +5,11 @@
 package uk.ryanwong.gmap2ics.ui.usecases
 
 import uk.ryanwong.gmap2ics.app.models.VEvent
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.PlaceVisit
+import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ChildVisit
 
-interface ExportPlaceVisitUseCase {
+interface VEventFromChildVisitUseCase {
     suspend operator fun invoke(
-        placeVisit: PlaceVisit,
+        childVisit: ChildVisit,
         enablePlacesApiLookup: Boolean
-    ): VEvent
+    ): VEvent?
 }

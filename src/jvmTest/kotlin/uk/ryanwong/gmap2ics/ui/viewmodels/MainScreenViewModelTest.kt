@@ -15,9 +15,9 @@ import uk.ryanwong.gmap2ics.configs.MockConfig
 import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState
-import uk.ryanwong.gmap2ics.ui.usecases.MockExportActivitySegmentUseCase
-import uk.ryanwong.gmap2ics.ui.usecases.MockExportChildVisitUseCase
-import uk.ryanwong.gmap2ics.ui.usecases.MockExportPlaceVisitUseCase
+import uk.ryanwong.gmap2ics.ui.usecases.MockVEventFromActivitySegmentUseCase
+import uk.ryanwong.gmap2ics.ui.usecases.MockVEventFromChildVisitUseCase
+import uk.ryanwong.gmap2ics.ui.usecases.MockVEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.ui.utils.MockResourceBundle
 
 internal class MainScreenViewModelTest : FreeSpec() {
@@ -25,9 +25,9 @@ internal class MainScreenViewModelTest : FreeSpec() {
     lateinit var mainScreenViewModel: MainScreenViewModel
     lateinit var mockTimelineRepository: MockTimelineRepository
     lateinit var mockLocalFileRepository: MockLocalFileRepository
-    lateinit var mockExportActivitySegmentUseCase: MockExportActivitySegmentUseCase
-    lateinit var mockExportPlaceVisitUseCase: MockExportPlaceVisitUseCase
-    lateinit var mockExportChildVisitUseCase: MockExportChildVisitUseCase
+    lateinit var mockVEventFromActivitySegmentUseCase: MockVEventFromActivitySegmentUseCase
+    lateinit var mockVEventFromPlaceVisitUseCase: MockVEventFromPlaceVisitUseCase
+    lateinit var mockVEventFromChildVisitUseCase: MockVEventFromChildVisitUseCase
 
     private val mockProjectBasePath = "/default-base-path/default-sub-folder/"
 
@@ -48,20 +48,21 @@ internal class MainScreenViewModelTest : FreeSpec() {
     )
 
     // These tests don't touch VEvent (yet), so we feed in a default mock result
-    private fun setupViewModel(mockUseCaseResponse: VEvent = mockDefaultVEvent) {
+    private fun setupViewModel(mockVEventFromPlaceVisitUseCaseResponse: VEvent = mockDefaultVEvent) {
         mockTimelineRepository = MockTimelineRepository()
         mockLocalFileRepository = MockLocalFileRepository()
-        mockExportActivitySegmentUseCase = MockExportActivitySegmentUseCase()
-        mockExportPlaceVisitUseCase = MockExportPlaceVisitUseCase(mockUseCaseResponse = mockUseCaseResponse)
-        mockExportChildVisitUseCase = MockExportChildVisitUseCase()
+        mockVEventFromActivitySegmentUseCase = MockVEventFromActivitySegmentUseCase()
+        mockVEventFromPlaceVisitUseCase =
+            MockVEventFromPlaceVisitUseCase(mockUseCaseResponse = mockVEventFromPlaceVisitUseCaseResponse)
+        mockVEventFromChildVisitUseCase = MockVEventFromChildVisitUseCase()
 
         mainScreenViewModel = MainScreenViewModel(
             configFile = MockConfig(),
             timelineRepository = mockTimelineRepository,
             localFileRepository = mockLocalFileRepository,
-            exportActivitySegmentUseCase = mockExportActivitySegmentUseCase,
-            exportPlaceVisitUseCase = mockExportPlaceVisitUseCase,
-            exportChildVisitUseCase = mockExportChildVisitUseCase,
+            exportActivitySegmentUseCase = mockVEventFromActivitySegmentUseCase,
+            exportPlaceVisitUseCase = mockVEventFromPlaceVisitUseCase,
+            exportChildVisitUseCase = mockVEventFromChildVisitUseCase,
             resourceBundle = MockResourceBundle(),
             projectBasePath = mockProjectBasePath
         )

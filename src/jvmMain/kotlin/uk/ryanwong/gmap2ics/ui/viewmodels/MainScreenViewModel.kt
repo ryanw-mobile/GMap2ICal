@@ -15,9 +15,9 @@ import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState
-import uk.ryanwong.gmap2ics.ui.usecases.ExportActivitySegmentUseCase
-import uk.ryanwong.gmap2ics.ui.usecases.ExportChildVisitUseCase
-import uk.ryanwong.gmap2ics.ui.usecases.ExportPlaceVisitUseCase
+import uk.ryanwong.gmap2ics.ui.usecases.VEventFromActivitySegmentUseCase
+import uk.ryanwong.gmap2ics.ui.usecases.VEventFromChildVisitUseCase
+import uk.ryanwong.gmap2ics.ui.usecases.VEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.ui.utils.DefaultResourceBundle
 import uk.ryanwong.gmap2ics.ui.utils.ResourceBundleWrapper
 import java.nio.file.Paths
@@ -26,9 +26,9 @@ class MainScreenViewModel(
     private val configFile: Config,
     private val timelineRepository: TimelineRepository,
     private val localFileRepository: LocalFileRepository,
-    private val exportActivitySegmentUseCase: ExportActivitySegmentUseCase,
-    private val exportChildVisitUseCase: ExportChildVisitUseCase,
-    private val exportPlaceVisitUseCase: ExportPlaceVisitUseCase,
+    private val exportActivitySegmentUseCase: VEventFromActivitySegmentUseCase,
+    private val exportChildVisitUseCase: VEventFromChildVisitUseCase,
+    private val exportPlaceVisitUseCase: VEventFromPlaceVisitUseCase,
     private val resourceBundle: ResourceBundleWrapper = DefaultResourceBundle(),
     private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/")
 ) {

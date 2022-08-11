@@ -20,6 +20,7 @@ class LocalFileRepositoryImpl(
         return localDataSource.getFileList(absolutePath = absolutePath, extension = extension)
     }
 
+    // Note: It would be nice if we could have a ready-to-use Kotlin-based serializer but not found one yet
     override suspend fun exportICal(filename: String, vEvents: List<VEvent>): Result<Unit> {
         return withContext(dispatcher) {
             val stringBuilder = StringBuilder().run {

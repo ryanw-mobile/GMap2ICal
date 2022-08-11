@@ -16,7 +16,7 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Duration
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.WaypointPath
 import uk.ryanwong.gmap2ics.utils.timezonemap.MockTimeZoneMap
 
-internal class ExportActivitySegmentUseCaseImplTest : FreeSpec() {
+internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
 
     /**
      * Test Plan
@@ -28,7 +28,7 @@ internal class ExportActivitySegmentUseCaseImplTest : FreeSpec() {
      * 5. Otherwise, should behave normally.
      */
 
-    private lateinit var exportActivitySegmentUseCase: ExportActivitySegmentUseCaseImpl
+    private lateinit var vEventFromActivitySegmentUseCase: VEventFromActivitySegmentUseCaseImpl
     private lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
     private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
 
@@ -72,7 +72,7 @@ internal class ExportActivitySegmentUseCaseImplTest : FreeSpec() {
     private fun setupUseCase() {
         mockPlaceDetailsRepository = MockPlaceDetailsRepository()
 
-        exportActivitySegmentUseCase = ExportActivitySegmentUseCaseImpl(
+        vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
             placeDetailsRepository = mockPlaceDetailsRepository,
             timeZoneMap = mockTimeZoneMap
         )
@@ -87,7 +87,7 @@ internal class ExportActivitySegmentUseCaseImplTest : FreeSpec() {
             val ignoredActivityType: List<ActivityType> = listOf(ActivityType.FLYING)
 
             // 🟡 When
-            val result = exportActivitySegmentUseCase(
+            val result = vEventFromActivitySegmentUseCase(
                 activitySegment = activitySegment,
                 ignoredActivityType = ignoredActivityType
             )

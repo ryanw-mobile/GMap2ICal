@@ -15,7 +15,7 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Location
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.PlaceVisit
 import uk.ryanwong.gmap2ics.utils.timezonemap.MockTimeZoneMap
 
-internal class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
+internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
 
     /**
      * Test Plan - expecting VEvent to be returned for all cases
@@ -24,7 +24,7 @@ internal class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
      * 2b. If enablePlacesApiLookup, and API returns no extra details, return VEvent like #1
      */
 
-    private lateinit var exportPlaceVisitUseCase: ExportPlaceVisitUseCaseImpl
+    private lateinit var vEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCaseImpl
     private lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
     private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
 
@@ -45,7 +45,7 @@ internal class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
     private fun setupUseCase() {
         mockPlaceDetailsRepository = MockPlaceDetailsRepository()
 
-        exportPlaceVisitUseCase = ExportPlaceVisitUseCaseImpl(
+        vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(
             placeDetailsRepository = mockPlaceDetailsRepository,
             timeZoneMap = mockTimeZoneMap
         )
@@ -59,7 +59,7 @@ internal class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
             val enabledPlacesApiLookup = false
 
             // 🟡 When
-            val vEvent = exportPlaceVisitUseCase(
+            val vEvent = vEventFromPlaceVisitUseCase(
                 placeVisit = placeVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup
             )
@@ -100,7 +100,7 @@ internal class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
                 )
 
                 // 🟡 When
-                val vEvent = exportPlaceVisitUseCase(
+                val vEvent = vEventFromPlaceVisitUseCase(
                     placeVisit = placeVisit,
                     enablePlacesApiLookup = enabledPlacesApiLookup
                 )
@@ -140,7 +140,7 @@ internal class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
                 )
 
                 // 🟡 When
-                val vEvent = exportPlaceVisitUseCase(
+                val vEvent = vEventFromPlaceVisitUseCase(
                     placeVisit = placeVisit,
                     enablePlacesApiLookup = enabledPlacesApiLookup
                 )
@@ -171,7 +171,7 @@ internal class ExportPlaceVisitUseCaseImplTest : FreeSpec() {
                 mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.failure(exception = Exception())
 
                 // 🟡 When
-                val vEvent = exportPlaceVisitUseCase(
+                val vEvent = vEventFromPlaceVisitUseCase(
                     placeVisit = placeVisit,
                     enablePlacesApiLookup = enabledPlacesApiLookup
                 )

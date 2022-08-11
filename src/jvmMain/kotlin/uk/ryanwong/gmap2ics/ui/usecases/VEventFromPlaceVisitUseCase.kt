@@ -7,11 +7,9 @@ package uk.ryanwong.gmap2ics.ui.usecases
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.PlaceVisit
 
-class MockExportPlaceVisitUseCase(private val mockUseCaseResponse: VEvent) : ExportPlaceVisitUseCase {
-    override suspend fun invoke(
+interface VEventFromPlaceVisitUseCase {
+    suspend operator fun invoke(
         placeVisit: PlaceVisit,
         enablePlacesApiLookup: Boolean
-    ): VEvent {
-        return mockUseCaseResponse
-    }
+    ): VEvent
 }
