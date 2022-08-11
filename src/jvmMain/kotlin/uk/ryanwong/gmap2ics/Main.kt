@@ -34,15 +34,15 @@ fun main() = application {
             configFile = configFile,
             timelineRepository = TimelineRepositoryImpl(),
             localFileRepository = LocalFileRepositoryImpl(),
-            exportActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
+            vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
                 placeDetailsRepository = placeDetailsRepository,
                 timeZoneMap = timeZoneMap
             ),
-            exportChildVisitUseCase = VEventFromChildVisitUseCaseImpl(
+            vEventFromChildVisitUseCase = VEventFromChildVisitUseCaseImpl(
                 placeDetailsRepository = placeDetailsRepository,
                 timeZoneMap = timeZoneMap
             ),
-            exportPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(
+            vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(
                 placeDetailsRepository = placeDetailsRepository,
                 timeZoneMap = timeZoneMap
             )

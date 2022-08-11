@@ -8,7 +8,7 @@ import java.util.Locale
 import java.util.ResourceBundle
 
 class DefaultResourceBundle(
-    private val resourceBundle: ResourceBundle = java.util.ResourceBundle.getBundle(
+    private val resourceBundle: ResourceBundle = ResourceBundle.getBundle(
         "resources",
         Locale.ENGLISH
     )

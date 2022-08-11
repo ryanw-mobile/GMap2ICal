@@ -8,7 +8,7 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.TimelineObject
 
 class MockTimelineRepository : TimelineRepository {
     var parseTimeLineResponse: Result<TimelineObjects>? = null
-    override suspend fun parseTimeLine(filePath: String): Result<TimelineObjects> {
+    override suspend fun getTimeLine(filePath: String): Result<TimelineObjects> {
         return parseTimeLineResponse ?: Result.failure(Exception("mock response unavailable"))
     }
 }
