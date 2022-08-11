@@ -32,7 +32,6 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
         centerLatE7 = 224800000,
         centerLngE7 = 1278000000,
         duration = Duration(startTimestamp = "2011-11-11T11:11:11.111Z", endTimestamp = "2011-11-11T11:22:22.222Z"),
-        editConfirmationStatus = "NOT_CONFIRMED",
         lastEditedTimestamp = null,
         location = Location(
             address = "some-address",

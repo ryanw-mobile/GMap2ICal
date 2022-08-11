@@ -16,7 +16,6 @@ data class ChildVisit(
     val centerLatE7: Int? = null,
     val centerLngE7: Int? = null,
     val duration: Duration? = null,
-    val editConfirmationStatus: String? = null,
     val lastEditedTimestamp: String? = null,
     val location: Location,
     val locationConfidence: Int? = null,
