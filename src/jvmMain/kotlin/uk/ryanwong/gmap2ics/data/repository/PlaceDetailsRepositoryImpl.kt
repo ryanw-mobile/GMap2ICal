@@ -8,13 +8,13 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.app.models.PlaceDetails
-import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
 
 class PlaceDetailsRepositoryImpl(
-    private val configFile: Config,
     private val networkDataSource: GoogleApiDataSource = RetrofitGoogleApiDataSource(),
+    private val placesApiKey: String?,
+    private val apiLanguageOverride: Map<String, String>, // TODO: Move to function level when configurable through UI
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : PlaceDetailsRepository {
 
@@ -28,10 +28,10 @@ class PlaceDetailsRepositoryImpl(
         return withContext(dispatcher) {
             // Do API lookup and cache the results
             // If user does not supply an API Key means we always return null
-            configFile.placesApiKey?.let { apiKey ->
-                val language: String? = configFile.apiLanguageOverride.getOrDefault(
+            placesApiKey?.let { apiKey ->
+                val language: String? = apiLanguageOverride.getOrDefault(
                     key = placeTimeZoneId,
-                    defaultValue = configFile.apiLanguageOverride.get(key = "default")
+                    defaultValue = apiLanguageOverride.get(key = "default")
                 )
 
                 val placeResult =

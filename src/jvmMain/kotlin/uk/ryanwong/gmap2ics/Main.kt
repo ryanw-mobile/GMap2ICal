@@ -23,7 +23,10 @@ fun main() = application {
     val configFile = RyanConfig() // Specify your config here
 
     // TODO: dependency injection
-    val placeDetailsRepository = PlaceDetailsRepositoryImpl(configFile = configFile)
+    val placeDetailsRepository = PlaceDetailsRepositoryImpl(
+        placesApiKey = configFile.placesApiKey,
+        apiLanguageOverride = configFile.apiLanguageOverride
+    )
     val timeZoneMap: TimeZoneMapWrapper = TimeZoneMapImpl(timeZoneMap = TimeZoneMap.forEverywhere())
     mainScreen(
         onCloseRequest = { exitApplication() },
