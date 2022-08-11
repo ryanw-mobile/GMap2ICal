@@ -60,9 +60,9 @@ internal class MainScreenViewModelTest : FreeSpec() {
             configFile = MockConfig(),
             timelineRepository = mockTimelineRepository,
             localFileRepository = mockLocalFileRepository,
-            exportActivitySegmentUseCase = mockVEventFromActivitySegmentUseCase,
-            exportPlaceVisitUseCase = mockVEventFromPlaceVisitUseCase,
-            exportChildVisitUseCase = mockVEventFromChildVisitUseCase,
+            vEventFromActivitySegmentUseCase = mockVEventFromActivitySegmentUseCase,
+            vEventFromPlaceVisitUseCase = mockVEventFromPlaceVisitUseCase,
+            vEventFromChildVisitUseCase = mockVEventFromChildVisitUseCase,
             resourceBundle = MockResourceBundle(),
             projectBasePath = mockProjectBasePath
         )
