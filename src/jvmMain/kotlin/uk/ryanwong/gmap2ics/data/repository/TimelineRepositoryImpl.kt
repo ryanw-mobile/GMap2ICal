@@ -17,10 +17,12 @@ import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.TimelineObjects
 import uk.ryanwong.gmap2ics.data.source.local.LocalDataSource
 import uk.ryanwong.gmap2ics.data.source.local.LocalDataSourceImpl
+import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 import kotlin.coroutines.cancellation.CancellationException
 
 class TimelineRepositoryImpl(
     private val localDataSource: LocalDataSource = LocalDataSourceImpl(),
+    private val timeZoneMap: TimeZoneMapWrapper,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : TimelineRepository {
     private val objectMapper: ObjectMapper = jacksonObjectMapper().apply {
@@ -33,7 +35,7 @@ class TimelineRepositoryImpl(
             Result.runCatching {
                 val jsonString = localDataSource.getJsonString(filePath = filePath)
                 val timelineObjects: TimelineObjects = objectMapper.readValue(content = jsonString)
-                Timeline.from(timelineObjects = timelineObjects)
+                Timeline.from(timelineObjects = timelineObjects, timeZoneMap = timeZoneMap)
             }.except<CancellationException, _>()
         }
     }

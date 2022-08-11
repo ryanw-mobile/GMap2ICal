@@ -4,6 +4,8 @@
 
 package uk.ryanwong.gmap2ics.app.models.timeline
 
+import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
+import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.TimelineObjects
 import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 
@@ -17,8 +19,11 @@ data class Timeline(
             return Timeline(
                 timelineEntries = timelineObjects.timelineObjects?.map { timelineObject ->
                     TimelineEntry(
-                        activitySegment = timelineObject.activitySegment?.let {
-                            ActivitySegment.from(activitySegmentDataModel = it)
+                        activitySegment = timelineObject.activitySegment?.let { activitySegment ->
+                            ActivitySegment.from(
+                                activitySegmentDataModel = activitySegment,
+                                timeZoneMap = timeZoneMap
+                            )
                         },
                         placeVisit = timelineObject.placeVisit?.let {
                             PlaceVisit.from(placeVisitDataModel = it, timeZoneMap = timeZoneMap)

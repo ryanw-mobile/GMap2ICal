@@ -4,13 +4,11 @@
 
 package uk.ryanwong.gmap2ics.ui.usecases
 
-import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.VEvent
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivitySegment
+import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 
 interface VEventFromActivitySegmentUseCase {
     suspend operator fun invoke(
-        activitySegment: ActivitySegment,
-        ignoredActivityType: List<ActivityType>
+        activitySegment: ActivitySegment
     ): Result<Pair<VEvent, String?>>
 }

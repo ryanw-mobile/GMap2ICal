@@ -32,20 +32,14 @@ fun main() = application {
         onCloseRequest = { exitApplication() },
         mainScreenViewModel = MainScreenViewModel(
             configFile = configFile,
-            timelineRepository = TimelineRepositoryImpl(),
+            timelineRepository = TimelineRepositoryImpl(timeZoneMap = timeZoneMap),
             localFileRepository = LocalFileRepositoryImpl(),
             vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
                 placeDetailsRepository = placeDetailsRepository,
                 timeZoneMap = timeZoneMap
             ),
-            vEventFromChildVisitUseCase = VEventFromChildVisitUseCaseImpl(
-                placeDetailsRepository = placeDetailsRepository,
-                timeZoneMap = timeZoneMap
-            ),
-            vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(
-                placeDetailsRepository = placeDetailsRepository,
-                timeZoneMap = timeZoneMap
-            )
+            vEventFromChildVisitUseCase = VEventFromChildVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository),
+            vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository)
         )
     )
 }

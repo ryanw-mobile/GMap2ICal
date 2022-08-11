@@ -25,6 +25,22 @@ data class Location(
                 )
             }
         }
+
+        fun from(activityLocationDataModel: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivityLocation): Location? {
+            with(activityLocationDataModel) {
+                return if (latitudeE7 == null || longitudeE7 == null) {
+                    null
+                } else {
+                    Location(
+                        address = address,
+                        latitudeE7 = latitudeE7,
+                        longitudeE7 = longitudeE7,
+                        name = name,
+                        placeId = placeId
+                    )
+                }
+            }
+        }
     }
 
     private val latLngFormat = DecimalFormat("###.######")

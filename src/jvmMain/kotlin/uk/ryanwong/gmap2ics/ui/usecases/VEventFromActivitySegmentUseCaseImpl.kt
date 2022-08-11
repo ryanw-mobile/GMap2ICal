@@ -5,11 +5,10 @@
 package uk.ryanwong.gmap2ics.ui.usecases
 
 import kotlinx.coroutines.CancellationException
-import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.VEvent
+import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivitySegment
 import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
 
@@ -19,31 +18,13 @@ class VEventFromActivitySegmentUseCaseImpl(
 ) : VEventFromActivitySegmentUseCase {
 
     override suspend operator fun invoke(
-        activitySegment: ActivitySegment,
-        ignoredActivityType: List<ActivityType>
+        activitySegment: ActivitySegment
     ): Result<Pair<VEvent, String?>> {
         return Result.runCatching {
             var statusLog: String? = null
 
-            // Convert to enum
-            val activityType = activitySegment.activityType?.let { activityType ->
-                try {
-                    ActivityType.valueOf(activityType)
-                } catch (e: IllegalArgumentException) {
-                    statusLog = "⚠️ Unknown activity type: $activityType"
-                    ActivityType.UNKNOWN_ACTIVITY_TYPE
-                }
-            } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
-
-            if (ignoredActivityType.contains(activityType)) {
-                throw IgnoredActivityTypeException(
-                    activityType = activitySegment.activityType,
-                    startTimestamp = activitySegment.duration.startTimestamp
-                )
-            }
-
             // Extra information required by timelineItem
-            val eventTimeZone = activitySegment.getEventTimeZone(timeZoneMap = timeZoneMap)
+            val eventTimeZone = activitySegment.eventTimeZone
             val firstPlaceDetails = activitySegment.waypointPath?.roadSegment?.first()?.placeId?.let { placeId ->
                 placeDetailsRepository.getPlaceDetails(
                     placeId = placeId,
@@ -92,8 +73,4 @@ class VEventFromActivitySegmentUseCaseImpl(
     private fun shouldShowMiles(timezone: TimeZone?): Boolean {
         return timezone?.zoneId == "Europe/London"
     }
-}
-
-class IgnoredActivityTypeException(val activityType: String?, startTimestamp: String) : Exception() {
-    override val message: String = "🚫 Ignored activity type $activityType at $startTimestamp"
 }
