@@ -41,18 +41,17 @@ data class ChildVisit(
         }
     }
 
-    fun asTimelineItem(timeZoneMap: TimeZoneMapWrapper, placeDetails: PlaceDetails? = null): TimelineItem {
-        val lastEditTimeStamp = lastEditedTimestamp
+    fun asTimelineItem(placeDetails: PlaceDetails? = null): TimelineItem {
         val url = placeDetails?.url ?: "https://www.google.com/maps/place/?q=place_id:${location.placeId}"
 
         return TimelineItem(
-            id = lastEditTimeStamp,
+            id = lastEditedTimestamp,
             placeId = location.placeId,
             subject = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
             location = placeDetails?.formattedAddress ?: location.address?.replace('\n', ',') ?: "",
             startTimeStamp = durationStartTimestamp,
             endTimeStamp = durationEndTimestamp,
-            lastEditTimeStamp = lastEditTimeStamp,
+            lastEditTimeStamp = lastEditedTimestamp,
             eventLatLng = placeDetails?.geo ?: LatLng(
                 latitude = location.latitudeE7 * 0.0000001,
                 longitude = location.longitudeE7 * 0.0000001
