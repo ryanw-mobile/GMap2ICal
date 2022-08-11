@@ -173,7 +173,7 @@ class MainScreenViewModel(
                 }
             }
         }
-        appendStatus("✅ Processed ${timeline?.getOrNull()?.timelineObjects?.size ?: 0} timeline entries.")
+        appendStatus("✅ Processed ${timeline.getOrNull()?.timelineObjects?.size ?: 0} timeline entries.")
         return eventList
     }
 

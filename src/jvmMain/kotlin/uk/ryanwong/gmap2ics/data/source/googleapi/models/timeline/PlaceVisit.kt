@@ -21,7 +21,6 @@ data class PlaceVisit(
     val locationAssertionType: String? = null,
     val locationConfidence: Int? = null,
     val placeConfidence: String? = null,
-    val placeVisitImportance: String? = null,
     val placeVisitType: String? = null,
     val visitConfidence: Int? = null,
     val childVisits: List<ChildVisit>? = null,
