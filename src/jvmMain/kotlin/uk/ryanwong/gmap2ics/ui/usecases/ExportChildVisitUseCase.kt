@@ -10,7 +10,6 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ChildVisit
 interface ExportChildVisitUseCase {
     suspend operator fun invoke(
         childVisit: ChildVisit,
-        ignoredVisitedPlaceIds: List<String>,
         enablePlacesApiLookup: Boolean
     ): VEvent?
 }

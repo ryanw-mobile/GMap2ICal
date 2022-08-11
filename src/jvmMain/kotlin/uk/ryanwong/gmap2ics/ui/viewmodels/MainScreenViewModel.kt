@@ -157,13 +157,14 @@ class MainScreenViewModel(
                         // If we have child-visits, we export them as individual events
                         // ChildVisit might have unconfirmed location which does not have a duration
                         placeVisit.childVisits?.forEach { childVisit ->
-                            exportChildVisitUseCase(
-                                childVisit = childVisit,
-                                ignoredVisitedPlaceIds = configFile.ignoredVisitedPlaceIds,
-                                enablePlacesApiLookup = _enablePlacesApiLookup.value
-                            )?.let { vEvent ->
-                                eventList.add(vEvent)
-                                printLogForVerboseMode(status = vEvent.toString())
+                            if (!configFile.ignoredVisitedPlaceIds.contains(childVisit.location.placeId)) {
+                                exportChildVisitUseCase(
+                                    childVisit = childVisit,
+                                    enablePlacesApiLookup = _enablePlacesApiLookup.value
+                                )?.let { vEvent ->
+                                    eventList.add(vEvent)
+                                    printLogForVerboseMode(status = vEvent.toString())
+                                }
                             }
                         }
                     }

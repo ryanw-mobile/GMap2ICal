@@ -17,13 +17,8 @@ class ExportChildVisitUseCaseImpl(
 
     override suspend operator fun invoke(
         childVisit: ChildVisit,
-        ignoredVisitedPlaceIds: List<String>,
         enablePlacesApiLookup: Boolean
     ): VEvent? {
-        if (ignoredVisitedPlaceIds.contains(childVisit.location.placeId)) {
-            return null
-        }
-
         // If we have child-visits, we export them as individual events
         // ChildVisit might have unconfirmed location which does not have a duration
         val childPlace: Place? =

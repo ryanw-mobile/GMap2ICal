@@ -11,7 +11,6 @@ class MockExportChildVisitUseCase : ExportChildVisitUseCase {
     var useCaseResponse: VEvent? = null
     override suspend fun invoke(
         childVisit: ChildVisit,
-        ignoredVisitedPlaceIds: List<String>,
         enablePlacesApiLookup: Boolean
     ): VEvent? {
         return useCaseResponse
