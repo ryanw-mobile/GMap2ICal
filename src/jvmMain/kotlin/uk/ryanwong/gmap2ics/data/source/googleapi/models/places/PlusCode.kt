@@ -4,13 +4,13 @@
 
 package uk.ryanwong.gmap2ics.data.source.googleapi.models.places
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlusCode(
-    @Json(name = "compound_code")
+    @SerialName(value = "compound_code")
     val compoundCode: String? = null,
-    @Json(name = "global_code")
+    @SerialName(value = "global_code")
     val globalCode: String? = null
 )

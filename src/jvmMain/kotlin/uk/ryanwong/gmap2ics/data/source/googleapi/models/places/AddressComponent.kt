@@ -4,14 +4,14 @@
 
 package uk.ryanwong.gmap2ics.data.source.googleapi.models.places
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class AddressComponent(
-    @Json(name = "long_name")
+    @SerialName(value = "long_name")
     val longName: String,
-    @Json(name = "short_name")
+    @SerialName(value = "short_name")
     val shortName: String,
     val types: List<String>
 )

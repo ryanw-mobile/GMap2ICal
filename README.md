@@ -1,15 +1,18 @@
 # GMap2iCal - Google Maps Timeline to iCal
+
 ### My first Compose for Desktop App
 
 A small utility written in Kotlin to convert Google Maps Activity Timeline to iCal (.ics) files for calendar import.
 
 This is not an Android App. It can be built and executed using IntelliJ IDEA on the desktop environment.
 
-This is my first non-Android Kotlin project. It is within expectation that everything inside this project can be messy. I treat this as my playground that allows me to make all kinds of experiments and mistakes. While I thank you for your visit, I would appreciate if you could take things easy when you see me doing something crazy here. Thank you.
+This is my first non-Android Kotlin project. It is within expectation that everything inside this project can be messy.
+I treat this as my playground that allows me to make all kinds of experiments and mistakes. While I thank you for your
+visit, I would appreciate if you could take things easy when you see me doing something crazy here. Thank you.
 
 <div style="text-align:center"><img src="screenshot-220804.png" /></div>
 
-## TLDR - Status and Roadmap
+## TL;DR - Status and Roadmap
 
 This App is fully functional.
 
@@ -17,7 +20,8 @@ This App is fully functional.
 * Migrate Retrofit to Ktor
 * Integrate SQLite as preferences store, and Google Maps Place API caches
 * Dependency Injection. Probably Koin
-* Full RW MobiMedia UK commercial grade UX - phase out hardcoded config profiles. _This is expensive and subject to budget._
+* Full RW MobiMedia UK commercial grade UX - phase out hardcoded config profiles. _This is expensive and subject to
+  budget._
 
 ## Background
 
@@ -44,13 +48,15 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 ### High level architecture
 
 * Kotlin
-* Kotlin Flow, Coroutines, Serialization
+* Kotlin Flow
+* Kotlin Coroutines
+* [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) - Replacing Moshi
 * Compose Desktop UI
 * MVVM architecture with use-cases
 
 ### Major libraries used
 
-* [Time Zone Map](https://github.com/dustin-johnson/timezonemap) - determine time zone 
+* [Time Zone Map](https://github.com/dustin-johnson/timezonemap) - determine time zone
 * [Jackson](https://github.com/FasterXML/jackson) - JSON parser
 * [JUnit 5](https://github.com/junit-team/junit5) - Tests
 * [KOTest](https://kotest.io/) - Test framework
