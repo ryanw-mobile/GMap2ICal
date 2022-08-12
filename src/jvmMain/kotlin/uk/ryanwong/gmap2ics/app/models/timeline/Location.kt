@@ -26,6 +26,8 @@ data class Location(
             }
         }
 
+        // Location without LatLng is meaningless.
+        // Caller should consider dropping the entry should that happens.
         fun from(activityLocationDataModel: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivityLocation): Location? {
             with(activityLocationDataModel) {
                 return if (latitudeE7 == null || longitudeE7 == null) {
@@ -53,21 +55,14 @@ data class Location(
         return longitudeE7.times(0.0000001)
     }
 
-    fun getFormattedLatLng(): String? {
-        val lat = latitudeE7.let { latitude ->
-            latLngFormat.format(latitude.times(0.0000001))
-        }
-        val lng = longitudeE7.let { longitude ->
-            latLngFormat.format(longitude.times(0.0000001))
-        }
-
-        return if (lat != null && lng != null) "$lat,$lng"
-        else null
+    fun getFormattedLatLng(): String {
+        val lat = latLngFormat.format(latitudeE7.times(0.0000001))
+        val lng = latLngFormat.format(longitudeE7.times(0.0000001))
+        return "$lat,$lng"
     }
 
     fun getGoogleMapsLatLngLink(): String {
-        return if (latitudeE7 == null || longitudeE7 == null) ""
-        else "https://maps.google.com?q=${getFormattedLatLng()}"
+        return "https://maps.google.com?q=${getFormattedLatLng()}"
     }
 
     fun getGoogleMapsPlaceIdLink(): String {
