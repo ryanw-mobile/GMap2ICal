@@ -5,6 +5,10 @@
 package uk.ryanwong.gmap2ics.app.models
 
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
+import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
+import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
+import us.dustinj.timezonemap.TimeZone
+import java.text.DecimalFormat
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -47,6 +51,80 @@ data class VEvent(
                     location = location,
                     url = placeUrl,
                     lastModified = lastEditTimeStamp,
+                    description = description
+                )
+            }
+        }
+
+        private val mileageFormat = DecimalFormat("#,###.#")
+        fun from(
+            activitySegment: ActivitySegment,
+            shouldShowMiles: Boolean,
+            firstPlaceDetails: PlaceDetails?,
+            lastPlaceDetails: PlaceDetails?,
+            startPlaceDetails: PlaceDetails?,
+            endPlaceDetails: PlaceDetails?,
+            eventTimeZone: TimeZone?
+        ): VEvent {
+            with(activitySegment) {
+                val distanceInKilometers: Double = distance / 1000.0
+                val distanceString = if (shouldShowMiles)
+                    "${mileageFormat.format(ActivitySegmentFormatter.kilometersToMiles(distanceInKilometers))}mi"
+                else
+                    "${mileageFormat.format(distanceInKilometers)}km"
+
+                val subject = "${activityType.emoji} $distanceString ${
+                    ActivitySegmentFormatter.parseActivityRouteText(
+                        startPlaceDetails = startPlaceDetails,
+                        endPlaceDetails = endPlaceDetails,
+                        startLocation = startLocation.name,
+                        endLocation = endLocation.name
+                    )
+                }"
+
+                // Try to extract more meaningful information than just the miles travelled
+                val startLocationText = ActivitySegmentFormatter.getStartLocationText(
+                    startLocation = startLocation,
+                    placeDetails = startPlaceDetails
+                )
+                val endLocationText =
+                    ActivitySegmentFormatter.getEndLocationText(
+                        endLocation = endLocation,
+                        placeDetails = endPlaceDetails
+                    )
+
+                val description = ActivitySegmentFormatter.parseTimelineDescription(
+                    startLocationText = startLocationText,
+                    endLocationText = endLocationText,
+                    startPlaceDetails = firstPlaceDetails,
+                    endPlaceDetails = lastPlaceDetails
+                )
+
+                val timeZoneId = eventTimeZone?.zoneId ?: "UTC"
+
+                return VEvent(
+                    uid = lastEditedTimestamp,
+                    placeId = endLocation.placeId, // Usually null
+                    dtStamp = lastEditedTimestamp,
+                    dtStart = getLocalizedTimeStamp(
+                        timestamp = durationStartTimestamp,
+                        timezoneId = timeZoneId
+                    ),
+                    dtEnd = getLocalizedTimeStamp(
+                        timestamp = durationEndTimestamp,
+                        timezoneId = timeZoneId
+                    ),
+                    summary = subject,
+                    geo = LatLng(
+                        latitude = endLocation.getLatitude(),
+                        longitude = endLocation.getLongitude()
+                    ),
+                    dtTimeZone = timeZoneId,
+                    location =  endLocation.address ?: lastPlaceDetails?.formattedAddress
+                    ?: endLocation.getFormattedLatLng(),
+                    url = endLocation.placeId?.let { endLocation.getGoogleMapsPlaceIdLink() }
+                        ?: endLocation.getGoogleMapsLatLngLink(),
+                    lastModified = lastEditedTimestamp,
                     description = description
                 )
             }

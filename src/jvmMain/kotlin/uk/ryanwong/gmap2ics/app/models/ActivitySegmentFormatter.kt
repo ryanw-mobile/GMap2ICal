@@ -2,7 +2,7 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.app.models.timeline.activity
+package uk.ryanwong.gmap2ics.app.models
 
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails

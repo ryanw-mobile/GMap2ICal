@@ -5,13 +5,9 @@
 package uk.ryanwong.gmap2ics.app.models.timeline.activity
 
 import uk.ryanwong.gmap2ics.app.ActivityType
-import uk.ryanwong.gmap2ics.app.models.TimelineItem
-import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
-import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
-import java.text.DecimalFormat
 
 data class ActivitySegment(
     val activities: List<Activity>,
@@ -77,66 +73,6 @@ data class ActivitySegment(
                 }
             } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
         }
-    }
-
-    private val mileageFormat = DecimalFormat("#,###.#")
-
-    fun asTimelineItem(
-        shouldShowMiles: Boolean,
-        firstPlaceDetails: PlaceDetails?,
-        lastPlaceDetails: PlaceDetails?,
-        startPlaceDetails: PlaceDetails?,
-        endPlaceDetails: PlaceDetails?,
-        eventTimeZone: TimeZone?
-    ): TimelineItem {
-        val distanceInKilometers: Double = distance / 1000.0
-        val distanceString = if (shouldShowMiles)
-            "${mileageFormat.format(ActivitySegmentFormatter.kilometersToMiles(distanceInKilometers))}mi"
-        else
-            "${mileageFormat.format(distanceInKilometers)}km"
-
-        val subject = "${activityType.emoji} $distanceString ${
-            ActivitySegmentFormatter.parseActivityRouteText(
-                startPlaceDetails = startPlaceDetails,
-                endPlaceDetails = endPlaceDetails,
-                startLocation = startLocation.name,
-                endLocation = endLocation.name
-            )
-        }"
-
-        // Try to extract more meaningful information than just the miles travelled
-        val startLocationText = ActivitySegmentFormatter.getStartLocationText(
-            startLocation = startLocation,
-            placeDetails = startPlaceDetails
-        )
-        val endLocationText =
-            ActivitySegmentFormatter.getEndLocationText(endLocation = endLocation, placeDetails = endPlaceDetails)
-
-        val description = ActivitySegmentFormatter.parseTimelineDescription(
-            startLocationText = startLocationText,
-            endLocationText = endLocationText,
-            startPlaceDetails = firstPlaceDetails,
-            endPlaceDetails = lastPlaceDetails
-        )
-
-        return TimelineItem(
-            id = lastEditedTimestamp,
-            placeId = endLocation.placeId, // Usually null
-            subject = subject,
-            location = endLocation.address ?: lastPlaceDetails?.formattedAddress ?: endLocation.getFormattedLatLng(),
-            startTimeStamp = durationStartTimestamp,
-            endTimeStamp = durationEndTimestamp,
-            lastEditTimeStamp = lastEditedTimestamp,
-            eventLatLng = LatLng(
-                latitude = endLocation.getLatitude(),
-                longitude = endLocation.getLongitude()
-            ),
-            eventTimeZone = eventTimeZone,
-            placeUrl = endLocation.placeId?.let
-            { endLocation.getGoogleMapsPlaceIdLink() }
-                ?: endLocation.getGoogleMapsLatLngLink(),
-            description = description
-        )
     }
 }
 
