@@ -4,10 +4,7 @@
 
 package uk.ryanwong.gmap2ics.app.models.timeline.placevisit
 
-import uk.ryanwong.gmap2ics.app.models.TimelineItem
-import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
-import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
 
@@ -40,25 +37,5 @@ data class PlaceVisit(
                 )
             }
         }
-    }
-
-    fun asTimelineItem(placeDetails: PlaceDetails? = null): TimelineItem {
-        val url = placeDetails?.url ?: "https://www.google.com/maps/place/?q=place_id:${location.placeId}"
-        return TimelineItem(
-            id = lastEditedTimestamp,
-            placeId = location.placeId,
-            subject = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
-            location = placeDetails?.formattedAddress ?: location.address?.replace('\n', ',') ?: "",
-            startTimeStamp = durationStartTimestamp,
-            endTimeStamp = durationEndTimestamp,
-            lastEditTimeStamp = lastEditedTimestamp,
-            eventLatLng = placeDetails?.geo ?: LatLng(
-                latitude = location.latitudeE7 * 0.0000001,
-                longitude = location.longitudeE7 * 0.0000001
-            ),
-            eventTimeZone = eventTimeZone,
-            placeUrl = url,
-            description = "Place ID:\\n${location.placeId}\\n\\nGoogle Maps URL:\\n$url"
-        )
     }
 }

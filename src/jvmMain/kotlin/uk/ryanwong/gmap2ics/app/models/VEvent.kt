@@ -7,6 +7,7 @@ package uk.ryanwong.gmap2ics.app.models
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
+import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import us.dustinj.timezonemap.TimeZone
 import java.text.DecimalFormat
 import java.time.Instant
@@ -120,12 +121,43 @@ data class VEvent(
                         longitude = endLocation.getLongitude()
                     ),
                     dtTimeZone = timeZoneId,
-                    location =  endLocation.address ?: lastPlaceDetails?.formattedAddress
+                    location = endLocation.address ?: lastPlaceDetails?.formattedAddress
                     ?: endLocation.getFormattedLatLng(),
                     url = endLocation.placeId?.let { endLocation.getGoogleMapsPlaceIdLink() }
                         ?: endLocation.getGoogleMapsLatLngLink(),
                     lastModified = lastEditedTimestamp,
                     description = description
+                )
+            }
+        }
+
+        fun from(placeVisit: PlaceVisit, placeDetails: PlaceDetails? = null): VEvent {
+            with(placeVisit) {
+                val url = placeDetails?.url ?: "https://www.google.com/maps/place/?q=place_id:${location.placeId}"
+                val timeZoneId = eventTimeZone?.zoneId ?: "UTC"
+
+                return VEvent(
+                    uid = lastEditedTimestamp,
+                    placeId = location.placeId,
+                    dtStamp = lastEditedTimestamp,
+                    dtStart = getLocalizedTimeStamp(
+                        timestamp = durationStartTimestamp,
+                        timezoneId = timeZoneId
+                    ),
+                    dtEnd = getLocalizedTimeStamp(
+                        timestamp = durationEndTimestamp,
+                        timezoneId = timeZoneId
+                    ),
+                    summary = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
+                    geo = placeDetails?.geo ?: LatLng(
+                        latitude = location.latitudeE7 * 0.0000001,
+                        longitude = location.longitudeE7 * 0.0000001
+                    ),
+                    dtTimeZone = timeZoneId,
+                    location = placeDetails?.formattedAddress ?: location.address?.replace('\n', ',') ?: "",
+                    url = url,
+                    lastModified = lastEditedTimestamp,
+                    description = "Place ID:\\n${location.placeId}\\n\\nGoogle Maps URL:\\n$url"
                 )
             }
         }
