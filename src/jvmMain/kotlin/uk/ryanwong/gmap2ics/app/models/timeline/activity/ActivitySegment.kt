@@ -91,12 +91,12 @@ data class ActivitySegment(
     ): TimelineItem {
         val distanceInKilometers: Double = distance / 1000.0
         val distanceString = if (shouldShowMiles)
-            "${mileageFormat.format(kilometersToMiles(distanceInKilometers))}mi"
+            "${mileageFormat.format(ActivitySegmentFormatter.kilometersToMiles(distanceInKilometers))}mi"
         else
             "${mileageFormat.format(distanceInKilometers)}km"
 
         val subject = "${activityType.emoji} $distanceString ${
-            parseActivityRouteText(
+            ActivitySegmentFormatter.parseActivityRouteText(
                 startPlaceDetails = startPlaceDetails,
                 endPlaceDetails = endPlaceDetails,
                 startLocation = startLocation.name,
@@ -105,10 +105,14 @@ data class ActivitySegment(
         }"
 
         // Try to extract more meaningful information than just the miles travelled
-        val startLocationText = getStartLocationText(placeDetails = startPlaceDetails)
-        val endLocationText = getEndLocationText(placeDetails = endPlaceDetails)
+        val startLocationText = ActivitySegmentFormatter.getStartLocationText(
+            startLocation = startLocation,
+            placeDetails = startPlaceDetails
+        )
+        val endLocationText =
+            ActivitySegmentFormatter.getEndLocationText(endLocation = endLocation, placeDetails = endPlaceDetails)
 
-        val description = parseTimelineDescription(
+        val description = ActivitySegmentFormatter.parseTimelineDescription(
             startLocationText = startLocationText,
             endLocationText = endLocationText,
             startPlaceDetails = firstPlaceDetails,
@@ -119,8 +123,7 @@ data class ActivitySegment(
             id = lastEditedTimestamp,
             placeId = endLocation.placeId, // Usually null
             subject = subject,
-            location = endLocation.address ?: lastPlaceDetails?.formattedAddress ?: endLocation.getFormattedLatLng()
-            ?: "Unknown",
+            location = endLocation.address ?: lastPlaceDetails?.formattedAddress ?: endLocation.getFormattedLatLng(),
             startTimeStamp = durationStartTimestamp,
             endTimeStamp = durationEndTimestamp,
             lastEditTimeStamp = lastEditedTimestamp,
@@ -135,59 +138,5 @@ data class ActivitySegment(
             description = description
         )
     }
-
-    private fun parseTimelineDescription(
-        startPlaceDetails: PlaceDetails?,
-        endPlaceDetails: PlaceDetails?,
-        startLocationText: String,
-        endLocationText: String
-    ): String {
-        // Segments are less accurate than start and end locations,
-        // but still have some values if the start and end locations do not have a valid placeId
-        val firstSegmentText = startPlaceDetails?.let { placeDetails ->
-            "First segment: ${placeDetails.formattedAddress}\\nhttps://www.google.com/maps/place/?q=place_id:${placeDetails.placeId}\\n\\n"
-        } ?: ""
-
-        val lastSegmentText = endPlaceDetails?.let { placeDetails ->
-            "Last segment: ${placeDetails.formattedAddress}\\nhttps://www.google.com/maps/place/?q=place_id:${placeDetails.placeId}\\n\\n"
-        } ?: ""
-
-        return startLocationText +
-                endLocationText +
-                firstSegmentText +
-                lastSegmentText
-    }
-
-    private fun getStartLocationText(placeDetails: PlaceDetails?): String {
-        return placeDetails?.let { place ->
-            "Start Location: ${place.formattedAddress}\\n${startLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
-        }
-            ?: "Start Location: ${startLocation.getFormattedLatLng()}\\n${startLocation.getGoogleMapsLatLngLink()}\\n\\n"
-
-    }
-
-    private fun getEndLocationText(placeDetails: PlaceDetails?): String {
-        return placeDetails?.let { place ->
-            "End Location: ${place.formattedAddress}\\n${endLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
-        }
-            ?: "End Location: ${endLocation.getFormattedLatLng()}\\n${endLocation.getGoogleMapsLatLngLink()}\\n\\n"
-    }
-
-    private fun parseActivityRouteText(
-        startPlaceDetails: PlaceDetails?,
-        endPlaceDetails: PlaceDetails?,
-        startLocation: String?,
-        endLocation: String?
-    ): String {
-        // PlaceDetails are the most reliable source
-        if (startPlaceDetails != null || endPlaceDetails != null) {
-            return "(${startPlaceDetails?.name} ➡ ${endPlaceDetails?.name})"
-        }
-
-        return if (startLocation == null && endLocation == null) ""
-        else "(${startLocation} ➡ ${endLocation})"
-    }
-
-    private fun kilometersToMiles(meters: Double): Double = meters * 0.621
 }
 
