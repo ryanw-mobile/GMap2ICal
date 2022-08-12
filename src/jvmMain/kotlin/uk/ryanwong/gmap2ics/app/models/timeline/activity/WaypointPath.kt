@@ -6,10 +6,7 @@ package uk.ryanwong.gmap2ics.app.models.timeline.activity
 
 data class WaypointPath(
     val distanceMeters: Double,
-    val roadSegment: List<RoadSegment>,
-//    val confidence: Double? = null,
-//    val source: String? = null,
-//    val travelMode: String? = null
+    val roadSegment: List<RoadSegment>
 ) {
     companion object {
         fun from(waypointPathDataModel: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.WaypointPath): WaypointPath {

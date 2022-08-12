@@ -16,11 +16,6 @@ data class PlaceVisit(
     val durationStartTimestamp: String,
     val lastEditedTimestamp: String,
     val location: Location,
-//    val locationAssertionType: String? = null,
-//    val locationConfidence: Int? = null,
-//    val placeConfidence: String? = null,
-//    val placeVisitType: String? = null,
-//    val visitConfidence: Int? = null,
     val childVisits: List<ChildVisit> = emptyList(),
     val eventTimeZone: TimeZone?
 ) {
