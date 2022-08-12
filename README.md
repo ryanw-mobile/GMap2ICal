@@ -1,5 +1,7 @@
 # GMap2iCal - Google Maps Timeline to iCal
 
+[![Build Status](https://app.bitrise.io/app/0667f15b93a99b17/status.svg?token=2nCEgRSOnFG82N7YWNSPBQ&branch=master)](https://app.bitrise.io/app/0667f15b93a99b17)
+
 ### My first Compose for Desktop App
 
 A small utility written in Kotlin to convert Google Maps Activity Timeline to iCal (.ics) files for calendar import.
@@ -62,6 +64,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * [KOTest](https://kotest.io/) - Test framework
 * [MockK](https://mockk.io/) - Mocking library
 * [Retrofit2](https://square.github.io/retrofit/) - to be replaced by Ktor soon
+* [Bitrise](https://app.bitrise.io/) - CI
 
 ## How to export the Google Maps Timeline as the data set for processing
 
