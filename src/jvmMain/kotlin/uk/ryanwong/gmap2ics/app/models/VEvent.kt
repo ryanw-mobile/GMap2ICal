@@ -7,6 +7,7 @@ package uk.ryanwong.gmap2ics.app.models
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
+import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import us.dustinj.timezonemap.TimeZone
 import java.text.DecimalFormat
@@ -150,6 +151,37 @@ data class VEvent(
                     ),
                     summary = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
                     geo = placeDetails?.geo ?: LatLng(
+                        latitude = location.latitudeE7 * 0.0000001,
+                        longitude = location.longitudeE7 * 0.0000001
+                    ),
+                    dtTimeZone = timeZoneId,
+                    location = placeDetails?.formattedAddress ?: location.address?.replace('\n', ',') ?: "",
+                    url = url,
+                    lastModified = lastEditedTimestamp,
+                    description = "Place ID:\\n${location.placeId}\\n\\nGoogle Maps URL:\\n$url"
+                )
+            }
+        }
+
+        fun from(childVisit: ChildVisit, placeDetails: PlaceDetails? = null): VEvent {
+            with (childVisit) {
+                val url = placeDetails?.url ?: "https://www.google.com/maps/place/?q=place_id:${location.placeId}"
+                val timeZoneId = eventTimeZone?.zoneId ?: "UTC"
+
+                return VEvent(
+                    uid = lastEditedTimestamp,
+                    placeId = location.placeId,
+                    dtStamp = lastEditedTimestamp,
+                    dtStart = getLocalizedTimeStamp(
+                        timestamp = durationStartTimestamp,
+                        timezoneId = timeZoneId
+                    ),
+                    dtEnd = getLocalizedTimeStamp(
+                        timestamp = durationEndTimestamp,
+                        timezoneId = timeZoneId
+                    ),
+                    summary = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
+                    geo =  placeDetails?.geo ?: LatLng(
                         latitude = location.latitudeE7 * 0.0000001,
                         longitude = location.longitudeE7 * 0.0000001
                     ),
