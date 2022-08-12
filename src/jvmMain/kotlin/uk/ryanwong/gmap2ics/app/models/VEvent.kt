@@ -31,33 +31,6 @@ data class VEvent(
     val lastModified: String
 ) {
     companion object {
-        fun from(timelineItem: TimelineItem): VEvent {
-            with(timelineItem) {
-                val timeZoneId = eventTimeZone?.zoneId ?: "UTC"
-
-                return VEvent(
-                    uid = id,
-                    placeId = placeId,
-                    dtStamp = lastEditTimeStamp,
-                    dtStart = getLocalizedTimeStamp(
-                        timestamp = startTimeStamp,
-                        timezoneId = timeZoneId
-                    ),
-                    dtEnd = getLocalizedTimeStamp(
-                        timestamp = endTimeStamp,
-                        timezoneId = timeZoneId
-                    ),
-                    summary = subject,
-                    geo = eventLatLng,
-                    dtTimeZone = timeZoneId,
-                    location = location,
-                    url = placeUrl,
-                    lastModified = lastEditTimeStamp,
-                    description = description
-                )
-            }
-        }
-
         private val mileageFormat = DecimalFormat("#,###.#")
         fun from(
             activitySegment: ActivitySegment,
@@ -164,7 +137,7 @@ data class VEvent(
         }
 
         fun from(childVisit: ChildVisit, placeDetails: PlaceDetails? = null): VEvent {
-            with (childVisit) {
+            with(childVisit) {
                 val url = placeDetails?.url ?: "https://www.google.com/maps/place/?q=place_id:${location.placeId}"
                 val timeZoneId = eventTimeZone?.zoneId ?: "UTC"
 
@@ -181,7 +154,7 @@ data class VEvent(
                         timezoneId = timeZoneId
                     ),
                     summary = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
-                    geo =  placeDetails?.geo ?: LatLng(
+                    geo = placeDetails?.geo ?: LatLng(
                         latitude = location.latitudeE7 * 0.0000001,
                         longitude = location.longitudeE7 * 0.0000001
                     ),

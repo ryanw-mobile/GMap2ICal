@@ -27,8 +27,6 @@ class VEventFromChildVisitUseCaseImpl(
                 ).getOrNull()
             } else null
 
-        return childVisit.asTimelineItem(placeDetails = childPlaceDetails).let { timelineItem ->
-            VEvent.from(timelineItem = timelineItem)
-        }
+        return VEvent.from(childVisit = childVisit, placeDetails = childPlaceDetails)
     }
 }

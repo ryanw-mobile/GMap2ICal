@@ -24,7 +24,6 @@ class VEventFromPlaceVisitUseCaseImpl(
                 ).getOrNull()
             } else null
 
-        val timelineItem = placeVisit.asTimelineItem(placeDetails = placeDetails)
-        return VEvent.from(timelineItem = timelineItem)
+        return VEvent.from(placeVisit = placeVisit, placeDetails = placeDetails)
     }
 }

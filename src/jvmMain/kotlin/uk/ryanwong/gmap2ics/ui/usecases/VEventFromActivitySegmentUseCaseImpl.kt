@@ -53,16 +53,17 @@ class VEventFromActivitySegmentUseCaseImpl(
                 ).getOrNull()
             }
 
-            val timelineItem = activitySegment.asTimelineItem(
-                shouldShowMiles = shouldShowMiles(eventTimeZone),
-                firstPlaceDetails = firstPlaceDetails,
-                lastPlaceDetails = lastPlaceDetails,
-                startPlaceDetails = startPlaceDetails,
-                endPlaceDetails = endPlaceDetails,
-                eventTimeZone = eventTimeZone
+            // TODO: statusLog is not used anymore
+            Pair(
+                VEvent.from(
+                    activitySegment = activitySegment, shouldShowMiles = shouldShowMiles(eventTimeZone),
+                    firstPlaceDetails = firstPlaceDetails,
+                    lastPlaceDetails = lastPlaceDetails,
+                    startPlaceDetails = startPlaceDetails,
+                    endPlaceDetails = endPlaceDetails,
+                    eventTimeZone = eventTimeZone
+                ), statusLog
             )
-
-            Pair(VEvent.from(timelineItem = timelineItem), statusLog)
         }.except<CancellationException, _>()
     }
 
