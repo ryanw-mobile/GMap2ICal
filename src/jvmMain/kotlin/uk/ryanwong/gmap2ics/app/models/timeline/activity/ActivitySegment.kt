@@ -40,28 +40,14 @@ data class ActivitySegment(
                 }
 
                 // Convert to enum
-                val activityTypeEnum = activityType?.let { activityType ->
-                    try {
-                        ActivityType.valueOf(activityType)
-                    } catch (e: IllegalArgumentException) {
-                        //    statusLog = "⚠️ Unknown activity type: $activityType"
-                        ActivityType.UNKNOWN_ACTIVITY_TYPE
-                    }
-                } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
-
+                val activityTypeEnum = resolveActivityType(activityType)
 
                 return ActivitySegment(
                     activities = activities?.mapNotNull { activity ->
-                        activity.activityType?.let { activityType ->
-                            val activitiesTypeEnum = try {
-                                ActivityType.valueOf(activityType)
-                            } catch (e: IllegalArgumentException) {
-                                ActivityType.UNKNOWN_ACTIVITY_TYPE
-                            }
-
+                        activity.activityType?.let {
                             Activity(
-                                activityType = activitiesTypeEnum,
-                                rawActivityType = activityType
+                                activityType = resolveActivityType(it),
+                                rawActivityType = it
                             )
                         }
                     } ?: emptyList(),
@@ -80,6 +66,16 @@ data class ActivitySegment(
                     )
                 )
             }
+        }
+
+        private fun resolveActivityType(activityType: String?): ActivityType {
+            return activityType?.let {
+                try {
+                    ActivityType.valueOf(it)
+                } catch (e: IllegalArgumentException) {
+                    ActivityType.UNKNOWN_ACTIVITY_TYPE
+                }
+            } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
         }
     }
 
