@@ -135,9 +135,8 @@ class MainScreenViewModel(
 
                         } else {
                             val vEventResult = vEventFromActivitySegmentUseCase(activitySegment = activitySegment)
-                            vEventResult.getOrNull()?.let { (vEvent, logEntry) ->
+                            vEventResult.getOrNull()?.let { vEvent ->
                                 eventList.add(vEvent)
-                                logEntry?.let { appendStatus(status = it) }
                                 printLogForVerboseMode(status = vEvent.toString())
                             }
                             vEventResult.exceptionOrNull()?.message?.let { appendStatusForVerboseMode(status = it) }
