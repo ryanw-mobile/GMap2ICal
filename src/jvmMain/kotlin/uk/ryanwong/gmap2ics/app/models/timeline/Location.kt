@@ -14,15 +14,19 @@ data class Location(
     val address: String? = null
 ) {
     companion object {
-        fun from(locationDataModel: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Location): Location {
+        fun from(locationDataModel: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Location): Location? {
             with(locationDataModel) {
-                return Location(
-                    address = address,
-                    latitudeE7 = latitudeE7,
-                    longitudeE7 = longitudeE7,
-                    name = name,
-                    placeId = placeId
-                )
+                return if (latitudeE7 == null || longitudeE7 == null) {
+                    null
+                } else {
+                    return Location(
+                        address = address,
+                        latitudeE7 = latitudeE7,
+                        longitudeE7 = longitudeE7,
+                        name = name,
+                        placeId = placeId
+                    )
+                }
             }
         }
 

@@ -20,21 +20,27 @@ data class PlaceVisit(
         fun from(
             placeVisitDataModel: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.PlaceVisit,
             timeZoneMap: TimeZoneMapWrapper
-        ): PlaceVisit {
+        ): PlaceVisit? {
             with(placeVisitDataModel) {
-                return PlaceVisit(
-                    durationEndTimestamp = duration.endTimestamp,
-                    durationStartTimestamp = duration.startTimestamp,
-                    lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
-                    location = Location.from(locationDataModel = location),
-                    childVisits = childVisits?.mapNotNull { childVisit ->
-                        ChildVisit.from(childVisitDataModel = childVisit, timeZoneMap = timeZoneMap)
-                    } ?: emptyList(),
-                    eventTimeZone = timeZoneMap.getOverlappingTimeZone(
-                        degreesLatitude = location.latitudeE7 * 0.0000001,
-                        degreesLongitude = location.longitudeE7 * 0.0000001
+                val locationAppModel = Location.from(locationDataModel = location)
+                return if (duration == null || locationAppModel == null) {
+                    null
+
+                } else {
+                    return PlaceVisit(
+                        durationEndTimestamp = duration.endTimestamp,
+                        durationStartTimestamp = duration.startTimestamp,
+                        lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
+                        location = locationAppModel,
+                        childVisits = childVisits?.mapNotNull { childVisit ->
+                            ChildVisit.from(childVisitDataModel = childVisit, timeZoneMap = timeZoneMap)
+                        } ?: emptyList(),
+                        eventTimeZone = timeZoneMap.getOverlappingTimeZone(
+                            degreesLatitude = locationAppModel.getLatitude(),
+                            degreesLongitude = locationAppModel.getLongitude()
+                        )
                     )
-                )
+                }
             }
         }
     }

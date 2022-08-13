@@ -52,14 +52,13 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * Kotlin
 * Kotlin Flow
 * Kotlin Coroutines
-* [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) - Replacing Moshi
+* [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) - For JSON parsing. Replacing Moshi
 * Compose Desktop UI
 * MVVM architecture with use-cases
 
 ### Major libraries used
 
 * [Time Zone Map](https://github.com/dustin-johnson/timezonemap) - determine time zone
-* [Jackson](https://github.com/FasterXML/jackson) - JSON parser
 * [JUnit 5](https://github.com/junit-team/junit5) - Tests
 * [KOTest](https://kotest.io/) - Test framework
 * [MockK](https://mockk.io/) - Mocking library

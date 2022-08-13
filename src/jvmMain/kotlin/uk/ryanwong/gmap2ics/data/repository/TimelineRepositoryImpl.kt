@@ -4,14 +4,10 @@
 
 package uk.ryanwong.gmap2ics.data.repository
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.app.models.timeline.Timeline
 import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.TimelineObjects
@@ -25,16 +21,13 @@ class TimelineRepositoryImpl(
     private val timeZoneMap: TimeZoneMapWrapper,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : TimelineRepository {
-    private val objectMapper: ObjectMapper = jacksonObjectMapper().apply {
-        registerKotlinModule()
-        registerModule(JavaTimeModule())
-    }
+    private val kotlinJson = Json { ignoreUnknownKeys = true } // TODO: DI
 
     override suspend fun getTimeLine(filePath: String): Result<Timeline> {
         return withContext(dispatcher) {
             Result.runCatching {
                 val jsonString = localDataSource.getJsonString(filePath = filePath)
-                val timelineObjects: TimelineObjects = objectMapper.readValue(content = jsonString)
+                val timelineObjects = kotlinJson.decodeFromString(TimelineObjects.serializer(), jsonString)
                 Timeline.from(timelineObjects = timelineObjects, timeZoneMap = timeZoneMap)
             }.except<CancellationException, _>()
         }

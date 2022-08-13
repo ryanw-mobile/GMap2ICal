@@ -4,14 +4,14 @@
 
 package uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import kotlinx.serialization.Serializable
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Serializable
 data class Location(
     val address: String? = null,
-    val latitudeE7: Int,
+    val latitudeE7: Int? = null,
     val locationConfidence: Double? = null,
-    val longitudeE7: Int,
+    val longitudeE7: Int? = null,
     val name: String? = null,
     val placeId: String? = null
 )

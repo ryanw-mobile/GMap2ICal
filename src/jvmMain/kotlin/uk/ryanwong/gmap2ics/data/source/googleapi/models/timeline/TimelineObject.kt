@@ -4,9 +4,9 @@
 
 package uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import kotlinx.serialization.Serializable
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Serializable
 data class TimelineObject(
     val activitySegment: ActivitySegment? = null,
     val placeVisit: PlaceVisit? = null

@@ -8,6 +8,13 @@ import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
 
+/***
+ * PlaceVisit and ChildVisit look pretty similar,
+ * but I decided not to make them tightly coupled by applying inheritance.
+ * Because by design even they look similar, nobody says they share the same behavior.
+ *
+ * Tightly coupling is a sin nowadays.
+ */
 data class ChildVisit(
     val durationEndTimestamp: String,
     val durationStartTimestamp: String,
@@ -22,7 +29,8 @@ data class ChildVisit(
         ): ChildVisit? {
             with(childVisitDataModel) {
                 //  If a child visit does not have a valid duration start & end, we simply drop it during conversion
-                return if (duration == null) {
+                val locationAppModel = Location.from(locationDataModel = location)
+                return if (duration == null || locationAppModel == null) {
                     null
 
                 } else {
@@ -30,10 +38,10 @@ data class ChildVisit(
                         durationEndTimestamp = duration.endTimestamp,
                         durationStartTimestamp = duration.startTimestamp,
                         lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
-                        location = Location.from(locationDataModel = location),
+                        location = locationAppModel,
                         eventTimeZone = timeZoneMap.getOverlappingTimeZone(
-                            degreesLatitude = location.latitudeE7 * 0.0000001,
-                            degreesLongitude = location.longitudeE7 * 0.0000001
+                            degreesLatitude = locationAppModel.getLatitude(),
+                            degreesLongitude = locationAppModel.getLongitude()
                         )
                     )
                 }

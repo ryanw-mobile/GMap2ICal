@@ -174,6 +174,11 @@ class MainScreenViewModel(
                 }
             }
         }
+
+        timeline.exceptionOrNull()?.let {
+            it.printStackTrace()
+            println(it.localizedMessage)
+        }
         appendStatus("✅ Processed ${timeline.getOrNull()?.timelineEntries?.size ?: 0} timeline entries.")
         return eventList
     }
