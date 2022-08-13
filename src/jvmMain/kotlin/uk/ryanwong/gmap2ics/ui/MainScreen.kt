@@ -239,16 +239,16 @@ private fun SettingsColumn(
 
         CheckBoxItem(
             text = resourceBundle.getString("export.activity.segments"),
-            checked = enablePlacesApiLookup,
-            onCheckedChange = onEnablePlaceApiLookupChanged
+            checked = exportActivitySegment,
+            onCheckedChange = onExportActivitySegmentChanged
         )
 
         Spacer(modifier = spacerModifier)
 
         CheckBoxItem(
             text = resourceBundle.getString("enable.places.api.lookup"),
-            checked = exportActivitySegment,
-            onCheckedChange = onExportActivitySegmentChanged
+            checked = enablePlacesApiLookup,
+            onCheckedChange = onEnablePlaceApiLookupChanged
         )
 
         CheckBoxItem(
