@@ -35,8 +35,7 @@ fun main() = application {
             timelineRepository = TimelineRepositoryImpl(timeZoneMap = timeZoneMap),
             localFileRepository = LocalFileRepositoryImpl(),
             vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
-                placeDetailsRepository = placeDetailsRepository,
-                timeZoneMap = timeZoneMap
+                placeDetailsRepository = placeDetailsRepository
             ),
             vEventFromChildVisitUseCase = VEventFromChildVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository),
             vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository)

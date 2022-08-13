@@ -70,8 +70,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
         mockPlaceDetailsRepository = MockPlaceDetailsRepository()
 
         vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
-            placeDetailsRepository = mockPlaceDetailsRepository,
-            timeZoneMap = mockTimeZoneMap
+            placeDetailsRepository = mockPlaceDetailsRepository
         )
     }
 

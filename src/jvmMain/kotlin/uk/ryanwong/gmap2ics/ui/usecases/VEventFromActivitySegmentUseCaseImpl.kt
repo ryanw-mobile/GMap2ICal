@@ -9,20 +9,15 @@ import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
-import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
-import us.dustinj.timezonemap.TimeZone
 
 class VEventFromActivitySegmentUseCaseImpl(
-    private val placeDetailsRepository: PlaceDetailsRepository,
-    private val timeZoneMap: TimeZoneMapWrapper
+    private val placeDetailsRepository: PlaceDetailsRepository
 ) : VEventFromActivitySegmentUseCase {
 
     override suspend operator fun invoke(
         activitySegment: ActivitySegment
-    ): Result<Pair<VEvent, String?>> {
+    ): Result<VEvent> {
         return Result.runCatching {
-            var statusLog: String? = null
-
             // Extra information required by timelineItem
             val eventTimeZone = activitySegment.eventTimeZone
             val firstPlaceDetails = activitySegment.waypointPath?.roadSegment?.first()?.placeId?.let { placeId ->
@@ -53,16 +48,14 @@ class VEventFromActivitySegmentUseCaseImpl(
                 ).getOrNull()
             }
 
-            // TODO: statusLog is not used anymore
-            Pair(
-                VEvent.from(
-                    activitySegment = activitySegment, shouldShowMiles = shouldShowMiles(eventTimeZone),
-                    firstPlaceDetails = firstPlaceDetails,
-                    lastPlaceDetails = lastPlaceDetails,
-                    startPlaceDetails = startPlaceDetails,
-                    endPlaceDetails = endPlaceDetails,
-                    eventTimeZone = eventTimeZone
-                ), statusLog
+            VEvent.from(
+                activitySegment = activitySegment,
+                shouldShowMiles = eventTimeZone?.shouldShowMiles() ?: false,
+                firstPlaceDetails = firstPlaceDetails,
+                lastPlaceDetails = lastPlaceDetails,
+                startPlaceDetails = startPlaceDetails,
+                endPlaceDetails = endPlaceDetails,
+                eventTimeZone = eventTimeZone
             )
         }.except<CancellationException, _>()
     }
