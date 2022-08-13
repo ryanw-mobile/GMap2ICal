@@ -11,5 +11,5 @@ interface VEventFromActivitySegmentUseCase {
     suspend operator fun invoke(
         activitySegment: ActivitySegment,
         enablePlacesApiLookup: Boolean,
-    ): Result<VEvent>
+    ): VEvent
 }

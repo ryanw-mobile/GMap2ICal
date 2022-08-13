@@ -154,16 +154,10 @@ class MainScreenViewModel(
             printLogForVerboseMode("🚫 Ignored activity type ${activitySegment.activityType} at ${activitySegment.durationStartTimestamp}")
             null
         } else {
-            val vEventResult = vEventFromActivitySegmentUseCase(
+            return vEventFromActivitySegmentUseCase(
                 activitySegment = activitySegment,
                 enablePlacesApiLookup = _enablePlacesApiLookup.value
             )
-            vEventResult.getOrNull()?.let { vEvent ->
-                printLogForVerboseMode(status = vEvent.toString())
-                vEventResult
-            }
-            vEventResult.exceptionOrNull()?.message?.let { appendStatusForVerboseMode(status = it) }
-            null
         }
     }
 
