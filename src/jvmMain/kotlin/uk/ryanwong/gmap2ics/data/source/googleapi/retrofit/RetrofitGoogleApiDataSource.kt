@@ -6,15 +6,19 @@ package uk.ryanwong.gmap2ics.data.source.googleapi.retrofit
 
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.data.except
-import uk.ryanwong.gmap2ics.data.repository.GetPlaceDetailsAPIErrorException
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsNotFoundException
+import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
 import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 import kotlin.coroutines.cancellation.CancellationException
 
 class RetrofitGoogleApiDataSource : GoogleApiDataSource {
     private val placeDetailsService = PlacesDetailApi.retrofitService
 
-    override suspend fun getMapsApiPlaceDetails(placeId: String, apiKey: String, language: String?): Result<PlaceDetails> {
+    override suspend fun getMapsApiPlaceDetails(
+        placeId: String,
+        apiKey: String,
+        language: String?
+    ): Result<PlaceDetails> {
         return Result.runCatching {
             val placeDetailsResponse =
                 placeDetailsService.getMapsApiPlaceDetails(placeId = placeId, key = apiKey, language = language)

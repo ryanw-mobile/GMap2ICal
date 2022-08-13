@@ -62,10 +62,6 @@ class PlaceDetailsRepositoryImpl(
     }
 }
 
-class GetPlaceDetailsAPIErrorException(apiErrorMessage: String) : Exception() {
-    override val message = "⛔️ Error getting API results: $apiErrorMessage"
-}
-
 class PlaceDetailsNotFoundException(placeId: String) : Exception() {
     override val message = "⛔️ placeId $placeId not found"
 }

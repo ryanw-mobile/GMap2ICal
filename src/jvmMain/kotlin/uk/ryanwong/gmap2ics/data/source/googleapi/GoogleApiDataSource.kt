@@ -17,3 +17,8 @@ interface GoogleApiDataSource {
         language: String? = null
     ): Result<PlaceDetails>
 }
+
+class GetPlaceDetailsAPIErrorException(apiErrorMessage: String) : Exception() {
+    override val message = "⛔️ Error getting API results: $apiErrorMessage"
+}
+
