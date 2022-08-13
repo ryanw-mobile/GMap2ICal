@@ -9,8 +9,8 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.flow.first
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
-import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.VEvent
+import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.configs.MockConfig
 import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
@@ -48,10 +48,14 @@ internal class MainScreenViewModelTest : FreeSpec() {
     )
 
     // These tests don't touch VEvent (yet), so we feed in a default mock result
-    private fun setupViewModel(mockVEventFromPlaceVisitUseCaseResponse: VEvent = mockDefaultVEvent) {
+    private fun setupViewModel(
+        mockVEventFromPlaceVisitUseCaseResponse: VEvent = mockDefaultVEvent,
+        mockVEventFromActivitySegmentUseCaseResponse: VEvent = mockDefaultVEvent
+    ) {
         mockTimelineRepository = MockTimelineRepository()
         mockLocalFileRepository = MockLocalFileRepository()
-        mockVEventFromActivitySegmentUseCase = MockVEventFromActivitySegmentUseCase()
+        mockVEventFromActivitySegmentUseCase =
+            MockVEventFromActivitySegmentUseCase(mockUseCaseResponse = mockVEventFromActivitySegmentUseCaseResponse)
         mockVEventFromPlaceVisitUseCase =
             MockVEventFromPlaceVisitUseCase(mockUseCaseResponse = mockVEventFromPlaceVisitUseCaseResponse)
         mockVEventFromChildVisitUseCase = MockVEventFromChildVisitUseCase()
