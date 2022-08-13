@@ -12,15 +12,18 @@ import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
+import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsNotFoundException
+import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
 import uk.ryanwong.gmap2ics.utils.timezonemap.MockTimeZoneMap
 
 internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
 
     /**
      * Test Plan - Simply ensure the placeDetails is passed to VEvent.from()
-     * 1. If !enablePlacesApiLookup, just convert it to timeline and return VEvent
-     * 2a. If enablePlacesApiLookup, and API returns something, add getPlaceDetails() to timeline then return VEvent
-     * 2b. If enablePlacesApiLookup, and API returns no extra details, return VEvent like #1
+     * By design the repository can return cached results even enablePlacesApiLookup is false,
+     * therefore here we just have to test 2 cases:
+     * 1. when repository returns something
+     * 2. when repository returns nothing (ie. exception).
      */
 
     private lateinit var vEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCaseImpl
@@ -62,149 +65,108 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
     }
 
     init {
-        "enablePlacesApiLookup is false" - {
-            "should return correct VEvent" {
-                // 🔴 Given
-                setupUseCase()
-                val placeVisit = mockPlaceVisit
-                val enabledPlacesApiLookup = false
-
-                // 🟡 When
-                val vEvent = vEventFromPlaceVisitUseCase(
-                    placeVisit = placeVisit,
-                    enablePlacesApiLookup = enabledPlacesApiLookup
-                )
-
-                // 🟢 Then
-                vEvent shouldBe VEvent(
-                    uid = "2011-11-11T11:22:22.222Z",
+        "should return correct VEvent if repository returns place details" {
+            // 🔴 Given
+            setupUseCase()
+            val placeVisit = mockPlaceVisit
+            val enabledPlacesApiLookup = true
+            mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+                PlaceDetails(
                     placeId = "some-place-id",
-                    dtStamp = "2011-11-11T11:22:22.222Z",
-                    organizer = null,
-                    dtStart = "20111111T201111",
-                    dtEnd = "20111111T202222",
-                    dtTimeZone = "Asia/Tokyo",
-                    summary = "📍 null",
-                    location = "",
+                    name = "some-place-name",
+                    formattedAddress = "some-formatted-address",
                     geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
-                    description = "Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id",
-                    url = "https://www.google.com/maps/place/?q=place_id:some-place-id",
-                    lastModified = "2011-11-11T11:22:22.222Z"
+                    types = listOf("ATM"),
+                    url = "https://some.url/"
                 )
-            }
+            )
+
+            // 🟡 When
+            val vEvent = vEventFromPlaceVisitUseCase(
+                placeVisit = placeVisit,
+                enablePlacesApiLookup = enabledPlacesApiLookup
+            )
+
+            // 🟢 Then
+            vEvent shouldBe VEvent(
+                uid = "2011-11-11T11:22:22.222Z",
+                placeId = "some-place-id",
+                dtStamp = "2011-11-11T11:22:22.222Z",
+                organizer = null,
+                dtStart = "20111111T201111",
+                dtEnd = "20111111T202222",
+                dtTimeZone = "Asia/Tokyo",
+                summary = "\uD83C\uDFE7 some-place-name",
+                location = "some-formatted-address",
+                geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+                description = "Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://some.url/",
+                url = "https://some.url/",
+                lastModified = "2011-11-11T11:22:22.222Z"
+            )
         }
 
-        "enablePlacesApiLookup is true" - {
-            "should return correct VEvent if repository returns place details" {
-                // 🔴 Given
-                setupUseCase()
-                val placeVisit = mockPlaceVisit
-                val enabledPlacesApiLookup = true
-                mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
-                    PlaceDetails(
-                        placeId = "some-place-id",
-                        name = "some-place-name",
-                        formattedAddress = "some-formatted-address",
-                        geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
-                        types = listOf("ATM"),
-                        url = "https://some.url/"
-                    )
-                )
+        "should still return correct VEvent if repository returns PlaceDetailsNotFoundException" {
+            // 🔴 Given
+            setupUseCase()
+            val placeVisit = mockPlaceVisit
+            val enabledPlacesApiLookup = true
+            mockPlaceDetailsRepository.getPlaceDetailsResponse =
+                Result.failure(exception = PlaceDetailsNotFoundException(placeId = "some-place-id"))
 
-                // 🟡 When
-                val vEvent = vEventFromPlaceVisitUseCase(
-                    placeVisit = placeVisit,
-                    enablePlacesApiLookup = enabledPlacesApiLookup
-                )
+            // 🟡 When
+            val vEvent = vEventFromPlaceVisitUseCase(
+                placeVisit = placeVisit,
+                enablePlacesApiLookup = enabledPlacesApiLookup
+            )
 
-                // 🟢 Then
-                vEvent shouldBe VEvent(
-                    uid = "2011-11-11T11:22:22.222Z",
-                    placeId = "some-place-id",
-                    dtStamp = "2011-11-11T11:22:22.222Z",
-                    organizer = null,
-                    dtStart = "20111111T201111",
-                    dtEnd = "20111111T202222",
-                    dtTimeZone = "Asia/Tokyo",
-                    summary = "\uD83C\uDFE7 some-place-name",
-                    location = "some-formatted-address",
-                    geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
-                    description = "Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://some.url/",
-                    url = "https://some.url/",
-                    lastModified = "2011-11-11T11:22:22.222Z"
-                )
-            }
+            // 🟢 Then
+            vEvent shouldBe VEvent(
+                uid = "2011-11-11T11:22:22.222Z",
+                placeId = "some-place-id",
+                dtStamp = "2011-11-11T11:22:22.222Z",
+                organizer = null,
+                dtStart = "20111111T201111",
+                dtEnd = "20111111T202222",
+                dtTimeZone = "Asia/Tokyo",
+                summary = "\uD83D\uDCCD null",
+                location = "",
+                geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+                description = "Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id",
+                url = "https://www.google.com/maps/place/?q=place_id:some-place-id",
+                lastModified = "2011-11-11T11:22:22.222Z"
+            )
+        }
 
-            "should still return correct VEvent if repository returns no place details" {
-                // 🔴 Given
-                setupUseCase()
-                val placeVisit = mockPlaceVisit
-                val enabledPlacesApiLookup = true
-                mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
-                    PlaceDetails(
-                        placeId = "some-place-id",
-                        name = "some-place-name",
-                        formattedAddress = "some-formatted-address",
-                        geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
-                        types = listOf("some-place-type"),
-                        url = "https://some.url/"
-                    )
-                )
+        "should still return correct VEvent if repository returns GetPlaceDetailsAPIErrorException" {
+            // 🔴 Given
+            setupUseCase()
+            val placeVisit = mockPlaceVisit
+            val enabledPlacesApiLookup = true
+            mockPlaceDetailsRepository.getPlaceDetailsResponse =
+                Result.failure(exception = GetPlaceDetailsAPIErrorException(apiErrorMessage = "some-api-error-message"))
 
-                // 🟡 When
-                val vEvent = vEventFromPlaceVisitUseCase(
-                    placeVisit = placeVisit,
-                    enablePlacesApiLookup = enabledPlacesApiLookup
-                )
+            // 🟡 When
+            val vEvent = vEventFromPlaceVisitUseCase(
+                placeVisit = placeVisit,
+                enablePlacesApiLookup = enabledPlacesApiLookup
+            )
 
-                // 🟢 Then
-                vEvent shouldBe VEvent(
-                    uid = "2011-11-11T11:22:22.222Z",
-                    placeId = "some-place-id",
-                    dtStamp = "2011-11-11T11:22:22.222Z",
-                    organizer = null,
-                    dtStart = "20111111T201111",
-                    dtEnd = "20111111T202222",
-                    dtTimeZone = "Asia/Tokyo",
-                    summary = "\uD83D\uDCCD some-place-name",
-                    location = "some-formatted-address",
-                    geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
-                    description = "Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://some.url/",
-                    url = "https://some.url/",
-                    lastModified = "2011-11-11T11:22:22.222Z"
-                )
-            }
-
-            "should return correct VEvent if repository Place query is failure" {
-                // 🔴 Given
-                setupUseCase()
-                val placeVisit = mockPlaceVisit
-                val enabledPlacesApiLookup = true
-                mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.failure(exception = Exception())
-
-                // 🟡 When
-                val vEvent = vEventFromPlaceVisitUseCase(
-                    placeVisit = placeVisit,
-                    enablePlacesApiLookup = enabledPlacesApiLookup
-                )
-
-                // 🟢 Then
-                vEvent shouldBe VEvent(
-                    uid = "2011-11-11T11:22:22.222Z",
-                    placeId = "some-place-id",
-                    dtStamp = "2011-11-11T11:22:22.222Z",
-                    organizer = null,
-                    dtStart = "20111111T201111",
-                    dtEnd = "20111111T202222",
-                    dtTimeZone = "Asia/Tokyo",
-                    summary = "📍 null",
-                    location = "",
-                    geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
-                    description = "Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id",
-                    url = "https://www.google.com/maps/place/?q=place_id:some-place-id",
-                    lastModified = "2011-11-11T11:22:22.222Z"
-                )
-            }
+            // 🟢 Then
+            vEvent shouldBe VEvent(
+                uid = "2011-11-11T11:22:22.222Z",
+                placeId = "some-place-id",
+                dtStamp = "2011-11-11T11:22:22.222Z",
+                organizer = null,
+                dtStart = "20111111T201111",
+                dtEnd = "20111111T202222",
+                dtTimeZone = "Asia/Tokyo",
+                summary = "📍 null",
+                location = "",
+                geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+                description = "Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id",
+                url = "https://www.google.com/maps/place/?q=place_id:some-place-id",
+                lastModified = "2011-11-11T11:22:22.222Z"
+            )
         }
     }
 }
