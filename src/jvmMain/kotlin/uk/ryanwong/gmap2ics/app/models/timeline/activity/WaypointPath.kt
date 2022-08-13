@@ -13,11 +13,8 @@ data class WaypointPath(
             return WaypointPath(
                 distanceMeters = waypointPathDataModel.distanceMeters ?: 0.0,
                 roadSegment = waypointPathDataModel.roadSegment?.mapNotNull { roadSegment ->
-                    if (roadSegment.duration == null || roadSegment.placeId == null) {
-                        null
-                    } else {
+                    roadSegment.placeId?.let {
                         RoadSegment(
-                            duration = roadSegment.duration,
                             placeId = roadSegment.placeId
                         )
                     }
