@@ -9,6 +9,7 @@ import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
+import uk.ryanwong.gmap2ics.utils.timezonemap.shouldShowMiles
 
 class VEventFromActivitySegmentUseCaseImpl(
     private val placeDetailsRepository: PlaceDetailsRepository
@@ -58,13 +59,5 @@ class VEventFromActivitySegmentUseCaseImpl(
                 eventTimeZone = eventTimeZone
             )
         }.except<CancellationException, _>()
-    }
-
-    /**
-     * Only when the activity happened in UK we display values in miles.
-     * Others are in kilometers.
-     */
-    private fun shouldShowMiles(timezone: TimeZone?): Boolean {
-        return timezone?.zoneId == "Europe/London"
     }
 }
