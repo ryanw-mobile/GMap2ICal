@@ -6,8 +6,8 @@ package uk.ryanwong.gmap2ics.app.models.timeline
 
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.TimelineObjects
-import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
+import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 
 data class Timeline(
     val timelineEntries: List<TimelineEntry>

@@ -4,6 +4,7 @@
 
 package uk.ryanwong.gmap2ics.app.models.timeline
 
+import uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation
 import java.text.DecimalFormat
 
 data class Location(
@@ -14,7 +15,7 @@ data class Location(
     val address: String? = null
 ) {
     companion object {
-        fun from(locationDataModel: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.Location): Location? {
+        fun from(locationDataModel: uk.ryanwong.gmap2ics.data.models.timeline.Location): Location? {
             with(locationDataModel) {
                 return if (latitudeE7 == null || longitudeE7 == null) {
                     null
@@ -32,7 +33,7 @@ data class Location(
 
         // Location without LatLng is meaningless.
         // Caller should consider dropping the entry should that happens.
-        fun from(activityLocationDataModel: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivityLocation): Location? {
+        fun from(activityLocationDataModel: ActivityLocation): Location? {
             with(activityLocationDataModel) {
                 return if (latitudeE7 == null || longitudeE7 == null) {
                     null

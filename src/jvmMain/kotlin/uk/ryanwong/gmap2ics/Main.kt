@@ -5,7 +5,9 @@
 package uk.ryanwong.gmap2ics
 
 import androidx.compose.ui.window.application
-import uk.ryanwong.gmap2ics.configs.RyanConfig
+import uk.ryanwong.gmap2ics.app.configs.RyanConfig
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapImpl
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepositoryImpl
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepositoryImpl
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImpl
@@ -14,8 +16,6 @@ import uk.ryanwong.gmap2ics.ui.usecases.VEventFromActivitySegmentUseCaseImpl
 import uk.ryanwong.gmap2ics.ui.usecases.VEventFromChildVisitUseCaseImpl
 import uk.ryanwong.gmap2ics.ui.usecases.VEventFromPlaceVisitUseCaseImpl
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
-import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapImpl
-import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZoneMap
 
 fun main() = application {

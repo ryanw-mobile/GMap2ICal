@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.data.source.googleapi.ktor
 
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.places.PlaceDetails
+import uk.ryanwong.gmap2ics.data.models.places.PlaceDetails
 
 interface PlaceDetailsService {
     suspend fun getPlaceDetails(

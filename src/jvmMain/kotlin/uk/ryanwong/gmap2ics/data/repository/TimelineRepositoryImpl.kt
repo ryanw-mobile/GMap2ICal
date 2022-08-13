@@ -10,10 +10,10 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.app.models.timeline.Timeline
 import uk.ryanwong.gmap2ics.data.except
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.TimelineObjects
+import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
 import uk.ryanwong.gmap2ics.data.source.local.LocalDataSource
 import uk.ryanwong.gmap2ics.data.source.local.LocalDataSourceImpl
-import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import kotlin.coroutines.cancellation.CancellationException
 
 class TimelineRepositoryImpl(

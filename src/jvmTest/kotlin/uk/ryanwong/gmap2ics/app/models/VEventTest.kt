@@ -15,7 +15,7 @@ import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.WaypointPath
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
-import uk.ryanwong.gmap2ics.utils.timezonemap.MockTimeZoneMap
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
 import java.time.format.DateTimeParseException
 import java.time.zone.ZoneRulesException
 

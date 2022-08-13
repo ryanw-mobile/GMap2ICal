@@ -9,7 +9,7 @@ data class WaypointPath(
     val roadSegment: List<RoadSegment>
 ) {
     companion object {
-        fun from(waypointPathDataModel: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.WaypointPath): WaypointPath {
+        fun from(waypointPathDataModel: uk.ryanwong.gmap2ics.data.models.timeline.WaypointPath): WaypointPath {
             return WaypointPath(
                 distanceMeters = waypointPathDataModel.distanceMeters ?: 0.0,
                 roadSegment = waypointPathDataModel.roadSegment?.mapNotNull { roadSegment ->

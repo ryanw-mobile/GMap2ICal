@@ -5,7 +5,7 @@
 package uk.ryanwong.gmap2ics.data.source.googleapi.ktor
 
 import io.ktor.client.HttpClient
-import uk.ryanwong.gmap2ics.data.source.googleapi.models.places.PlaceDetails
+import uk.ryanwong.gmap2ics.data.models.places.PlaceDetails
 import kotlin.coroutines.cancellation.CancellationException
 
 class PlaceDetailsServiceImpl(private val client: HttpClient): PlaceDetailsService {

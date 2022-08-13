@@ -7,7 +7,7 @@ package uk.ryanwong.gmap2ics.ui.usecases
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
-import uk.ryanwong.gmap2ics.utils.timezonemap.shouldShowMiles
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.shouldShowMiles
 
 class VEventFromActivitySegmentUseCaseImpl(
     private val placeDetailsRepository: PlaceDetailsRepository

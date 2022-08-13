@@ -6,7 +6,7 @@ package uk.ryanwong.gmap2ics.app.models.timeline.activity
 
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
-import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
 
 data class ActivitySegment(
@@ -24,7 +24,7 @@ data class ActivitySegment(
 ) {
     companion object {
         fun from(
-            activitySegmentDataModel: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.ActivitySegment,
+            activitySegmentDataModel: uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment,
             timeZoneMap: TimeZoneMapWrapper
         ): ActivitySegment? {
             with(activitySegmentDataModel) {

@@ -75,8 +75,8 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
    You'll receive an email when your export is done._
 4. Unzip the data file.
 5. The JSON files under `/Location History/Semantic Location History` are the files we need.
-6. Move the JSON files to a directory, for example `./src/main/resources` of this project.
-7. Update, or create yor own configuration file `uk.ryanwong.gmap2ics.configs.DefaultConfig` to specify the input and
+6. Move the JSON files to a directory, for example `./src/jvmMain/resources` of this project.
+7. Update, or create yor own configuration file `uk.ryanwong.gmap2ics.app.configs.DefaultConfig` to specify the input and
    output paths.
-8. If you have created a duplicated configuration file, update the file path in `Main.kt`
+8. If you have created your own configuration file, update the file path in `Main.kt`
 9. Run the project on IntelliJ IDEA

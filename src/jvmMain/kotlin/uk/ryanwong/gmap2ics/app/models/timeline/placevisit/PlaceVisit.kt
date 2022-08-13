@@ -5,7 +5,7 @@
 package uk.ryanwong.gmap2ics.app.models.timeline.placevisit
 
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
-import uk.ryanwong.gmap2ics.utils.timezonemap.TimeZoneMapWrapper
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
 
 data class PlaceVisit(
@@ -18,7 +18,7 @@ data class PlaceVisit(
 ) {
     companion object {
         fun from(
-            placeVisitDataModel: uk.ryanwong.gmap2ics.data.source.googleapi.models.timeline.PlaceVisit,
+            placeVisitDataModel: uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisit,
             timeZoneMap: TimeZoneMapWrapper
         ): PlaceVisit? {
             with(placeVisitDataModel) {

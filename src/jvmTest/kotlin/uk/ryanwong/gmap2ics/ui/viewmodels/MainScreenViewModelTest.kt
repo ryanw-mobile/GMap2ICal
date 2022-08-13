@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.first
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
-import uk.ryanwong.gmap2ics.configs.MockConfig
+import uk.ryanwong.gmap2ics.app.configs.MockConfig
 import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
 import uk.ryanwong.gmap2ics.ui.MainScreenUIState

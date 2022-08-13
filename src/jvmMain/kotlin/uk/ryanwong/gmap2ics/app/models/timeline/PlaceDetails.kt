@@ -5,6 +5,7 @@
 package uk.ryanwong.gmap2ics.app.models.timeline
 
 import uk.ryanwong.gmap2ics.app.PlaceType
+import uk.ryanwong.gmap2ics.data.models.places.Result
 
 data class PlaceDetails(
     val placeId: String,
@@ -15,7 +16,7 @@ data class PlaceDetails(
     val url: String
 ) {
     companion object {
-        fun from(placeDetailsResult: uk.ryanwong.gmap2ics.data.source.googleapi.models.places.Result): PlaceDetails {
+        fun from(placeDetailsResult: Result): PlaceDetails {
             with(placeDetailsResult) {
                 return PlaceDetails(
                     placeId = place_id,
