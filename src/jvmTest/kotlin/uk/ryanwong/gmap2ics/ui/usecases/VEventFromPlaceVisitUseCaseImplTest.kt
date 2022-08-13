@@ -44,7 +44,6 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
         location = Location(
             placeId = "some-place-id",
-            // meaningless values just to match the format
             latitudeE7 = someLatitudeE7,
             longitudeE7 = someLongitudeE7
         ),

@@ -27,6 +27,11 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
     private lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
     private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
 
+    private val someLatitudeE7 = 263383300
+    private val someLongitudeE7 = 1278000000
+    private val someDegreesLatitude = 26.3383300
+    private val someDegreesLongitude = 127.8000000
+
     private val mockChildVisit = ChildVisit(
         // meaningless values just to match the format
         durationEndTimestamp = "2011-11-11T11:22:22.222Z",
@@ -34,15 +39,14 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
         location = Location(
             placeId = "place-id-to-be-kept",
-            // meaningless values just to match the format
-            latitudeE7 = 263383300,
-            longitudeE7 = 1278000000,
+            latitudeE7 = someLatitudeE7,
+            longitudeE7 = someLongitudeE7,
             name = "some-name",
             address = "some-address"
         ),
         eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(
-            degreesLatitude = 26.3383300,
-            degreesLongitude = 127.8000000
+            degreesLatitude = someDegreesLatitude,
+            degreesLongitude = someDegreesLongitude
         )
     )
 
@@ -78,7 +82,7 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                     dtTimeZone = "Asia/Tokyo",
                     summary = "📍 some-name",
                     location = "some-address",
-                    geo = LatLng(latitude = 26.33833, longitude = 127.8),
+                    geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                     description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:place-id-to-be-kept",
                     url = "https://www.google.com/maps/place/?q=place_id:place-id-to-be-kept",
                     lastModified = "2011-11-11T11:22:22.222Z"
@@ -87,7 +91,7 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
         }
 
         "enablePlacesApiLookup is true" - {
-            "should return correct VEvent if repository Place query is success" {
+            "should return correct VEvent if repository returns place details" {
                 // 🔴 Given
                 setupUseCase()
                 val childVisit = mockChildVisit
@@ -97,7 +101,7 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                         placeId = "place-id-to-be-kept",
                         name = "some-place-name",
                         formattedAddress = "some-formatted-address",
-                        geo = LatLng(latitude = 26.3383300, longitude = 127.8),
+                        geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                         types = listOf("ATM"),
                         url = "https://some.url/"
                     )
@@ -120,14 +124,14 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                     dtTimeZone = "Asia/Tokyo",
                     summary = "\uD83C\uDFE7 some-place-name",
                     location = "some-formatted-address",
-                    geo = LatLng(latitude = 26.33833, longitude = 127.8),
+                    geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                     description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/",
                     url = "https://some.url/",
                     lastModified = "2011-11-11T11:22:22.222Z"
                 )
             }
 
-            "should still return correct VEvent if repository Place query is success with unknown place type" {
+            "should still return correct VEvent if repository returns place details with unknown place type" {
                 // 🔴 Given
                 setupUseCase()
                 val childVisit = mockChildVisit
@@ -137,7 +141,7 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                         placeId = "place-id-to-be-kept",
                         name = "some-place-name",
                         formattedAddress = "some-formatted-address",
-                        geo = LatLng(latitude = 26.3383300, longitude = 127.8),
+                        geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                         types = listOf("some-place-type"),
                         url = "https://some.url/"
                     )
@@ -160,14 +164,14 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                     dtTimeZone = "Asia/Tokyo",
                     summary = "\uD83D\uDCCD some-place-name",
                     location = "some-formatted-address",
-                    geo = LatLng(latitude = 26.33833, longitude = 127.8),
+                    geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                     description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/",
                     url = "https://some.url/",
                     lastModified = "2011-11-11T11:22:22.222Z"
                 )
             }
 
-            "should still return correct VEvent if repository Place query is failure" {
+            "should still return correct VEvent if repository returns no place details"  {
                 // 🔴 Given
                 setupUseCase()
                 val childVisit = mockChildVisit
@@ -191,7 +195,7 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                     dtTimeZone = "Asia/Tokyo",
                     summary = "📍 some-name",
                     location = "some-address",
-                    geo = LatLng(latitude = 26.33833, longitude = 127.8),
+                    geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                     description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:place-id-to-be-kept",
                     url = "https://www.google.com/maps/place/?q=place_id:place-id-to-be-kept",
                     lastModified = "2011-11-11T11:22:22.222Z"
