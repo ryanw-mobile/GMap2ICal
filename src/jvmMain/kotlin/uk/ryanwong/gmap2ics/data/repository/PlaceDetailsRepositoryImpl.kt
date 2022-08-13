@@ -18,29 +18,46 @@ class PlaceDetailsRepositoryImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : PlaceDetailsRepository {
 
+    // TODO: Can put this in local database so we lookup once and for all.
     private val placesCache = mutableMapOf<String, PlaceDetails>()
 
-    override suspend fun getPlaceDetails(placeId: String, placeTimeZoneId: String?): Result<PlaceDetails> {
-        if (placesCache.contains(key = placeId)) {
-            return Result.success(placesCache.getValue(placeId))
-        }
+    override suspend fun getPlaceDetails(
+        placeId: String,
+        placeTimeZoneId: String?,
+        enablePlacesApiLookup: Boolean
+    ): Result<PlaceDetails> {
+        return when {
+            placesCache.contains(key = placeId) -> {
+                Result.success(placesCache.getValue(placeId))
+            }
 
-        return withContext(dispatcher) {
-            // Do API lookup and cache the results
-            // If user does not supply an API Key means we always return null
-            placesApiKey?.let { apiKey ->
-                val language: String? = apiLanguageOverride.getOrDefault(
-                    key = placeTimeZoneId,
-                    defaultValue = apiLanguageOverride.get(key = "default")
-                )
+            !enablePlacesApiLookup -> {
+                Result.failure(PlaceDetailsNotFoundException(placeId = placeId))
+            }
 
-                val placeResult =
-                    networkDataSource.getMapsApiPlaceDetails(placeId = placeId, apiKey = apiKey, language = language)
-                placeResult.getOrNull()?.let { place ->
-                    placesCache[placeId] = place
+            else -> {
+                withContext(dispatcher) {
+                    // Do API lookup and cache the results
+                    // If user does not supply an API Key means we always return null
+                    placesApiKey?.let { apiKey ->
+                        val language: String? = apiLanguageOverride.getOrDefault(
+                            key = placeTimeZoneId,
+                            defaultValue = apiLanguageOverride.get(key = "default")
+                        )
+
+                        val placeResult =
+                            networkDataSource.getMapsApiPlaceDetails(
+                                placeId = placeId,
+                                apiKey = apiKey,
+                                language = language
+                            )
+                        placeResult.getOrNull()?.let { place ->
+                            placesCache[placeId] = place
+                        }
+                        placeResult
+                    } ?: Result.failure(PlaceDetailsNotFoundException(placeId = placeId))
                 }
-                placeResult
-            } ?: Result.failure(PlaceDetailsNotFoundException(placeId = placeId))
+            }
         }
     }
 }

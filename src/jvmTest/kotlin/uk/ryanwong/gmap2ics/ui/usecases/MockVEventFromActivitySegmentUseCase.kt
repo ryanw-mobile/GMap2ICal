@@ -9,7 +9,7 @@ import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 
 class MockVEventFromActivitySegmentUseCase : VEventFromActivitySegmentUseCase {
     var mockUseCaseResponse: Result<VEvent>? = null
-    override suspend fun invoke(activitySegment: ActivitySegment): Result<VEvent> {
+    override suspend fun invoke(activitySegment: ActivitySegment, enablePlacesApiLookup: Boolean): Result<VEvent> {
         return mockUseCaseResponse ?: Result.failure(Exception("mock response unavailable"))
     }
 }

@@ -9,6 +9,7 @@ import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 
 interface VEventFromActivitySegmentUseCase {
     suspend operator fun invoke(
-        activitySegment: ActivitySegment
+        activitySegment: ActivitySegment,
+        enablePlacesApiLookup: Boolean,
     ): Result<VEvent>
 }

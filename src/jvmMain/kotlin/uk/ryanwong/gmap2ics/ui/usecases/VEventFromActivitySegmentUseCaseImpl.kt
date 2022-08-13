@@ -16,36 +16,41 @@ class VEventFromActivitySegmentUseCaseImpl(
 ) : VEventFromActivitySegmentUseCase {
 
     override suspend operator fun invoke(
-        activitySegment: ActivitySegment
+        activitySegment: ActivitySegment,
+        enablePlacesApiLookup: Boolean
     ): Result<VEvent> {
+
         return Result.runCatching {
             // Extra information required by timelineItem
             val eventTimeZone = activitySegment.eventTimeZone
             val firstPlaceDetails = activitySegment.waypointPath?.roadSegment?.first()?.placeId?.let { placeId ->
                 placeDetailsRepository.getPlaceDetails(
                     placeId = placeId,
-                    placeTimeZoneId = eventTimeZone?.zoneId
+                    placeTimeZoneId = eventTimeZone?.zoneId,
+                    enablePlacesApiLookup = enablePlacesApiLookup
                 ).getOrNull()
             }
 
             val lastPlaceDetails = activitySegment.waypointPath?.roadSegment?.last()?.placeId?.let { placeId ->
                 placeDetailsRepository.getPlaceDetails(
                     placeId = placeId,
-                    placeTimeZoneId = eventTimeZone?.zoneId
+                    placeTimeZoneId = eventTimeZone?.zoneId,
+                    enablePlacesApiLookup = enablePlacesApiLookup
                 ).getOrNull()
             }
 
-            // If Location API enabled, try to fetch starting and ending from there
             val startPlaceDetails = activitySegment.startLocation.placeId?.let { placeId ->
                 placeDetailsRepository.getPlaceDetails(
                     placeId = placeId,
-                    placeTimeZoneId = eventTimeZone?.zoneId
+                    placeTimeZoneId = eventTimeZone?.zoneId,
+                    enablePlacesApiLookup = enablePlacesApiLookup
                 ).getOrNull()
             }
             val endPlaceDetails = activitySegment.endLocation.placeId?.let { placeId ->
                 placeDetailsRepository.getPlaceDetails(
                     placeId = placeId,
-                    placeTimeZoneId = eventTimeZone?.zoneId
+                    placeTimeZoneId = eventTimeZone?.zoneId,
+                    enablePlacesApiLookup = enablePlacesApiLookup
                 ).getOrNull()
             }
 

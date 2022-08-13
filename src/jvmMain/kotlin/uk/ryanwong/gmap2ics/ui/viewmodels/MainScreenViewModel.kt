@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.app.models.VEvent
+import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
+import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import uk.ryanwong.gmap2ics.configs.Config
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
@@ -128,58 +130,70 @@ class MainScreenViewModel(
             timeline.timelineEntries.forEach { timelineEntry ->
                 // Should be either activity or place visited, but no harm to also support cases with both
                 if (_exportActivitySegment.value) {
-                    timelineEntry.activitySegment?.let { activitySegment ->
-
-                        if (configFile.ignoredActivityType.contains(activitySegment.activityType)) {
-                            printLogForVerboseMode("🚫 Ignored activity type ${activitySegment.activityType} at ${activitySegment.durationStartTimestamp}")
-
-                        } else {
-                            val vEventResult = vEventFromActivitySegmentUseCase(activitySegment = activitySegment)
-                            vEventResult.getOrNull()?.let { vEvent ->
-                                eventList.add(vEvent)
-                                printLogForVerboseMode(status = vEvent.toString())
-                            }
-                            vEventResult.exceptionOrNull()?.message?.let { appendStatusForVerboseMode(status = it) }
-                        }
-                    }
+                    val vEvent = timelineEntry.activitySegment?.let { getActivitySegmentVEvent(it) }
+                    vEvent?.let { eventList.add(it) }
                 }
 
                 if (_exportPlaceVisit.value) {
-                    timelineEntry.placeVisit?.let { placeVisit ->
-                        // If parent visit is to be ignored, child has no meaning to stay
-                        if (!configFile.ignoredVisitedPlaceIds.contains(placeVisit.location.placeId)) {
-                            vEventFromPlaceVisitUseCase(
-                                placeVisit = placeVisit,
-                                enablePlacesApiLookup = _enablePlacesApiLookup.value
-                            ).let { vEvent ->
-                                eventList.add(vEvent)
-                                printLogForVerboseMode(status = vEvent.toString())
-                            }
-
-                            // If we have child-visits, we export them as individual events
-                            // ChildVisit might have unconfirmed location which does not have a duration
-                            placeVisit.childVisits.forEach { childVisit ->
-                                if (!configFile.ignoredVisitedPlaceIds.contains(childVisit.location.placeId)) {
-                                    vEventFromChildVisitUseCase(
-                                        childVisit = childVisit,
-                                        enablePlacesApiLookup = _enablePlacesApiLookup.value
-                                    )?.let { vEvent ->
-                                        eventList.add(vEvent)
-                                        printLogForVerboseMode(status = vEvent.toString())
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    val vEventList = timelineEntry.placeVisit?.let { getPlaceVisitVEvent(it) }
+                    vEventList?.let { eventList.addAll(vEventList) }
                 }
             }
         }
 
-        timeline.exceptionOrNull()?.let {
-            it.printStackTrace()
-            println(it.localizedMessage)
+        timeline.exceptionOrNull()?.let { throwable ->
+            throwable.printStackTrace()
+            processResultFailure(userFriendlyMessage = "☠️ Error processing timeline", throwable)
         }
         appendStatus("✅ Processed ${timeline.getOrNull()?.timelineEntries?.size ?: 0} timeline entries.")
+        return eventList
+    }
+
+    private suspend fun getActivitySegmentVEvent(activitySegment: ActivitySegment): VEvent? {
+        return if (configFile.ignoredActivityType.contains(activitySegment.activityType)) {
+            printLogForVerboseMode("🚫 Ignored activity type ${activitySegment.activityType} at ${activitySegment.durationStartTimestamp}")
+            null
+        } else {
+            val vEventResult = vEventFromActivitySegmentUseCase(
+                activitySegment = activitySegment,
+                enablePlacesApiLookup = _enablePlacesApiLookup.value
+            )
+            vEventResult.getOrNull()?.let { vEvent ->
+                printLogForVerboseMode(status = vEvent.toString())
+                vEventResult
+            }
+            vEventResult.exceptionOrNull()?.message?.let { appendStatusForVerboseMode(status = it) }
+            null
+        }
+    }
+
+    private suspend fun getPlaceVisitVEvent(placeVisit: PlaceVisit): List<VEvent> {
+        val eventList: MutableList<VEvent> = mutableListOf()
+
+        // If parent visit is to be ignored, child has no meaning to stay
+        if (!configFile.ignoredVisitedPlaceIds.contains(placeVisit.location.placeId)) {
+            vEventFromPlaceVisitUseCase(
+                placeVisit = placeVisit,
+                enablePlacesApiLookup = _enablePlacesApiLookup.value
+            ).let { vEvent ->
+                eventList.add(vEvent)
+                printLogForVerboseMode(status = vEvent.toString())
+            }
+
+            // If we have child-visits, we export them as individual events
+            // ChildVisit might have unconfirmed location which does not have a duration
+            placeVisit.childVisits.forEach { childVisit ->
+                if (!configFile.ignoredVisitedPlaceIds.contains(childVisit.location.placeId)) {
+                    vEventFromChildVisitUseCase(
+                        childVisit = childVisit,
+                        enablePlacesApiLookup = _enablePlacesApiLookup.value
+                    )?.let { vEvent ->
+                        eventList.add(vEvent)
+                        printLogForVerboseMode(status = vEvent.toString())
+                    }
+                }
+            }
+        }
         return eventList
     }
 
@@ -264,11 +278,6 @@ class MainScreenViewModel(
 
     private fun appendStatus(status: String) {
         _statusMessage.value = _statusMessage.value + status
-    }
-
-    private fun processResultFailure(throwable: Throwable?): String {
-        throwable?.printStackTrace()
-        return throwable?.localizedMessage ?: "unknown error"
     }
 
     private fun processResultFailure(userFriendlyMessage: String, throwable: Throwable?): String {
