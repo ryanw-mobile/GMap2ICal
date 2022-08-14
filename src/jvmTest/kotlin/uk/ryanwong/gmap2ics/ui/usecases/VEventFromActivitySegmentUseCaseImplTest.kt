@@ -13,12 +13,11 @@ import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.Activity
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.RoadSegment
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.WaypointPath
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
 import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsNotFoundException
 import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
 
 internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
 
@@ -71,10 +70,10 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
         ),
         waypointPath = WaypointPath(
             distanceMeters = 17.61099772105995,
-            roadSegment = listOf(
-                RoadSegment(placeId = "some-road-segment-place-id-1"),
-                RoadSegment(placeId = "some-road-segment-place-id-2"),
-                RoadSegment(placeId = "some-road-segment-place-id-3")
+            roadSegmentPlaceIds = listOf(
+                "some-road-segment-place-id-1",
+                "some-road-segment-place-id-2",
+                "some-road-segment-place-id-3"
             )
         ),
         eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(

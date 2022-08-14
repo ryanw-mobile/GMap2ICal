@@ -62,7 +62,7 @@ internal class VEventTest : FreeSpec() {
         ),
         waypointPath = WaypointPath(
             distanceMeters = 17.61099772105995,
-            roadSegment = emptyList()
+            roadSegmentPlaceIds = emptyList()
         ),
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
         eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(
