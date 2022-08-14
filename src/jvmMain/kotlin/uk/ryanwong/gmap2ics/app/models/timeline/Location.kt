@@ -53,16 +53,16 @@ data class Location(
     private val latLngFormat = DecimalFormat("###.######")
 
     fun getLatitude(): Double {
-        return latitudeE7.times(0.0000001)
+        return latitudeE7 / 10000000.0
     }
 
     fun getLongitude(): Double {
-        return longitudeE7.times(0.0000001)
+        return longitudeE7 / 10000000.0
     }
 
     fun getFormattedLatLng(): String {
-        val lat = latLngFormat.format(latitudeE7.times(0.0000001))
-        val lng = latLngFormat.format(longitudeE7.times(0.0000001))
+        val lat = latLngFormat.format(latitudeE7 / 10000000.0)
+        val lng = latLngFormat.format(longitudeE7 / 10000000.0)
         return "$lat,$lng"
     }
 
