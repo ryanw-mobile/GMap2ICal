@@ -6,11 +6,10 @@ package uk.ryanwong.gmap2ics.app.models.timeline
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 
 internal class LatLngTest : FreeSpec() {
     init {
-        "LatLng" - {
+        "getFormattedLatLng" - {
             "should return rounded LatLng in a correct format" {
                 // 🔴 Given
                 val latitude = 12.1234567
