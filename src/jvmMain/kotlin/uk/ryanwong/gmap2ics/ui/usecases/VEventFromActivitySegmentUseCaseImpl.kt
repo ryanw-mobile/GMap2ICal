@@ -6,8 +6,8 @@ package uk.ryanwong.gmap2ics.ui.usecases
 
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
-import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.shouldShowMiles
+import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 
 class VEventFromActivitySegmentUseCaseImpl(
     private val placeDetailsRepository: PlaceDetailsRepository
@@ -20,7 +20,7 @@ class VEventFromActivitySegmentUseCaseImpl(
 
         // Extra information required by timelineItem
         val eventTimeZone = activitySegment.eventTimeZone
-        val firstPlaceDetails = activitySegment.waypointPath?.roadSegment?.first()?.placeId?.let { placeId ->
+        val firstPlaceDetails = activitySegment.waypointPath?.roadSegmentPlaceIds?.firstOrNull()?.let { placeId ->
             placeDetailsRepository.getPlaceDetails(
                 placeId = placeId,
                 placeTimeZoneId = eventTimeZone?.zoneId,
@@ -28,7 +28,7 @@ class VEventFromActivitySegmentUseCaseImpl(
             ).getOrNull()
         }
 
-        val lastPlaceDetails = activitySegment.waypointPath?.roadSegment?.last()?.placeId?.let { placeId ->
+        val lastPlaceDetails = activitySegment.waypointPath?.roadSegmentPlaceIds?.lastOrNull()?.let { placeId ->
             placeDetailsRepository.getPlaceDetails(
                 placeId = placeId,
                 placeTimeZoneId = eventTimeZone?.zoneId,

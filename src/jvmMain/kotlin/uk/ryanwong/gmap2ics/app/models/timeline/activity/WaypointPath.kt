@@ -6,18 +6,14 @@ package uk.ryanwong.gmap2ics.app.models.timeline.activity
 
 data class WaypointPath(
     val distanceMeters: Double,
-    val roadSegment: List<RoadSegment>
+    val roadSegmentPlaceIds: List<String>
 ) {
     companion object {
         fun from(waypointPathDataModel: uk.ryanwong.gmap2ics.data.models.timeline.WaypointPath): WaypointPath {
             return WaypointPath(
                 distanceMeters = waypointPathDataModel.distanceMeters ?: 0.0,
-                roadSegment = waypointPathDataModel.roadSegment?.mapNotNull { roadSegment ->
-                    roadSegment.placeId?.let {
-                        RoadSegment(
-                            placeId = roadSegment.placeId
-                        )
-                    }
+                roadSegmentPlaceIds = waypointPathDataModel.roadSegment?.mapNotNull { roadSegment ->
+                    roadSegment.placeId
                 } ?: emptyList()
             )
         }
