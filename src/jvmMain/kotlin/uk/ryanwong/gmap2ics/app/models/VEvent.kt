@@ -15,6 +15,17 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
+/***
+ * Design note:
+ * Reasons for having other App Models, but not making VEvent to take data models as input directly,
+ * is that VEvent is the final, stringified output which lose most of the semantic meaning that the original
+ * ActivitySegment, Place visits can provide. To process this in one single step can make things more difficult
+ * to understand, thus harder to debug if something goes wrong, or when Google Maps change the data they return.
+ *
+ * Adding App Models between Data Models and VEvent gives us some room to carefully polish the data for each data
+ * type, before handing them to VEvent for export purpose.
+ */
+
 data class VEvent(
     val uid: String,
     val placeId: String?,
