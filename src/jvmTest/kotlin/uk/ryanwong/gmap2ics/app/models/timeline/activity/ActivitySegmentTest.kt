@@ -11,67 +11,12 @@ import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
 import uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation
-import uk.ryanwong.gmap2ics.data.models.timeline.Duration
-import uk.ryanwong.gmap2ics.data.models.timeline.RoadSegment
+import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegmentDataModelTestData.mockActivitySegment
 import us.dustinj.timezonemap.TimeZone
 
 internal class ActivitySegmentTest : FreeSpec() {
 
     private lateinit var mockTimeZoneMap: MockTimeZoneMap
-
-    private val mockActivitySegment = uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment(
-        activities = listOf(
-            uk.ryanwong.gmap2ics.data.models.timeline.Activity(
-                activityType = "IN_PASSENGER_VEHICLE",
-                probability = 99.82574267034934
-            ),
-            uk.ryanwong.gmap2ics.data.models.timeline.Activity(
-                activityType = "WALKING",
-                probability = 0.09030052981224143
-            ),
-            uk.ryanwong.gmap2ics.data.models.timeline.Activity(
-                activityType = "MOTORCYCLING",
-                probability = 0.04459950826743197
-            )
-        ),
-        activityType = "IN_PASSENGER_VEHICLE",
-        confidence = "HIGH",
-        distance = 15032,
-        duration = Duration(
-            endTimestamp = "2019-06-01T01:24:28Z",
-            startTimestamp = "2019-06-01T01:04:01Z"
-        ),
-        endLocation = ActivityLocation(
-            address = null,
-            latitudeE7 = 344643393,
-            locationConfidence = null,
-            longitudeE7 = 1324226167,
-            name = null,
-            placeId = null
-        ),
-        startLocation = ActivityLocation(
-            address = null,
-            latitudeE7 = 343970563,
-            locationConfidence = null,
-            longitudeE7 = 1324677422,
-            name = null,
-            placeId = null
-        ),
-        waypointPath = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPath(
-            confidence = null,
-            distanceMeters = 15444.856340505617,
-            roadSegment = listOf(
-                RoadSegment(duration = null, placeId = "some-place-id-1"),
-                RoadSegment(duration = null, placeId = "some-place-id-2"),
-                RoadSegment(duration = null, placeId = "some-place-id-3")
-            ),
-            source = "INFERRED",
-            travelMode = null
-        ),
-        lastEditedTimestamp = null,
-        activityConfidence = null
-    )
-
 
     init {
         "should convert correctly from ActivitySegment Data Model to App Model" {

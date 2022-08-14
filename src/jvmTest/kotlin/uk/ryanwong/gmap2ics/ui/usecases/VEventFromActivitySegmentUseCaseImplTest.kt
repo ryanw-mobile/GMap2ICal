@@ -6,14 +6,12 @@ package uk.ryanwong.gmap2ics.ui.usecases
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
-import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.Activity
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.WaypointPath
+import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.mockActivitySegment
+import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.someEndDegreesLatitude
+import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.someEndDegreesLongitude
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
 import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsNotFoundException
@@ -35,53 +33,6 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
     private lateinit var vEventFromActivitySegmentUseCase: VEventFromActivitySegmentUseCaseImpl
     private lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
     private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
-
-    private val someStartLatitudeE7 = 263383300
-    private val someStartLongitudeE7 = 1278000000
-    private val someEndLatitudeE7 = 263393300
-    private val someEndLongitudeE7 = 1278500000
-    private val someEndDegreesLatitude = 26.3393300
-    private val someEndDegreesLongitude = 127.8500000
-
-    private val mockActivitySegment = ActivitySegment(
-        activities = listOf(
-            Activity(activityType = ActivityType.WALKING, rawActivityType = "WALKING"),
-            Activity(activityType = ActivityType.IN_PASSENGER_VEHICLE, rawActivityType = "IN_PASSENGER_VEHICLE"),
-            Activity(activityType = ActivityType.IN_BUS, rawActivityType = "IN_BUS")
-        ),
-        activityType = ActivityType.FLYING,
-        rawActivityType = "FLYING",
-        distance = 79,
-        durationEndTimestamp = "2011-11-11T11:22:22.222Z",
-        durationStartTimestamp = "2011-11-11T11:11:11.111Z",
-        endLocation = Location(
-            address = null,
-            latitudeE7 = someEndLatitudeE7,
-            longitudeE7 = someEndLongitudeE7,
-            name = null,
-            placeId = "some-end-place-id"
-        ),
-        startLocation = Location(
-            address = null,
-            latitudeE7 = someStartLatitudeE7,
-            longitudeE7 = someStartLongitudeE7,
-            name = null,
-            placeId = "some-start-place-id",
-        ),
-        waypointPath = WaypointPath(
-            distanceMeters = 17.61099772105995,
-            roadSegmentPlaceIds = listOf(
-                "some-road-segment-place-id-1",
-                "some-road-segment-place-id-2",
-                "some-road-segment-place-id-3"
-            )
-        ),
-        eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(
-            degreesLatitude = someEndDegreesLatitude,
-            degreesLongitude = someEndDegreesLongitude
-        ),
-        lastEditedTimestamp = "2011-11-11T11:22:22.222Z"
-    )
 
     private fun setupUseCase() {
         mockPlaceDetailsRepository = MockPlaceDetailsRepository()
@@ -159,7 +110,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 dtTimeZone = "Asia/Tokyo",
                 summary = "✈️ 0.1km ",
                 location = "26.33933,127.85",
-                geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
+                geo = LatLng(latitude = 26.3393300, longitude = 127.8500000),
                 description = "Start Location: 26.33833,127.8\\nhttps://maps.google.com?q=26.33833,127.8\\n\\nEnd Location: 26.33933,127.85\\nhttps://maps.google.com?q=26.33933,127.85\\n\\n",
                 url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
                 lastModified = "2011-11-11T11:22:22.222Z"
@@ -192,7 +143,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 dtTimeZone = "Asia/Tokyo",
                 summary = "✈️ 0.1km ",
                 location = "26.33933,127.85",
-                geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
+                geo = LatLng(latitude = 26.3393300, longitude = 127.8500000),
                 description = "Start Location: 26.33833,127.8\\nhttps://maps.google.com?q=26.33833,127.8\\n\\nEnd Location: 26.33933,127.85\\nhttps://maps.google.com?q=26.33933,127.85\\n\\n",
                 url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
                 lastModified = "2011-11-11T11:22:22.222Z"
