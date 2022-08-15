@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 
 @OptIn(ExperimentalSerializationApi::class)
 private val retrofit = Retrofit.Builder()
-    .addConverterFactory(Json.asConverterFactory(MediaType.get("application/json")))
+    .addConverterFactory(Json { ignoreUnknownKeys = true }.asConverterFactory(MediaType.get("application/json")))
     .addCallAdapterFactory(CoroutineCallAdapterFactory())
     .baseUrl("https://maps.googleapis.com")
     .build()

@@ -19,9 +19,9 @@ data class PlaceDetails(
         fun from(placeDetailsResult: Result): PlaceDetails {
             with(placeDetailsResult) {
                 return PlaceDetails(
-                    placeId = place_id,
+                    placeId = placeId,
                     name = name,
-                    formattedAddress = formatted_address,
+                    formattedAddress = formattedAddress,
                     geo = LatLng(
                         latitude = geometry.location.lat,
                         longitude = geometry.location.lng
