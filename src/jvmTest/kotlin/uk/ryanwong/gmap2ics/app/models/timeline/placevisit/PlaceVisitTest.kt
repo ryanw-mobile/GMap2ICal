@@ -58,6 +58,36 @@ internal class PlaceVisitTest : FreeSpec() {
             )
         }
 
+        "should still correctly map Data Model to App Model if no child visits" {
+            // 🔴 Given
+            mockTimeZoneMap = MockTimeZoneMap().apply {
+                mockZoneId = "Europe/London"
+            }
+            val placeVisitDataModel = mockPlaceVisitDataModel.copy(
+                childVisits = null
+            )
+
+            // 🟡 When
+            val placeVisitAppModel =
+                PlaceVisit.from(placeVisitDataModel = placeVisitDataModel, timeZoneMap = mockTimeZoneMap)
+
+            // 🟢 Then
+            placeVisitAppModel shouldBe PlaceVisit(
+                durationEndTimestamp = "2022-01-03T14:26:25Z",
+                durationStartTimestamp = "2022-01-03T14:18:02Z",
+                lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
+                location = Location(
+                    placeId = "some-place-id",
+                    latitudeE7 = 534781060,
+                    longitudeE7 = -22666767,
+                    name = "some-name",
+                    address = "some-address"
+                ),
+                eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
+                childVisits = emptyList()
+            )
+        }
+
         "should return null if App Model has no valid Location" {
             // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap()
