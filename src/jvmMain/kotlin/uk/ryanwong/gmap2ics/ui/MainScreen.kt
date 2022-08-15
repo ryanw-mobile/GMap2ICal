@@ -172,15 +172,6 @@ fun mainScreen(
                             modifier = Modifier.wrapContentSize()
                         )
                     }
-                    Button(
-                        shape = CircleShape,
-                        onClick = onCloseRequest
-                    ) {
-                        Text(
-                            text = resourceBundle.getString("exit.app"),
-                            modifier = Modifier.wrapContentSize()
-                        )
-                    }
                 }
             }
         }
