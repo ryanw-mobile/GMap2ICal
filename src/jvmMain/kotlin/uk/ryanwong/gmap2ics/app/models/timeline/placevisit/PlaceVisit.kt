@@ -23,11 +23,8 @@ data class PlaceVisit(
         ): PlaceVisit? {
             with(placeVisitDataModel) {
                 val locationAppModel = Location.from(locationDataModel = location)
-                return if (duration == null || locationAppModel == null) {
-                    null
-
-                } else {
-                    return PlaceVisit(
+                return locationAppModel?.let {
+                    PlaceVisit(
                         durationEndTimestamp = duration.endTimestamp,
                         durationStartTimestamp = duration.startTimestamp,
                         lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
