@@ -126,8 +126,8 @@ class MainScreenViewModel(
         val eventList = mutableListOf<VEvent>()
         val timeline = timelineRepository.getTimeLine(filePath = filePath)
 
-        timeline.getOrNull()?.let { timeline ->
-            timeline.timelineEntries.forEach { timelineEntry ->
+        timeline.getOrNull()?.let {
+            it.timelineEntries.forEach { timelineEntry ->
                 // Should be either activity or place visited, but no harm to also support cases with both
                 if (_exportActivitySegment.value) {
                     val vEvent = timelineEntry.activitySegment?.let { getActivitySegmentVEvent(it) }
