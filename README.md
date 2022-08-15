@@ -22,8 +22,7 @@ This App is fully functional.
 * Migrate Retrofit to Ktor
 * Integrate SQLite as preferences store, and Google Maps Place API caches
 * Dependency Injection. Probably Koin
-* Full RW MobiMedia UK commercial grade UX - phase out hardcoded config profiles. _This is expensive and subject to
-  budget._
+* Major UI rework - with multiple screens/navigation
 
 ## Background
 
@@ -52,17 +51,18 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * Kotlin
 * Kotlin Flow
 * Kotlin Coroutines
-* [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) - For JSON parsing. Replacing Moshi
 * Compose Desktop UI
 * MVVM architecture with use-cases
 
 ### Major libraries used
 
+* [Retrofit2](https://square.github.io/retrofit/) - to be replaced by Ktor soon
+* [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) - For JSON parsing. Replacing Moshi
 * [Time Zone Map](https://github.com/dustin-johnson/timezonemap) - determine time zone
+* [Napier](https://github.com/AAkira/Napier) - Logging library for Kotlin Multiplatform
 * [JUnit 5](https://github.com/junit-team/junit5) - Tests
 * [KOTest](https://kotest.io/) - Test framework
 * [MockK](https://mockk.io/) - Mocking library
-* [Retrofit2](https://square.github.io/retrofit/) - to be replaced by Ktor soon
 * [Bitrise](https://app.bitrise.io/) - CI
 
 ## How to export the Google Maps Timeline as the data set for processing

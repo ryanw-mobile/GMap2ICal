@@ -4,6 +4,7 @@
 
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -266,7 +267,7 @@ class MainScreenViewModel(
     // Designed for object printout - output to console instead of UI
     private fun printLogForVerboseMode(status: String) {
         if (_verboseLogs.value) {
-            println(status)
+            Napier.v(status)
         }
     }
 

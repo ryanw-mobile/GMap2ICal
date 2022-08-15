@@ -31,6 +31,11 @@ kotlin {
         withJava()
     }
     sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("io.github.aakira:napier:2.6.1")
+            }
+        }
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)

@@ -4,6 +4,7 @@
 
 package uk.ryanwong.gmap2ics.ui.usecases
 
+import io.github.aakira.napier.Napier
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
@@ -22,7 +23,12 @@ class VEventFromChildVisitUseCaseImpl(
                 placeId = placeId,
                 placeTimeZoneId = childVisit.eventTimeZone?.zoneId,
                 enablePlacesApiLookup = enablePlacesApiLookup
-            ).getOrNull()
+            ).let { result ->
+                result.exceptionOrNull()?.let {
+                    Napier.e("childPlaceDetails", it)
+                }
+                result.getOrNull()
+            }
         }
 
         return VEvent.from(childVisit = childVisit, placeDetails = childPlaceDetails)

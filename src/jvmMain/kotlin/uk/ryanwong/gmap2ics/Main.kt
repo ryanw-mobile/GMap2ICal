@@ -5,6 +5,8 @@
 package uk.ryanwong.gmap2ics
 
 import androidx.compose.ui.window.application
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import uk.ryanwong.gmap2ics.app.configs.RyanConfig
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapImpl
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
@@ -19,7 +21,7 @@ import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import us.dustinj.timezonemap.TimeZoneMap
 
 fun main() = application {
-
+    Napier.base(DebugAntilog())
     val configFile = RyanConfig() // Specify your config here
 
     // TODO: dependency injection

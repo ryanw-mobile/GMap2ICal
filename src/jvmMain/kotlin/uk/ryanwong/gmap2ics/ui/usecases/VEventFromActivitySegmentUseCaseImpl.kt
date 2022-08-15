@@ -4,6 +4,7 @@
 
 package uk.ryanwong.gmap2ics.ui.usecases
 
+import io.github.aakira.napier.Napier
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.shouldShowMiles
@@ -25,7 +26,12 @@ class VEventFromActivitySegmentUseCaseImpl(
                 placeId = placeId,
                 placeTimeZoneId = eventTimeZone?.zoneId,
                 enablePlacesApiLookup = enablePlacesApiLookup
-            ).getOrNull()
+            ).let { result ->
+                result.exceptionOrNull()?.let {
+                    Napier.e("firstPlaceDetails", it)
+                }
+                result.getOrNull()
+            }
         }
 
         val lastPlaceDetails = activitySegment.waypointPath?.roadSegmentPlaceIds?.lastOrNull()?.let { placeId ->
@@ -33,7 +39,12 @@ class VEventFromActivitySegmentUseCaseImpl(
                 placeId = placeId,
                 placeTimeZoneId = eventTimeZone?.zoneId,
                 enablePlacesApiLookup = enablePlacesApiLookup
-            ).getOrNull()
+            ).let { result ->
+                result.exceptionOrNull()?.let {
+                    Napier.e("lastPlaceDetails", it)
+                }
+                result.getOrNull()
+            }
         }
 
         val startPlaceDetails = activitySegment.startLocation.placeId?.let { placeId ->
@@ -41,14 +52,24 @@ class VEventFromActivitySegmentUseCaseImpl(
                 placeId = placeId,
                 placeTimeZoneId = eventTimeZone?.zoneId,
                 enablePlacesApiLookup = enablePlacesApiLookup
-            ).getOrNull()
+            ).let { result ->
+                result.exceptionOrNull()?.let {
+                    Napier.e("startPlaceDetails", it)
+                }
+                result.getOrNull()
+            }
         }
         val endPlaceDetails = activitySegment.endLocation.placeId?.let { placeId ->
             placeDetailsRepository.getPlaceDetails(
                 placeId = placeId,
                 placeTimeZoneId = eventTimeZone?.zoneId,
                 enablePlacesApiLookup = enablePlacesApiLookup
-            ).getOrNull()
+            ).let { result ->
+                result.exceptionOrNull()?.let {
+                    Napier.e("endPlaceDetails", it)
+                }
+                result.getOrNull()
+            }
         }
 
         return VEvent.from(
