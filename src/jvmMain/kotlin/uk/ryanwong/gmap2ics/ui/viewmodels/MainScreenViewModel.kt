@@ -267,7 +267,7 @@ class MainScreenViewModel(
     // Designed for object printout - output to console instead of UI
     private fun printLogForVerboseMode(status: String) {
         if (_verboseLogs.value) {
-            Napier.v(status)
+            Napier.v(tag = "MainScreenViewModel", message = status)
         }
     }
 
