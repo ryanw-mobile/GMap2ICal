@@ -9,10 +9,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
-import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
 
 class PlaceDetailsRepositoryImpl(
-    private val networkDataSource: GoogleApiDataSource = RetrofitGoogleApiDataSource(),
+    private val networkDataSource: GoogleApiDataSource,
     private val placesApiKey: String?,
     private val apiLanguageOverride: Map<String, String>, // TODO: Move to function level when configurable through UI
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO

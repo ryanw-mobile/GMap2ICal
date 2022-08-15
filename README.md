@@ -19,9 +19,8 @@ visit, I would appreciate if you could take things easy when you see me doing so
 This App is fully functional.
 
 * More unit tests are being written to increase coverage.
-* Migrate Retrofit to Ktor
-* Integrate SQLite as preferences store, and Google Maps Place API caches
 * Dependency Injection. Probably Koin
+* Integrate SQLite as preferences store, and Google Maps Place API caches
 * Major UI rework - with multiple screens/navigation
 
 ## Background
@@ -56,7 +55,8 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 
 ### Major libraries used
 
-* [Retrofit2](https://square.github.io/retrofit/) - to be replaced by Ktor soon
+* [Ktor](https://ktor.io/) - HTTP Client (Option 1, default)
+* [Retrofit2](https://square.github.io/retrofit/) - HTTP Client (Option 2)
 * [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) - For JSON parsing. Replacing Moshi
 * [Time Zone Map](https://github.com/dustin-johnson/timezonemap) - determine time zone
 * [Napier](https://github.com/AAkira/Napier) - Logging library for Kotlin Multiplatform

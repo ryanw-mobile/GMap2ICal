@@ -24,7 +24,7 @@ class VEventFromPlaceVisitUseCaseImpl(
                 enablePlacesApiLookup = enablePlacesApiLookup
             ).let { result ->
                 result.exceptionOrNull()?.let {
-                    Napier.e("VEventFromPlaceVisitUseCase", it)
+                    Napier.e(tag = "VEventFromPlaceVisitUseCase", message = it.localizedMessage)
                 }
                 result.getOrNull()
             }

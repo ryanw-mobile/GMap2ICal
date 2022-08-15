@@ -25,7 +25,7 @@ class VEventFromChildVisitUseCaseImpl(
                 enablePlacesApiLookup = enablePlacesApiLookup
             ).let { result ->
                 result.exceptionOrNull()?.let {
-                    Napier.e("childPlaceDetails", it)
+                    Napier.e(tag = "childPlaceDetails", message = it.localizedMessage)
                 }
                 result.getOrNull()
             }

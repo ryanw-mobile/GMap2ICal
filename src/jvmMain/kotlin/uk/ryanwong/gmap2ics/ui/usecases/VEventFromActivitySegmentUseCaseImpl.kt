@@ -28,7 +28,7 @@ class VEventFromActivitySegmentUseCaseImpl(
                 enablePlacesApiLookup = enablePlacesApiLookup
             ).let { result ->
                 result.exceptionOrNull()?.let {
-                    Napier.e("firstPlaceDetails", it)
+                    Napier.e(tag = "firstPlaceDetails", message = it.localizedMessage)
                 }
                 result.getOrNull()
             }
@@ -41,7 +41,7 @@ class VEventFromActivitySegmentUseCaseImpl(
                 enablePlacesApiLookup = enablePlacesApiLookup
             ).let { result ->
                 result.exceptionOrNull()?.let {
-                    Napier.e("lastPlaceDetails", it)
+                    Napier.e(tag = "lastPlaceDetails", message = it.localizedMessage)
                 }
                 result.getOrNull()
             }
@@ -54,7 +54,7 @@ class VEventFromActivitySegmentUseCaseImpl(
                 enablePlacesApiLookup = enablePlacesApiLookup
             ).let { result ->
                 result.exceptionOrNull()?.let {
-                    Napier.e("startPlaceDetails", it)
+                    Napier.e(tag = "startPlaceDetails", message = it.localizedMessage)
                 }
                 result.getOrNull()
             }
@@ -66,7 +66,7 @@ class VEventFromActivitySegmentUseCaseImpl(
                 enablePlacesApiLookup = enablePlacesApiLookup
             ).let { result ->
                 result.exceptionOrNull()?.let {
-                    Napier.e("endPlaceDetails", it)
+                    Napier.e(tag = "endPlaceDetails", message = it.localizedMessage)
                 }
                 result.getOrNull()
             }
