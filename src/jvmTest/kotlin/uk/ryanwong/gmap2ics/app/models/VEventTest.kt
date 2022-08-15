@@ -8,14 +8,11 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.startWith
-import uk.ryanwong.gmap2ics.app.ActivityType
-import uk.ryanwong.gmap2ics.app.models.timeline.Location
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.Activity
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.WaypointPath
-import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
-import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
+import uk.ryanwong.gmap2ics.app.models.VEventTestData.mockChildVisit
+import uk.ryanwong.gmap2ics.app.models.VEventTestData.mockChildVisitPlaceDetails
+import uk.ryanwong.gmap2ics.app.models.VEventTestData.mockPlaceVisit
+import uk.ryanwong.gmap2ics.app.models.VEventTestData.mockPlaceVisitPlaceDetails
+import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import java.time.format.DateTimeParseException
 import java.time.zone.ZoneRulesException
 
@@ -34,82 +31,9 @@ internal class VEventTest : FreeSpec() {
      * While for some strings we can safely replace them with "some-strings", for those we expect some special formatting,
      * like timestamp, or url, I would take a balance by making them meaningless enough but keeping the format.
      */
-    private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
-    private val mockActivitySegment = ActivitySegment(
-        activities = listOf(
-            Activity(activityType = ActivityType.WALKING, rawActivityType = "WALKING"),
-            Activity(activityType = ActivityType.IN_PASSENGER_VEHICLE, rawActivityType = "IN_PASSENGER_VEHICLE"),
-            Activity(activityType = ActivityType.IN_BUS, rawActivityType = "IN_BUS")
-        ),
-        activityType = ActivityType.FLYING,
-        rawActivityType = "FLYING",
-        distance = 79,
-        durationEndTimestamp = "2011-11-11T11:22:22.222Z",
-        durationStartTimestamp = "2011-11-11T11:11:11.111Z",
-        endLocation = Location(
-            address = null,
-            latitudeE7 = 263393300,
-            longitudeE7 = 1278500000,
-            name = null,
-            placeId = null
-        ),
-        startLocation = Location(
-            address = null,
-            latitudeE7 = 263383300,
-            longitudeE7 = 1278000000,
-            name = null,
-            placeId = null,
-        ),
-        waypointPath = WaypointPath(
-            distanceMeters = 17.61099772105995,
-            roadSegmentPlaceIds = emptyList()
-        ),
-        lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
-        eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(
-            degreesLatitude = 26.3383300,
-            degreesLongitude = 127.8000000
-        )
-    )
-
-    private val mockChildVisit = ChildVisit(
-        // meaningless values just to match the format
-        durationEndTimestamp = "2011-11-11T11:22:22.222Z",
-        durationStartTimestamp = "2011-11-11T11:11:11.111Z",
-        lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
-        location = Location(
-            placeId = "place-id-to-be-kept",
-            // meaningless values just to match the format
-            latitudeE7 = 263383300,
-            longitudeE7 = 1278000000,
-            name = "some-name",
-            address = "some-address"
-        ),
-        eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(
-            degreesLatitude = 26.3383300,
-            degreesLongitude = 127.8000000
-        )
-    )
-
-    private val mockPlaceVisit = PlaceVisit(
-        // meaningless values just to match the format
-        durationEndTimestamp = "2011-11-11T11:22:22.222Z",
-        durationStartTimestamp = "2011-11-11T11:11:11.111Z",
-        lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
-        location = Location(
-            placeId = "location-id-to-be-kept",
-            // meaningless values just to match the format
-            latitudeE7 = 263383300,
-            longitudeE7 = 1278000000
-        ),
-        childVisits = emptyList(),
-        eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(
-            degreesLatitude = 26.3383300,
-            degreesLongitude = 127.8000000
-        )
-    )
 
     init {
-//        "from" - {
+        "from" - {
 //            "Should convert ActivitySegment to VEvent correctly" {
 //                // 🔴 Given
 //                val activitySegment = mockActivitySegment
@@ -135,66 +59,214 @@ internal class VEventTest : FreeSpec() {
 //                )
 //            }
 
-//            "Should use UTC timezone to convert TimelineItem to VEvent if eventTimeZone is null" {
-//                // 🔴 Given
-//                val timelineItem = mockTimelineItemNoZoneId
-//
-//                // 🟡 When
-//                val vEvent = VEvent.from(timelineItem = timelineItem)
-//
-//                // 🟢 Then
-//                vEvent shouldBe VEvent(
-//                    uid = "2011-11-11T12:12:12.222Z",
-//                    placeId = "some-place-id",
-//                    dtStamp = "2011-11-11T12:12:12.222Z",
-//                    organizer = null,
-//                    dtStart = "20111111T111111",
-//                    dtEnd = "20111111T121212",
-//                    dtTimeZone = "UTC",
-//                    summary = "📍 some-subject",
-//                    location = "some-location",
-//                    geo = LatLng(latitude = 22.4799999, longitude = 127.7999999),
-//                    description = "Place ID:\nsome-place-id\n\nGoogle Maps URL:\nhttps://www.google.com/maps/place/?q=place_id:some-place-id",
-//                    url = "https://www.google.com/maps/place/?q=place_id:some-place-id",
-//                    lastModified = "2011-11-11T12:12:12.222Z"
-//                )
-//            }
-//        }
-//
-//        "export" - {
-//            "Should export correct iCal string" {
-//                // 🔴 Given
-//                val timelineItem = mockTimelineItem
-//                val vEvent = VEvent.from(timelineItem = timelineItem)
-//
-//                // 🟡 When
-//                val iCalString = vEvent.export()
-//
-//                // 🟢 Then
-//                iCalString shouldBe "BEGIN:VEVENT\n" +
-//                        "TRANSP:OPAQUE\n" +
-//                        "DTSTART;TZID=Asia/Tokyo:20111111T201111\n" +
-//                        "DTEND;TZID=Asia/Tokyo:20111111T211212\n" +
-//                        "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
-//                        "X-TITLE=\"some-location\":geo:22.48,127.8\n" +
-//                        "UID:2011-11-11T12:12:12.222Z\n" +
-//                        "DTSTAMP:2011-11-11T12:12:12.222Z\n" +
-//                        "LOCATION:some-location\n" +
-//                        "SUMMARY:\uD83D\uDCCD some-subject\n" +
-//                        "DESCRIPTION:Place ID:\n" +
-//                        "some-place-id\n" +
-//                        "\n" +
-//                        "Google Maps URL:\n" +
-//                        "https://www.google.com/maps/place/?q=place_id:some-place-id\n" +
-//                        "URL;VALUE=URI:https://www.google.com/maps/place/?q=place_id:some-place-id\n" +
-//                        "STATUS:CONFIRMED\n" +
-//                        "SEQUENCE:1\n" +
-//                        "LAST-MODIFIED:2011-11-11T12:12:12.222Z\n" +
-//                        "CREATED:2011-11-11T12:12:12.222Z\n" +
-//                        "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
-//                        "END:VEVENT\n"
-//            }
-//        }
+            "PlaceVisit" - {
+                "Should convert PlaceVisit with PlaceDetails to VEvent correctly" {
+                    // 🔴 Given
+                    val placeVisit = mockPlaceVisit
+                    val placeDetails = mockPlaceVisitPlaceDetails
+
+                    // 🟡 When
+                    val vEvent = VEvent.from(placeVisit = placeVisit, placeDetails = placeDetails)
+
+                    // 🟢 Then
+                    vEvent shouldBe VEvent(
+                        uid = "2011-11-11T11:22:22.222Z",
+                        placeId = "some-place-visit-place-id",
+                        dtStamp = "2011-11-11T11:22:22.222Z",
+                        organizer = null,
+                        dtStart = "20111111T201111",
+                        dtEnd = "20111111T202222",
+                        dtTimeZone = "Asia/Tokyo",
+                        summary = "🏞 some-place-details-name",
+                        location = "some-place-details-formatted-address",
+                        geo = LatLng(latitude = 26.33833, longitude = 127.8),
+                        description = "Place ID:\\nsome-place-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051",
+                        url = "https://maps.google.com/?cid=1021876599690425051",
+                        lastModified = "2011-11-11T11:22:22.222Z"
+                    )
+                }
+
+                "Should use UTC timezone to represent time in VEvent if eventTimeZone is null" {
+                    // 🔴 Given
+                    val placeVisit = mockPlaceVisit.copy(
+                        eventTimeZone = null
+                    )
+                    val placeDetails = mockPlaceVisitPlaceDetails
+
+                    // 🟡 When
+                    val vEvent = VEvent.from(placeVisit = placeVisit, placeDetails = placeDetails)
+
+                    // 🟢 Then
+                    vEvent shouldBe VEvent(
+                        uid = "2011-11-11T11:22:22.222Z",
+                        placeId = "some-place-visit-place-id",
+                        dtStamp = "2011-11-11T11:22:22.222Z",
+                        organizer = null,
+                        dtStart = "20111111T111111",
+                        dtEnd = "20111111T112222",
+                        dtTimeZone = "UTC",
+                        summary = "🏞 some-place-details-name",
+                        location = "some-place-details-formatted-address",
+                        geo = LatLng(latitude = 26.33833, longitude = 127.8),
+                        description = "Place ID:\\nsome-place-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051",
+                        url = "https://maps.google.com/?cid=1021876599690425051",
+                        lastModified = "2011-11-11T11:22:22.222Z"
+                    )
+                }
+
+                "Should convert PlaceVisit without PlaceDetails to VEvent correctly" {
+                    // 🔴 Given
+                    val placeVisit = mockPlaceVisit
+                    val placeDetails = null
+
+                    // 🟡 When
+                    val vEvent = VEvent.from(placeVisit = placeVisit, placeDetails = placeDetails)
+
+                    // 🟢 Then
+                    vEvent shouldBe VEvent(
+                        uid = "2011-11-11T11:22:22.222Z",
+                        placeId = "some-place-visit-place-id",
+                        dtStamp = "2011-11-11T11:22:22.222Z",
+                        organizer = null,
+                        dtStart = "20111111T201111",
+                        dtEnd = "20111111T202222",
+                        dtTimeZone = "Asia/Tokyo",
+                        summary = "📍 some-name",
+                        location = "some-address",
+                        geo = LatLng(latitude = 26.33833, longitude = 127.8),
+                        description = "Place ID:\\nsome-place-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-place-visit-place-id",
+                        url = "https://www.google.com/maps/place/?q=place_id:some-place-visit-place-id",
+                        lastModified = "2011-11-11T11:22:22.222Z"
+                    )
+                }
+            }
+
+            "ChildVisit" - {
+                "Should convert ChildVisit with PlaceDetails to VEvent correctly" {
+                    // 🔴 Given
+                    val childVisit = mockChildVisit
+                    val placeDetails = mockChildVisitPlaceDetails
+
+                    // 🟡 When
+                    val vEvent = VEvent.from(childVisit = childVisit, placeDetails = placeDetails)
+
+                    // 🟢 Then
+                    vEvent shouldBe VEvent(
+                        uid = "2011-11-11T11:22:22.222Z",
+                        placeId = "some-child-visit-place-id",
+                        dtStamp = "2011-11-11T11:22:22.222Z",
+                        organizer = null,
+                        dtStart = "20111111T201111",
+                        dtEnd = "20111111T202222",
+                        dtTimeZone = "Asia/Tokyo",
+                        summary = "🏞 some-place-details-name",
+                        location = "some-place-details-formatted-address",
+                        geo = LatLng(latitude = 26.33833, longitude = 127.8),
+                        description = "Place ID:\\nsome-child-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051",
+                        url = "https://maps.google.com/?cid=1021876599690425051",
+                        lastModified = "2011-11-11T11:22:22.222Z"
+                    )
+                }
+
+                "Should use UTC timezone to represent time in VEvent if eventTimeZone is null" {
+                    // 🔴 Given
+                    val childVisit = mockChildVisit.copy(
+                        eventTimeZone = null
+                    )
+                    val placeDetails = mockChildVisitPlaceDetails
+
+                    // 🟡 When
+                    val vEvent = VEvent.from(childVisit = childVisit, placeDetails = placeDetails)
+
+                    // 🟢 Then
+                    vEvent shouldBe VEvent(
+                        uid = "2011-11-11T11:22:22.222Z",
+                        placeId = "some-child-visit-place-id",
+                        dtStamp = "2011-11-11T11:22:22.222Z",
+                        organizer = null,
+                        dtStart = "20111111T111111",
+                        dtEnd = "20111111T112222",
+                        dtTimeZone = "UTC",
+                        summary = "🏞 some-place-details-name",
+                        location = "some-place-details-formatted-address",
+                        geo = LatLng(latitude = 26.33833, longitude = 127.8),
+                        description = "Place ID:\\nsome-child-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051",
+                        url = "https://maps.google.com/?cid=1021876599690425051",
+                        lastModified = "2011-11-11T11:22:22.222Z"
+                    )
+                }
+
+                "Should convert ChildVisit without PlaceDetails to VEvent correctly" {
+                    // 🔴 Given
+                    val childVisit = mockChildVisit
+                    val placeDetails = null
+
+                    // 🟡 When
+                    val vEvent = VEvent.from(childVisit = childVisit, placeDetails = placeDetails)
+
+                    // 🟢 Then
+                    vEvent shouldBe VEvent(
+                        uid = "2011-11-11T11:22:22.222Z",
+                        placeId = "some-child-visit-place-id",
+                        dtStamp = "2011-11-11T11:22:22.222Z",
+                        organizer = null,
+                        dtStart = "20111111T201111",
+                        dtEnd = "20111111T202222",
+                        dtTimeZone = "Asia/Tokyo",
+                        summary = "📍 some-name",
+                        location = "some-address",
+                        geo = LatLng(latitude = 26.33833, longitude = 127.8),
+                        description = "Place ID:\\nsome-child-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-child-visit-place-id",
+                        url = "https://www.google.com/maps/place/?q=place_id:some-child-visit-place-id",
+                        lastModified = "2011-11-11T11:22:22.222Z"
+                    )
+                }
+            }
+        }
+
+        "export" - {
+            "Should export correct iCal string" {
+                // 🔴 Given
+                val vEvent = VEvent(
+                    uid = "2011-11-11T11:22:22.222Z",
+                    placeId = "some-child-visit-place-id",
+                    dtStamp = "2011-11-11T11:22:22.222Z",
+                    organizer = null,
+                    dtStart = "20111111T201111",
+                    dtEnd = "20111111T202222",
+                    dtTimeZone = "Asia/Tokyo",
+                    summary = "🏞 some-place-details-name",
+                    location = "some-place-details-formatted-address",
+                    geo = LatLng(latitude = 26.33833, longitude = 127.8),
+                    description = "Place ID:\\nsome-child-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051",
+                    url = "https://maps.google.com/?cid=1021876599690425051",
+                    lastModified = "2011-11-11T11:22:22.222Z"
+                )
+
+                // 🟡 When
+                val iCalString = vEvent.export()
+
+                // 🟢 Then
+                iCalString shouldBe "BEGIN:VEVENT\n" +
+                        "TRANSP:OPAQUE\n" +
+                        "DTSTART;TZID=Asia/Tokyo:20111111T201111\n" +
+                        "DTEND;TZID=Asia/Tokyo:20111111T202222\n" +
+                        "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
+                        "X-TITLE=\"some-place-details-formatted-address\":geo:26.33833,127.8\n" +
+                        "UID:2011-11-11T11:22:22.222Z\n" +
+                        "DTSTAMP:2011-11-11T11:22:22.222Z\n" +
+                        "LOCATION:some-place-details-formatted-address\n" +
+                        "SUMMARY:\uD83C\uDFDE some-place-details-name\n" +
+                        "DESCRIPTION:Place ID:\\nsome-child-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051\n" +
+                        "URL;VALUE=URI:https://maps.google.com/?cid=1021876599690425051\n" +
+                        "STATUS:CONFIRMED\n" +
+                        "SEQUENCE:1\n" +
+                        "LAST-MODIFIED:2011-11-11T11:22:22.222Z\n" +
+                        "CREATED:2011-11-11T11:22:22.222Z\n" +
+                        "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
+                        "END:VEVENT\n"
+            }
+        }
 
         "getLocalizedTimeStamp" - {
             "Should return correct localized Time Stamp for good timestamp and timezoneId" {
