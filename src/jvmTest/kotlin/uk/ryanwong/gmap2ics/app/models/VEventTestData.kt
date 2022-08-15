@@ -23,9 +23,9 @@ internal object VEventTestData {
             Activity(activityType = ActivityType.IN_PASSENGER_VEHICLE, rawActivityType = "IN_PASSENGER_VEHICLE"),
             Activity(activityType = ActivityType.IN_BUS, rawActivityType = "IN_BUS")
         ),
-        activityType = ActivityType.FLYING,
-        rawActivityType = "FLYING",
-        distance = 79,
+        activityType = ActivityType.IN_VEHICLE,
+        rawActivityType = "IN_VEHICLE",
+        distance = 7900,
         durationEndTimestamp = "2011-11-11T11:22:22.222Z",
         durationStartTimestamp = "2011-11-11T11:11:11.111Z",
         endLocation = Location(
@@ -33,14 +33,14 @@ internal object VEventTestData {
             latitudeE7 = 263393300,
             longitudeE7 = 1278500000,
             name = null,
-            placeId = null
+            placeId = "some-end-location-place-id"
         ),
         startLocation = Location(
             address = null,
             latitudeE7 = 263383300,
             longitudeE7 = 1278000000,
             name = null,
-            placeId = null,
+            placeId = "some-start-location-place-id",
         ),
         waypointPath = WaypointPath(
             distanceMeters = 17.61099772105995,
@@ -53,6 +53,46 @@ internal object VEventTestData {
         )
     )
 
+    val mockActivityFirstSegmentPlaceDetails = PlaceDetails(
+        placeId = "some-first-segment-place-id",
+        name = "some-first-segment-name",
+        formattedAddress = "some-first-segment-formatted-address",
+        geo = LatLng(latitude = 26.3383310, longitude = 127.8000010),
+        types = listOf(
+            "TOURIST_ATTRACTION"
+        ),
+        url = "https://maps.google.com/?cid=1021876599690425051"
+    )
+    val mockActivityLastSegmentPlaceDetails = PlaceDetails(
+        placeId = "some-last-segment-place-id",
+        name = "some-last-segment-name",
+        formattedAddress = "some-last-segment-formatted-address",
+        geo = LatLng(latitude = 26.3383320, longitude = 127.8000020),
+        types = listOf(
+            "TOURIST_ATTRACTION"
+        ),
+        url = "https://maps.google.com/?cid=1021876599690425051"
+    )
+    val mockActivityStartSegmentPlaceDetails = PlaceDetails(
+        placeId = "some-start-segment-place-id",
+        name = "some-start-segment-name",
+        formattedAddress = "some-start-segment-formatted-address",
+        geo = LatLng(latitude = 26.3383330, longitude = 127.8000030),
+        types = listOf(
+            "TOURIST_ATTRACTION"
+        ),
+        url = "https://maps.google.com/?cid=1021876599690425051"
+    )
+    val mockActivityEndSegmentPlaceDetails = PlaceDetails(
+        placeId = "some-end-segment-place-id",
+        name = "some-end-segment-name",
+        formattedAddress = "some-end-segment-formatted-address",
+        geo = LatLng(latitude = 26.3383340, longitude = 127.8000040),
+        types = listOf(
+            "TOURIST_ATTRACTION"
+        ),
+        url = "https://maps.google.com/?cid=1021876599690425051"
+    )
     val mockChildVisit = ChildVisit(
         durationEndTimestamp = "2011-11-11T11:22:22.222Z",
         durationStartTimestamp = "2011-11-11T11:11:11.111Z",
