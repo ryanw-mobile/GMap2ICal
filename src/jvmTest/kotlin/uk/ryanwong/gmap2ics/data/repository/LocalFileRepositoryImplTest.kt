@@ -7,11 +7,16 @@ package uk.ryanwong.gmap2ics.data.repository
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
+import uk.ryanwong.gmap2ics.app.models.VEvent
+import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.data.source.local.MockLocalDataSource
+import java.io.IOException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class LocalFileRepositoryImplTest : FreeSpec() {
+
+    private val someDegreesLatitude = 26.3383300
+    private val someDegreesLongitude = 127.8000000
 
     private lateinit var localFileRepository: LocalFileRepositoryImpl
     private lateinit var localDataSource: MockLocalDataSource
@@ -20,8 +25,7 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
         localDataSource = MockLocalDataSource()
 
         localFileRepository = LocalFileRepositoryImpl(
-            localDataSource = localDataSource,
-            dispatcher = StandardTestDispatcher()
+            localDataSource = localDataSource
         )
     }
 
@@ -67,7 +71,124 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
         }
 
         "exportICal" - {
+            "should export iCal with correct filename and contents" {
+                // 🔴 Given
+                setupRepository()
+                localDataSource.fileWriterResponse = Result.success(Unit)
+                val vEventList = listOf(
+                    VEvent(
+                        uid = "2011-11-11T11:22:22.222Z",
+                        placeId = "place-id-to-be-kept",
+                        dtStamp = "2011-11-11T11:22:22.222Z",
+                        organizer = null,
+                        dtStart = "20111111T201111",
+                        dtEnd = "20111111T202222",
+                        dtTimeZone = "Asia/Tokyo",
+                        summary = "\uD83C\uDFE7 some-place-name",
+                        location = "some-formatted-address",
+                        geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+                        description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/",
+                        url = "https://some.url/",
+                        lastModified = "2011-11-11T11:22:22.222Z"
+                    ),
+                    VEvent(
+                        uid = "2011-11-11T11:22:22.222Z",
+                        placeId = "some-place-id",
+                        dtStamp = "2011-11-11T11:22:22.222Z",
+                        organizer = null,
+                        dtStart = "20111111T201111",
+                        dtEnd = "20111111T202222",
+                        dtTimeZone = "Asia/Tokyo",
+                        summary = "📍 null",
+                        location = "",
+                        geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+                        description = "Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id",
+                        url = "https://www.google.com/maps/place/?q=place_id:some-place-id",
+                        lastModified = "2011-11-11T11:22:22.222Z"
+                    )
+                )
 
+                // 🟡 When
+                val exportICalResponse = localFileRepository.exportICal(
+                    filename = "some-file-name",
+                    vEvents = vEventList
+                )
+
+                // 🟢 Then
+                exportICalResponse.isSuccess shouldBe true
+                localDataSource.fileWriterFileName shouldBe "some-file-name"
+                localDataSource.fileWriterContents shouldBe "BEGIN:VCALENDAR\n" +
+                        "VERSION:2.0\n" +
+                        "BEGIN:VEVENT\n" +
+                        "TRANSP:OPAQUE\n" +
+                        "DTSTART;TZID=Asia/Tokyo:20111111T201111\n" +
+                        "DTEND;TZID=Asia/Tokyo:20111111T202222\n" +
+                        "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
+                        "X-TITLE=\"some-formatted-address\":geo:26.33833,127.8\n" +
+                        "UID:2011-11-11T11:22:22.222Z\n" +
+                        "DTSTAMP:2011-11-11T11:22:22.222Z\n" +
+                        "LOCATION:some-formatted-address\n" +
+                        "SUMMARY:\uD83C\uDFE7 some-place-name\n" +
+                        "DESCRIPTION:Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/\n" +
+                        "URL;VALUE=URI:https://some.url/\n" +
+                        "STATUS:CONFIRMED\n" +
+                        "SEQUENCE:1\n" +
+                        "LAST-MODIFIED:2011-11-11T11:22:22.222Z\n" +
+                        "CREATED:2011-11-11T11:22:22.222Z\n" +
+                        "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
+                        "END:VEVENT\n" +
+                        "BEGIN:VEVENT\n" +
+                        "TRANSP:OPAQUE\n" +
+                        "DTSTART;TZID=Asia/Tokyo:20111111T201111\n" +
+                        "DTEND;TZID=Asia/Tokyo:20111111T202222\n" +
+                        "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
+                        "X-TITLE=\"26.33833 127.8\":geo:26.33833,127.8\n" +
+                        "UID:2011-11-11T11:22:22.222Z\n" +
+                        "DTSTAMP:2011-11-11T11:22:22.222Z\n" +
+                        "LOCATION:\n" +
+                        "SUMMARY:\uD83D\uDCCD null\n" +
+                        "DESCRIPTION:Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\n" +
+                        "URL;VALUE=URI:https://www.google.com/maps/place/?q=place_id:some-place-id\n" +
+                        "STATUS:CONFIRMED\n" +
+                        "SEQUENCE:1\n" +
+                        "LAST-MODIFIED:2011-11-11T11:22:22.222Z\n" +
+                        "CREATED:2011-11-11T11:22:22.222Z\n" +
+                        "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
+                        "END:VEVENT\n" +
+                        "END:VCALENDAR\n"
+            }
+
+            "should return Result.failure if data source return error" {
+                // 🔴 Given
+                setupRepository()
+                localDataSource.fileWriterResponse = Result.failure(exception = IOException())
+                val vEventList = listOf(
+                    VEvent(
+                        uid = "2011-11-11T11:22:22.222Z",
+                        placeId = "place-id-to-be-kept",
+                        dtStamp = "2011-11-11T11:22:22.222Z",
+                        organizer = null,
+                        dtStart = "20111111T201111",
+                        dtEnd = "20111111T202222",
+                        dtTimeZone = "Asia/Tokyo",
+                        summary = "\uD83C\uDFE7 some-place-name",
+                        location = "some-formatted-address",
+                        geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+                        description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/",
+                        url = "https://some.url/",
+                        lastModified = "2011-11-11T11:22:22.222Z"
+                    )
+                )
+
+                // 🟡 When
+                val exportICalResponse = localFileRepository.exportICal(
+                    filename = "some-file-name",
+                    vEvents = vEventList
+                )
+
+                // 🟢 Then
+                exportICalResponse.isFailure shouldBe true
+            }
         }
     }
 }
