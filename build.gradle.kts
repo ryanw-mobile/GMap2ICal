@@ -81,3 +81,17 @@ compose.desktop {
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
+
+tasks.koverMergedHtmlReport {
+    excludes = listOf(
+        "uk.ryanwong.gmap2ics.app.configs.*",
+        "uk.ryanwong.gmap2ics.ui.screens.*"
+    )
+}
+
+tasks.koverMergedXmlReport {
+    excludes = listOf(
+        "uk.ryanwong.gmap2ics.app.configs.*",
+        "uk.ryanwong.gmap2ics.ui.screens.*"
+    )
+}

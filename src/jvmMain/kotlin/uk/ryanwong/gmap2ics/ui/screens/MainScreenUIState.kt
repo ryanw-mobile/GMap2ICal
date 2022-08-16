@@ -2,7 +2,7 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.ui
+package uk.ryanwong.gmap2ics.ui.screens
 
 sealed class MainScreenUIState {
     object Ready : MainScreenUIState()

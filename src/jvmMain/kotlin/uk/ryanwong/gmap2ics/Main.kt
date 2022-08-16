@@ -17,7 +17,7 @@ import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImpl
 import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.GoogleMapsApiClient
 import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.KtorGoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
-import uk.ryanwong.gmap2ics.ui.mainScreen
+import uk.ryanwong.gmap2ics.ui.screens.mainScreen
 import uk.ryanwong.gmap2ics.ui.usecases.VEventFromActivitySegmentUseCaseImpl
 import uk.ryanwong.gmap2ics.ui.usecases.VEventFromChildVisitUseCaseImpl
 import uk.ryanwong.gmap2ics.ui.usecases.VEventFromPlaceVisitUseCaseImpl

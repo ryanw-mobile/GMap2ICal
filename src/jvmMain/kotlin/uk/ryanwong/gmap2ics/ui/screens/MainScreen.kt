@@ -2,7 +2,7 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.ui
+package uk.ryanwong.gmap2ics.ui.screens
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.VerticalScrollbar
@@ -45,9 +45,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
-import uk.ryanwong.gmap2ics.ui.components.CheckBoxItem
-import uk.ryanwong.gmap2ics.ui.components.ErrorAlertDialog
-import uk.ryanwong.gmap2ics.ui.components.PathPickerItem
+import uk.ryanwong.gmap2ics.ui.screens.components.CheckBoxItem
+import uk.ryanwong.gmap2ics.ui.screens.components.ErrorAlertDialog
+import uk.ryanwong.gmap2ics.ui.screens.components.PathPickerItem
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import java.util.Locale
 import java.util.ResourceBundle.getBundle
