@@ -60,6 +60,8 @@ kotlin {
                 implementation("io.kotest:kotest-runner-junit5:5.3.1")
                 implementation("io.kotest:kotest-assertions-core:5.3.1")
                 implementation("io.kotest:kotest-property:5.3.1")
+                // ktor
+                implementation("io.ktor:ktor-client-mock:$ktorVersion")
             }
         }
     }
