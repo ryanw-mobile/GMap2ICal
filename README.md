@@ -1,6 +1,6 @@
 # GMap2iCal - Google Maps Timeline to iCal
 
-[![Build Status](https://app.bitrise.io/app/0667f15b93a99b17/status.svg?token=2nCEgRSOnFG82N7YWNSPBQ&branch=master)](https://app.bitrise.io/app/0667f15b93a99b17)
+[![Build Status](https://app.bitrise.io/app/0667f15b93a99b17/status.svg?token=2nCEgRSOnFG82N7YWNSPBQ&branch=master)](https://app.bitrise.io/app/0667f15b93a99b17) [![codecov](https://codecov.io/gh/ryanwong-uk/GMap2ICal/branch/master/graph/badge.svg?token=4NZUBRYHT0)](https://codecov.io/gh/ryanwong-uk/GMap2ICal)
 
 ### My first Compose for Desktop App
 
