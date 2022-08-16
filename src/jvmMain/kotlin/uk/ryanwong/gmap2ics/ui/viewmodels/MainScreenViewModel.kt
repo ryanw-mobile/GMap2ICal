@@ -172,6 +172,7 @@ class MainScreenViewModel(
                 enablePlacesApiLookup = _enablePlacesApiLookup.value
             ).let { vEvent ->
                 eventList.add(vEvent)
+                appendStatus(status = "🗓Exported: ${vEvent.dtStart}: ${vEvent.summary}")
                 printLogForVerboseMode(status = vEvent.toString())
             }
 
@@ -184,6 +185,7 @@ class MainScreenViewModel(
                         enablePlacesApiLookup = _enablePlacesApiLookup.value
                     )?.let { vEvent ->
                         eventList.add(vEvent)
+                        appendStatus(status = "🗓 Exported: ${vEvent.dtStart}: ${vEvent.summary}")
                         printLogForVerboseMode(status = vEvent.toString())
                     }
                 }

@@ -12,15 +12,14 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -38,7 +37,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
@@ -111,23 +109,13 @@ fun mainScreen(
         }
 
         MaterialTheme {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(
-                    text = resourceBundle.getString("google.maps.to.ical.converter"),
-                    textAlign = TextAlign.Center,
-                    fontSize = 24.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth()
-                        .padding(vertical = 24.dp),
-                )
+            Column(modifier = Modifier.fillMaxSize()) {
 
                 Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
-                        .weight(weight = 1f, fill = true)
+                        .padding(top = 8.dp)
+                        .wrapContentHeight()
                 ) {
                     SettingsColumn(
                         jsonPath = jsonPath,
@@ -146,26 +134,14 @@ fun mainScreen(
                         onVerboseLogsChanged = { enabled -> mainScreenViewModel.setVerboseLogs(enabled) },
                         onChangeJsonPath = { mainScreenViewModel.onChangeJsonPath() },
                         onChangeICalPath = { mainScreenViewModel.onChangeICalPath() },
-                        modifier = Modifier.weight(weight = 0.5f, fill = true)
+                        modifier = Modifier.weight(weight = 1.0f, fill = true)
                     )
 
-                    StatusColumn(
-                        statusMessage = statusMessage,
-                        modifier = Modifier.weight(weight = 0.5f, fill = true)
-                    )
-                }
-
-                Row(
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .align(alignment = Alignment.CenterHorizontally)
-                        .padding(vertical = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(24.dp)
-                ) {
                     Button(
                         enabled = (uiState == MainScreenUIState.Ready),
                         shape = CircleShape,
-                        onClick = { mainScreenViewModel.startConversion() }
+                        onClick = { mainScreenViewModel.startConversion() },
+                        modifier = Modifier.padding(end = 16.dp)
                     ) {
                         Text(
                             text = resourceBundle.getString("convert"),
@@ -173,6 +149,13 @@ fun mainScreen(
                         )
                     }
                 }
+
+                StatusColumn(
+                    statusMessage = statusMessage,
+                    modifier = Modifier
+                        .weight(weight = 1.0f, fill = true)
+                        .padding(vertical = 16.dp)
+                )
             }
         }
     }
@@ -206,47 +189,57 @@ private fun SettingsColumn(
     Column(
         modifier = modifier.padding(horizontal = 16.dp)
     ) {
-        PathPickerItem(
-            title = resourceBundle.getString("json.path"),
-            currentPath = jsonPath,
-            onClick = onChangeJsonPath,
-            resourceBundle = resourceBundle
-        )
+        Row(verticalAlignment = Alignment.Top) {
+            PathPickerItem(
+                title = resourceBundle.getString("json.path"),
+                currentPath = jsonPath,
+                onClick = onChangeJsonPath,
+                resourceBundle = resourceBundle,
+                modifier = Modifier
+                    .weight(0.5f, fill = true)
+                    .height(intrinsicSize = IntrinsicSize.Max)
+            )
 
-        PathPickerItem(
-            title = resourceBundle.getString("ical.path"),
-            currentPath = iCalPath,
-            onClick = onChangeICalPath,
-            resourceBundle = resourceBundle
-        )
+            PathPickerItem(
+                title = resourceBundle.getString("ical.path"),
+                currentPath = iCalPath,
+                onClick = onChangeICalPath,
+                resourceBundle = resourceBundle,
+                modifier = Modifier
+                    .weight(0.5f, fill = true)
+                    .height(intrinsicSize = IntrinsicSize.Max)
+            )
+        }
 
-        Spacer(modifier = spacerModifier)
+        Row {
+            Column(modifier = Modifier.weight(0.5f, fill = true)) {
+                CheckBoxItem(
+                    text = resourceBundle.getString("export.places.visited"),
+                    checked = exportPlaceVisit,
+                    onCheckedChange = onExportPlaceVisitChanged
+                )
 
-        CheckBoxItem(
-            text = resourceBundle.getString("export.places.visited"),
-            checked = exportPlaceVisit,
-            onCheckedChange = onExportPlaceVisitChanged
-        )
+                CheckBoxItem(
+                    text = resourceBundle.getString("export.activity.segments"),
+                    checked = exportActivitySegment,
+                    onCheckedChange = onExportActivitySegmentChanged
+                )
+            }
 
-        CheckBoxItem(
-            text = resourceBundle.getString("export.activity.segments"),
-            checked = exportActivitySegment,
-            onCheckedChange = onExportActivitySegmentChanged
-        )
+            Column(modifier = Modifier.weight(0.5f, fill = true)) {
+                CheckBoxItem(
+                    text = resourceBundle.getString("enable.places.api.lookup"),
+                    checked = enablePlacesApiLookup,
+                    onCheckedChange = onEnablePlaceApiLookupChanged
+                )
 
-        Spacer(modifier = spacerModifier)
-
-        CheckBoxItem(
-            text = resourceBundle.getString("enable.places.api.lookup"),
-            checked = enablePlacesApiLookup,
-            onCheckedChange = onEnablePlaceApiLookupChanged
-        )
-
-        CheckBoxItem(
-            text = resourceBundle.getString("verbose.log.mode"),
-            checked = verboseLogs,
-            onCheckedChange = onVerboseLogsChanged
-        )
+                CheckBoxItem(
+                    text = resourceBundle.getString("verbose.log.mode"),
+                    checked = verboseLogs,
+                    onCheckedChange = onVerboseLogsChanged
+                )
+            }
+        }
     }
 }
 
@@ -279,10 +272,10 @@ private fun StatusColumn(
                     Text(
                         text = message,
                         color = Color.Black,
-                        fontSize = 11.sp,
+                        fontSize = 12.sp,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(all = 8.dp)
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
                     )
                 }
             }
