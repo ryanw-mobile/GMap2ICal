@@ -10,6 +10,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization") version "1.7.10"
+    id("org.jetbrains.kotlinx.kover") version "0.5.1"
     id("org.jetbrains.compose")
 }
 

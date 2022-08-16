@@ -64,6 +64,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * [KOTest](https://kotest.io/) - Test framework
 * [MockK](https://mockk.io/) - Mocking library
 * [Bitrise](https://app.bitrise.io/) - CI
+* [Kover](https://github.com/Kotlin/kotlinx-kover) - code coverage
 
 ## How to export the Google Maps Timeline as the data set for processing
 
