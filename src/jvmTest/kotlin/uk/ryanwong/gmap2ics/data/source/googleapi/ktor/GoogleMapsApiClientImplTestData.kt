@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.data.source.googleapi.ktor
 
-internal object GoogleMapsApiClientTestData {
+internal object GoogleMapsApiClientImplTestData {
 
     val mockPlaceDetailsGregAve = """{
    "html_attributions" : [],

@@ -14,7 +14,7 @@ import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepositoryImpl
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepositoryImpl
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImpl
-import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.GoogleMapsApiClient
+import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.GoogleMapsApiClientImpl
 import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.KtorGoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
 import uk.ryanwong.gmap2ics.ui.screens.mainScreen
@@ -30,7 +30,7 @@ fun main() = application {
     val useKtor = true
 
     // TODO: dependency injection
-    val googleMapsApiClient = GoogleMapsApiClient(engine = CIO.create())
+    val googleMapsApiClient = GoogleMapsApiClientImpl(engine = CIO.create())
     val networkDataSource = if (useKtor) {
         KtorGoogleApiDataSource(googleMapsApiClient = googleMapsApiClient)
     } else {

@@ -17,11 +17,11 @@ import uk.ryanwong.gmap2ics.data.models.places.AddressComponent
 import uk.ryanwong.gmap2ics.data.models.places.Geometry
 import uk.ryanwong.gmap2ics.data.models.places.Location
 import uk.ryanwong.gmap2ics.data.models.places.Result
-import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.GoogleMapsApiClientTestData.mockPlaceDetailsGregAve
+import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.GoogleMapsApiClientImplTestData.mockPlaceDetailsGregAve
 
-internal class GoogleMapsApiClientTest : FreeSpec() {
+internal class GoogleMapsApiClientImplTest : FreeSpec() {
 
-    private lateinit var apiClient: GoogleMapsApiClient
+    private lateinit var apiClient: GoogleMapsApiClientImpl
 
     private fun setupEngine(status: HttpStatusCode, payload: String) {
         val mockEngine = MockEngine { _ ->
@@ -31,7 +31,7 @@ internal class GoogleMapsApiClientTest : FreeSpec() {
                 headers = headersOf(HttpHeaders.ContentType, "application/json")
             )
         }
-        apiClient = GoogleMapsApiClient(engine = mockEngine)
+        apiClient = GoogleMapsApiClientImpl(engine = mockEngine)
     }
 
     init {
