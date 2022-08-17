@@ -8,10 +8,10 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.flow.first
+import uk.ryanwong.gmap2ics.app.configs.MockConfig
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
-import uk.ryanwong.gmap2ics.app.configs.MockConfig
 import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
@@ -112,6 +112,20 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
                 // 🟢 Then
                 mainScreenViewModel.enablePlacesApiLookup.first() shouldBe !initialState
+            }
+        }
+
+        "setVerboseLogs" - {
+            "should update _verboseLogs correctly" {
+                // 🔴 Given
+                setupViewModel()
+                val initialState = mainScreenViewModel.verboseLogs.first()
+
+                // 🟡 When
+                mainScreenViewModel.setVerboseLogs(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.verboseLogs.first() shouldBe !initialState
             }
         }
 
@@ -343,6 +357,21 @@ internal class MainScreenViewModelTest : FreeSpec() {
                     val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
                     (mainScreenUIState as MainScreenUIState.Error).errMsg shouldBe "mock-string-for-error.updating.ical.path"
                 }
+            }
+        }
+
+        "notifyErrorMessageDisplayed" - {
+            "Should set MainScreenUIState = Ready" {
+                // 🔴 Given
+                setupViewModel()
+                mainScreenViewModel.onChangeICalPath() // Randomly alter the UI state
+
+                // 🟡 When
+                mainScreenViewModel.notifyErrorMessageDisplayed()
+
+                // 🟢 Then
+                val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
+                mainScreenUIState shouldBe MainScreenUIState.Ready
             }
         }
     }
