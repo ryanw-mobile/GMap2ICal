@@ -7,7 +7,6 @@ package uk.ryanwong.gmap2ics.app.models.timeline
 import uk.ryanwong.gmap2ics.data.models.places.AddressComponent
 import uk.ryanwong.gmap2ics.data.models.places.Geometry
 import uk.ryanwong.gmap2ics.data.models.places.Location
-import uk.ryanwong.gmap2ics.data.models.places.PlusCode
 import uk.ryanwong.gmap2ics.data.models.places.Result
 
 object PlaceDetailsTestData {
@@ -45,7 +44,6 @@ object PlaceDetailsTestData {
         iconMaskBaseUri = "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
         name = "Yorkshire Sculpture Park",
         placeId = "ChIJOX4_ortjeUgR2_LUcFpvLg4",
-        plusCode = PlusCode(compoundCode = "JC8P+3C Wakefield, UK, globalCode=9C5WJC8P+3C"),
         reference = "ChIJOX4_ortjeUgR2_LUcFpvLg4",
         types = listOf("art_gallery", "tourist_attraction", "park", "museum", "point_of_interest", "establishment"),
         url = "https://maps.google.com/?cid=1021876599690425051",

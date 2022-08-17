@@ -26,8 +26,6 @@ data class Result(
     val name: String,
     @SerialName(value = "place_id")
     val placeId: String,
-    @SerialName(value = "plus_code")
-    val plusCode: PlusCode? = null,
     val reference: String? = null,
     val types: List<String>,
     val url: String,

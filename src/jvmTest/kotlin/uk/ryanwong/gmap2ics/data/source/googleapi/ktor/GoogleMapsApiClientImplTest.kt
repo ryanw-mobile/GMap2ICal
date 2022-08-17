@@ -102,7 +102,6 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
                             iconMaskBaseUri = "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
                             name = "8 Greg Ave",
                             placeId = "ChIJ43NG7NxLekgR7NFDJzb-WXw",
-                            plusCode = null,
                             reference = "ChIJ43NG7NxLekgR7NFDJzb-WXw",
                             types = listOf("premise"),
                             url = "https://maps.google.com/?q=8+Greg+Ave,+Bollington,+Macclesfield+SK10+5HR,+UK&ftid=0x487a4bdcec4673e3:0x7c59fe362743d1ec",
