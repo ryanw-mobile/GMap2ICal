@@ -85,13 +85,15 @@ tasks.withType<Test>().configureEach {
 tasks.koverMergedHtmlReport {
     excludes = listOf(
         "uk.ryanwong.gmap2ics.app.configs.*",
-        "uk.ryanwong.gmap2ics.ui.screens.*"
+        "uk.ryanwong.gmap2ics.ui.screens.*",
+        "uk.ryanwong.gmap2ics.ComposableSingletons*"
     )
 }
 
 tasks.koverMergedXmlReport {
     excludes = listOf(
         "uk.ryanwong.gmap2ics.app.configs.*",
-        "uk.ryanwong.gmap2ics.ui.screens.*"
+        "uk.ryanwong.gmap2ics.ui.screens.*",
+        "uk.ryanwong.gmap2ics.ComposableSingletons*"
     )
 }
