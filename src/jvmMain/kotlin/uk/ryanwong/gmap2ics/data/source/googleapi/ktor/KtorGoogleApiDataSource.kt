@@ -26,13 +26,13 @@ class KtorGoogleApiDataSource(
     ): Result<PlaceDetails> {
         return withContext(dispatcher) {
             Result.runCatching {
-                try {
+                val result = try {
                     val response =
                         googleMapsApiClient.getPlaceDetails(placeId = placeId, apiKey = apiKey, language = language)
 
                     response?.result?.let { result ->
                         PlaceDetails.from(placeDetailsResult = result)
-                    } ?: throw PlaceDetailsNotFoundException(placeId = placeId)
+                    }
 
                 } catch (cancellationException: CancellationException) {
                     throw cancellationException
@@ -41,6 +41,8 @@ class KtorGoogleApiDataSource(
                     Napier.e(message = "getPlaceDetails", throwable = ex)
                     throw GetPlaceDetailsAPIErrorException(apiErrorMessage = ex.localizedMessage)
                 }
+
+                result ?: throw PlaceDetailsNotFoundException(placeId = placeId)
 
             }.except<CancellationException, _>()
         }

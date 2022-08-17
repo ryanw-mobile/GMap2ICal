@@ -10,6 +10,8 @@ class MockGoogleMapsApiClient : GoogleMapsApiClient {
     var getPlaceDetailsException: Throwable? = null
     var getPlaceDetailsResponse: PlaceDetails? = null
     override suspend fun getPlaceDetails(placeId: String, apiKey: String, language: String?): PlaceDetails? {
-        return getPlaceDetailsException?.let { throw it } ?: getPlaceDetailsResponse
+        return getPlaceDetailsException?.let {
+            throw it
+        } ?: getPlaceDetailsResponse
     }
 }

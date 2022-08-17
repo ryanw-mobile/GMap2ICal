@@ -12,6 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
+import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsNotFoundException
 import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
 import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.KtorGoogleApiDataSourceTestData.mockPlaceDetailsDataModel
 import java.io.IOException
@@ -73,6 +74,24 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
 
                 // 🟢 Then
                 exception.message shouldBe null
+            }
+
+            "Should return Failure.PlaceDetailsNotFoundException if data source returns null" {
+                // 🔴 Given
+                setupDataSource()
+                mockGoogleMapsApiClient.getPlaceDetailsException = null
+                mockGoogleMapsApiClient.getPlaceDetailsResponse = null
+
+                // 🟡 When
+                val result = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
+                    placeId = "some-place-id",
+                    apiKey = "some-api-key",
+                    language = "some-language"
+                )
+
+                // 🟢 Then
+                result.isFailure shouldBe true
+                result.exceptionOrNull() shouldBe PlaceDetailsNotFoundException(placeId = "some-place-id")
             }
 
             "Should return Failure.GetPlaceDetailsAPIErrorException if data source throws other exceptions" {
