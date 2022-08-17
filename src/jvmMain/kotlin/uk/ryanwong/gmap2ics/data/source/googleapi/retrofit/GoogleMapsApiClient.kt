@@ -18,8 +18,8 @@ private val retrofit = Retrofit.Builder()
     .baseUrl("https://maps.googleapis.com")
     .build()
 
-object PlacesDetailApi {
-    val retrofitService: PlaceDetailService by lazy {
-        retrofit.create(PlaceDetailService::class.java)
+object GoogleMapsApiClient {
+    val retrofitService: GoogleMapsApiService by lazy {
+        retrofit.create(GoogleMapsApiService::class.java)
     }
 }

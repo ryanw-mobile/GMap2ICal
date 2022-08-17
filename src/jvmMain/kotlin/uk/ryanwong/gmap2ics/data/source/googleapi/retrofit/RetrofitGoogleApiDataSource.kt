@@ -12,7 +12,7 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 import kotlin.coroutines.cancellation.CancellationException
 
 class RetrofitGoogleApiDataSource : GoogleApiDataSource {
-    private val placeDetailsService = PlacesDetailApi.retrofitService
+    private val retrofitService = GoogleMapsApiClient.retrofitService
 
     override suspend fun getMapsApiPlaceDetails(
         placeId: String,
@@ -21,7 +21,7 @@ class RetrofitGoogleApiDataSource : GoogleApiDataSource {
     ): Result<PlaceDetails> {
         return Result.runCatching {
             val placeDetailsResponse =
-                placeDetailsService.getMapsApiPlaceDetails(placeId = placeId, key = apiKey, language = language)
+                retrofitService.getMapsApiPlaceDetails(placeId = placeId, key = apiKey, language = language)
 
             if (!placeDetailsResponse.isSuccessful) {
                 throw GetPlaceDetailsAPIErrorException(apiErrorMessage = placeDetailsResponse.message())

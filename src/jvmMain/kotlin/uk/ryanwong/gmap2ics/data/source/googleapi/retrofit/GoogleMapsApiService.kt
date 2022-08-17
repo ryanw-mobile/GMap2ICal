@@ -10,7 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import uk.ryanwong.gmap2ics.data.models.places.PlaceDetails
 
-interface PlaceDetailService {
+interface GoogleMapsApiService {
     @GET("/maps/api/place/details/json")
     suspend fun getMapsApiPlaceDetails(
         @Query("place_id") placeId: String,
