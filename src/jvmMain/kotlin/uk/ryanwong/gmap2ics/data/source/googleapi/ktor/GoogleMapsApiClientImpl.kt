@@ -15,6 +15,9 @@ import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.data.models.places.PlaceDetails
 
 class GoogleMapsApiClientImpl(engine: HttpClientEngine) : GoogleMapsApiClient {
+    private val baseUrl = "https://maps.googleapis.com"
+    private val placeDetailsUrl = "$baseUrl/maps/api/place/details/json"
+
     private val httpClient = HttpClient(engine) {
         install(ContentNegotiation) {
             json(Json {
@@ -28,7 +31,7 @@ class GoogleMapsApiClientImpl(engine: HttpClientEngine) : GoogleMapsApiClient {
     override suspend fun getPlaceDetails(
         placeId: String, apiKey: String, language: String?
     ): PlaceDetails? {
-        return httpClient.get(HttpRoutes.PLACE_DETAILS) {
+        return httpClient.get(placeDetailsUrl) {
             parameter("place_id", placeId)
             parameter("key", apiKey)
             parameter("language", language)

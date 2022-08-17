@@ -5,9 +5,6 @@
 package uk.ryanwong.gmap2ics.data.source.googleapi.ktor
 
 import io.github.aakira.napier.Napier
-import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.plugins.RedirectResponseException
-import io.ktor.client.plugins.ServerResponseException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -36,18 +33,6 @@ class KtorGoogleApiDataSource(
                     response?.result?.let { result ->
                         PlaceDetails.from(placeDetailsResult = result)
                     } ?: throw PlaceDetailsNotFoundException(placeId = placeId)
-
-                } catch (redirectResponseException: RedirectResponseException) {
-                    Napier.e(message = "getPlaceDetails", throwable = redirectResponseException)
-                    throw GetPlaceDetailsAPIErrorException(apiErrorMessage = redirectResponseException.localizedMessage)
-
-                } catch (clientRequestException: ClientRequestException) {
-                    Napier.e(message = "getPlaceDetails", throwable = clientRequestException)
-                    throw GetPlaceDetailsAPIErrorException(apiErrorMessage = clientRequestException.localizedMessage)
-
-                } catch (serverResponseException: ServerResponseException) {
-                    Napier.e(message = "getPlaceDetails", throwable = serverResponseException)
-                    throw GetPlaceDetailsAPIErrorException(apiErrorMessage = serverResponseException.localizedMessage)
 
                 } catch (cancellationException: CancellationException) {
                     throw cancellationException
