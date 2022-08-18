@@ -7,19 +7,23 @@ package uk.ryanwong.gmap2ics.ui.viewmodels
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import uk.ryanwong.gmap2ics.app.configs.MockConfig
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
+import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImplTestData.mockTimeLineFromJsonString
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
 import uk.ryanwong.gmap2ics.ui.usecases.MockVEventFromActivitySegmentUseCase
 import uk.ryanwong.gmap2ics.ui.usecases.MockVEventFromChildVisitUseCase
 import uk.ryanwong.gmap2ics.ui.usecases.MockVEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.ui.utils.MockResourceBundle
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class MainScreenViewModelTest : FreeSpec() {
 
     lateinit var mainScreenViewModel: MainScreenViewModel
@@ -68,7 +72,8 @@ internal class MainScreenViewModelTest : FreeSpec() {
             vEventFromPlaceVisitUseCase = mockVEventFromPlaceVisitUseCase,
             vEventFromChildVisitUseCase = mockVEventFromChildVisitUseCase,
             resourceBundle = MockResourceBundle(),
-            projectBasePath = mockProjectBasePath
+            projectBasePath = mockProjectBasePath,
+            dispatcher = UnconfinedTestDispatcher()
         )
     }
 
@@ -368,6 +373,22 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
                 // 🟡 When
                 mainScreenViewModel.notifyErrorMessageDisplayed()
+
+                // 🟢 Then
+                val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
+                mainScreenUIState shouldBe MainScreenUIState.Ready
+            }
+        }
+
+        "startExport" - {
+            "Should set MainScreenUIState = Ready after running" {
+                // 🔴 Given
+                setupViewModel()
+                mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1"))
+                mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
+
+                // 🟡 When
+                mainScreenViewModel.startExport()
 
                 // 🟢 Then
                 val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()

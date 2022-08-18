@@ -5,6 +5,7 @@
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
 import io.github.aakira.napier.Napier
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,7 +35,8 @@ class MainScreenViewModel(
     private val vEventFromChildVisitUseCase: VEventFromChildVisitUseCase,
     private val vEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCase,
     private val resourceBundle: ResourceBundleWrapper = DefaultResourceBundle(),
-    private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/")
+    private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/"),
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
     private var _mainScreenUIState: MutableStateFlow<MainScreenUIState> = MutableStateFlow(MainScreenUIState.Ready)
     val mainScreenUIState: StateFlow<MainScreenUIState> = _mainScreenUIState
@@ -80,7 +82,7 @@ class MainScreenViewModel(
     fun startExport() {
         _mainScreenUIState.value = MainScreenUIState.Processing(progress = 0f)
 
-        CoroutineScope(Dispatchers.Default).launch {
+        CoroutineScope(dispatcher).launch {
             val fileList = localFileRepository.getFileList(
                 absolutePath = _jsonPath.value,
                 extension = "json"
