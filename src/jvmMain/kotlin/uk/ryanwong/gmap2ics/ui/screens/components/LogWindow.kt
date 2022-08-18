@@ -5,6 +5,7 @@
 package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.LocalScrollbarStyle
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -98,11 +99,18 @@ fun LogWindow(
         }
 
         val scrollbarAdapter = rememberScrollbarAdapter(scrollState = lazyListState)
-        VerticalScrollbar(
-            adapter = scrollbarAdapter,
-            modifier = Modifier.align(Alignment.CenterEnd)
-                .padding(end = 16.dp)
-        )
+        if (logEntries.isNotEmpty()) {
+            VerticalScrollbar(
+                adapter = scrollbarAdapter,
+                style = LocalScrollbarStyle.current.copy(
+                    unhoverColor = Color.Gray,
+                    hoverColor = MaterialTheme.colors.primary
+                ),
+                modifier = Modifier.align(Alignment.CenterEnd)
+                    .padding(top = 1.dp, bottom = 1.dp, end = 17.dp)
+                    .background(color = Color.LightGray)
+            )
+        }
 
         LaunchedEffect(key1 = logEntries) {
             if (logEntries.isNotEmpty()) {
