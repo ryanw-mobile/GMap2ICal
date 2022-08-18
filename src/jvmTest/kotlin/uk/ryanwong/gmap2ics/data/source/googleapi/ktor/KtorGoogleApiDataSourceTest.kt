@@ -58,6 +58,31 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                 )
             }
 
+            "Should return correct PlaceDetails App Model when language is null" {
+                // 🔴 Given
+                setupDataSource()
+                val placeDetailsDataModel = mockPlaceDetailsDataModel
+                mockGoogleMapsApiClient.getPlaceDetailsResponse = placeDetailsDataModel
+
+                // 🟡 When
+                val result = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
+                    placeId = "some-place-id",
+                    apiKey = "some-api-key",
+                    language = null
+                )
+
+                // 🟢 Then
+                result.isSuccess shouldBe true
+                result.getOrNull() shouldBe PlaceDetails(
+                    placeId = "ChIJ43NG7NxLekgR7NFDJzb-WXw",
+                    name = "8 Greg Ave",
+                    formattedAddress = "8 Greg Ave, Bollington, Macclesfield SK10 5HR, UK",
+                    geo = LatLng(latitude = 53.2945761, longitude = -2.114387),
+                    types = listOf("premise"),
+                    url = "https://maps.google.com/?q=8+Greg+Ave,+Bollington,+Macclesfield+SK10+5HR,+UK&ftid=0x487a4bdcec4673e3:0x7c59fe362743d1ec"
+                )
+            }
+
             "Should rethrow the exception if data source throws CancellationException" {
                 // 🔴 Given
                 setupDataSource()
