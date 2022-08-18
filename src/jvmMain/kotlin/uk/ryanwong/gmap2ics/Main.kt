@@ -8,6 +8,7 @@ import androidx.compose.ui.window.application
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.engine.cio.CIO
+import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.app.configs.RyanConfig
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapImpl
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
@@ -47,7 +48,9 @@ fun main() = application {
         onCloseRequest = { exitApplication() },
         mainScreenViewModel = MainScreenViewModel(
             configFile = configFile,
-            timelineRepository = TimelineRepositoryImpl(timeZoneMap = timeZoneMap),
+            timelineRepository = TimelineRepositoryImpl(
+                timeZoneMap = timeZoneMap,
+                kotlinJson = Json { ignoreUnknownKeys = true }),
             localFileRepository = LocalFileRepositoryImpl(),
             vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
                 placeDetailsRepository = placeDetailsRepository
