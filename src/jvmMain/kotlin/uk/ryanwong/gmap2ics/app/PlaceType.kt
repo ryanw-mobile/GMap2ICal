@@ -77,6 +77,7 @@ enum class PlaceType(val emoji: String) {
     PET_STORE("🦮"),
     PHARMACY("💊"),
     PHYSIOTHERAPIST("👨‍⚕️"),
+    PLACE_OF_WORSHIP("⛩"),
     PLUMBER("👨‍🔧"),
     POINT_OF_INTEREST("📍"),
     POLICE("👮‍♀️"),
