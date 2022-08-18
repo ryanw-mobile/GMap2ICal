@@ -7,6 +7,7 @@ package uk.ryanwong.gmap2ics.ui.screens
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,12 +31,14 @@ import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Button
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -74,6 +77,7 @@ fun mainScreen(
     ) {
         val coroutineScope = rememberCoroutineScope()
         val uiState by mainScreenViewModel.mainScreenUIState.collectAsState()
+        val logEntries by mainScreenViewModel.logEntries.collectAsState()
         val statusMessage by mainScreenViewModel.statusMessage.collectAsState()
         val jsonPath by mainScreenViewModel.jsonPath.collectAsState()
         val iCalPath by mainScreenViewModel.iCalPath.collectAsState()
@@ -81,6 +85,7 @@ fun mainScreen(
         val exportActivitySegment by mainScreenViewModel.exportActivitySegment.collectAsState()
         val enablePlacesApiLookup by mainScreenViewModel.enablePlacesApiLookup.collectAsState()
         val verboseLogs by mainScreenViewModel.verboseLogs.collectAsState()
+        var progress: Float? = remember { null }
 
         when (uiState) {
             is MainScreenUIState.ChangeJsonPath -> {
@@ -110,7 +115,13 @@ fun mainScreen(
                 )
             }
 
-            else -> {}
+            is MainScreenUIState.Ready -> {
+                progress = null
+            }
+
+            is MainScreenUIState.Processing -> {
+                progress = (uiState as MainScreenUIState.Processing).progress
+            }
         }
 
         MaterialTheme {
@@ -120,6 +131,7 @@ fun mainScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                         .padding(top = 8.dp)
+                        .padding(bottom = 16.dp)
                         .wrapContentHeight()
                 ) {
                     SettingsColumn(
@@ -145,7 +157,7 @@ fun mainScreen(
                     Button(
                         enabled = (uiState == MainScreenUIState.Ready),
                         shape = CircleShape,
-                        onClick = { mainScreenViewModel.startConversion() },
+                        onClick = { mainScreenViewModel.startExport() },
                         modifier = Modifier.padding(end = 16.dp)
                     ) {
                         Text(
@@ -155,12 +167,32 @@ fun mainScreen(
                     }
                 }
 
-                StatusColumn(
-                    statusMessage = statusMessage,
+                LogWindow(
+                    logEntries = logEntries,
                     modifier = Modifier
                         .weight(weight = 1.0f, fill = true)
-                        .padding(vertical = 16.dp)
                 )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(height = 32.dp)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+                    Text(
+                        text = statusMessage,
+                        style = MaterialTheme.typography.caption,
+                        textAlign = TextAlign.Left,
+                        modifier = Modifier.weight(weight = 1f, fill = true)
+                    )
+                    progress?.let {
+                        LinearProgressIndicator(
+                            progress = it.toFloat(),
+                            modifier = Modifier.width(120.dp)
+                        )
+                    }
+                }
             }
         }
     }
@@ -249,8 +281,8 @@ private fun SettingsColumn(
 }
 
 @Composable
-private fun StatusColumn(
-    statusMessage: List<UILogEntry>,
+private fun LogWindow(
+    logEntries: List<UILogEntry>,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
@@ -267,13 +299,14 @@ private fun StatusColumn(
                     .fillMaxSize()
                     .padding(horizontal = 16.dp)
                     .background(color = Color.White)
+                    .border(width = 1.dp, color = Color.Gray)
                     .scrollable(
                         enabled = true,
                         orientation = Orientation.Vertical,
                         state = scrollState
                     )
             ) {
-                itemsIndexed(items = statusMessage) { _, uiLogEntry ->
+                itemsIndexed(items = logEntries) { _, uiLogEntry ->
                     Column {
                         Row(
                             modifier = Modifier.padding(vertical = 8.dp)
@@ -312,9 +345,9 @@ private fun StatusColumn(
                 .padding(end = 16.dp)
         )
 
-        LaunchedEffect(key1 = statusMessage) {
-            if (statusMessage.isNotEmpty()) {
-                lazyListState.scrollToItem(index = statusMessage.lastIndex)
+        LaunchedEffect(key1 = logEntries) {
+            if (logEntries.isNotEmpty()) {
+                lazyListState.scrollToItem(index = logEntries.lastIndex)
             }
         }
     }
@@ -324,8 +357,8 @@ private fun StatusColumn(
 @Composable
 fun StatusColumnPreview() {
     MaterialTheme {
-        StatusColumn(
-            statusMessage = listOf(
+        LogWindow(
+            logEntries = listOf(
                 UILogEntry(
                     emoji = "👨🏻‍🦲",
                     message = "some very very very very very very very very very very very very very very very very very very very very  long text"

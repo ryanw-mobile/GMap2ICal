@@ -6,7 +6,7 @@ package uk.ryanwong.gmap2ics.ui.screens
 
 sealed class MainScreenUIState {
     object Ready : MainScreenUIState()
-    object Processing : MainScreenUIState()
+    data class Processing(val progress: Float) : MainScreenUIState()
     object ChangeJsonPath : MainScreenUIState()
     object ChangeICalPath : MainScreenUIState()
     data class Error(val errMsg: String) : MainScreenUIState()

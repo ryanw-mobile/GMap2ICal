@@ -39,8 +39,11 @@ class MainScreenViewModel(
     private var _mainScreenUIState: MutableStateFlow<MainScreenUIState> = MutableStateFlow(MainScreenUIState.Ready)
     val mainScreenUIState: StateFlow<MainScreenUIState> = _mainScreenUIState
 
-    private var _statusMessage = MutableStateFlow<List<UILogEntry>>(emptyList())
-    val statusMessage: StateFlow<List<UILogEntry>> = _statusMessage
+    private var _logEntries = MutableStateFlow<List<UILogEntry>>(emptyList())
+    val logEntries: StateFlow<List<UILogEntry>> = _logEntries
+
+    private var _statusMessage = MutableStateFlow<String>("")
+    val statusMessage: StateFlow<String> = _statusMessage
 
     private var _jsonPath = MutableStateFlow("")
     val jsonPath: StateFlow<String> = _jsonPath
@@ -70,12 +73,12 @@ class MainScreenViewModel(
             _exportActivitySegment.value = exportActivitySegment
             _enablePlacesApiLookup.value = enablePlacesApiLookup
             _verboseLogs.value = verboseLogs
-            updateStatus(message = "Config file loaded".plus(configFile.javaClass.packageName))
+            updateStatus(message = "Applied configurations: ".plus(configFile.javaClass.toString().split(".").last()))
         }
     }
 
-    fun startConversion() {
-        _mainScreenUIState.value = MainScreenUIState.Processing
+    fun startExport() {
+        _mainScreenUIState.value = MainScreenUIState.Processing(progress = 0f)
 
         CoroutineScope(Dispatchers.Default).launch {
             val fileList = localFileRepository.getFileList(
@@ -98,16 +101,17 @@ class MainScreenViewModel(
 
             // Exporting multiple events in one single ics file
             fileList.getOrNull()?.forEach { filename ->
-                appendUILog(emoji = "\uD83D\uDDC2", message = "Processing $filename")
+                appendUILog(emoji = "\uD83D\uDDC2", message = "Processing ${stripBasePath(filename)}")
                 val eventList: List<VEvent> = getEventList(filePath = filename)
-                appendUILog(emoji = "💾", message = "Exporting events in iCal format to $filename")
+                val outputFileName = getOutputFilename(originalFilename = filename)
                 localFileRepository.exportICal(
                     vEvents = eventList,
-                    filename = getOutputFilename(originalFilename = filename)
+                    filename = outputFileName
                 )
+                appendUILog(emoji = "💾", message = "iCal events saved to ${stripBasePath(outputFileName)}")
             }
 
-            updateStatus(message = "conversion completed.")
+            updateStatus(message = "Done. Processed ${fileList.getOrNull()?.size ?: 0} files.")
             _mainScreenUIState.value = MainScreenUIState.Ready
         }
     }
@@ -129,7 +133,15 @@ class MainScreenViewModel(
         val timeline = timelineRepository.getTimeLine(filePath = filePath)
 
         timeline.getOrNull()?.let {
+            val itemCount = it.timelineEntries.size
+            var itemProcessed = 0
+
             it.timelineEntries.forEach { timelineEntry ->
+                itemProcessed += 1.also {
+                    _mainScreenUIState.value =
+                        MainScreenUIState.Processing(progress = itemProcessed / (itemCount * 1.0f))
+                }
+
                 // Should be either activity or place visited, but no harm to also support cases with both
                 if (_exportActivitySegment.value) {
                     val vEvent = timelineEntry.activitySegment?.let { getActivitySegmentVEvent(it) }
@@ -156,7 +168,10 @@ class MainScreenViewModel(
 
     private suspend fun getActivitySegmentVEvent(activitySegment: ActivitySegment): VEvent? {
         return if (configFile.ignoredActivityType.contains(activitySegment.activityType)) {
-            printLogForVerboseMode("🚫 Ignored activity type ${activitySegment.activityType} at ${activitySegment.durationStartTimestamp}")
+            appendUILog(
+                emoji = "🚫",
+                message = "[Ignored] ${activitySegment.durationStartTimestamp}: Activity ${activitySegment.activityType}"
+            )
             null
         } else {
             return vEventFromActivitySegmentUseCase(
@@ -170,14 +185,19 @@ class MainScreenViewModel(
         val eventList: MutableList<VEvent> = mutableListOf()
 
         // If parent visit is to be ignored, child has no meaning to stay
-        if (!configFile.ignoredVisitedPlaceIds.contains(placeVisit.location.placeId)) {
+        if (configFile.ignoredVisitedPlaceIds.contains(placeVisit.location.placeId)) {
+            appendUILog(
+                emoji = "🚫",
+                message = "[Ignored] ${placeVisit.durationStartTimestamp}: Place ID ${placeVisit.location.placeId}"
+            )
+        } else {
             vEventFromPlaceVisitUseCase(
                 placeVisit = placeVisit,
                 enablePlacesApiLookup = _enablePlacesApiLookup.value
             ).let { vEvent ->
                 eventList.add(vEvent)
-                appendUILog(emoji = "\uD83D\uDDD3", message = "Exported: ${vEvent.dtStart}: ${vEvent.summary}")
-                printLogForVerboseMode(status = vEvent.toString())
+                appendUILog(emoji = "\uD83D\uDDD3", message = "[Exported] ${vEvent.dtStart}: ${vEvent.summary}")
+                printVerboseConsoleLog(message = vEvent.toString())
             }
 
             // If we have child-visits, we export them as individual events
@@ -189,8 +209,8 @@ class MainScreenViewModel(
                         enablePlacesApiLookup = _enablePlacesApiLookup.value
                     )?.let { vEvent ->
                         eventList.add(vEvent)
-                        appendUILog(emoji = "\uD83D\uDDD3", message = "Exported: ${vEvent.dtStart}: ${vEvent.summary}")
-                        printLogForVerboseMode(status = vEvent.toString())
+                        appendUILog(emoji = "\uD83D\uDDD3", message = "[Exported] ${vEvent.dtStart}: ${vEvent.summary}")
+                        printVerboseConsoleLog(message = vEvent.toString())
                     }
                 }
             }
@@ -264,28 +284,18 @@ class MainScreenViewModel(
         }
     }
 
-    /***
-     * TODO: All these logs and status etc will be rewritten
-     */
-    private fun appendStatusForVerboseMode(status: String) {
+    private fun printVerboseConsoleLog(message: String) {
         if (_verboseLogs.value) {
-            updateStatus(status)
-        }
-    }
-
-    // Designed for object printout - output to console instead of UI
-    private fun printLogForVerboseMode(status: String) {
-        if (_verboseLogs.value) {
-            Napier.v(tag = "MainScreenViewModel", message = status)
+            Napier.v(tag = "MainScreenViewModel", message = message)
         }
     }
 
     private fun appendUILog(emoji: String, message: String) {
-        _statusMessage.value = _statusMessage.value + UILogEntry(emoji = emoji, message = message)
+        _logEntries.value = _logEntries.value + UILogEntry(emoji = emoji, message = message)
     }
 
     private fun updateStatus(message: String) {
-        // TODO: pending UI status bar
+        _statusMessage.value = message
     }
 
     private fun processResultFailure(userFriendlyMessage: String, throwable: Throwable?): String {
