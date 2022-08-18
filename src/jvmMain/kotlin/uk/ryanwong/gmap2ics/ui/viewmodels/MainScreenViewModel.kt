@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import uk.ryanwong.gmap2ics.app.configs.Config
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
+import uk.ryanwong.gmap2ics.app.models.UILogEntry
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
@@ -38,8 +39,8 @@ class MainScreenViewModel(
     private var _mainScreenUIState: MutableStateFlow<MainScreenUIState> = MutableStateFlow(MainScreenUIState.Ready)
     val mainScreenUIState: StateFlow<MainScreenUIState> = _mainScreenUIState
 
-    private var _statusMessage = MutableStateFlow<List<String>>(emptyList())
-    val statusMessage: StateFlow<List<String>> = _statusMessage
+    private var _statusMessage = MutableStateFlow<List<UILogEntry>>(emptyList())
+    val statusMessage: StateFlow<List<UILogEntry>> = _statusMessage
 
     private var _jsonPath = MutableStateFlow("")
     val jsonPath: StateFlow<String> = _jsonPath
@@ -69,7 +70,7 @@ class MainScreenViewModel(
             _exportActivitySegment.value = exportActivitySegment
             _enablePlacesApiLookup.value = enablePlacesApiLookup
             _verboseLogs.value = verboseLogs
-            appendStatus(status = "Config file loaded".plus(configFile.javaClass.packageName))
+            updateStatus(message = "Config file loaded".plus(configFile.javaClass.packageName))
         }
     }
 
@@ -92,21 +93,21 @@ class MainScreenViewModel(
                     )
                 return@launch
             } else {
-                appendStatus(status = "${fileList.getOrNull()?.size ?: 0} files to be processed")
+                updateStatus(message = "${fileList.getOrNull()?.size ?: 0} files to be processed")
             }
 
             // Exporting multiple events in one single ics file
             fileList.getOrNull()?.forEach { filename ->
-                appendStatus(status = "\uD83D\uDDC2 Processing $filename")
+                appendUILog(emoji = "\uD83D\uDDC2", message = "Processing $filename")
                 val eventList: List<VEvent> = getEventList(filePath = filename)
-                appendStatus(status = "💾 Exporting events in iCal format to $filename")
+                appendUILog(emoji = "💾", message = "Exporting events in iCal format to $filename")
                 localFileRepository.exportICal(
                     vEvents = eventList,
                     filename = getOutputFilename(originalFilename = filename)
                 )
             }
 
-            appendStatus(status = "conversion completed.")
+            updateStatus(message = "conversion completed.")
             _mainScreenUIState.value = MainScreenUIState.Ready
         }
     }
@@ -146,7 +147,10 @@ class MainScreenViewModel(
             throwable.printStackTrace()
             processResultFailure(userFriendlyMessage = "☠️ Error processing timeline", throwable)
         }
-        appendStatus("✅ Processed ${timeline.getOrNull()?.timelineEntries?.size ?: 0} timeline entries.")
+        appendUILog(
+            emoji = "✅",
+            message = "Processed ${timeline.getOrNull()?.timelineEntries?.size ?: 0} timeline entries."
+        )
         return eventList
     }
 
@@ -172,7 +176,7 @@ class MainScreenViewModel(
                 enablePlacesApiLookup = _enablePlacesApiLookup.value
             ).let { vEvent ->
                 eventList.add(vEvent)
-                appendStatus(status = "🗓Exported: ${vEvent.dtStart}: ${vEvent.summary}")
+                appendUILog(emoji = "\uD83D\uDDD3", message = "Exported: ${vEvent.dtStart}: ${vEvent.summary}")
                 printLogForVerboseMode(status = vEvent.toString())
             }
 
@@ -185,7 +189,7 @@ class MainScreenViewModel(
                         enablePlacesApiLookup = _enablePlacesApiLookup.value
                     )?.let { vEvent ->
                         eventList.add(vEvent)
-                        appendStatus(status = "🗓 Exported: ${vEvent.dtStart}: ${vEvent.summary}")
+                        appendUILog(emoji = "\uD83D\uDDD3", message = "Exported: ${vEvent.dtStart}: ${vEvent.summary}")
                         printLogForVerboseMode(status = vEvent.toString())
                     }
                 }
@@ -260,9 +264,12 @@ class MainScreenViewModel(
         }
     }
 
+    /***
+     * TODO: All these logs and status etc will be rewritten
+     */
     private fun appendStatusForVerboseMode(status: String) {
         if (_verboseLogs.value) {
-            appendStatus(status)
+            updateStatus(status)
         }
     }
 
@@ -273,8 +280,12 @@ class MainScreenViewModel(
         }
     }
 
-    private fun appendStatus(status: String) {
-        _statusMessage.value = _statusMessage.value + status
+    private fun appendUILog(emoji: String, message: String) {
+        _statusMessage.value = _statusMessage.value + UILogEntry(emoji = emoji, message = message)
+    }
+
+    private fun updateStatus(message: String) {
+        // TODO: pending UI status bar
     }
 
     private fun processResultFailure(userFriendlyMessage: String, throwable: Throwable?): String {

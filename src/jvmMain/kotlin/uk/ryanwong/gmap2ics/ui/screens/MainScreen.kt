@@ -14,10 +14,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,20 +33,23 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
+import uk.ryanwong.gmap2ics.app.models.UILogEntry
 import uk.ryanwong.gmap2ics.ui.screens.components.CheckBoxItem
 import uk.ryanwong.gmap2ics.ui.screens.components.ErrorAlertDialog
 import uk.ryanwong.gmap2ics.ui.screens.components.PathPickerItem
@@ -245,7 +250,7 @@ private fun SettingsColumn(
 
 @Composable
 private fun StatusColumn(
-    statusMessage: List<String>,
+    statusMessage: List<UILogEntry>,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
@@ -268,15 +273,34 @@ private fun StatusColumn(
                         state = scrollState
                     )
             ) {
-                itemsIndexed(items = statusMessage) { _, message ->
-                    Text(
-                        text = message,
-                        color = Color.Black,
-                        fontSize = 12.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                    )
+                itemsIndexed(items = statusMessage) { _, uiLogEntry ->
+                    Column {
+                        Row(
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        ) {
+                            Text(
+                                text = uiLogEntry.emoji,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.width(width = 48.dp)
+                                    .padding(end = 8.dp)
+                            )
+                            Text(
+                                text = uiLogEntry.message,
+                                style = MaterialTheme.typography.body1,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 8.dp)
+                            )
+                        }
+                        Spacer(
+                            modifier = Modifier.fillMaxWidth()
+                                .wrapContentHeight()
+                                .height(height = 1.dp)
+                                .background(color = Color.LightGray)
+                        )
+                    }
                 }
             }
         }
@@ -287,6 +311,12 @@ private fun StatusColumn(
             modifier = Modifier.align(Alignment.CenterEnd)
                 .padding(end = 16.dp)
         )
+
+        LaunchedEffect(key1 = statusMessage) {
+            if (statusMessage.isNotEmpty()) {
+                lazyListState.scrollToItem(index = statusMessage.lastIndex)
+            }
+        }
     }
 }
 
@@ -295,7 +325,12 @@ private fun StatusColumn(
 fun StatusColumnPreview() {
     MaterialTheme {
         StatusColumn(
-            statusMessage = listOf("some very very very very very very very very very very very very very very very very very very very very  long text"),
+            statusMessage = listOf(
+                UILogEntry(
+                    emoji = "👨🏻‍🦲",
+                    message = "some very very very very very very very very very very very very very very very very very very very very  long text"
+                )
+            )
         )
     }
 }
