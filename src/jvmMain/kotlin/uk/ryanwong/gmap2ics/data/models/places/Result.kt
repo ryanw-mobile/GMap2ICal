@@ -9,20 +9,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Result(
-    @SerialName(value = "address_components")
-    val addressComponents: List<AddressComponent>? = null,
-    @SerialName(value = "adr_address")
-    val adrAddress: String? = null,
     @SerialName(value = "formatted_address")
     val formattedAddress: String,
     @SerialName(value = "formatted_phone_number")
     val formattedPhoneNumber: String? = null,
     val geometry: Geometry,
     val icon: String? = null,
-    @SerialName(value = "icon_background_color")
-    val iconBackgroundColor: String? = null,
-    @SerialName(value = "icon_mask_base_uri")
-    val iconMaskBaseUri: String? = null,
     val name: String,
     @SerialName(value = "place_id")
     val placeId: String,
