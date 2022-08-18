@@ -129,6 +129,10 @@ fun LogWindowPreview() {
                 UILogEntry(
                     emoji = "👨🏻‍🦲",
                     message = "some very very very very very very very very very very very very very very very very very very very very  long text"
+                ),
+                UILogEntry(
+                    emoji = "👨🏻‍🦲",
+                    message = "some very very very very very very very very very very very very very very very very very very very very  long text"
                 )
             )
         )
