@@ -14,7 +14,7 @@ interface GoogleApiDataSource {
     suspend fun getMapsApiPlaceDetails(
         placeId: String,
         apiKey: String,
-        language: String? = null
+        language: String?
     ): Result<PlaceDetails>
 }
 
