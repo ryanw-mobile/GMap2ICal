@@ -5,6 +5,7 @@
 package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -29,11 +30,16 @@ fun CheckBoxItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
+            .clickable(
+                enabled = true,
+                onClick = { onCheckedChange(!checked) }
+            )
             .semantics { role = Role.Checkbox }
     ) {
         Checkbox(
             checked = checked,
-            onCheckedChange = onCheckedChange
+            enabled = true,
+            onCheckedChange = {}
         )
         Text(
             text = text,
