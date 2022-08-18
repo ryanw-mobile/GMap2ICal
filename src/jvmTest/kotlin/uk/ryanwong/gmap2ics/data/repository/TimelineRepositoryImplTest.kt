@@ -6,6 +6,7 @@ package uk.ryanwong.gmap2ics.data.repository
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
@@ -13,6 +14,7 @@ import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImplTestData.mockJ
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImplTestData.mockTimeLineFromJsonString
 import uk.ryanwong.gmap2ics.data.source.local.MockLocalDataSource
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class TimelineRepositoryImplTest : FreeSpec() {
 
     private lateinit var timelineRepository: TimelineRepositoryImpl
