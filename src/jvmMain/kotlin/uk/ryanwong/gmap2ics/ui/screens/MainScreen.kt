@@ -4,17 +4,25 @@
 
 package uk.ryanwong.gmap2ics.ui.screens
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,6 +30,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
@@ -145,6 +155,14 @@ fun mainScreen(
                     }
                 }
 
+                Spacer(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .height(height = 1.dp)
+                        .background(color = Color.LightGray)
+                )
+                
+                ButtonRow()
                 LogWindow(
                     logEntries = logEntries,
                     modifier = Modifier
@@ -156,6 +174,72 @@ fun mainScreen(
                     progress = progress
                 )
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ButtonRow() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        TextButton(
+            enabled = true,
+            border = BorderStroke(width = 1.dp, color = Color.Gray),
+            modifier = Modifier.wrapContentSize().padding(end = 8.dp),
+            onClick = {},
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Transparent,
+                contentColor = Color.Black
+            ),
+            contentPadding = PaddingValues(all = 0.dp),
+            shape = RectangleShape
+        ) {
+            Text(
+                text = "Exported (20)",
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp)
+            )
+        }
+        TextButton(
+            enabled = true,
+            border = BorderStroke(width = 1.dp, color = Color.Gray),
+            modifier = Modifier.wrapContentSize().padding(end = 8.dp),
+            onClick = {},
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Transparent,
+                contentColor = Color.Black
+            ),
+            contentPadding = PaddingValues(all = 0.dp),
+            shape = RectangleShape
+        ) {
+            Text(
+                text = "Ignored (10)",
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp)
+            )
+        }
+        TextButton(
+            enabled = true,
+            border = BorderStroke(width = 1.dp, color = Color.Gray),
+            modifier = Modifier.wrapContentSize(),
+            onClick = {},
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Transparent,
+                contentColor = Color.Black
+            ),
+            contentPadding = PaddingValues(all = 0.dp),
+            shape = RectangleShape
+        ) {
+            Text(
+                text = "Errors",
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.wrapContentSize()
+                    .padding(horizontal = 8.dp)
+            )
         }
     }
 }
