@@ -39,7 +39,7 @@ fun CheckBoxItem(
         Checkbox(
             checked = checked,
             enabled = true,
-            onCheckedChange = {}
+            onCheckedChange = { onCheckedChange(!checked) }
         )
         Text(
             text = text,
