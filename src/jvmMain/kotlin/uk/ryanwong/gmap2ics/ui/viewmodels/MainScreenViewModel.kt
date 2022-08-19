@@ -151,8 +151,8 @@ class MainScreenViewModel(
 
                 // Should be either activity or place visited, but no harm to also support cases with both
                 if (_exportActivitySegment.value) {
-                    val vEvent = timelineEntry.activitySegment?.let { getActivitySegmentVEvent(it) }
-                    vEvent?.let { eventList.add(it) }
+                    val vEvent = timelineEntry.activitySegment?.let { activitySegment -> getActivitySegmentVEvent(activitySegment) }
+                    vEvent?.let { event -> eventList.add(event) }
                 }
 
                 if (_exportPlaceVisit.value) {
