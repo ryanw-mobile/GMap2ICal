@@ -2,13 +2,11 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-@file:Suppress("HardCodedStringLiteral")
-
 import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("multiplatform")
+    kotlin("multiplatform") version "1.7.10"
     kotlin("plugin.serialization") version "1.7.10"
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
     id("org.jetbrains.compose")
@@ -23,7 +21,6 @@ repositories {
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
-val ktorVersion = "2.0.3"
 kotlin {
     jvm {
         compilations.all {
@@ -31,13 +28,10 @@ kotlin {
         }
         withJava()
     }
+
+    val ktorVersion = "2.1.0"
     sourceSets {
         val commonMain by getting {
-            dependencies {
-                implementation("io.github.aakira:napier:2.6.1")
-            }
-        }
-        val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
@@ -50,9 +44,10 @@ kotlin {
                 implementation("io.ktor:ktor-client-cio:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+                implementation("io.github.aakira:napier:2.6.1")
             }
         }
-        val jvmTest by getting {
+        val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
                 implementation("io.mockk:mockk:1.12.5")
@@ -96,4 +91,12 @@ tasks.koverMergedXmlReport {
         "uk.ryanwong.gmap2ics.ui.screens.*",
         "uk.ryanwong.gmap2ics.ComposableSingletons*"
     )
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions {
+        freeCompilerArgs += listOf(
+            "-P", "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+        )
+    }
 }
