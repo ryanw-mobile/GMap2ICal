@@ -184,7 +184,9 @@ class MainScreenViewModel(
             return vEventFromActivitySegmentUseCase(
                 activitySegment = activitySegment,
                 enablePlacesApiLookup = _enablePlacesApiLookup.value
-            )
+            ).also {vEvent ->
+                appendExportedLog(emoji = "\uD83D\uDDD3", message = "${vEvent.dtStart}: ${vEvent.summary}")
+            }
         }
     }
 
