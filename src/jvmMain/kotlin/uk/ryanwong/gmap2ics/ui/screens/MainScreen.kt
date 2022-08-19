@@ -4,11 +4,8 @@
 
 package uk.ryanwong.gmap2ics.ui.screens
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,21 +14,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
@@ -41,6 +39,9 @@ import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.ui.screens.components.ErrorAlertDialog
 import uk.ryanwong.gmap2ics.ui.screens.components.LogWindow
+import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowTab
+import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowTabRow
+import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowUIState
 import uk.ryanwong.gmap2ics.ui.screens.components.SettingsSection
 import uk.ryanwong.gmap2ics.ui.screens.components.StatusBar
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
@@ -73,7 +74,8 @@ fun mainScreen(
         val exportActivitySegment by mainScreenViewModel.exportActivitySegment.collectAsState()
         val enablePlacesApiLookup by mainScreenViewModel.enablePlacesApiLookup.collectAsState()
         val verboseLogs by mainScreenViewModel.verboseLogs.collectAsState()
-        var progress: Float? = remember { null }
+        var progress: MutableState<Float?> = remember { mutableStateOf(null) }
+        val selectLogWindowTab = remember { mutableStateOf(LogWindowTab.EXPORTED) }
 
         when (uiState) {
             is MainScreenUIState.ChangeJsonPath -> {
@@ -104,11 +106,11 @@ fun mainScreen(
             }
 
             is MainScreenUIState.Ready -> {
-                progress = null
+                progress.value = null
             }
 
             is MainScreenUIState.Processing -> {
-                progress = (uiState as MainScreenUIState.Processing).progress
+                progress.value = (uiState as MainScreenUIState.Processing).progress
             }
         }
 
@@ -163,93 +165,44 @@ fun mainScreen(
                         .background(color = Color.LightGray)
                 )
 
-                ButtonRow(
-                    exportedCount = exportedLogs.size,
-                    ignoredCount = ignoredLogs.size,
-                    errorCount = 0
+                LogWindowTabRow(
+                    logWindowUIState = LogWindowUIState(
+                        exportedCount = exportedLogs.size,
+                        ignoredCount = ignoredLogs.size,
+                        selectedTab = selectLogWindowTab.value,
+                        onTabSelected = { selectedTab -> selectLogWindowTab.value = selectedTab }
+                    )
                 )
 
-                LogWindow(
-                    logEntries = exportedLogs,
-                    modifier = Modifier
-                        .weight(weight = 1.0f, fill = true)
-                )
+                val exportedLazyListState = rememberLazyListState()
+                val exportedScrollState = rememberScrollState()
+                val ignoredLazyListState = rememberLazyListState()
+                val ignoredScrollState = rememberScrollState()
+                when (selectLogWindowTab.value) {
+                    LogWindowTab.EXPORTED ->
+                        LogWindow(
+                            logEntries = exportedLogs,
+                            lazyListState = exportedLazyListState,
+                            scrollState = exportedScrollState,
+                            modifier = Modifier
+                                .weight(weight = 1.0f, fill = true)
+                        )
+
+                    LogWindowTab.IGNORED ->
+                        LogWindow(
+                            logEntries = ignoredLogs,
+                            lazyListState = ignoredLazyListState,
+                            scrollState = ignoredScrollState,
+                            modifier = Modifier
+                                .weight(weight = 1.0f, fill = true)
+                        )
+                }
 
                 StatusBar(
                     statusMessage = statusMessage,
-                    progress = progress
+                    progress = progress.value
                 )
             }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun ButtonRow(
-    exportedCount: Int,
-    ignoredCount: Int,
-    errorCount: Int
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-    ) {
-        TextButton(
-            enabled = true,
-            border = BorderStroke(width = 1.dp, color = Color.Gray),
-            modifier = Modifier.wrapContentSize().padding(end = 8.dp),
-            onClick = {},
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.Transparent,
-                contentColor = Color.Black
-            ),
-            contentPadding = PaddingValues(all = 0.dp),
-            shape = RectangleShape
-        ) {
-            Text(
-                text = "Exported ($exportedCount)",
-                style = MaterialTheme.typography.caption,
-                modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp)
-            )
-        }
-        TextButton(
-            enabled = true,
-            border = BorderStroke(width = 1.dp, color = Color.Gray),
-            modifier = Modifier.wrapContentSize().padding(end = 8.dp),
-            onClick = {},
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.Transparent,
-                contentColor = Color.Black
-            ),
-            contentPadding = PaddingValues(all = 0.dp),
-            shape = RectangleShape
-        ) {
-            Text(
-                text = "Ignored ($ignoredCount)",
-                style = MaterialTheme.typography.caption,
-                modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp)
-            )
-        }
-        TextButton(
-            enabled = true,
-            border = BorderStroke(width = 1.dp, color = Color.Gray),
-            modifier = Modifier.wrapContentSize(),
-            onClick = {},
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.Transparent,
-                contentColor = Color.Black
-            ),
-            contentPadding = PaddingValues(all = 0.dp),
-            shape = RectangleShape
-        ) {
-            Text(
-                text = "Errors ($errorCount)",
-                style = MaterialTheme.typography.caption,
-                modifier = Modifier.wrapContentSize()
-                    .padding(horizontal = 8.dp)
-            )
         }
     }
 }

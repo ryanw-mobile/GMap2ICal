@@ -5,7 +5,9 @@
 package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.LocalScrollbarStyle
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,6 +16,7 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,33 +25,142 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import uk.ryanwong.gmap2ics.app.models.UILogEntry
+import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
+
+@Composable
+fun LogWindowTabRow(logWindowUIState: LogWindowUIState) {
+    val buttonStateNormal = ButtonDefaults.buttonColors(
+        backgroundColor = MaterialTheme.colors.background,
+        contentColor = MaterialTheme.colors.onBackground
+    )
+
+    val buttonStateActive = ButtonDefaults.buttonColors(
+        backgroundColor = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.onPrimary
+    )
+
+    val bubbleStateNormalBackground = Color.LightGray
+    val bubbleStateNormalTextColor = Color.Black
+    val bubbleStateActiveBackground = MaterialTheme.colors.error
+    val bubbleStateActiveTextColor = MaterialTheme.colors.onError
+
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        TextButton(
+            enabled = true,
+            border = BorderStroke(width = 1.dp, color = Color.Gray),
+            modifier = Modifier.wrapContentSize().padding(end = 8.dp),
+            onClick = { logWindowUIState.onTabSelected(LogWindowTab.EXPORTED) },
+            colors = if (logWindowUIState.selectedTab == LogWindowTab.EXPORTED) buttonStateActive else buttonStateNormal,
+            contentPadding = PaddingValues(all = 0.dp),
+            shape = RectangleShape
+        ) {
+            Text(
+                text = "EXPORTED",
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp)
+            )
+            BubbleInteger(
+                value = logWindowUIState.exportedCount,
+                backgroundColor = if (logWindowUIState.selectedTab == LogWindowTab.EXPORTED) bubbleStateActiveBackground else bubbleStateNormalBackground,
+                textColor = if (logWindowUIState.selectedTab == LogWindowTab.EXPORTED) bubbleStateActiveTextColor else bubbleStateNormalTextColor,
+            )
+        }
+        TextButton(
+            enabled = true,
+            border = BorderStroke(width = 1.dp, color = Color.Gray),
+            modifier = Modifier.wrapContentSize().padding(end = 8.dp),
+            onClick = { logWindowUIState.onTabSelected(LogWindowTab.IGNORED) },
+            colors = if (logWindowUIState.selectedTab == LogWindowTab.IGNORED) buttonStateActive else buttonStateNormal,
+            contentPadding = PaddingValues(all = 0.dp),
+            shape = RectangleShape
+        ) {
+            Text(
+                text = "IGNORED",
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp)
+            )
+            BubbleInteger(
+                value = logWindowUIState.ignoredCount,
+                backgroundColor = if (logWindowUIState.selectedTab == LogWindowTab.IGNORED) bubbleStateActiveBackground else bubbleStateNormalBackground,
+                textColor = if (logWindowUIState.selectedTab == LogWindowTab.IGNORED) bubbleStateActiveTextColor else bubbleStateNormalTextColor,
+            )
+        }
+    }
+}
+
+@Composable
+fun BubbleInteger(
+    value: Int,
+    textColor: Color,
+    backgroundColor: Color,
+    modifier: Modifier = Modifier
+) {
+    if (value > 0) {
+        Surface(
+            shape = CircleShape,
+            color = backgroundColor,
+            modifier = Modifier.padding(end = 8.dp)
+        ) {
+            Text(
+                text = value.toString(),
+                color = textColor,
+                style = MaterialTheme.typography.overline,
+                modifier = modifier.wrapContentSize()
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun BubbleIntegerPreview() {
+    GregoryGreenTheme {
+        BubbleInteger(
+            value = 100,
+            backgroundColor = Color.LightGray,
+            textColor = Color.DarkGray
+        )
+    }
+}
 
 @Composable
 fun LogWindow(
     logEntries: List<UILogEntry>,
+    lazyListState: LazyListState,
+    scrollState: ScrollState,
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
-        val lazyListState = rememberLazyListState()
-        val scrollState = rememberScrollState()
-
         // Making text selectable helps crosscheck source files for debugging purpose
         SelectionContainer {
             LazyColumn(
@@ -122,7 +234,7 @@ fun LogWindow(
 
 @Preview
 @Composable
-fun LogWindowPreview() {
+private fun LogWindowPreview() {
     MaterialTheme {
         LogWindow(
             logEntries = listOf(
@@ -134,7 +246,9 @@ fun LogWindowPreview() {
                     emoji = "👨🏻‍🦲",
                     message = "some very very very very very very very very very very very very very very very very very very very very  long text"
                 )
-            )
+            ),
+            lazyListState = rememberLazyListState(),
+            scrollState = rememberScrollState()
         )
     }
 }
