@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import java.util.Locale
 import java.util.ResourceBundle
@@ -57,6 +58,8 @@ fun PathPickerItem(
             Text(
                 text = title,
                 style = MaterialTheme.typography.body2,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
                 modifier = Modifier.padding(horizontal = 8.dp),
                 fontWeight = FontWeight.Bold
             )
@@ -64,6 +67,8 @@ fun PathPickerItem(
             Text(
                 text = currentPath,
                 style = MaterialTheme.typography.caption,
+                overflow = TextOverflow.Clip,
+                maxLines = 2,
                 modifier = Modifier.fillMaxWidth()
                     .padding(horizontal = 8.dp)
             )
@@ -76,8 +81,8 @@ fun PathPickerItem(
 fun PathPickerItemPreview() {
     MaterialTheme {
         PathPickerItem(
-            title = "some very very very very very very very very very very very very very very very very very very very very long text",
-            currentPath = "some very very very very very very very very very very very very very very very very very very very very long path",
+            title = "some very long text ".repeat(10),
+            currentPath = "some very long text ".repeat(10),
             onClick = {},
             resourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH)
         )
