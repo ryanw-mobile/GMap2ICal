@@ -177,7 +177,7 @@ class MainScreenViewModel(
         return if (configFile.ignoredActivityType.contains(activitySegment.activityType)) {
             appendIgnoredLog(
                 emoji = "🚫",
-                message = "[Ignored] ${activitySegment.durationStartTimestamp}: Activity ${activitySegment.activityType}"
+                message = "${activitySegment.durationStartTimestamp}: Activity ${activitySegment.activityType}"
             )
             null
         } else {
@@ -195,7 +195,7 @@ class MainScreenViewModel(
         if (configFile.ignoredVisitedPlaceIds.contains(placeVisit.location.placeId)) {
             appendIgnoredLog(
                 emoji = "🚫",
-                message = "[Ignored] ${placeVisit.durationStartTimestamp}: Place ID ${placeVisit.location.placeId}"
+                message = "${placeVisit.durationStartTimestamp}: Place ID ${placeVisit.location.placeId}"
             )
         } else {
             vEventFromPlaceVisitUseCase(
@@ -203,7 +203,7 @@ class MainScreenViewModel(
                 enablePlacesApiLookup = _enablePlacesApiLookup.value
             ).let { vEvent ->
                 eventList.add(vEvent)
-                appendExportedLog(emoji = "\uD83D\uDDD3", message = "[Exported] ${vEvent.dtStart}: ${vEvent.summary}")
+                appendExportedLog(emoji = "\uD83D\uDDD3", message = "${vEvent.dtStart}: ${vEvent.summary}")
                 printVerboseConsoleLog(message = vEvent.toString())
             }
 
@@ -218,7 +218,7 @@ class MainScreenViewModel(
                         eventList.add(vEvent)
                         appendExportedLog(
                             emoji = "\uD83D\uDDD3",
-                            message = "[Exported] ${vEvent.dtStart}: ${vEvent.summary}"
+                            message = "${vEvent.dtStart}: ${vEvent.summary}"
                         )
                         printVerboseConsoleLog(message = vEvent.toString())
                     }
