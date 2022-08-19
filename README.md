@@ -18,11 +18,11 @@ visit, I would appreciate if you could take things easy when you see me doing so
 
 This App is fully functional.
 
-* More unit tests are being written to increase coverage
-* Dependency Injection. Probably Koin
+* More unit tests are being written to increase coverage and protect changes
+* Dependency Injection: Koin
 * Unit tests for composable functions
 * Integrate SQLite as preferences store, and Google Maps Place API caches
-* Major UI rework - with multiple screens/navigation
+* Major UI rework - migrate code-based profiles to UI config options
 
 ## Background
 
