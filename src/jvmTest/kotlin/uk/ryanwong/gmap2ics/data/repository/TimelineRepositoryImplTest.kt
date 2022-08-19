@@ -62,7 +62,7 @@ internal class TimelineRepositoryImplTest : FreeSpec() {
 
                 // 🟢 Then - kotlinx.serialization.json.internal.JsonDecodingException is internal. Assert message only.
                 timeLine.isFailure shouldBe true
-                timeLine.exceptionOrNull()!!.message shouldBe "Expected start of the object '{', but had 'EOF' instead\nJSON input: some-invalid-json-string"
+                timeLine.exceptionOrNull()!!.message shouldBe "Expected start of the object '{', but had 'EOF' instead at path: \$\nJSON input: some-invalid-json-string"
             }
         }
     }
