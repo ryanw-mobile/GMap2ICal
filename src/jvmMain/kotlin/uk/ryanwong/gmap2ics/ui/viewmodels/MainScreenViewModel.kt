@@ -47,7 +47,7 @@ class MainScreenViewModel(
     private var _ignoredLogs = MutableStateFlow<List<UILogEntry>>(emptyList())
     val ignoredLogs: StateFlow<List<UILogEntry>> = _ignoredLogs
 
-    private var _statusMessage = MutableStateFlow<String>("")
+    private var _statusMessage = MutableStateFlow("")
     val statusMessage: StateFlow<String> = _statusMessage
 
     private var _jsonPath = MutableStateFlow("")
@@ -84,6 +84,8 @@ class MainScreenViewModel(
 
     fun startExport() {
         _mainScreenUIState.value = MainScreenUIState.Processing(progress = 0f)
+        _exportedLogs.value = emptyList()
+        _ignoredLogs.value = emptyList()
 
         CoroutineScope(dispatcher).launch {
             val fileList = localFileRepository.getFileList(

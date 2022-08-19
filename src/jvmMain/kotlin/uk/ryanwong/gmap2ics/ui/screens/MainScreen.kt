@@ -168,7 +168,7 @@ fun mainScreen(
                     ignoredCount = ignoredLogs.size,
                     errorCount = 0
                 )
-                
+
                 LogWindow(
                     logEntries = exportedLogs,
                     modifier = Modifier
