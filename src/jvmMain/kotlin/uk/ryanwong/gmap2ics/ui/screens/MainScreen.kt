@@ -64,7 +64,8 @@ fun mainScreen(
     ) {
         val coroutineScope = rememberCoroutineScope()
         val uiState by mainScreenViewModel.mainScreenUIState.collectAsState()
-        val logEntries by mainScreenViewModel.logEntries.collectAsState()
+        val exportedLogs by mainScreenViewModel.exportedLogs.collectAsState()
+        val ignoredLogs by mainScreenViewModel.ignoredLogs.collectAsState()
         val statusMessage by mainScreenViewModel.statusMessage.collectAsState()
         val jsonPath by mainScreenViewModel.jsonPath.collectAsState()
         val iCalPath by mainScreenViewModel.iCalPath.collectAsState()
@@ -161,10 +162,15 @@ fun mainScreen(
                         .height(height = 1.dp)
                         .background(color = Color.LightGray)
                 )
+
+                ButtonRow(
+                    exportedCount = exportedLogs.size,
+                    ignoredCount = ignoredLogs.size,
+                    errorCount = 0
+                )
                 
-                ButtonRow()
                 LogWindow(
-                    logEntries = logEntries,
+                    logEntries = exportedLogs,
                     modifier = Modifier
                         .weight(weight = 1.0f, fill = true)
                 )
@@ -180,7 +186,11 @@ fun mainScreen(
 
 @Preview
 @Composable
-fun ButtonRow() {
+fun ButtonRow(
+    exportedCount: Int,
+    ignoredCount: Int,
+    errorCount: Int
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -199,7 +209,7 @@ fun ButtonRow() {
             shape = RectangleShape
         ) {
             Text(
-                text = "Exported (20)",
+                text = "Exported ($exportedCount)",
                 style = MaterialTheme.typography.caption,
                 modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp)
             )
@@ -217,7 +227,7 @@ fun ButtonRow() {
             shape = RectangleShape
         ) {
             Text(
-                text = "Ignored (10)",
+                text = "Ignored ($ignoredCount)",
                 style = MaterialTheme.typography.caption,
                 modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp)
             )
@@ -235,7 +245,7 @@ fun ButtonRow() {
             shape = RectangleShape
         ) {
             Text(
-                text = "Errors",
+                text = "Errors ($errorCount)",
                 style = MaterialTheme.typography.caption,
                 modifier = Modifier.wrapContentSize()
                     .padding(horizontal = 8.dp)
