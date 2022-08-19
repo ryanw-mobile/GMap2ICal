@@ -18,6 +18,7 @@ import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImpl
 import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.GoogleMapsApiClientImpl
 import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.KtorGoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
+import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
 import uk.ryanwong.gmap2ics.ui.screens.mainScreen
 import uk.ryanwong.gmap2ics.ui.usecases.VEventFromActivitySegmentUseCaseImpl
 import uk.ryanwong.gmap2ics.ui.usecases.VEventFromChildVisitUseCaseImpl
@@ -44,19 +45,22 @@ fun main() = application {
         apiLanguageOverride = configFile.apiLanguageOverride
     )
     val timeZoneMap: TimeZoneMapWrapper = TimeZoneMapImpl(timeZoneMap = TimeZoneMap.forEverywhere())
-    mainScreen(
-        onCloseRequest = { exitApplication() },
-        mainScreenViewModel = MainScreenViewModel(
-            configFile = configFile,
-            timelineRepository = TimelineRepositoryImpl(
-                timeZoneMap = timeZoneMap,
-                kotlinJson = Json { ignoreUnknownKeys = true }),
-            localFileRepository = LocalFileRepositoryImpl(),
-            vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
-                placeDetailsRepository = placeDetailsRepository
-            ),
-            vEventFromChildVisitUseCase = VEventFromChildVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository),
-            vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository)
+
+    GregoryGreenTheme {
+        mainScreen(
+            onCloseRequest = { exitApplication() },
+            mainScreenViewModel = MainScreenViewModel(
+                configFile = configFile,
+                timelineRepository = TimelineRepositoryImpl(
+                    timeZoneMap = timeZoneMap,
+                    kotlinJson = Json { ignoreUnknownKeys = true }),
+                localFileRepository = LocalFileRepositoryImpl(),
+                vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
+                    placeDetailsRepository = placeDetailsRepository
+                ),
+                vEventFromChildVisitUseCase = VEventFromChildVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository),
+                vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository)
+            )
         )
-    )
+    }
 }
