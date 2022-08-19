@@ -81,7 +81,8 @@ tasks.koverMergedHtmlReport {
     excludes = listOf(
         "uk.ryanwong.gmap2ics.app.configs.*",
         "uk.ryanwong.gmap2ics.ui.screens.*",
-        "uk.ryanwong.gmap2ics.ComposableSingletons*"
+        "uk.ryanwong.gmap2ics.ComposableSingletons*",
+        "uk.ryanwong.gmap2ics.ui.GregoryGreenTheme*"
     )
 }
 
@@ -89,7 +90,8 @@ tasks.koverMergedXmlReport {
     excludes = listOf(
         "uk.ryanwong.gmap2ics.app.configs.*",
         "uk.ryanwong.gmap2ics.ui.screens.*",
-        "uk.ryanwong.gmap2ics.ComposableSingletons*"
+        "uk.ryanwong.gmap2ics.ComposableSingletons*",
+        "uk.ryanwong.gmap2ics.ui.GregoryGreenTheme*"
     )
 }
 
