@@ -5,37 +5,30 @@
 package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
+import java.text.MessageFormat
+import java.util.Locale
 import java.util.ResourceBundle
+import java.util.ResourceBundle.getBundle
 
 @Composable
 fun SettingsSection(
@@ -69,7 +62,8 @@ fun SettingsSection(
                 text = "File Locations",
                 textAlign = TextAlign.Center,
                 color = Color.White,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .wrapContentHeight()
                     .padding(top = 8.dp, start = 8.dp, end = 8.dp)
                     .background(color = Color.DarkGray)
@@ -99,7 +93,8 @@ fun SettingsSection(
             exportActivitySegment = exportActivitySegment,
             onExportActivitySegmentClicked = onExportActivitySegmentChanged,
             onExportPlaceVisitClicked = onExportPlaceVisitChanged,
-            modifier = Modifier.wrapContentSize()
+            modifier = Modifier.wrapContentSize(),
+            resourceBundle = resourceBundle
         )
 
         ExtraOptionsGroup(
@@ -107,7 +102,8 @@ fun SettingsSection(
             isVerboseLogEnabled = verboseLogs,
             onEnablePlaceApiLookupClicked = onEnablePlaceApiLookupChanged,
             onVerboseLogClicked = onVerboseLogsChanged,
-            modifier = Modifier.wrapContentSize()
+            modifier = Modifier.wrapContentSize(),
+            resourceBundle = resourceBundle
         )
     }
 }
@@ -118,7 +114,8 @@ fun ExportOptionsGroup(
     exportActivitySegment: Boolean,
     onExportActivitySegmentClicked: (Boolean) -> Unit,
     onExportPlaceVisitClicked: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    resourceBundle: ResourceBundle
 ) {
     Column(
         modifier = modifier
@@ -127,10 +124,11 @@ fun ExportOptionsGroup(
             .width(intrinsicSize = IntrinsicSize.Min)
     ) {
         Text(
-            text = "Export Options",
+            text = resourceBundle.getString("export.options"),
             textAlign = TextAlign.Center,
             color = Color.White,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(top = 8.dp, start = 8.dp, end = 8.dp)
                 .background(color = Color.DarkGray)
@@ -139,20 +137,21 @@ fun ExportOptionsGroup(
         )
 
         Row(
-            modifier = Modifier.width(intrinsicSize = IntrinsicSize.Max)
+            modifier = Modifier
+                .width(intrinsicSize = IntrinsicSize.Max)
                 .padding(16.dp)
         ) {
             BinaryOptionButton(
                 isChecked = exportActivitySegment,
-                text = "Activity\nSegments",
+                text = MessageFormat.format(resourceBundle.getString("activity.segments")),
                 icon = painterResource(resourcePath = "/drawables/road_variant.xml"),
                 onButtonClicked = onExportActivitySegmentClicked,
                 modifier = Modifier.padding(end = 16.dp)
             )
             BinaryOptionButton(
                 isChecked = exportPlaceVisit,
-                text = "Place\nVisits",
-                icon = painterResource(resourcePath = "/drawables/road_variant.xml"),
+                text = MessageFormat.format(resourceBundle.getString("place.visits")),
+                icon = painterResource(resourcePath = "/drawables/map_marker_outline.xml"),
                 onButtonClicked = onExportPlaceVisitClicked
             )
         }
@@ -165,7 +164,8 @@ fun ExtraOptionsGroup(
     isVerboseLogEnabled: Boolean,
     onEnablePlaceApiLookupClicked: (Boolean) -> Unit,
     onVerboseLogClicked: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    resourceBundle: ResourceBundle
 ) {
     Column(
         modifier = modifier
@@ -174,7 +174,7 @@ fun ExtraOptionsGroup(
             .width(intrinsicSize = IntrinsicSize.Min)
     ) {
         Text(
-            text = "Advanced Settings",
+            text = resourceBundle.getString("advanced.settings"),
             textAlign = TextAlign.Center,
             color = Color.White,
             modifier = Modifier.fillMaxWidth()
@@ -190,15 +190,15 @@ fun ExtraOptionsGroup(
         ) {
             BinaryOptionButton(
                 isChecked = isPlaceApiEnabled,
-                text = "Place Api\nLookup",
-                icon = painterResource(resourcePath = "/drawables/road_variant.xml"),
+                text = MessageFormat.format(resourceBundle.getString("place.api.lookup")),
+                icon = painterResource(resourcePath = "/drawables/database_marker_outline.xml"),
                 onButtonClicked = onEnablePlaceApiLookupClicked,
                 modifier = Modifier.padding(end = 16.dp)
             )
             BinaryOptionButton(
                 isChecked = isVerboseLogEnabled,
-                text = "Verbose\nConsole Log",
-                icon = painterResource(resourcePath = "/drawables/road_variant.xml"),
+                text = MessageFormat.format(resourceBundle.getString("verbose.console.log")),
+                icon = painterResource(resourcePath = "/drawables/console.xml"),
                 onButtonClicked = onVerboseLogClicked
             )
         }
@@ -213,73 +213,8 @@ fun ExportOptionsGroupPreview() {
             exportPlaceVisit = true,
             exportActivitySegment = false,
             onExportActivitySegmentClicked = {},
-            onExportPlaceVisitClicked = {}
-        )
-    }
-}
-
-@Composable
-fun BinaryOptionButton(
-    text: String,
-    icon: Painter,
-    isChecked: Boolean,
-    onButtonClicked: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-    ) {
-        Button(
-            enabled = true,
-            shape = CircleShape,
-            border = if (!isChecked) BorderStroke(width = 2.dp, color = MaterialTheme.colors.primary) else null,
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = if (!isChecked) Color.LightGray else MaterialTheme.colors.primary
-            ),
-            onClick = { onButtonClicked(!isChecked) },
-            modifier = Modifier.size(size = 64.dp)
-        ) {
-            Image(
-                painter = icon,
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(color = if (!isChecked) MaterialTheme.colors.primary else Color.White),
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-        Text(
-            text = text,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 8.dp)
-                .width(IntrinsicSize.Max)
-                .wrapContentHeight(),
-            style = MaterialTheme.typography.caption
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun previewBinaryOptionButtonOff() {
-    GregoryGreenTheme {
-        BinaryOptionButton(
-            isChecked = false,
-            text = "Activity\nSegment",
-            icon = painterResource(resourcePath = "/drawables/road_variant.xml"),
-            onButtonClicked = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun previewBinaryOptionButtonOn() {
-    GregoryGreenTheme {
-        BinaryOptionButton(
-            isChecked = true,
-            text = "Activity\nSegment",
-            icon = painterResource(resourcePath = "/drawables/road_variant.xml"),
-            onButtonClicked = {}
+            onExportPlaceVisitClicked = {},
+            resourceBundle = getBundle("resources", Locale.ENGLISH)
         )
     }
 }

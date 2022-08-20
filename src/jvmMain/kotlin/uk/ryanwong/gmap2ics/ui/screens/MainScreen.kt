@@ -13,13 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -38,6 +34,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.ui.screens.components.ErrorAlertDialog
+import uk.ryanwong.gmap2ics.ui.screens.components.ExportActionButton
 import uk.ryanwong.gmap2ics.ui.screens.components.LogWindow
 import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowTab
 import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowTabRow
@@ -74,7 +71,7 @@ fun mainScreen(
         val exportActivitySegment by mainScreenViewModel.exportActivitySegment.collectAsState()
         val enablePlacesApiLookup by mainScreenViewModel.enablePlacesApiLookup.collectAsState()
         val verboseLogs by mainScreenViewModel.verboseLogs.collectAsState()
-        var progress: MutableState<Float?> = remember { mutableStateOf(null) }
+        val progress: MutableState<Float?> = remember { mutableStateOf(null) }
         val selectLogWindowTab = remember { mutableStateOf(LogWindowTab.EXPORTED) }
 
         when (uiState) {
@@ -145,17 +142,13 @@ fun mainScreen(
                         resourceBundle = resourceBundle
                     )
 
-                    Button(
+                    ExportActionButton(
                         enabled = (uiState == MainScreenUIState.Ready),
-                        shape = CircleShape,
-                        onClick = { mainScreenViewModel.startExport() },
-                        modifier = Modifier.padding(end = 16.dp)
-                    ) {
-                        Text(
-                            text = resourceBundle.getString("convert"),
-                            modifier = Modifier.wrapContentSize()
-                        )
-                    }
+                        onButtonClicked = { mainScreenViewModel.startExport() },
+                        resourceBundle = resourceBundle,
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                    )
                 }
 
                 Spacer(
