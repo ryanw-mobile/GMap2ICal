@@ -13,11 +13,17 @@ import org.junit.Test
 
 class StatusBarKtTest {
 
+    /***
+     * 1. Currently, Compose Desktop test runs on JUnit4 only.
+     * 2. Can't sort out how to apply @get:Rule on Kotest so back to JUnit4.
+     * 3. Compose Desktop assertion library is not completed yet - limited what can be tested.
+     */
+
     @get:Rule
     val compose = createComposeRule()
 
     @Test
-    fun `should_not_display_LinearProgressIndicator_if_progress_is_null`() {
+    fun `Should not display LinearProgressIndicator if progress is null`() {
         runBlocking(Dispatchers.Unconfined) {
             // 🔴 Given
             val statusMessage = "some-status-message"
@@ -38,7 +44,7 @@ class StatusBarKtTest {
     }
 
     @Test
-    fun `should_display_LinearProgressIndicator_if_progress_is_0`() {
+    fun `Should display LinearProgressIndicator if progress is 0`() {
         runBlocking(Dispatchers.Unconfined) {
             // 🔴 Given
             val statusMessage = "some-status-message"
@@ -59,7 +65,7 @@ class StatusBarKtTest {
     }
 
     @Test
-    fun `should_display_LinearProgressIndicator_if_progress_greater_than_0`() {
+    fun `Should display LinearProgressIndicator if progress is greater than 0`() {
         runBlocking(Dispatchers.Unconfined) {
             // 🔴 Given
             val statusMessage = "some-status-message"
