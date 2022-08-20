@@ -61,9 +61,8 @@ fun SettingsSection(
     ) {
         Column(
             modifier = Modifier
-                .weight(0.5f, true)
-                .padding(8.dp)
-                .border(width = 1.dp, color = Color.LightGray)
+                .weight(weight = 0.5f, fill = true)
+                .padding(top = 8.dp, bottom = 8.dp, end = 8.dp)
                 .height(intrinsicSize = IntrinsicSize.Max)
         ) {
             Text(

@@ -57,7 +57,7 @@ fun PathPickerItem(
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.caption,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 modifier = Modifier.padding(horizontal = 8.dp),
