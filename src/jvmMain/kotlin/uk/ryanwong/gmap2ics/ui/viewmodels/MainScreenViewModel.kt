@@ -108,14 +108,14 @@ class MainScreenViewModel(
 
             // Exporting multiple events in one single ics file
             fileList.getOrNull()?.forEach { filename ->
-                appendExportedLog(emoji = "\uD83D\uDDC2", message = "Processing ${stripBasePath(filename)}")
+                updateStatus(message = "Processing ${stripBasePath(filename)}")
                 val eventList: List<VEvent> = getEventList(filePath = filename)
                 val outputFileName = getOutputFilename(originalFilename = filename)
                 localFileRepository.exportICal(
                     vEvents = eventList,
                     filename = outputFileName
                 )
-                appendExportedLog(emoji = "💾", message = "iCal events saved to ${stripBasePath(outputFileName)}")
+                updateStatus("iCal events saved to ${stripBasePath(outputFileName)}")
             }
 
             updateStatus(message = "Done. Processed ${fileList.getOrNull()?.size ?: 0} files.")
@@ -151,7 +151,8 @@ class MainScreenViewModel(
 
                 // Should be either activity or place visited, but no harm to also support cases with both
                 if (_exportActivitySegment.value) {
-                    val vEvent = timelineEntry.activitySegment?.let { activitySegment -> getActivitySegmentVEvent(activitySegment) }
+                    val vEvent =
+                        timelineEntry.activitySegment?.let { activitySegment -> getActivitySegmentVEvent(activitySegment) }
                     vEvent?.let { event -> eventList.add(event) }
                 }
 
@@ -163,13 +164,9 @@ class MainScreenViewModel(
         }
 
         timeline.exceptionOrNull()?.let { throwable ->
-            throwable.printStackTrace()
             processResultFailure(userFriendlyMessage = "☠️ Error processing timeline", throwable)
         }
-        appendExportedLog(
-            emoji = "✅",
-            message = "Processed ${timeline.getOrNull()?.timelineEntries?.size ?: 0} timeline entries."
-        )
+        updateStatus(message = "Processed ${timeline.getOrNull()?.timelineEntries?.size ?: 0} timeline entries.")
         return eventList
     }
 
@@ -184,7 +181,7 @@ class MainScreenViewModel(
             return vEventFromActivitySegmentUseCase(
                 activitySegment = activitySegment,
                 enablePlacesApiLookup = _enablePlacesApiLookup.value
-            ).also {vEvent ->
+            ).also { vEvent ->
                 appendExportedLog(emoji = "\uD83D\uDDD3", message = "${vEvent.dtStart}: ${vEvent.summary}")
             }
         }
