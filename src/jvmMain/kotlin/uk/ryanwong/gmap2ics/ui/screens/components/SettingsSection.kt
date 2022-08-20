@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -54,15 +55,35 @@ fun SettingsSection(
     resourceBundle: ResourceBundle
 ) {
     Row(
-        modifier = modifier.padding(horizontal = 16.dp)
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .wrapContentHeight()
     ) {
-        Column(modifier = Modifier.wrapContentSize().weight(0.5f, true)) {
+        Column(
+            modifier = Modifier
+                .weight(0.5f, true)
+                .padding(8.dp)
+                .border(width = 1.dp, color = Color.LightGray)
+                .height(intrinsicSize = IntrinsicSize.Max)
+        ) {
+            Text(
+                text = "File Locations",
+                textAlign = TextAlign.Center,
+                color = Color.White,
+                modifier = Modifier.fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(top = 8.dp, start = 8.dp, end = 8.dp)
+                    .background(color = Color.DarkGray)
+                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                style = MaterialTheme.typography.caption
+            )
+
             PathPickerItem(
                 title = resourceBundle.getString("json.path"),
                 currentPath = jsonPath,
                 onClick = onChangeJsonPath,
                 resourceBundle = resourceBundle,
-                modifier = Modifier.wrapContentSize()
+                modifier = Modifier.fillMaxWidth().weight(weight = 0.5f, fill = true)
             )
 
             PathPickerItem(
@@ -70,7 +91,7 @@ fun SettingsSection(
                 currentPath = iCalPath,
                 onClick = onChangeICalPath,
                 resourceBundle = resourceBundle,
-                modifier = Modifier.wrapContentSize()
+                modifier = Modifier.fillMaxWidth().weight(weight = 0.5f, fill = true)
             )
         }
 
@@ -117,6 +138,7 @@ fun ExportOptionsGroup(
                 .padding(horizontal = 8.dp, vertical = 4.dp),
             style = MaterialTheme.typography.caption
         )
+
         Row(
             modifier = Modifier.width(intrinsicSize = IntrinsicSize.Max)
                 .padding(16.dp)
