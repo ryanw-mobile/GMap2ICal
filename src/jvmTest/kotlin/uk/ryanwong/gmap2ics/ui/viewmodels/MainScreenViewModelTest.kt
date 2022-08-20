@@ -380,6 +380,10 @@ internal class MainScreenViewModelTest : FreeSpec() {
             }
         }
 
+        /***
+         * Note: This is the core function of the App.
+         * It has to be tested heavily.
+         */
         "startExport" - {
             "Should set MainScreenUIState = Ready after running" {
                 // 🔴 Given
@@ -393,6 +397,72 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 // 🟢 Then
                 val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
                 mainScreenUIState shouldBe MainScreenUIState.Ready
+            }
+
+            "Should set MainScreenUIState = Error if localFileRepository.getFileList returns error" {
+                // 🔴 Given
+                setupViewModel()
+                mockLocalFileRepository.getFileListResponse =
+                    Result.failure(exception = Exception("some-exception-message"))
+
+                // 🟡 When
+                mainScreenViewModel.startExport()
+
+                // 🟢 Then
+                val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
+                with(mainScreenUIState as MainScreenUIState.Error) {
+                    errMsg shouldBe "☠️ Error getting json file list: some-exception-message"
+                }
+            }
+
+            "getOutputFilename" - {
+                "Should set correct filename when exportPlaceVisit and exportActivitySegment are true" {
+                    // 🔴 Given
+                    setupViewModel()
+                    mainScreenViewModel.setExportPlaceVisit(enabled= true)
+                    mainScreenViewModel.setExportActivitySegment(enabled = true)
+                    mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1.json"))
+                    mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
+
+                    // 🟡 When
+                    mainScreenViewModel.startExport()
+
+                    // 🟢 Then
+                    val outputFilename = mockLocalFileRepository.exportICalFilename
+                    outputFilename shouldBe "some-file-1_all.ics"
+                }
+
+                "Should set correct filename when only exportPlaceVisit is true" {
+                    // 🔴 Given
+                    setupViewModel()
+                    mainScreenViewModel.setExportPlaceVisit(enabled= true)
+                    mainScreenViewModel.setExportActivitySegment(enabled = false)
+                    mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1.json"))
+                    mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
+
+                    // 🟡 When
+                    mainScreenViewModel.startExport()
+
+                    // 🟢 Then
+                    val outputFilename = mockLocalFileRepository.exportICalFilename
+                    outputFilename shouldBe "some-file-1_places.ics"
+                }
+
+                "Should set correct filename when only exportActivitySegment is true" {
+                    // 🔴 Given
+                    setupViewModel()
+                    mainScreenViewModel.setExportPlaceVisit(enabled= false)
+                    mainScreenViewModel.setExportActivitySegment(enabled = true)
+                    mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1.json"))
+                    mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
+
+                    // 🟡 When
+                    mainScreenViewModel.startExport()
+
+                    // 🟢 Then
+                    val outputFilename = mockLocalFileRepository.exportICalFilename
+                    outputFilename shouldBe "some-file-1_activities.ics"
+                }
             }
         }
     }

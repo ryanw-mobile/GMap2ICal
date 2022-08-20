@@ -8,7 +8,11 @@ import uk.ryanwong.gmap2ics.app.models.VEvent
 
 class MockLocalFileRepository : LocalFileRepository {
     var exportICalResponse: Result<Unit>? = null
+    var exportICalFilename: String? = null
+    var exportICalVEvents: List<VEvent>? = null
     override suspend fun exportICal(filename: String, vEvents: List<VEvent>): Result<Unit> {
+        exportICalFilename = filename
+        exportICalVEvents = vEvents
         return exportICalResponse ?: Result.failure(Exception("mock response unavailable"))
     }
 
