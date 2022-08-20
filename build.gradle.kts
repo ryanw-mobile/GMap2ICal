@@ -50,6 +50,8 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
                 implementation("io.mockk:mockk:1.12.5")
                 // kotest
                 implementation("io.kotest:kotest-runner-junit5:5.3.1")
@@ -57,6 +59,11 @@ kotlin {
                 implementation("io.kotest:kotest-property:5.3.1")
                 // ktor
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
+                // Compose
+                implementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
+                // implementation("org.jetbrains.compose.ui:ui-test-junit4:1.2.0-alpha01-dev620")
+                implementation("org.junit.jupiter:junit-jupiter:5.7.0")
+                implementation("org.junit.vintage:junit-vintage-engine:5.7.0")
             }
         }
     }
@@ -75,6 +82,7 @@ compose.desktop {
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+    jvmArgs = mutableListOf("--enable-preview")
 }
 
 tasks.koverMergedHtmlReport {

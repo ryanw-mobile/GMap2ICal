@@ -18,9 +18,10 @@ visit, I would appreciate if you could take things easy when you see me doing so
 
 This App is fully functional.
 
+* 119 unit tests written as at 20 Aug 2022
 * More unit tests are being written to increase coverage and protect changes
+* Unit tests for composable functions (adding, but limited assertions available)
 * Dependency Injection: Koin
-* Unit tests for composable functions
 * Integrate SQLite as preferences store, and Google Maps Place API caches
 * Major UI rework - migrate code-based profiles to UI config options
 

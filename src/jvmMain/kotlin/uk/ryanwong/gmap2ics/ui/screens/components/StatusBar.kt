@@ -15,6 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
@@ -36,10 +37,11 @@ fun StatusBar(
             textAlign = TextAlign.Left,
             modifier = Modifier.weight(weight = 1f, fill = true)
         )
-        progress?.let {
+        progress?.let { progress ->
             LinearProgressIndicator(
-                progress = it.toFloat(),
+                progress = progress,
                 modifier = Modifier.width(120.dp)
+                    .testTag(tag = "LinearProgressIndicator")
             )
         }
     }
