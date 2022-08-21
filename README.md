@@ -12,7 +12,7 @@ This is my first non-Android Kotlin project. It is within expectation that every
 I treat this as my playground that allows me to make all kinds of experiments and mistakes. While I thank you for your
 visit, I would appreciate if you could take things easy when you see me doing something crazy here. Thank you.
 
-<div style="text-align:center"><img src="screenshot-220819.png" /></div>
+<div style="text-align:center"><img src="screenshot-220821.png" /></div>
 
 ## TL;DR - Status and Roadmap
 
@@ -23,7 +23,6 @@ This App is fully functional.
 * Unit tests for composable functions (adding, but limited assertions available)
 * Dependency Injection: Koin
 * Integrate SQLite as preferences store, and Google Maps Place API caches
-* Major UI rework - migrate code-based profiles to UI config options
 
 ## Background
 
