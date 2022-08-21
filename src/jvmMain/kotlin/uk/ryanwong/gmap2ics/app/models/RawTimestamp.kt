@@ -21,7 +21,7 @@ data class RawTimestamp(
 
     fun toUITimestamp(): String {
         return DateTimeFormatter
-            .ofPattern("MM/dd/yyyy HH:mm:ss")
+            .ofPattern("dd/MM/yyyy HH:mm:ss")
             .withZone(ZoneId.of(timezoneId))
             .format(Instant.parse(timestamp))
     }

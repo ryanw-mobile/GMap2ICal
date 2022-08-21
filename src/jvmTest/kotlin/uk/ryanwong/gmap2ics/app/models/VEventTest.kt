@@ -5,10 +5,8 @@
 package uk.ryanwong.gmap2ics.app.models
 
 import com.esri.core.geometry.Polygon
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.startWith
 import uk.ryanwong.gmap2ics.app.models.VEventTestData.mockActivityEndSegmentPlaceDetails
 import uk.ryanwong.gmap2ics.app.models.VEventTestData.mockActivityFirstSegmentPlaceDetails
 import uk.ryanwong.gmap2ics.app.models.VEventTestData.mockActivityLastSegmentPlaceDetails
@@ -21,8 +19,6 @@ import uk.ryanwong.gmap2ics.app.models.VEventTestData.mockPlaceVisitPlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import us.dustinj.timezonemap.TimeZone
-import java.time.format.DateTimeParseException
-import java.time.zone.ZoneRulesException
 
 internal class VEventTest : FreeSpec() {
     /**
@@ -69,9 +65,8 @@ internal class VEventTest : FreeSpec() {
                         placeId = "some-end-location-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T201111",
-                        dtEnd = "20111111T202222",
-                        dtTimeZone = "Asia/Tokyo",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                         summary = "🚐 7.9km (some-start-segment-name ➡ some-end-segment-name)",
                         location = "some-last-segment-formatted-address",
                         geo = LatLng(latitude = 26.33933, longitude = 127.85),
@@ -116,53 +111,13 @@ internal class VEventTest : FreeSpec() {
                         placeId = null,
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T201111",
-                        dtEnd = "20111111T202222",
-                        dtTimeZone = "Asia/Tokyo",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                         summary = "🚐 7.9km (some-start-segment-name ➡ some-end-segment-name)",
                         location = "some-last-segment-formatted-address",
                         geo = LatLng(latitude = 26.33933, longitude = 127.85),
                         description = "Start Location: some-start-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-location-place-id\\n\\nEnd Location: some-end-segment-formatted-address\\n\\n\\nFirst segment: some-first-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-first-segment-place-id\\n\\nLast segment: some-last-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-last-segment-place-id\\n\\n",
                         url = "https://maps.google.com?q=26.33933,127.85",
-                        lastModified = "2011-11-11T11:22:22.222Z"
-                    )
-                }
-
-                "Should use UTC timezone to represent time in VEvent if eventTimeZone is null" {
-                    // 🔴 Given
-                    val activitySegment = mockActivitySegment
-                    val shouldShowMiles = false
-                    val firstPlaceDetails = mockActivityFirstSegmentPlaceDetails
-                    val lastPlaceDetails = mockActivityLastSegmentPlaceDetails
-                    val startPlaceDetails = mockActivityStartSegmentPlaceDetails
-                    val endPlaceDetails = mockActivityEndSegmentPlaceDetails
-                    val eventTimeZone = null
-
-                    // 🟡 When
-                    val vEvent = VEvent.from(
-                        activitySegment = activitySegment,
-                        shouldShowMiles = shouldShowMiles,
-                        firstPlaceDetails = firstPlaceDetails,
-                        lastPlaceDetails = lastPlaceDetails,
-                        startPlaceDetails = startPlaceDetails,
-                        endPlaceDetails = endPlaceDetails,
-                        eventTimeZone = eventTimeZone
-                    )
-
-                    // 🟢 Then
-                    vEvent shouldBe VEvent(
-                        uid = "2011-11-11T11:22:22.222Z",
-                        placeId = "some-end-location-place-id",
-                        dtStamp = "2011-11-11T11:22:22.222Z",
-                        organizer = null,
-                        dtStart = "20111111T111111",
-                        dtEnd = "20111111T112222",
-                        dtTimeZone = "UTC",
-                        summary = "🚐 7.9km (some-start-segment-name ➡ some-end-segment-name)",
-                        location = "some-last-segment-formatted-address",
-                        geo = LatLng(latitude = 26.33933, longitude = 127.85),
-                        description = "Start Location: some-start-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-location-place-id\\n\\nEnd Location: some-end-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-location-place-id\\n\\nFirst segment: some-first-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-first-segment-place-id\\n\\nLast segment: some-last-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-last-segment-place-id\\n\\n",
-                        url = "https://www.google.com/maps/place/?q=place_id:some-end-location-place-id",
                         lastModified = "2011-11-11T11:22:22.222Z"
                     )
                 }
@@ -194,9 +149,8 @@ internal class VEventTest : FreeSpec() {
                         placeId = "some-end-location-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T201111",
-                        dtEnd = "20111111T202222",
-                        dtTimeZone = "Asia/Tokyo",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                         summary = "🚐 4.9mi (some-start-segment-name ➡ some-end-segment-name)",
                         location = "some-last-segment-formatted-address",
                         geo = LatLng(latitude = 26.33933, longitude = 127.85),
@@ -233,9 +187,8 @@ internal class VEventTest : FreeSpec() {
                         placeId = "some-end-location-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T201111",
-                        dtEnd = "20111111T202222",
-                        dtTimeZone = "Asia/Tokyo",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                         summary = "🚐 7.9km ",
                         location = "26.33933,127.85",
                         geo = LatLng(latitude = 26.33933, longitude = 127.85),
@@ -261,9 +214,8 @@ internal class VEventTest : FreeSpec() {
                         placeId = "some-place-visit-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T201111",
-                        dtEnd = "20111111T202222",
-                        dtTimeZone = "Asia/Tokyo",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                         summary = "🏞 some-place-details-name",
                         location = "some-place-details-formatted-address",
                         geo = LatLng(latitude = 26.33833, longitude = 127.8),
@@ -289,9 +241,8 @@ internal class VEventTest : FreeSpec() {
                         placeId = "some-place-visit-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T111111",
-                        dtEnd = "20111111T112222",
-                        dtTimeZone = "UTC",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "UTC"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "UTC"),
                         summary = "🏞 some-place-details-name",
                         location = "some-place-details-formatted-address",
                         geo = LatLng(latitude = 26.33833, longitude = 127.8),
@@ -315,9 +266,8 @@ internal class VEventTest : FreeSpec() {
                         placeId = "some-place-visit-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T201111",
-                        dtEnd = "20111111T202222",
-                        dtTimeZone = "Asia/Tokyo",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                         summary = "📍 some-name",
                         location = "some-address",
                         geo = LatLng(latitude = 26.33833, longitude = 127.8),
@@ -343,9 +293,8 @@ internal class VEventTest : FreeSpec() {
                         placeId = "some-child-visit-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T201111",
-                        dtEnd = "20111111T202222",
-                        dtTimeZone = "Asia/Tokyo",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                         summary = "🏞 some-place-details-name",
                         location = "some-place-details-formatted-address",
                         geo = LatLng(latitude = 26.33833, longitude = 127.8),
@@ -371,9 +320,8 @@ internal class VEventTest : FreeSpec() {
                         placeId = "some-child-visit-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T111111",
-                        dtEnd = "20111111T112222",
-                        dtTimeZone = "UTC",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "UTC"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "UTC"),
                         summary = "🏞 some-place-details-name",
                         location = "some-place-details-formatted-address",
                         geo = LatLng(latitude = 26.33833, longitude = 127.8),
@@ -397,9 +345,8 @@ internal class VEventTest : FreeSpec() {
                         placeId = "some-child-visit-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T201111",
-                        dtEnd = "20111111T202222",
-                        dtTimeZone = "Asia/Tokyo",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                         summary = "📍 some-name",
                         location = "some-address",
                         geo = LatLng(latitude = 26.33833, longitude = 127.8),
@@ -419,9 +366,8 @@ internal class VEventTest : FreeSpec() {
                     placeId = "some-child-visit-place-id",
                     dtStamp = "2011-11-11T11:22:22.222Z",
                     organizer = null,
-                    dtStart = "20111111T201111",
-                    dtEnd = "20111111T202222",
-                    dtTimeZone = "Asia/Tokyo",
+                    dtStart = RawTimestamp(timestamp = "2011-11-11T20:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                    dtEnd = RawTimestamp(timestamp = "2011-11-11T20:22:22.222Z", timezoneId = "Asia/Tokyo"),
                     summary = "🏞 some-place-details-name",
                     location = "some-place-details-formatted-address",
                     geo = LatLng(latitude = 26.33833, longitude = 127.8),
@@ -436,8 +382,8 @@ internal class VEventTest : FreeSpec() {
                 // 🟢 Then
                 iCalString shouldBe "BEGIN:VEVENT\n" +
                         "TRANSP:OPAQUE\n" +
-                        "DTSTART;TZID=Asia/Tokyo:20111111T201111\n" +
-                        "DTEND;TZID=Asia/Tokyo:20111111T202222\n" +
+                        "DTSTART;TZID=Asia/Tokyo:20111112T051111\n" +
+                        "DTEND;TZID=Asia/Tokyo:20111112T052222\n" +
                         "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
                         "X-TITLE=\"some-place-details-formatted-address\":geo:26.33833,127.8\n" +
                         "UID:2011-11-11T11:22:22.222Z\n" +
@@ -452,52 +398,6 @@ internal class VEventTest : FreeSpec() {
                         "CREATED:2011-11-11T11:22:22.222Z\n" +
                         "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
                         "END:VEVENT\n"
-            }
-        }
-
-        "getLocalizedTimeStamp" - {
-            "Should return correct localized Time Stamp for good timestamp and timezoneId" {
-                // 🔴 Given
-                val timestamp = "2011-11-11T11:22:22.222Z"
-                val timezoneId = "Asia/Tokyo"
-
-                // 🟡 When
-                val formattedTimeStamp = getLocalizedTimeStamp(timestamp = timestamp, timezoneId = timezoneId)
-
-                // 🟢 Then
-                formattedTimeStamp shouldBe "20111111T202222"
-            }
-            "Should return exception if timezoneId is invalid" {
-                // 🔴 Given
-                val timestamp = "2011-11-11T11:22:22.222Z"
-                val timezoneId = "some-incorrect-timezoneid"
-
-                // 🟡 When
-                val exception = shouldThrow<ZoneRulesException> {
-                    getLocalizedTimeStamp(
-                        timestamp = timestamp,
-                        timezoneId = timezoneId
-                    )
-                }
-
-                // 🟢 Then
-                exception.message shouldBe startWith("Unknown time-zone ID: some-incorrect-timezoneid")
-            }
-            "Should return exception if timestamp is invalid" {
-                // 🔴 Given
-                val timestamp = "some-invalid-timestamp"
-                val timezoneId = "Asia/Tokyo"
-
-                // 🟡 When
-                val exception = shouldThrow<DateTimeParseException> {
-                    getLocalizedTimeStamp(
-                        timestamp = timestamp,
-                        timezoneId = timezoneId
-                    )
-                }
-
-                // 🟢 Then
-                exception.message shouldBe startWith("Text 'some-invalid-timestamp' could not be parsed at index 0")
             }
         }
     }

@@ -6,15 +6,16 @@ package uk.ryanwong.gmap2ics.ui.usecases
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
 import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsNotFoundException
 import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
 
 internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
 
@@ -93,9 +94,8 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
                 placeId = "some-place-id",
                 dtStamp = "2011-11-11T11:22:22.222Z",
                 organizer = null,
-                dtStart = "20111111T201111",
-                dtEnd = "20111111T202222",
-                dtTimeZone = "Asia/Tokyo",
+                dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                 summary = "\uD83C\uDFE7 some-place-name",
                 location = "some-formatted-address",
                 geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
@@ -125,9 +125,8 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
                 placeId = "some-place-id",
                 dtStamp = "2011-11-11T11:22:22.222Z",
                 organizer = null,
-                dtStart = "20111111T201111",
-                dtEnd = "20111111T202222",
-                dtTimeZone = "Asia/Tokyo",
+                dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                 summary = "\uD83D\uDCCD null",
                 location = "",
                 geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
@@ -157,9 +156,8 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
                 placeId = "some-place-id",
                 dtStamp = "2011-11-11T11:22:22.222Z",
                 organizer = null,
-                dtStart = "20111111T201111",
-                dtEnd = "20111111T202222",
-                dtTimeZone = "Asia/Tokyo",
+                dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                 summary = "📍 null",
                 location = "",
                 geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),

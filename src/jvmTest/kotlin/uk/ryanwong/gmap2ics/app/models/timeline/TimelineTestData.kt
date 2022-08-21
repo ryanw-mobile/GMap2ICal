@@ -6,6 +6,7 @@ package uk.ryanwong.gmap2ics.app.models.timeline
 
 import com.esri.core.geometry.Polygon
 import uk.ryanwong.gmap2ics.app.ActivityType
+import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.data.models.timeline.Activity
 import uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation
 import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment
@@ -170,8 +171,14 @@ internal object TimelineTestData {
                     activityType = ActivityType.IN_PASSENGER_VEHICLE,
                     rawActivityType = "IN_PASSENGER_VEHICLE",
                     distance = 2373,
-                    durationEndTimestamp = "2022-01-03T14:18:02Z",
-                    durationStartTimestamp = "2022-01-03T14:04:35.990Z",
+                    durationEndTimestamp = RawTimestamp(
+                        timestamp = "2022-01-03T14:18:02Z",
+                        timezoneId = "Europe/London"
+                    ),
+                    durationStartTimestamp = RawTimestamp(
+                        timestamp = "2022-01-03T14:04:35.990Z",
+                        timezoneId = "Europe/London"
+                    ),
                     endLocation = uk.ryanwong.gmap2ics.app.models.timeline.Location(
                         placeId = null,
                         latitudeE7 = 534774054,
@@ -233,8 +240,14 @@ internal object TimelineTestData {
                     activityType = ActivityType.IN_PASSENGER_VEHICLE,
                     rawActivityType = "IN_PASSENGER_VEHICLE",
                     distance = 2183,
-                    durationEndTimestamp = "2022-01-03T14:32:08Z",
-                    durationStartTimestamp = "2022-01-03T14:26:25Z",
+                    durationEndTimestamp = RawTimestamp(
+                        timestamp = "2022-01-03T14:32:08Z",
+                        timezoneId = "Europe/London"
+                    ),
+                    durationStartTimestamp = RawTimestamp(
+                        timestamp = "2022-01-03T14:26:25Z",
+                        timezoneId = "Europe/London"
+                    ),
                     endLocation = uk.ryanwong.gmap2ics.app.models.timeline.Location(
                         placeId = null,
                         latitudeE7 = 534723150,

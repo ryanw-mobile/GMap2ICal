@@ -174,7 +174,7 @@ class MainScreenViewModel(
         return if (configFile.ignoredActivityType.contains(activitySegment.activityType)) {
             appendIgnoredLog(
                 emoji = "🚫",
-                message = "${activitySegment.getDurationStartUITimestamp()}: Activity ${activitySegment.activityType}"
+                message = "${activitySegment.durationStartTimestamp.toUITimestamp()}: Activity ${activitySegment.activityType}"
             )
             null
         } else {

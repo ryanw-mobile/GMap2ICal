@@ -26,8 +26,8 @@ internal object VEventTestData {
         activityType = ActivityType.IN_VEHICLE,
         rawActivityType = "IN_VEHICLE",
         distance = 7900,
-        durationEndTimestamp = "2011-11-11T11:22:22.222Z",
-        durationStartTimestamp = "2011-11-11T11:11:11.111Z",
+        durationEndTimestamp = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
+        durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
         endLocation = Location(
             address = null,
             latitudeE7 = 263393300,

@@ -5,6 +5,7 @@
 package uk.ryanwong.gmap2ics.app.models.timeline.activity
 
 import uk.ryanwong.gmap2ics.app.ActivityType
+import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
 
@@ -26,8 +27,8 @@ internal object ActivitySegmentAppModelTestData {
         activityType = ActivityType.FLYING,
         rawActivityType = "FLYING",
         distance = 79,
-        durationEndTimestamp = "2011-11-11T11:22:22.222Z",
-        durationStartTimestamp = "2011-11-11T11:11:11.111Z",
+        durationEndTimestamp = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
+        durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
         endLocation = Location(
             address = null,
             latitudeE7 = someEndLatitudeE7,

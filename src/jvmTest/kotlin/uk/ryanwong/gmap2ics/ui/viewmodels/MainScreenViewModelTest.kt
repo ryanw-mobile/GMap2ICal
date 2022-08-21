@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import uk.ryanwong.gmap2ics.app.configs.MockConfig
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
+import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository
@@ -40,9 +41,8 @@ internal class MainScreenViewModelTest : FreeSpec() {
         placeId = "location-id-to-be-kept",
         dtStamp = "2011-11-11T11:22:22.222Z",
         organizer = null,
-        dtStart = "20111111T201111",
-        dtEnd = "20111111T202222",
-        dtTimeZone = "Asia/Tokyo",
+        dtStart = RawTimestamp(timestamp = "20111111T201111", timezoneId = "Asia/Tokyo"),
+        dtEnd = RawTimestamp(timestamp = "20111111T202222", timezoneId = "Asia/Tokyo"),
         summary = "📍 some-summary",
         location = "",
         geo = LatLng(latitude = 26.33833, longitude = 127.8),
@@ -419,7 +419,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 "Should set correct filename when exportPlaceVisit and exportActivitySegment are true" {
                     // 🔴 Given
                     setupViewModel()
-                    mainScreenViewModel.setExportPlaceVisit(enabled= true)
+                    mainScreenViewModel.setExportPlaceVisit(enabled = true)
                     mainScreenViewModel.setExportActivitySegment(enabled = true)
                     mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1.json"))
                     mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
@@ -435,7 +435,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 "Should set correct filename when only exportPlaceVisit is true" {
                     // 🔴 Given
                     setupViewModel()
-                    mainScreenViewModel.setExportPlaceVisit(enabled= true)
+                    mainScreenViewModel.setExportPlaceVisit(enabled = true)
                     mainScreenViewModel.setExportActivitySegment(enabled = false)
                     mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1.json"))
                     mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
@@ -451,7 +451,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 "Should set correct filename when only exportActivitySegment is true" {
                     // 🔴 Given
                     setupViewModel()
-                    mainScreenViewModel.setExportPlaceVisit(enabled= false)
+                    mainScreenViewModel.setExportPlaceVisit(enabled = false)
                     mainScreenViewModel.setExportActivitySegment(enabled = true)
                     mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1.json"))
                     mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)

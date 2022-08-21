@@ -6,6 +6,7 @@ package uk.ryanwong.gmap2ics.ui.usecases
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
@@ -72,9 +73,8 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 placeId = "some-end-place-id",
                 dtStamp = "2011-11-11T11:22:22.222Z",
                 organizer = null,
-                dtStart = "20111111T201111",
-                dtEnd = "20111111T202222",
-                dtTimeZone = "Asia/Tokyo",
+                dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                 summary = "✈️ 0.1km (some-place-name ➡ some-place-name)",
                 location = "some-formatted-address",
                 geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
@@ -105,9 +105,8 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 placeId = "some-end-place-id",
                 dtStamp = "2011-11-11T11:22:22.222Z",
                 organizer = null,
-                dtStart = "20111111T201111",
-                dtEnd = "20111111T202222",
-                dtTimeZone = "Asia/Tokyo",
+                dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                 summary = "✈️ 0.1km ",
                 location = "26.33933,127.85",
                 geo = LatLng(latitude = 26.3393300, longitude = 127.8500000),
@@ -138,9 +137,8 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 placeId = "some-end-place-id",
                 dtStamp = "2011-11-11T11:22:22.222Z",
                 organizer = null,
-                dtStart = "20111111T201111",
-                dtEnd = "20111111T202222",
-                dtTimeZone = "Asia/Tokyo",
+                dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                 summary = "✈️ 0.1km ",
                 location = "26.33933,127.85",
                 geo = LatLng(latitude = 26.3393300, longitude = 127.8500000),

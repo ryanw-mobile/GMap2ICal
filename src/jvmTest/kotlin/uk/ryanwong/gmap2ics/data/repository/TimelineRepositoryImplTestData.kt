@@ -6,6 +6,7 @@ package uk.ryanwong.gmap2ics.data.repository
 
 import com.esri.core.geometry.Polygon
 import uk.ryanwong.gmap2ics.app.ActivityType
+import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.models.timeline.Timeline
 import uk.ryanwong.gmap2ics.app.models.timeline.TimelineEntry
@@ -249,8 +250,14 @@ object TimelineRepositoryImplTestData {
                     activityType = ActivityType.FLYING,
                     rawActivityType = "FLYING",
                     distance = 0,
-                    durationEndTimestamp = "2019-07-08T07:26:17.631Z",
-                    durationStartTimestamp = "2019-07-08T03:00:33.170Z",
+                    durationEndTimestamp = RawTimestamp(
+                        timestamp = "2019-07-08T07:26:17.631Z",
+                        timezoneId = "Asia/Tokyo"
+                    ),
+                    durationStartTimestamp = RawTimestamp(
+                        timestamp = "2019-07-08T03:00:33.170Z",
+                        timezoneId = "Asia/Tokyo"
+                    ),
                     endLocation =
                     Location(
                         placeId = "ChIJVze90XnzImARoRp3YqEpbtU",
@@ -300,8 +307,14 @@ object TimelineRepositoryImplTestData {
                     activityType = ActivityType.IN_PASSENGER_VEHICLE,
                     rawActivityType = "IN_PASSENGER_VEHICLE",
                     distance = 4663,
-                    durationEndTimestamp = "2019-07-08T08:38:26.614Z",
-                    durationStartTimestamp = "2019-07-08T08:17:27.614Z",
+                    durationEndTimestamp = RawTimestamp(
+                        timestamp = "2019-07-08T08:38:26.614Z",
+                        timezoneId = "Asia/Tokyo"
+                    ),
+                    durationStartTimestamp = RawTimestamp(
+                        timestamp = "2019-07-08T08:17:27.614Z",
+                        timezoneId = "Asia/Tokyo"
+                    ),
                     endLocation = Location(
                         placeId = null,
                         latitudeE7 = 357844447,

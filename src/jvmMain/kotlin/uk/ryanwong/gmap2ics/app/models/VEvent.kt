@@ -30,7 +30,6 @@ data class VEvent(
     val organizer: String? = null,
     val dtStart: RawTimestamp,
     val dtEnd: RawTimestamp,
-    val dtTimeZone: String,
     val summary: String,
     val location: String,
     val geo: LatLng?,
@@ -89,20 +88,13 @@ data class VEvent(
                     uid = lastEditedTimestamp,
                     placeId = endLocation.placeId, // Usually null
                     dtStamp = lastEditedTimestamp,
-                    dtStart = RawTimestamp(
-                        timestamp = durationStartTimestamp,
-                        timezoneId = timeZoneId
-                    ),
-                    dtEnd = RawTimestamp(
-                        timestamp = durationEndTimestamp,
-                        timezoneId = timeZoneId
-                    ),
+                    dtStart = durationStartTimestamp,
+                    dtEnd = durationEndTimestamp,
                     summary = subject,
                     geo = LatLng(
                         latitude = endLocation.getLatitude(),
                         longitude = endLocation.getLongitude()
                     ),
-                    dtTimeZone = timeZoneId,
                     location = endLocation.address ?: lastPlaceDetails?.formattedAddress
                     ?: endLocation.getFormattedLatLng(),
                     url = endLocation.placeId?.let { endLocation.getGoogleMapsPlaceIdLink() }
@@ -135,7 +127,6 @@ data class VEvent(
                         latitude = location.latitudeE7 * 0.0000001,
                         longitude = location.longitudeE7 * 0.0000001
                     ),
-                    dtTimeZone = timeZoneId,
                     location = placeDetails?.formattedAddress ?: location.address?.replace('\n', ',') ?: "",
                     url = url,
                     lastModified = lastEditedTimestamp,
@@ -166,7 +157,6 @@ data class VEvent(
                         latitude = location.latitudeE7 * 0.0000001,
                         longitude = location.longitudeE7 * 0.0000001
                     ),
-                    dtTimeZone = timeZoneId,
                     location = placeDetails?.formattedAddress ?: location.address?.replace('\n', ',') ?: "",
                     url = url,
                     lastModified = lastEditedTimestamp,
@@ -182,8 +172,8 @@ data class VEvent(
         stringBuilder.run {
             append("BEGIN:VEVENT\n")
             append("TRANSP:OPAQUE\n")
-            append("DTSTART;TZID=$dtTimeZone:${dtStart.toLocalizedTimestamp()}\n")
-            append("DTEND;TZID=$dtTimeZone:${dtEnd.toLocalizedTimestamp()}\n")
+            append("DTSTART;TZID=${dtStart.timezoneId}:${dtStart.toLocalizedTimestamp()}\n")
+            append("DTEND;TZID=${dtEnd.timezoneId}:${dtEnd.toLocalizedTimestamp()}\n")
             append("X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n")
             val xTitle = location.ifBlank { geo?.getFormattedLatLng() ?: "0,0" }
             append(

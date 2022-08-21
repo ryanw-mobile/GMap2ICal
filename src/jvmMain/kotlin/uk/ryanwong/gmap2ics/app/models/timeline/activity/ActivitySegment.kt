@@ -5,20 +5,18 @@
 package uk.ryanwong.gmap2ics.app.models.timeline.activity
 
 import uk.ryanwong.gmap2ics.app.ActivityType
+import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 data class ActivitySegment(
     val activities: List<Activity>,
     val activityType: ActivityType,
     val rawActivityType: String?, // for debug use when resolved into an unknown type
     val distance: Int,
-    val durationEndTimestamp: String,
-    val durationStartTimestamp: String,
+    val durationEndTimestamp: RawTimestamp,
+    val durationStartTimestamp: RawTimestamp,
     val endLocation: Location,
     val startLocation: Location,
     val waypointPath: WaypointPath? = null,
@@ -41,6 +39,10 @@ data class ActivitySegment(
                 // Convert to enum
                 val activityTypeEnum = resolveActivityType(activityType)
 
+                val timezone = timeZoneMap.getOverlappingTimeZone(
+                    degreesLatitude = endLocationAppModel.latitudeE7 * 0.0000001,
+                    degreesLongitude = endLocationAppModel.longitudeE7 * 0.0000001,
+                )
                 return ActivitySegment(
                     activities = activities?.mapNotNull { activity ->
                         activity.activityType?.let {
@@ -53,16 +55,19 @@ data class ActivitySegment(
                     activityType = activityTypeEnum,
                     rawActivityType = activityType,
                     distance = distance ?: (waypointPath?.distanceMeters)?.toInt() ?: 0,
-                    durationEndTimestamp = duration.endTimestamp,
-                    durationStartTimestamp = duration.startTimestamp,
+                    durationEndTimestamp = RawTimestamp(
+                        timestamp = duration.endTimestamp,
+                        timezoneId = timezone?.zoneId ?: "UTC"
+                    ),
+                    durationStartTimestamp = RawTimestamp(
+                        timestamp = duration.startTimestamp,
+                        timezoneId = timezone?.zoneId ?: "UTC"
+                    ),
                     endLocation = endLocationAppModel,
                     startLocation = startLocationAppModel,
                     waypointPath = waypointPath?.let { WaypointPath.from(waypointPathDataModel = it) },
                     lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
-                    eventTimeZone = timeZoneMap.getOverlappingTimeZone(
-                        degreesLatitude = endLocationAppModel.latitudeE7 * 0.0000001,
-                        degreesLongitude = endLocationAppModel.longitudeE7 * 0.0000001,
-                    )
+                    eventTimeZone = timezone
                 )
             }
         }
@@ -76,13 +81,6 @@ data class ActivitySegment(
                 }
             } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
         }
-    }
-
-    fun getDurationStartUITimestamp(): String {
-        return DateTimeFormatter
-            .ofPattern("MM/dd/yyyy HH:mm:ss")
-            .withZone(ZoneId.of(eventTimeZone?.zoneId ?: "UTC"))
-            .format(Instant.parse(durationStartTimestamp))
     }
 }
 

@@ -6,13 +6,12 @@ package uk.ryanwong.gmap2ics.data.repository
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.data.source.local.MockLocalDataSource
 import java.io.IOException
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class LocalFileRepositoryImplTest : FreeSpec() {
 
     private val someDegreesLatitude = 26.3383300
@@ -81,9 +80,8 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                         placeId = "place-id-to-be-kept",
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T201111",
-                        dtEnd = "20111111T202222",
-                        dtTimeZone = "Asia/Tokyo",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T20:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T20:22:22.222Z", timezoneId = "Asia/Tokyo"),
                         summary = "\uD83C\uDFE7 some-place-name",
                         location = "some-formatted-address",
                         geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
@@ -96,9 +94,8 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                         placeId = "some-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T201111",
-                        dtEnd = "20111111T202222",
-                        dtTimeZone = "Asia/Tokyo",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T20:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T20:22:22.222Z", timezoneId = "Asia/Tokyo"),
                         summary = "📍 null",
                         location = "",
                         geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
@@ -121,8 +118,8 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                         "VERSION:2.0\n" +
                         "BEGIN:VEVENT\n" +
                         "TRANSP:OPAQUE\n" +
-                        "DTSTART;TZID=Asia/Tokyo:20111111T201111\n" +
-                        "DTEND;TZID=Asia/Tokyo:20111111T202222\n" +
+                        "DTSTART;TZID=Asia/Tokyo:20111112T051111\n" +
+                        "DTEND;TZID=Asia/Tokyo:20111112T052222\n" +
                         "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
                         "X-TITLE=\"some-formatted-address\":geo:26.33833,127.8\n" +
                         "UID:2011-11-11T11:22:22.222Z\n" +
@@ -139,8 +136,8 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                         "END:VEVENT\n" +
                         "BEGIN:VEVENT\n" +
                         "TRANSP:OPAQUE\n" +
-                        "DTSTART;TZID=Asia/Tokyo:20111111T201111\n" +
-                        "DTEND;TZID=Asia/Tokyo:20111111T202222\n" +
+                        "DTSTART;TZID=Asia/Tokyo:20111112T051111\n" +
+                        "DTEND;TZID=Asia/Tokyo:20111112T052222\n" +
                         "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
                         "X-TITLE=\"26.33833 127.8\":geo:26.33833,127.8\n" +
                         "UID:2011-11-11T11:22:22.222Z\n" +
@@ -168,9 +165,8 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                         placeId = "place-id-to-be-kept",
                         dtStamp = "2011-11-11T11:22:22.222Z",
                         organizer = null,
-                        dtStart = "20111111T201111",
-                        dtEnd = "20111111T202222",
-                        dtTimeZone = "Asia/Tokyo",
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T20:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T20:22:22.222Z", timezoneId = "Asia/Tokyo"),
                         summary = "\uD83C\uDFE7 some-place-name",
                         location = "some-formatted-address",
                         geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),

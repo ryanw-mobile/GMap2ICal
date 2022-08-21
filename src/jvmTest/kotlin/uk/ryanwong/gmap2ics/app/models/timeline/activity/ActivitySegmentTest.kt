@@ -8,6 +8,7 @@ import com.esri.core.geometry.Polygon
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.app.ActivityType
+import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
 import uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation
@@ -45,8 +46,8 @@ internal class ActivitySegmentTest : FreeSpec() {
                 activityType = ActivityType.IN_PASSENGER_VEHICLE,
                 rawActivityType = "IN_PASSENGER_VEHICLE",
                 distance = 15032,
-                durationEndTimestamp = "2019-06-01T01:24:28Z",
-                durationStartTimestamp = "2019-06-01T01:04:01Z",
+                durationEndTimestamp = RawTimestamp(timestamp = "2019-06-01T01:24:28Z", timezoneId = "Asia/Tokyo"),
+                durationStartTimestamp = RawTimestamp(timestamp = "2019-06-01T01:04:01Z", timezoneId = "Asia/Tokyo"),
                 endLocation = Location(
                     placeId = null,
                     latitudeE7 = 344643393,
@@ -98,8 +99,8 @@ internal class ActivitySegmentTest : FreeSpec() {
                 activityType = ActivityType.UNKNOWN_ACTIVITY_TYPE,
                 rawActivityType = null,
                 distance = 15032,
-                durationEndTimestamp = "2019-06-01T01:24:28Z",
-                durationStartTimestamp = "2019-06-01T01:04:01Z",
+                durationEndTimestamp = RawTimestamp(timestamp = "2019-06-01T01:24:28Z", timezoneId = "Asia/Tokyo"),
+                durationStartTimestamp = RawTimestamp(timestamp = "2019-06-01T01:04:01Z", timezoneId = "Asia/Tokyo"),
                 endLocation = Location(
                     placeId = null,
                     latitudeE7 = 344643393,
@@ -144,8 +145,8 @@ internal class ActivitySegmentTest : FreeSpec() {
                 activityType = ActivityType.IN_PASSENGER_VEHICLE,
                 rawActivityType = "IN_PASSENGER_VEHICLE",
                 distance = 15032,
-                durationEndTimestamp = "2019-06-01T01:24:28Z",
-                durationStartTimestamp = "2019-06-01T01:04:01Z",
+                durationEndTimestamp = RawTimestamp(timestamp = "2019-06-01T01:24:28Z", timezoneId = "Asia/Tokyo"),
+                durationStartTimestamp = RawTimestamp(timestamp = "2019-06-01T01:04:01Z", timezoneId = "Asia/Tokyo"),
                 endLocation = Location(
                     placeId = null,
                     latitudeE7 = 344643393,
@@ -197,8 +198,8 @@ internal class ActivitySegmentTest : FreeSpec() {
                 activityType = ActivityType.UNKNOWN_ACTIVITY_TYPE,
                 rawActivityType = "some-strange-activity-type",
                 distance = 15032,
-                durationEndTimestamp = "2019-06-01T01:24:28Z",
-                durationStartTimestamp = "2019-06-01T01:04:01Z",
+                durationEndTimestamp = RawTimestamp(timestamp = "2019-06-01T01:24:28Z", timezoneId = "Asia/Tokyo"),
+                durationStartTimestamp = RawTimestamp(timestamp = "2019-06-01T01:04:01Z", timezoneId = "Asia/Tokyo"),
                 endLocation = Location(
                     placeId = null,
                     latitudeE7 = 344643393,
