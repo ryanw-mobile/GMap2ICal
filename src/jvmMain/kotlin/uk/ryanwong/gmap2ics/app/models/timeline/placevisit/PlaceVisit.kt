@@ -4,20 +4,16 @@
 
 package uk.ryanwong.gmap2ics.app.models.timeline.placevisit
 
+import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
-import us.dustinj.timezonemap.TimeZone
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 data class PlaceVisit(
-    val durationEndTimestamp: String,
-    val durationStartTimestamp: String,
+    val durationEndTimestamp: RawTimestamp,
+    val durationStartTimestamp: RawTimestamp,
     val lastEditedTimestamp: String,
     val location: Location,
     val childVisits: List<ChildVisit> = emptyList(),
-    val eventTimeZone: TimeZone?
 ) {
     companion object {
         fun from(
@@ -26,29 +22,29 @@ data class PlaceVisit(
         ): PlaceVisit? {
             with(placeVisitDataModel) {
                 val locationAppModel = Location.from(locationDataModel = location)
+
                 return locationAppModel?.let {
+                    val eventTimeZone = timeZoneMap.getOverlappingTimeZone(
+                        degreesLatitude = locationAppModel.getLatitude(),
+                        degreesLongitude = locationAppModel.getLongitude()
+                    )
                     PlaceVisit(
-                        durationEndTimestamp = duration.endTimestamp,
-                        durationStartTimestamp = duration.startTimestamp,
+                        durationEndTimestamp = RawTimestamp(
+                            timestamp = duration.endTimestamp,
+                            timezoneId = eventTimeZone?.zoneId ?: "UTC"
+                        ),
+                        durationStartTimestamp = RawTimestamp(
+                            timestamp = duration.startTimestamp,
+                            timezoneId = eventTimeZone?.zoneId ?: "UTC"
+                        ),
                         lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
                         location = locationAppModel,
                         childVisits = childVisits?.mapNotNull { childVisit ->
                             ChildVisit.from(childVisitDataModel = childVisit, timeZoneMap = timeZoneMap)
-                        } ?: emptyList(),
-                        eventTimeZone = timeZoneMap.getOverlappingTimeZone(
-                            degreesLatitude = locationAppModel.getLatitude(),
-                            degreesLongitude = locationAppModel.getLongitude()
-                        )
+                        } ?: emptyList()
                     )
                 }
             }
         }
-    }
-
-    fun getDurationStartUITimestamp(): String {
-        return DateTimeFormatter
-            .ofPattern("MM/dd/yyyy HH:mm:ss")
-            .withZone(ZoneId.of(eventTimeZone?.zoneId ?: "UTC"))
-            .format(Instant.parse(durationStartTimestamp))
     }
 }

@@ -197,7 +197,7 @@ class MainScreenViewModel(
         if (configFile.ignoredVisitedPlaceIds.contains(placeVisit.location.placeId)) {
             appendIgnoredLog(
                 emoji = "🚫",
-                message = "${placeVisit.getDurationStartUITimestamp()}: Place ID ${placeVisit.location.placeId}"
+                message = "${placeVisit.durationStartTimestamp.toUITimestamp()}: Place ID ${placeVisit.location.placeId}"
             )
         } else {
             vEventFromPlaceVisitUseCase(

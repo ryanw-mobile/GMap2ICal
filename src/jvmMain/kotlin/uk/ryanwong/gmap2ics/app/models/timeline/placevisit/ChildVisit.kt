@@ -4,6 +4,7 @@
 
 package uk.ryanwong.gmap2ics.app.models.timeline.placevisit
 
+import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
@@ -16,8 +17,8 @@ import us.dustinj.timezonemap.TimeZone
  * Tightly coupling is a sin nowadays.
  */
 data class ChildVisit(
-    val durationEndTimestamp: String,
-    val durationStartTimestamp: String,
+    val durationEndTimestamp: RawTimestamp,
+    val durationStartTimestamp: RawTimestamp,
     val lastEditedTimestamp: String,
     val location: Location,
     val eventTimeZone: TimeZone?
@@ -34,15 +35,22 @@ data class ChildVisit(
                     null
 
                 } else {
+                    val eventTimeZone = timeZoneMap.getOverlappingTimeZone(
+                        degreesLatitude = locationAppModel.getLatitude(),
+                        degreesLongitude = locationAppModel.getLongitude()
+                    )
                     ChildVisit(
-                        durationEndTimestamp = duration.endTimestamp,
-                        durationStartTimestamp = duration.startTimestamp,
+                        durationEndTimestamp = RawTimestamp(
+                            timestamp = duration.endTimestamp,
+                            timezoneId = eventTimeZone?.zoneId ?: "UTC"
+                        ),
+                        durationStartTimestamp = RawTimestamp(
+                            timestamp = duration.startTimestamp,
+                            timezoneId = eventTimeZone?.zoneId ?: "UTC"
+                        ),
                         lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
                         location = locationAppModel,
-                        eventTimeZone = timeZoneMap.getOverlappingTimeZone(
-                            degreesLatitude = locationAppModel.getLatitude(),
-                            degreesLongitude = locationAppModel.getLongitude()
-                        )
+                        eventTimeZone = eventTimeZone
                     )
                 }
             }

@@ -78,8 +78,7 @@ class VEventFromActivitySegmentUseCaseImpl(
             firstPlaceDetails = firstPlaceDetails,
             lastPlaceDetails = lastPlaceDetails,
             startPlaceDetails = startPlaceDetails,
-            endPlaceDetails = endPlaceDetails,
-            eventTimeZone = eventTimeZone
+            endPlaceDetails = endPlaceDetails
         )
     }
 }

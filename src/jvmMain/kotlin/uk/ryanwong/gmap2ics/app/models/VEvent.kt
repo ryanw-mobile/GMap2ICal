@@ -9,7 +9,6 @@ import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
-import us.dustinj.timezonemap.TimeZone
 import java.text.DecimalFormat
 
 /***
@@ -45,8 +44,7 @@ data class VEvent(
             firstPlaceDetails: PlaceDetails?,
             lastPlaceDetails: PlaceDetails?,
             startPlaceDetails: PlaceDetails?,
-            endPlaceDetails: PlaceDetails?,
-            eventTimeZone: TimeZone?
+            endPlaceDetails: PlaceDetails?
         ): VEvent {
             with(activitySegment) {
                 val distanceInKilometers: Double = distance / 1000.0
@@ -82,8 +80,6 @@ data class VEvent(
                     endPlaceDetails = lastPlaceDetails
                 )
 
-                val timeZoneId = eventTimeZone?.zoneId ?: "UTC"
-
                 return VEvent(
                     uid = lastEditedTimestamp,
                     placeId = endLocation.placeId, // Usually null
@@ -108,20 +104,13 @@ data class VEvent(
         fun from(placeVisit: PlaceVisit, placeDetails: PlaceDetails? = null): VEvent {
             with(placeVisit) {
                 val url = placeDetails?.url ?: "https://www.google.com/maps/place/?q=place_id:${location.placeId}"
-                val timeZoneId = eventTimeZone?.zoneId ?: "UTC"
 
                 return VEvent(
                     uid = lastEditedTimestamp,
                     placeId = location.placeId,
                     dtStamp = lastEditedTimestamp,
-                    dtStart = RawTimestamp(
-                        timestamp = durationStartTimestamp,
-                        timezoneId = timeZoneId
-                    ),
-                    dtEnd = RawTimestamp(
-                        timestamp = durationEndTimestamp,
-                        timezoneId = timeZoneId
-                    ),
+                    dtStart = durationStartTimestamp,
+                    dtEnd = durationEndTimestamp,
                     summary = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
                     geo = placeDetails?.geo ?: LatLng(
                         latitude = location.latitudeE7 * 0.0000001,
@@ -138,20 +127,13 @@ data class VEvent(
         fun from(childVisit: ChildVisit, placeDetails: PlaceDetails? = null): VEvent {
             with(childVisit) {
                 val url = placeDetails?.url ?: "https://www.google.com/maps/place/?q=place_id:${location.placeId}"
-                val timeZoneId = eventTimeZone?.zoneId ?: "UTC"
 
                 return VEvent(
                     uid = lastEditedTimestamp,
                     placeId = location.placeId,
                     dtStamp = lastEditedTimestamp,
-                    dtStart = RawTimestamp(
-                        timestamp = durationStartTimestamp,
-                        timezoneId = timeZoneId
-                    ),
-                    dtEnd = RawTimestamp(
-                        timestamp = durationEndTimestamp,
-                        timezoneId = timeZoneId
-                    ),
+                    dtStart = durationStartTimestamp,
+                    dtEnd = durationEndTimestamp,
                     summary = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
                     geo = placeDetails?.geo ?: LatLng(
                         latitude = location.latitudeE7 * 0.0000001,
