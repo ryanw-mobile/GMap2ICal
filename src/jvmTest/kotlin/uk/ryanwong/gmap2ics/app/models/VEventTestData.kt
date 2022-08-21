@@ -94,8 +94,8 @@ internal object VEventTestData {
         url = "https://maps.google.com/?cid=1021876599690425051"
     )
     val mockChildVisit = ChildVisit(
-        durationEndTimestamp = "2011-11-11T11:22:22.222Z",
-        durationStartTimestamp = "2011-11-11T11:11:11.111Z",
+        durationEndTimestamp = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
+        durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
         location = Location(
             placeId = "some-child-visit-place-id",
@@ -122,8 +122,8 @@ internal object VEventTestData {
     )
 
     val mockPlaceVisit = PlaceVisit(
-        durationEndTimestamp = "2011-11-11T11:22:22.222Z",
-        durationStartTimestamp = "2011-11-11T11:11:11.111Z",
+        durationEndTimestamp = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
+        durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
         location = Location(
             placeId = "some-place-visit-place-id",
@@ -132,11 +132,7 @@ internal object VEventTestData {
             name = "some-name",
             address = "some-address"
         ),
-        childVisits = emptyList(),
-        eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(
-            degreesLatitude = 26.3383300,
-            degreesLongitude = 127.8000000
-        )
+        childVisits = emptyList()
     )
 
     val mockPlaceVisitPlaceDetails = PlaceDetails(

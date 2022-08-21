@@ -4,7 +4,6 @@
 
 package uk.ryanwong.gmap2ics.app.models
 
-import com.esri.core.geometry.Polygon
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.app.models.VEventTestData.mockActivityEndSegmentPlaceDetails
@@ -18,15 +17,13 @@ import uk.ryanwong.gmap2ics.app.models.VEventTestData.mockPlaceVisit
 import uk.ryanwong.gmap2ics.app.models.VEventTestData.mockPlaceVisitPlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
-import us.dustinj.timezonemap.TimeZone
 
 internal class VEventTest : FreeSpec() {
     /**
      * Test Plan -
      * 1. from() with happy flow - from ActivitySegment, PlaceVisit and ChildVisit
-     * 2. from() with missing timezone dtStart, dtEnd, dtTimezone: default to UTC and conversion should be correct
-     * 3. export() with happy flow - test data need to include string replacement to make sure being substituted correctly
-     * 4. getLocalizedTimeStamp() - test the fixed pattern for happy flow, and negative cases
+     * 2. export() with happy flow - test data need to include string replacement to make sure being substituted correctly
+     * 3. getLocalizedTimeStamp() - test the fixed pattern for happy flow, and negative cases
      */
 
     /**
@@ -46,7 +43,6 @@ internal class VEventTest : FreeSpec() {
                     val lastPlaceDetails = mockActivityLastSegmentPlaceDetails
                     val startPlaceDetails = mockActivityStartSegmentPlaceDetails
                     val endPlaceDetails = mockActivityEndSegmentPlaceDetails
-                    val eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
 
                     // 🟡 When
                     val vEvent = VEvent.from(
@@ -55,8 +51,7 @@ internal class VEventTest : FreeSpec() {
                         firstPlaceDetails = firstPlaceDetails,
                         lastPlaceDetails = lastPlaceDetails,
                         startPlaceDetails = startPlaceDetails,
-                        endPlaceDetails = endPlaceDetails,
-                        eventTimeZone = eventTimeZone
+                        endPlaceDetails = endPlaceDetails
                     )
 
                     // 🟢 Then
@@ -92,7 +87,6 @@ internal class VEventTest : FreeSpec() {
                     val lastPlaceDetails = mockActivityLastSegmentPlaceDetails
                     val startPlaceDetails = mockActivityStartSegmentPlaceDetails
                     val endPlaceDetails = mockActivityEndSegmentPlaceDetails
-                    val eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
 
                     // 🟡 When
                     val vEvent = VEvent.from(
@@ -101,8 +95,7 @@ internal class VEventTest : FreeSpec() {
                         firstPlaceDetails = firstPlaceDetails,
                         lastPlaceDetails = lastPlaceDetails,
                         startPlaceDetails = startPlaceDetails,
-                        endPlaceDetails = endPlaceDetails,
-                        eventTimeZone = eventTimeZone
+                        endPlaceDetails = endPlaceDetails
                     )
 
                     // 🟢 Then
@@ -130,7 +123,6 @@ internal class VEventTest : FreeSpec() {
                     val lastPlaceDetails = mockActivityLastSegmentPlaceDetails
                     val startPlaceDetails = mockActivityStartSegmentPlaceDetails
                     val endPlaceDetails = mockActivityEndSegmentPlaceDetails
-                    val eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
 
                     // 🟡 When
                     val vEvent = VEvent.from(
@@ -139,8 +131,7 @@ internal class VEventTest : FreeSpec() {
                         firstPlaceDetails = firstPlaceDetails,
                         lastPlaceDetails = lastPlaceDetails,
                         startPlaceDetails = startPlaceDetails,
-                        endPlaceDetails = endPlaceDetails,
-                        eventTimeZone = eventTimeZone
+                        endPlaceDetails = endPlaceDetails
                     )
 
                     // 🟢 Then
@@ -168,7 +159,6 @@ internal class VEventTest : FreeSpec() {
                     val lastPlaceDetails = null
                     val startPlaceDetails = null
                     val endPlaceDetails = null
-                    val eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
 
                     // 🟡 When
                     val vEvent = VEvent.from(
@@ -177,8 +167,7 @@ internal class VEventTest : FreeSpec() {
                         firstPlaceDetails = firstPlaceDetails,
                         lastPlaceDetails = lastPlaceDetails,
                         startPlaceDetails = startPlaceDetails,
-                        endPlaceDetails = endPlaceDetails,
-                        eventTimeZone = eventTimeZone
+                        endPlaceDetails = endPlaceDetails
                     )
 
                     // 🟢 Then
@@ -216,33 +205,6 @@ internal class VEventTest : FreeSpec() {
                         organizer = null,
                         dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
                         dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
-                        summary = "🏞 some-place-details-name",
-                        location = "some-place-details-formatted-address",
-                        geo = LatLng(latitude = 26.33833, longitude = 127.8),
-                        description = "Place ID:\\nsome-place-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051",
-                        url = "https://maps.google.com/?cid=1021876599690425051",
-                        lastModified = "2011-11-11T11:22:22.222Z"
-                    )
-                }
-
-                "Should use UTC timezone to represent time in VEvent if eventTimeZone is null" {
-                    // 🔴 Given
-                    val placeVisit = mockPlaceVisit.copy(
-                        eventTimeZone = null
-                    )
-                    val placeDetails = mockPlaceVisitPlaceDetails
-
-                    // 🟡 When
-                    val vEvent = VEvent.from(placeVisit = placeVisit, placeDetails = placeDetails)
-
-                    // 🟢 Then
-                    vEvent shouldBe VEvent(
-                        uid = "2011-11-11T11:22:22.222Z",
-                        placeId = "some-place-visit-place-id",
-                        dtStamp = "2011-11-11T11:22:22.222Z",
-                        organizer = null,
-                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "UTC"),
-                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "UTC"),
                         summary = "🏞 some-place-details-name",
                         location = "some-place-details-formatted-address",
                         geo = LatLng(latitude = 26.33833, longitude = 127.8),
@@ -295,33 +257,6 @@ internal class VEventTest : FreeSpec() {
                         organizer = null,
                         dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
                         dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
-                        summary = "🏞 some-place-details-name",
-                        location = "some-place-details-formatted-address",
-                        geo = LatLng(latitude = 26.33833, longitude = 127.8),
-                        description = "Place ID:\\nsome-child-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051",
-                        url = "https://maps.google.com/?cid=1021876599690425051",
-                        lastModified = "2011-11-11T11:22:22.222Z"
-                    )
-                }
-
-                "Should use UTC timezone to represent time in VEvent if eventTimeZone is null" {
-                    // 🔴 Given
-                    val childVisit = mockChildVisit.copy(
-                        eventTimeZone = null
-                    )
-                    val placeDetails = mockChildVisitPlaceDetails
-
-                    // 🟡 When
-                    val vEvent = VEvent.from(childVisit = childVisit, placeDetails = placeDetails)
-
-                    // 🟢 Then
-                    vEvent shouldBe VEvent(
-                        uid = "2011-11-11T11:22:22.222Z",
-                        placeId = "some-child-visit-place-id",
-                        dtStamp = "2011-11-11T11:22:22.222Z",
-                        organizer = null,
-                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "UTC"),
-                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "UTC"),
                         summary = "🏞 some-place-details-name",
                         location = "some-place-details-formatted-address",
                         geo = LatLng(latitude = 26.33833, longitude = 127.8),

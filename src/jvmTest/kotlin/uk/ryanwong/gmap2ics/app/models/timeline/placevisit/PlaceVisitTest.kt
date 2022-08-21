@@ -7,6 +7,7 @@ package uk.ryanwong.gmap2ics.app.models.timeline.placevisit
 import com.esri.core.geometry.Polygon
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
 import uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisitDataModelTestData.mockPlaceVisitDataModel
@@ -30,8 +31,12 @@ internal class PlaceVisitTest : FreeSpec() {
 
             // 🟢 Then
             placeVisitAppModel shouldBe PlaceVisit(
-                durationEndTimestamp = "2022-01-03T14:26:25Z",
-                durationStartTimestamp = "2022-01-03T14:18:02Z",
+                durationEndTimestamp = RawTimestamp(
+                    timestamp = "2022-01-03T14:26:25Z", timezoneId = "Europe/London"
+                ),
+                durationStartTimestamp = RawTimestamp(
+                    timestamp = "2022-01-03T14:18:02Z", timezoneId = "Europe/London"
+                ),
                 lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
                 location = Location(
                     placeId = "some-place-id",
@@ -40,11 +45,16 @@ internal class PlaceVisitTest : FreeSpec() {
                     name = "some-name",
                     address = "some-address"
                 ),
-                eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
                 childVisits = listOf(
                     ChildVisit(
-                        durationEndTimestamp = "2022-01-03T14:25:00Z",
-                        durationStartTimestamp = "2022-01-03T14:19:00Z",
+                        durationEndTimestamp = RawTimestamp(
+                            timestamp = "2022-01-03T14:25:00Z",
+                            timezoneId = "Europe/London"
+                        ),
+                        durationStartTimestamp = RawTimestamp(
+                            timestamp = "2022-01-03T14:19:00Z",
+                            timezoneId = "Europe/London"
+                        ),
                         lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
                         location = Location(
                             placeId = "some-child-place-id",
@@ -73,8 +83,12 @@ internal class PlaceVisitTest : FreeSpec() {
 
             // 🟢 Then
             placeVisitAppModel shouldBe PlaceVisit(
-                durationEndTimestamp = "2022-01-03T14:26:25Z",
-                durationStartTimestamp = "2022-01-03T14:18:02Z",
+                durationEndTimestamp = RawTimestamp(
+                    timestamp = "2022-01-03T14:26:25Z", timezoneId = "Europe/London"
+                ),
+                durationStartTimestamp = RawTimestamp(
+                    timestamp = "2022-01-03T14:18:02Z", timezoneId = "Europe/London"
+                ),
                 lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
                 location = Location(
                     placeId = "some-place-id",
@@ -83,7 +97,6 @@ internal class PlaceVisitTest : FreeSpec() {
                     name = "some-name",
                     address = "some-address"
                 ),
-                eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
                 childVisits = emptyList()
             )
         }

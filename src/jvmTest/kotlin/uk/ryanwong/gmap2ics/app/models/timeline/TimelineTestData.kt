@@ -208,8 +208,12 @@ internal object TimelineTestData {
             TimelineEntry(
                 activitySegment = null,
                 placeVisit = uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit(
-                    durationEndTimestamp = "2022-01-03T14:26:25Z",
-                    durationStartTimestamp = "2022-01-03T14:18:02Z",
+                    durationEndTimestamp = RawTimestamp(
+                        timestamp = "2022-01-03T14:26:25Z", timezoneId = "Europe/London"
+                    ),
+                    durationStartTimestamp = RawTimestamp(
+                        timestamp = "2022-01-03T14:18:02Z", timezoneId = "Europe/London"
+                    ),
                     lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
                     location = uk.ryanwong.gmap2ics.app.models.timeline.Location(
                         placeId = "some-place-visit-location-place-id",
@@ -218,8 +222,7 @@ internal object TimelineTestData {
                         name = "some-place-visit-location-name",
                         address = "some-place-visit-location-address"
                     ),
-                    childVisits = listOf(),
-                    eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
+                    childVisits = listOf()
                 )
             ), TimelineEntry(
                 activitySegment = uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment(
@@ -274,8 +277,12 @@ internal object TimelineTestData {
                     eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
                 ),
                 placeVisit = uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit(
-                    durationEndTimestamp = "2022-01-03T14:51:33.608Z",
-                    durationStartTimestamp = "2022-01-03T14:32:08Z",
+                    durationEndTimestamp = RawTimestamp(
+                        timestamp = "2022-01-03T14:51:33.608Z", timezoneId = "Europe/London"
+                    ),
+                    durationStartTimestamp = RawTimestamp(
+                        timestamp = "2022-01-03T14:32:08Z", timezoneId = "Europe/London"
+                    ),
                     lastEditedTimestamp = "2022-01-05T06:56:03.277Z",
                     location = uk.ryanwong.gmap2ics.app.models.timeline.Location(
                         placeId = "some-place-visit-location-place-id",
@@ -284,8 +291,7 @@ internal object TimelineTestData {
                         name = "some-place-visit-location-name",
                         address = "some-place-visit-location-address"
                     ),
-                    childVisits = listOf(),
-                    eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
+                    childVisits = listOf()
                 )
             )
         )

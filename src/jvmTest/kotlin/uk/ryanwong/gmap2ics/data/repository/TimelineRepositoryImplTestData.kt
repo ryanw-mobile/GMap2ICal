@@ -281,8 +281,14 @@ object TimelineRepositoryImplTestData {
 
             TimelineEntry(
                 activitySegment = null, placeVisit = PlaceVisit(
-                    durationEndTimestamp = "2019-07-08T08:17:27.614Z",
-                    durationStartTimestamp = "2019-07-08T07:26:17.631Z",
+                    durationEndTimestamp = RawTimestamp(
+                        timestamp = "2019-07-08T08:17:27.614Z",
+                        timezoneId = "Asia/Tokyo"
+                    ),
+                    durationStartTimestamp = RawTimestamp(
+                        timestamp = "2019-07-08T07:26:17.631Z",
+                        timezoneId = "Asia/Tokyo"
+                    ),
                     lastEditedTimestamp = "2019-07-08T08:17:27.614Z",
                     location = Location(
                         placeId = "ChIJVze90XnzImARoRp3YqEpbtU",
@@ -290,8 +296,7 @@ object TimelineRepositoryImplTestData {
                         name = "Narita International Airport",
                         address = "日本\n〒282-0004 千葉県成田市古込１−１"
                     ),
-                    childVisits = listOf(),
-                    eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
+                    childVisits = listOf()
                 )
             ),
             TimelineEntry(

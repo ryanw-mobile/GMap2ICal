@@ -35,8 +35,8 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
 
     private val mockChildVisit = ChildVisit(
         // meaningless values just to match the format
-        durationEndTimestamp = "2011-11-11T11:22:22.222Z",
-        durationStartTimestamp = "2011-11-11T11:11:11.111Z",
+        durationEndTimestamp = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
+        durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
         location = Location(
             placeId = "place-id-to-be-kept",
