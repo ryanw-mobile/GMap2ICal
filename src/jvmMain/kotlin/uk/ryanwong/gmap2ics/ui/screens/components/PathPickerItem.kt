@@ -18,6 +18,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -28,6 +30,7 @@ import java.util.ResourceBundle
 @Composable
 fun PathPickerItem(
     title: String,
+    icon: Painter,
     currentPath: String,
     onClick: () -> Unit,
     resourceBundle: ResourceBundle,
@@ -45,8 +48,9 @@ fun PathPickerItem(
                 .padding(horizontal = 8.dp)
         ) {
             Image(
-                painter = painterResource(resourcePath = "/drawables/folder.png"),
+                painter = icon,
                 contentDescription = resourceBundle.getString("change.folder"),
+                colorFilter = ColorFilter.tint(color = MaterialTheme.colors.primary),
                 modifier = Modifier
                     .clickable(onClick = onClick)
                     .padding(all = 4.dp)
@@ -83,6 +87,7 @@ fun PathPickerItemPreview() {
         PathPickerItem(
             title = "some very long text ".repeat(10),
             currentPath = "some very long text ".repeat(10),
+            icon = painterResource(resourcePath = "/drawables/folder_arrow_left.xml"),
             onClick = {},
             resourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH)
         )

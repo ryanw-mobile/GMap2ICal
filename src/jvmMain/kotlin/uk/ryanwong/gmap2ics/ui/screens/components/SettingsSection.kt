@@ -74,6 +74,7 @@ fun SettingsSection(
             PathPickerItem(
                 title = resourceBundle.getString("json.path"),
                 currentPath = jsonPath,
+                icon = painterResource(resourcePath = "/drawables/folder_arrow_right.xml"),
                 onClick = onChangeJsonPath,
                 resourceBundle = resourceBundle,
                 modifier = Modifier.fillMaxWidth().weight(weight = 0.5f, fill = true)
@@ -82,6 +83,7 @@ fun SettingsSection(
             PathPickerItem(
                 title = resourceBundle.getString("ical.path"),
                 currentPath = iCalPath,
+                icon = painterResource(resourcePath = "/drawables/folder_arrow_left.xml"),
                 onClick = onChangeICalPath,
                 resourceBundle = resourceBundle,
                 modifier = Modifier.fillMaxWidth().weight(weight = 0.5f, fill = true)
