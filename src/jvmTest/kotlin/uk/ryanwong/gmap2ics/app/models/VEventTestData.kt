@@ -4,6 +4,7 @@
 
 package uk.ryanwong.gmap2ics.app.models
 
+import com.esri.core.geometry.Polygon
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
@@ -14,6 +15,7 @@ import uk.ryanwong.gmap2ics.app.models.timeline.activity.WaypointPath
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
+import us.dustinj.timezonemap.TimeZone
 
 internal object VEventTestData {
     private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
@@ -132,7 +134,8 @@ internal object VEventTestData {
             name = "some-name",
             address = "some-address"
         ),
-        childVisits = emptyList()
+        childVisits = emptyList(),
+        eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
     )
 
     val mockPlaceVisitPlaceDetails = PlaceDetails(

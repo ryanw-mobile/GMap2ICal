@@ -4,6 +4,7 @@
 
 package uk.ryanwong.gmap2ics.ui.usecases
 
+import com.esri.core.geometry.Polygon
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
@@ -12,10 +13,10 @@ import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
 import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsNotFoundException
 import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
+import us.dustinj.timezonemap.TimeZone
 
 internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
 
@@ -29,11 +30,10 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
 
     private lateinit var vEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCaseImpl
     private lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
-    private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
 
     /***
      * Greg, How about this?
-     * If we want some numerical values, we name the variables in the way you like,
+     * If we want some numerical values, we name the variables in the "meaningless" way you like,
      * and we still can put some arbitrary values for testing?
      */
     private val someLatitudeE7 = 263383300
@@ -43,8 +43,8 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
 
     private val mockPlaceVisit = PlaceVisit(
         // meaningless values just to match the format
-        durationEndTimestamp = "2011-11-11T11:22:22.222Z",
-        durationStartTimestamp = "2011-11-11T11:11:11.111Z",
+        durationEndTimestamp = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
+        durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
         location = Location(
             placeId = "some-place-id",
@@ -52,10 +52,7 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
             longitudeE7 = someLongitudeE7
         ),
         childVisits = emptyList(),
-        eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(
-            degreesLatitude = someDegreesLatitude,
-            degreesLongitude = someDegreesLongitude
-        )
+        eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
     )
 
     private fun setupUseCase() {

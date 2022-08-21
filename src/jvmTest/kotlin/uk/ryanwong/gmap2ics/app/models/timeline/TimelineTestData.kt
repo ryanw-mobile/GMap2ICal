@@ -222,7 +222,8 @@ internal object TimelineTestData {
                         name = "some-place-visit-location-name",
                         address = "some-place-visit-location-address"
                     ),
-                    childVisits = listOf()
+                    childVisits = listOf(),
+                    eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
                 )
             ), TimelineEntry(
                 activitySegment = uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment(
@@ -291,7 +292,8 @@ internal object TimelineTestData {
                         name = "some-place-visit-location-name",
                         address = "some-place-visit-location-address"
                     ),
-                    childVisits = listOf()
+                    childVisits = listOf(),
+                    eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
                 )
             )
         )

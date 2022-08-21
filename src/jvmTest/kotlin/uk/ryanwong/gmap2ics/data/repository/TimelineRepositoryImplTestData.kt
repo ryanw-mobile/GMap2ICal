@@ -296,7 +296,8 @@ object TimelineRepositoryImplTestData {
                         name = "Narita International Airport",
                         address = "日本\n〒282-0004 千葉県成田市古込１−１"
                     ),
-                    childVisits = listOf()
+                    childVisits = listOf(),
+                    eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
                 )
             ),
             TimelineEntry(

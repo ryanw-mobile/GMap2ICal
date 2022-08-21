@@ -27,12 +27,12 @@ import uk.ryanwong.gmap2ics.ui.utils.MockResourceBundle
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class MainScreenViewModelTest : FreeSpec() {
 
-    lateinit var mainScreenViewModel: MainScreenViewModel
-    lateinit var mockTimelineRepository: MockTimelineRepository
-    lateinit var mockLocalFileRepository: MockLocalFileRepository
-    lateinit var mockVEventFromActivitySegmentUseCase: MockVEventFromActivitySegmentUseCase
-    lateinit var mockVEventFromPlaceVisitUseCase: MockVEventFromPlaceVisitUseCase
-    lateinit var mockVEventFromChildVisitUseCase: MockVEventFromChildVisitUseCase
+    private lateinit var mainScreenViewModel: MainScreenViewModel
+    private lateinit var mockTimelineRepository: MockTimelineRepository
+    private lateinit var mockLocalFileRepository: MockLocalFileRepository
+    private lateinit var mockVEventFromActivitySegmentUseCase: MockVEventFromActivitySegmentUseCase
+    private lateinit var mockVEventFromPlaceVisitUseCase: MockVEventFromPlaceVisitUseCase
+    private lateinit var mockVEventFromChildVisitUseCase: MockVEventFromChildVisitUseCase
 
     private val mockProjectBasePath = "/default-base-path/default-sub-folder/"
 
@@ -41,8 +41,8 @@ internal class MainScreenViewModelTest : FreeSpec() {
         placeId = "location-id-to-be-kept",
         dtStamp = "2011-11-11T11:22:22.222Z",
         organizer = null,
-        dtStart = RawTimestamp(timestamp = "20111111T201111", timezoneId = "Asia/Tokyo"),
-        dtEnd = RawTimestamp(timestamp = "20111111T202222", timezoneId = "Asia/Tokyo"),
+        dtStart = RawTimestamp(timestamp = "2011-11-11T20:11:11.111Z", timezoneId = "Asia/Tokyo"),
+        dtEnd = RawTimestamp(timestamp = "2011-11-11T20:22:22.222Z", timezoneId = "Asia/Tokyo"),
         summary = "📍 some-summary",
         location = "",
         geo = LatLng(latitude = 26.33833, longitude = 127.8),

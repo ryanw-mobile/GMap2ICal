@@ -64,7 +64,8 @@ internal class PlaceVisitTest : FreeSpec() {
                         ),
                         eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
                     )
-                )
+                ),
+                eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
             )
         }
 
@@ -97,7 +98,8 @@ internal class PlaceVisitTest : FreeSpec() {
                     name = "some-name",
                     address = "some-address"
                 ),
-                childVisits = emptyList()
+                childVisits = emptyList(),
+                eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
             )
         }
 
