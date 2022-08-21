@@ -8,6 +8,9 @@ import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 data class ActivitySegment(
     val activities: List<Activity>,
@@ -73,6 +76,13 @@ data class ActivitySegment(
                 }
             } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
         }
+    }
+
+    fun getDurationStartUITimestamp(): String {
+        return DateTimeFormatter
+            .ofPattern("MM/dd/yyyy HH:mm:ss")
+            .withZone(ZoneId.of(eventTimeZone?.zoneId ?: "UTC"))
+            .format(Instant.parse(durationStartTimestamp))
     }
 }
 

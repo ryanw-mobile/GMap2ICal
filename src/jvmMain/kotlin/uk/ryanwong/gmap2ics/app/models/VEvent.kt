@@ -11,9 +11,6 @@ import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import us.dustinj.timezonemap.TimeZone
 import java.text.DecimalFormat
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 /***
  * Design note:
@@ -31,8 +28,8 @@ data class VEvent(
     val placeId: String?,
     val dtStamp: String?,
     val organizer: String? = null,
-    val dtStart: String,
-    val dtEnd: String,
+    val dtStart: RawTimestamp,
+    val dtEnd: RawTimestamp,
     val dtTimeZone: String,
     val summary: String,
     val location: String,
@@ -92,11 +89,11 @@ data class VEvent(
                     uid = lastEditedTimestamp,
                     placeId = endLocation.placeId, // Usually null
                     dtStamp = lastEditedTimestamp,
-                    dtStart = getLocalizedTimeStamp(
+                    dtStart = RawTimestamp(
                         timestamp = durationStartTimestamp,
                         timezoneId = timeZoneId
                     ),
-                    dtEnd = getLocalizedTimeStamp(
+                    dtEnd = RawTimestamp(
                         timestamp = durationEndTimestamp,
                         timezoneId = timeZoneId
                     ),
@@ -125,11 +122,11 @@ data class VEvent(
                     uid = lastEditedTimestamp,
                     placeId = location.placeId,
                     dtStamp = lastEditedTimestamp,
-                    dtStart = getLocalizedTimeStamp(
+                    dtStart = RawTimestamp(
                         timestamp = durationStartTimestamp,
                         timezoneId = timeZoneId
                     ),
-                    dtEnd = getLocalizedTimeStamp(
+                    dtEnd = RawTimestamp(
                         timestamp = durationEndTimestamp,
                         timezoneId = timeZoneId
                     ),
@@ -156,11 +153,11 @@ data class VEvent(
                     uid = lastEditedTimestamp,
                     placeId = location.placeId,
                     dtStamp = lastEditedTimestamp,
-                    dtStart = getLocalizedTimeStamp(
+                    dtStart = RawTimestamp(
                         timestamp = durationStartTimestamp,
                         timezoneId = timeZoneId
                     ),
-                    dtEnd = getLocalizedTimeStamp(
+                    dtEnd = RawTimestamp(
                         timestamp = durationEndTimestamp,
                         timezoneId = timeZoneId
                     ),
@@ -185,8 +182,8 @@ data class VEvent(
         stringBuilder.run {
             append("BEGIN:VEVENT\n")
             append("TRANSP:OPAQUE\n")
-            append("DTSTART;TZID=$dtTimeZone:$dtStart\n")
-            append("DTEND;TZID=$dtTimeZone:$dtEnd\n")
+            append("DTSTART;TZID=$dtTimeZone:${dtStart.toLocalizedTimestamp()}\n")
+            append("DTEND;TZID=$dtTimeZone:${dtEnd.toLocalizedTimestamp()}\n")
             append("X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n")
             val xTitle = location.ifBlank { geo?.getFormattedLatLng() ?: "0,0" }
             append(
@@ -230,9 +227,3 @@ data class VEvent(
     }
 }
 
-fun getLocalizedTimeStamp(timestamp: String, timezoneId: String): String {
-    return DateTimeFormatter
-        .ofPattern("yyyyMMdd'T'HHmmss")
-        .withZone(ZoneId.of(timezoneId))
-        .format(Instant.parse(timestamp))
-}

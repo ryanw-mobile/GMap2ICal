@@ -7,6 +7,9 @@ package uk.ryanwong.gmap2ics.app.models.timeline.placevisit
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 data class PlaceVisit(
     val durationEndTimestamp: String,
@@ -40,5 +43,12 @@ data class PlaceVisit(
                 }
             }
         }
+    }
+
+    fun getDurationStartUITimestamp(): String {
+        return DateTimeFormatter
+            .ofPattern("MM/dd/yyyy HH:mm:ss")
+            .withZone(ZoneId.of(eventTimeZone?.zoneId ?: "UTC"))
+            .format(Instant.parse(durationStartTimestamp))
     }
 }
