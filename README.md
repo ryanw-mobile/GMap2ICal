@@ -18,7 +18,7 @@ visit, I would appreciate if you could take things easy when you see me doing so
 
 This App is fully functional.
 
-* 119 unit tests written as at 20 Aug 2022
+* 118 unit tests written as at 21 Aug 2022
 * More unit tests are being written to increase coverage and protect changes
 * Unit tests for composable functions (adding, but limited assertions available)
 * Dependency Injection: Koin
@@ -79,7 +79,8 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 4. Unzip the data file.
 5. The JSON files under `/Location History/Semantic Location History` are the files we need.
 6. Move the JSON files to a directory, for example `./src/jvmMain/resources` of this project.
-7. Update, or create yor own configuration file `uk.ryanwong.gmap2ics.app.configs.DefaultConfig` to specify the input and
+7. Update, or create yor own configuration file `uk.ryanwong.gmap2ics.app.configs.DefaultConfig` to specify the input
+   and
    output paths.
 8. If you have created your own configuration file, update the file path in `Main.kt`
 9. Run the project on IntelliJ IDEA
