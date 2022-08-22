@@ -6,13 +6,17 @@ package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -47,15 +51,21 @@ fun PathPickerItem(
                 .wrapContentSize()
                 .padding(horizontal = 8.dp)
         ) {
-            Image(
-                painter = icon,
-                contentDescription = resourceBundle.getString("change.folder"),
-                colorFilter = ColorFilter.tint(color = MaterialTheme.colors.primary),
-                modifier = Modifier
-                    .clickable(onClick = onClick)
-                    .padding(all = 4.dp)
-                    .size(size = 24.dp)
-            )
+            Button(
+                enabled = true,
+                shape = CircleShape,
+                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
+                onClick = { onClick },
+                contentPadding = PaddingValues(all = 4.dp),
+                modifier = Modifier.size(size = 24.dp)
+            ) {
+                Image(
+                    painter = icon,
+                    contentDescription = resourceBundle.getString("change.folder"),
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onPrimary),
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
 
         Column(modifier = Modifier.fillMaxWidth()) {
