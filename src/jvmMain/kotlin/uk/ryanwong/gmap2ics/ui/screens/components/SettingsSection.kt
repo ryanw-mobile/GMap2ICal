@@ -59,7 +59,7 @@ fun SettingsSection(
                 .height(intrinsicSize = IntrinsicSize.Max)
         ) {
             Text(
-                text = "File Locations",
+                text = resourceBundle.getString("file.locations"),
                 textAlign = TextAlign.Center,
                 color = Color.White,
                 modifier = Modifier
@@ -179,7 +179,8 @@ fun ExtraOptionsGroup(
             text = resourceBundle.getString("advanced.settings"),
             textAlign = TextAlign.Center,
             color = Color.White,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(top = 8.dp, start = 8.dp, end = 8.dp)
                 .background(color = Color.DarkGray)
@@ -187,7 +188,8 @@ fun ExtraOptionsGroup(
             style = MaterialTheme.typography.caption
         )
         Row(
-            modifier = Modifier.width(intrinsicSize = IntrinsicSize.Max)
+            modifier = Modifier
+                .width(intrinsicSize = IntrinsicSize.Max)
                 .padding(16.dp)
         ) {
             BinaryOptionButton(

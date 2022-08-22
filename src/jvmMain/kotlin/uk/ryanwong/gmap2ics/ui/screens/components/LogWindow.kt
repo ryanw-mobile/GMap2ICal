@@ -50,9 +50,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import uk.ryanwong.gmap2ics.app.models.UILogEntry
 import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
+import java.util.ResourceBundle
 
 @Composable
-fun LogWindowTabRow(logWindowUIState: LogWindowUIState) {
+fun LogWindowTabRow(
+    logWindowUIState: LogWindowUIState,
+    resourceBundle: ResourceBundle
+) {
     val buttonStateNormal = ButtonDefaults.buttonColors(
         backgroundColor = MaterialTheme.colors.background,
         contentColor = MaterialTheme.colors.onBackground
@@ -84,7 +88,7 @@ fun LogWindowTabRow(logWindowUIState: LogWindowUIState) {
             shape = RectangleShape
         ) {
             Text(
-                text = "EXPORTED",
+                text = resourceBundle.getString("exported"),
                 style = MaterialTheme.typography.caption,
                 modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp)
             )
@@ -94,6 +98,7 @@ fun LogWindowTabRow(logWindowUIState: LogWindowUIState) {
                 textColor = if (logWindowUIState.selectedTab == LogWindowTab.EXPORTED) bubbleStateActiveTextColor else bubbleStateNormalTextColor,
             )
         }
+
         TextButton(
             enabled = true,
             border = BorderStroke(width = 1.dp, color = Color.Gray),
@@ -104,7 +109,7 @@ fun LogWindowTabRow(logWindowUIState: LogWindowUIState) {
             shape = RectangleShape
         ) {
             Text(
-                text = "IGNORED",
+                text = resourceBundle.getString("ignored"),
                 style = MaterialTheme.typography.caption,
                 modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp)
             )
