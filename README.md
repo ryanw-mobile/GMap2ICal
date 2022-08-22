@@ -12,7 +12,7 @@ This is my first non-Android Kotlin project. It is within expectation that every
 I treat this as my playground that allows me to make all kinds of experiments and mistakes. While I thank you for your
 visit, I would appreciate if you could take things easy when you see me doing something crazy here. Thank you.
 
-<div style="text-align:center"><img src="screenshot-220821.png" /></div>
+<div style="text-align:center"><img src="screenshot-220822.png" /></div>
 
 ## TL;DR - Status and Roadmap
 
