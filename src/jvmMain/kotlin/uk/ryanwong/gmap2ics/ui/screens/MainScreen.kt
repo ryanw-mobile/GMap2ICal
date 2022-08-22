@@ -201,7 +201,7 @@ fun mainScreen(
 }
 
 private suspend fun chooseDirectorySwing(dialogTitle: String, currentDirectoryPath: String): JFileChooserResult {
-    return withContext(Dispatchers.Default) {
+    return withContext(Dispatchers.Main) {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
 
         val chooser = JFileChooser(currentDirectoryPath).apply {
