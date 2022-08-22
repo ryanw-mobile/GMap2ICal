@@ -35,6 +35,7 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
                 implementation("us.dustinj.timezonemap:timezonemap:4.5")
                 implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -52,6 +53,7 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
                 implementation("io.mockk:mockk:1.12.5")
                 // kotest
                 implementation("io.kotest:kotest-runner-junit5:5.3.1")

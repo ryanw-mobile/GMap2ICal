@@ -24,7 +24,7 @@ class StatusBarKtTest {
 
     @Test
     fun `Should not display LinearProgressIndicator if progress is null`() {
-        runBlocking(Dispatchers.Unconfined) {
+        runBlocking(Dispatchers.Main) {
             // 🔴 Given
             val statusMessage = "some-status-message"
             val progress = null
@@ -45,7 +45,7 @@ class StatusBarKtTest {
 
     @Test
     fun `Should display LinearProgressIndicator if progress is 0`() {
-        runBlocking(Dispatchers.Unconfined) {
+        runBlocking(Dispatchers.Main) {
             // 🔴 Given
             val statusMessage = "some-status-message"
             val progress = 0f
