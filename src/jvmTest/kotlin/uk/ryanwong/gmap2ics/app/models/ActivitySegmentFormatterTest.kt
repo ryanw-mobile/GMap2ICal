@@ -113,6 +113,35 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                 routeText shouldBe "(some-start-name ➡ some-end-name)"
             }
 
+            "should format string using startPlaceDetails if only that is not null" {
+                // 🔴 Given
+                val startPlaceDetails = PlaceDetails(
+                    placeId = "some-place-id",
+                    name = "some-start-name",
+                    formattedAddress = "some-formatted-address",
+                    geo = LatLng(
+                        latitude = 12.1234567,
+                        longitude = 123.1234567
+                    ),
+                    types = emptyList(),
+                    url = "https://some.url/"
+                )
+                val endPlaceDetails = null
+                val startLocation = "some-start-location"
+                val endLocation = "some-end-location"
+
+                // 🟡 When
+                val routeText = ActivitySegmentFormatter.parseActivityRouteText(
+                    startPlaceDetails = startPlaceDetails,
+                    endPlaceDetails = endPlaceDetails,
+                    startLocation = startLocation,
+                    endLocation = endLocation
+                )
+
+                // 🟢 Then - expecting null instead of empty string for manual editing
+                routeText shouldBe "(some-start-name ➡ null)"
+            }
+
             "should format string using startLocation and endLocation if both PlaceDetails are null" {
                 // 🔴 Given
                 val startPlaceDetails = null
