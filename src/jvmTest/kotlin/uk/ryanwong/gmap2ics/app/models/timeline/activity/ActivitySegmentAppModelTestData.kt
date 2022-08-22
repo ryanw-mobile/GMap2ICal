@@ -4,10 +4,12 @@
 
 package uk.ryanwong.gmap2ics.app.models.timeline.activity
 
+import com.esri.core.geometry.Polygon
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
+import us.dustinj.timezonemap.TimeZone
 
 internal object ActivitySegmentAppModelTestData {
     private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
@@ -51,10 +53,37 @@ internal object ActivitySegmentAppModelTestData {
                 "some-road-segment-place-id-3"
             )
         ),
-        eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(
-            degreesLatitude = someEndDegreesLatitude,
-            degreesLongitude = someEndDegreesLongitude
+        eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon()),
+        lastEditedTimestamp = "2011-11-11T11:22:22.222Z"
+    )
+
+    val mockActivitySegmentUKNoWaypoint = ActivitySegment(
+        activities = listOf(
+            Activity(activityType = ActivityType.WALKING, rawActivityType = "WALKING"),
+            Activity(activityType = ActivityType.IN_PASSENGER_VEHICLE, rawActivityType = "IN_PASSENGER_VEHICLE"),
+            Activity(activityType = ActivityType.IN_BUS, rawActivityType = "IN_BUS")
         ),
+        activityType = ActivityType.FLYING,
+        rawActivityType = "FLYING",
+        distance = 7900,
+        durationEndTimestamp = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Europe/London"),
+        durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Europe/London"),
+        endLocation = Location(
+            address = null,
+            latitudeE7 = someEndLatitudeE7,
+            longitudeE7 = someEndLongitudeE7,
+            name = null,
+            placeId = null
+        ),
+        startLocation = Location(
+            address = null,
+            latitudeE7 = someStartLatitudeE7,
+            longitudeE7 = someStartLongitudeE7,
+            name = null,
+            placeId = null
+        ),
+        waypointPath = null,
+        eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z"
     )
 }

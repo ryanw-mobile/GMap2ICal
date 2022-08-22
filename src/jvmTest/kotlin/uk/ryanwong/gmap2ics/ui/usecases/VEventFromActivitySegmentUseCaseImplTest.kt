@@ -11,6 +11,7 @@ import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.mockActivitySegment
+import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.mockActivitySegmentUKNoWaypoint
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.someEndDegreesLatitude
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.someEndDegreesLongitude
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
@@ -80,6 +81,46 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
                 description = "Start Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-place-id\\n\\nEnd Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-place-id\\n\\nFirst segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\nLast segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\n",
                 url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
+                lastModified = "2011-11-11T11:22:22.222Z"
+            )
+        }
+
+        "should still return correct VEvent if ActivitySegment contains no firstPlaceDetails, lastPlaceDetails, startPlaceDetails and endPlaceDetails" {
+            // 🔴 Given
+            setupUseCase()
+            mockTimeZoneMap.mockZoneId = "Europe/London"
+            val activitySegment = mockActivitySegmentUKNoWaypoint
+            val enablePlacesApiLookup = true
+            mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+                PlaceDetails(
+                    placeId = "some-place-id",
+                    name = "some-place-name",
+                    formattedAddress = "some-formatted-address",
+                    geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
+                    types = listOf("ATM"),
+                    url = "https://some.url/"
+                )
+            )
+
+            // 🟡 When
+            val vEvent = vEventFromActivitySegmentUseCase(
+                activitySegment = activitySegment,
+                enablePlacesApiLookup = enablePlacesApiLookup
+            )
+
+            // 🟢 Then
+            vEvent shouldBe VEvent(
+                uid = "2011-11-11T11:22:22.222Z",
+                placeId = null,
+                dtStamp = "2011-11-11T11:22:22.222Z",
+                organizer = null,
+                dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Europe/London"),
+                dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Europe/London"),
+                summary = "✈️ 4.9mi ",
+                location = "26.33933,127.85",
+                geo = LatLng(latitude = 26.33933, longitude = 127.85),
+                description = "Start Location: 26.33833,127.8\\nhttps://maps.google.com?q=26.33833,127.8\\n\\nEnd Location: 26.33933,127.85\\nhttps://maps.google.com?q=26.33933,127.85\\n\\n",
+                url = "https://maps.google.com?q=26.33933,127.85",
                 lastModified = "2011-11-11T11:22:22.222Z"
             )
         }
