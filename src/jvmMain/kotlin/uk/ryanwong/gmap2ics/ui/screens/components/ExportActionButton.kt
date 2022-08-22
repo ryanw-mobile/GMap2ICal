@@ -38,12 +38,12 @@ fun ExportActionButton(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.padding(top = 16.dp)
     ) {
+        val buttonBackground = if (!enabled) Color.LightGray else MaterialTheme.colors.error
+
         Button(
             enabled = enabled,
             shape = RoundedCornerShape(percent = 25),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = if (!enabled) Color.LightGray else MaterialTheme.colors.error
-            ),
+            colors = ButtonDefaults.buttonColors(backgroundColor = buttonBackground),
             onClick = { onButtonClicked(!enabled) },
             modifier = Modifier.size(size = 64.dp)
         ) {

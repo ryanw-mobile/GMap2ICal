@@ -4,6 +4,7 @@
 
 package uk.ryanwong.gmap2ics.ui.screens.components
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,7 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
 
 @Composable
 fun StatusBar(
@@ -35,14 +38,28 @@ fun StatusBar(
             text = statusMessage,
             style = MaterialTheme.typography.caption,
             textAlign = TextAlign.Left,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
             modifier = Modifier.weight(weight = 1f, fill = true)
         )
         progress?.let { progress ->
             LinearProgressIndicator(
                 progress = progress,
-                modifier = Modifier.width(120.dp)
+                modifier = Modifier
+                    .width(120.dp)
                     .testTag(tag = "LinearProgressIndicator")
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun StatusBarPreview() {
+    GregoryGreenTheme {
+        StatusBar(
+            statusMessage = "some-long-message ".repeat(10),
+            progress = 82.5f
+        )
     }
 }

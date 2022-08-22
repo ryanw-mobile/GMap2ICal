@@ -161,6 +161,7 @@ fun mainScreen(
                 )
 
                 LogWindowTabRow(
+                    resourceBundle = resourceBundle,
                     logWindowUIState = LogWindowUIState(
                         exportedCount = exportedLogs.size,
                         ignoredCount = ignoredLogs.size,

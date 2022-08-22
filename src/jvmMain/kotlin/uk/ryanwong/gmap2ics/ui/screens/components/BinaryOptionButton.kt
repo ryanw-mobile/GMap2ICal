@@ -26,6 +26,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
@@ -40,29 +43,33 @@ fun BinaryOptionButton(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        modifier = modifier.semantics { role = Role.Checkbox }
     ) {
+
+        val buttonBorder = if (!isChecked) BorderStroke(width = 2.dp, color = MaterialTheme.colors.primary) else null
+        val buttonBackground = if (!isChecked) Color.LightGray else MaterialTheme.colors.primary
+        val buttonTint = if (!isChecked) MaterialTheme.colors.primary else Color.White
+
         Button(
             enabled = true,
             shape = CircleShape,
-            border = if (!isChecked) BorderStroke(width = 2.dp, color = MaterialTheme.colors.primary) else null,
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = if (!isChecked) Color.LightGray else MaterialTheme.colors.primary
-            ),
+            border = buttonBorder,
+            colors = ButtonDefaults.buttonColors(backgroundColor = buttonBackground),
             onClick = { onButtonClicked(!isChecked) },
             modifier = Modifier.size(size = 64.dp)
         ) {
             Image(
                 painter = icon,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(color = if (!isChecked) MaterialTheme.colors.primary else Color.White),
+                colorFilter = ColorFilter.tint(color = buttonTint),
                 modifier = Modifier.fillMaxSize()
             )
         }
         Text(
             text = text,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier
+                .padding(top = 8.dp)
                 .width(IntrinsicSize.Max)
                 .wrapContentHeight(),
             style = MaterialTheme.typography.caption

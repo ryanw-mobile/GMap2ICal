@@ -73,7 +73,8 @@ fun PathPickerItem(
                 style = MaterialTheme.typography.caption,
                 overflow = TextOverflow.Clip,
                 maxLines = 2,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(horizontal = 8.dp)
             )
         }

@@ -54,7 +54,7 @@ fun CheckBoxItem(
 fun CheckBoxItemPreview() {
     MaterialTheme {
         CheckBoxItem(
-            text = "some very very very very very very very very very very very very very very very very very very very very  long text",
+            text = "some very long text".repeat(10),
             checked = true,
             onCheckedChange = {}
         )
