@@ -7,8 +7,7 @@ package uk.ryanwong.gmap2ics.ui.utils
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
-import io.mockk.mockkObject
-import java.util.Locale
+import io.mockk.mockk
 import java.util.ResourceBundle
 
 internal class DefaultResourceBundleTest : FreeSpec() {
@@ -16,11 +15,7 @@ internal class DefaultResourceBundleTest : FreeSpec() {
     lateinit var defaultResourceBundle: DefaultResourceBundle
 
     private fun setupResourceBundle() {
-        val resourceBundle: ResourceBundle = ResourceBundle.getBundle(
-            "resources",
-            Locale.ENGLISH
-        )
-        mockkObject(resourceBundle)
+        val resourceBundle: ResourceBundle = mockk()
         every { resourceBundle.getString(any()) } returns "some-resource-string"
 
         defaultResourceBundle = DefaultResourceBundle(resourceBundle = resourceBundle)
