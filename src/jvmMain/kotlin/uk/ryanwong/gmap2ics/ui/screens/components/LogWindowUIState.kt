@@ -11,7 +11,7 @@ data class LogWindowUIState(
     val onTabSelected: (selectedTab: LogWindowTab) -> Unit
 )
 
-enum class LogWindowTab() {
+enum class LogWindowTab {
     EXPORTED,
     IGNORED
 }

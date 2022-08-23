@@ -31,7 +31,7 @@ import java.util.ResourceBundle
 import java.util.ResourceBundle.getBundle
 
 @Composable
-fun SettingsSection(
+fun SettingsPanel(
     jsonPath: String,
     iCalPath: String,
     exportPlaceVisit: Boolean,
