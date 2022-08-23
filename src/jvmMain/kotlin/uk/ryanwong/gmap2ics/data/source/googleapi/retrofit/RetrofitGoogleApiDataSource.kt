@@ -11,8 +11,9 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorExcepti
 import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 import kotlin.coroutines.cancellation.CancellationException
 
-class RetrofitGoogleApiDataSource : GoogleApiDataSource {
-    private val retrofitService = GoogleMapsApiClient.retrofitService
+class RetrofitGoogleApiDataSource(
+    private val retrofitService: GoogleMapsApiService = GoogleMapsApiClient.retrofitService
+) : GoogleApiDataSource {
 
     override suspend fun getMapsApiPlaceDetails(
         placeId: String,
