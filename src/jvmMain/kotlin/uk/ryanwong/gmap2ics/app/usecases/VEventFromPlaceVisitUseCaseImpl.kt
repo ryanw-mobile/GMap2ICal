@@ -2,35 +2,34 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.ui.usecases
+package uk.ryanwong.gmap2ics.app.usecases
 
 import io.github.aakira.napier.Napier
 import uk.ryanwong.gmap2ics.app.models.VEvent
-import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
+import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 
-class VEventFromChildVisitUseCaseImpl(
+class VEventFromPlaceVisitUseCaseImpl(
     private val placeDetailsRepository: PlaceDetailsRepository
-) : VEventFromChildVisitUseCase {
+) : VEventFromPlaceVisitUseCase {
 
     override suspend operator fun invoke(
-        childVisit: ChildVisit,
+        placeVisit: PlaceVisit,
         enablePlacesApiLookup: Boolean
     ): VEvent {
-        // If we have child visits, we export them as individual events
-        val childPlaceDetails = childVisit.location.placeId?.let { placeId ->
+        val placeDetails = placeVisit.location.placeId?.let { placeId ->
             placeDetailsRepository.getPlaceDetails(
                 placeId = placeId,
-                placeTimeZoneId = childVisit.eventTimeZone?.zoneId,
+                placeTimeZoneId = placeVisit.eventTimeZone?.zoneId,
                 enablePlacesApiLookup = enablePlacesApiLookup
             ).let { result ->
                 result.exceptionOrNull()?.let {
-                    Napier.e(tag = "childPlaceDetails", message = it.localizedMessage)
+                    Napier.e(tag = "VEventFromPlaceVisitUseCase", message = it.localizedMessage)
                 }
                 result.getOrNull()
             }
         }
 
-        return VEvent.from(childVisit = childVisit, placeDetails = childPlaceDetails)
+        return VEvent.from(placeVisit = placeVisit, placeDetails = placeDetails)
     }
 }

@@ -20,9 +20,9 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.KtorGoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
 import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
 import uk.ryanwong.gmap2ics.ui.screens.mainScreen
-import uk.ryanwong.gmap2ics.ui.usecases.VEventFromActivitySegmentUseCaseImpl
-import uk.ryanwong.gmap2ics.ui.usecases.VEventFromChildVisitUseCaseImpl
-import uk.ryanwong.gmap2ics.ui.usecases.VEventFromPlaceVisitUseCaseImpl
+import uk.ryanwong.gmap2ics.app.usecases.VEventFromActivitySegmentUseCaseImpl
+import uk.ryanwong.gmap2ics.app.usecases.VEventFromChildVisitUseCaseImpl
+import uk.ryanwong.gmap2ics.app.usecases.VEventFromPlaceVisitUseCaseImpl
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import us.dustinj.timezonemap.TimeZoneMap
 

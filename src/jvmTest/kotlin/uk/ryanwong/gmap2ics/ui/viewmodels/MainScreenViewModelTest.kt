@@ -19,9 +19,9 @@ import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImplTestData.mockTimeLineFromJsonString
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
-import uk.ryanwong.gmap2ics.ui.usecases.MockVEventFromActivitySegmentUseCase
-import uk.ryanwong.gmap2ics.ui.usecases.MockVEventFromChildVisitUseCase
-import uk.ryanwong.gmap2ics.ui.usecases.MockVEventFromPlaceVisitUseCase
+import uk.ryanwong.gmap2ics.app.usecases.MockVEventFromActivitySegmentUseCase
+import uk.ryanwong.gmap2ics.app.usecases.MockVEventFromChildVisitUseCase
+import uk.ryanwong.gmap2ics.app.usecases.MockVEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.ui.utils.MockResourceBundle
 
 @OptIn(ExperimentalCoroutinesApi::class)
