@@ -23,6 +23,7 @@ This App is fully functional.
 * Unit tests for composable functions (adding, but limited assertions available)
 * Dependency Injection: Koin
 * Integrate SQLite as preferences store, and Google Maps Place API caches
+* Wrap `java.io` calls using `Okio`
 
 ## Background
 
