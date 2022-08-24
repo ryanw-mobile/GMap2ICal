@@ -15,12 +15,18 @@ import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
+import uk.ryanwong.gmap2ics.app.usecases.GetActivitySegmentVEventUseCase
+import uk.ryanwong.gmap2ics.app.usecases.GetOutputFilenameUseCase
+import uk.ryanwong.gmap2ics.app.usecases.VEventFromChildVisitUseCase
+import uk.ryanwong.gmap2ics.app.usecases.VEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetActivitySegmentVEventUseCase
+import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetOutputFilenameUseCase
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromChildVisitUseCase
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromPlaceVisitUseCase
+import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
+import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.data.repository.mocks.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.mocks.MockTimelineRepository
-import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImplTestData.mockTimeLineFromJsonString
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
 import uk.ryanwong.gmap2ics.ui.utils.mocks.MockResourceBundle
 
@@ -28,11 +34,12 @@ import uk.ryanwong.gmap2ics.ui.utils.mocks.MockResourceBundle
 internal class MainScreenViewModelTest : FreeSpec() {
 
     private lateinit var mainScreenViewModel: MainScreenViewModel
-    private lateinit var mockTimelineRepository: MockTimelineRepository
-    private lateinit var mockLocalFileRepository: MockLocalFileRepository
-    private lateinit var mockVEventFromPlaceVisitUseCase: MockVEventFromPlaceVisitUseCase
-    private lateinit var mockVEventFromChildVisitUseCase: MockVEventFromChildVisitUseCase
-    private lateinit var mockGetActivitySegmentVEventUseCase: MockGetActivitySegmentVEventUseCase
+    private lateinit var mockTimelineRepository: TimelineRepository
+    private lateinit var mockLocalFileRepository: LocalFileRepository
+    private lateinit var mockVEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCase
+    private lateinit var mockVEventFromChildVisitUseCase: VEventFromChildVisitUseCase
+    private lateinit var mockGetActivitySegmentVEventUseCase: GetActivitySegmentVEventUseCase
+    private lateinit var mockGetOutputFilenameUseCase: GetOutputFilenameUseCase
 
     private val mockProjectBasePath = "/default-base-path/default-sub-folder/"
 
@@ -61,12 +68,14 @@ internal class MainScreenViewModelTest : FreeSpec() {
             MockVEventFromPlaceVisitUseCase(mockUseCaseResponse = mockVEventFromPlaceVisitUseCaseResponse)
         mockVEventFromChildVisitUseCase = MockVEventFromChildVisitUseCase()
         mockGetActivitySegmentVEventUseCase = MockGetActivitySegmentVEventUseCase()
+        mockGetOutputFilenameUseCase = MockGetOutputFilenameUseCase()
 
         mainScreenViewModel = MainScreenViewModel(
             configFile = MockConfig(),
             timelineRepository = mockTimelineRepository,
             localFileRepository = mockLocalFileRepository,
             getActivitySegmentVEventUseCase = mockGetActivitySegmentVEventUseCase,
+            getOutputFilenameUseCase = mockGetOutputFilenameUseCase,
             vEventFromPlaceVisitUseCase = mockVEventFromPlaceVisitUseCase,
             vEventFromChildVisitUseCase = mockVEventFromChildVisitUseCase,
             resourceBundle = MockResourceBundle(),
@@ -386,8 +395,8 @@ internal class MainScreenViewModelTest : FreeSpec() {
             "Should set MainScreenUIState = Ready after running" {
                 // 🔴 Given
                 setupViewModel()
-                mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1"))
-                mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
+          //      mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1"))
+        //        mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
 
                 // 🟡 When
                 mainScreenViewModel.startExport()
@@ -400,8 +409,8 @@ internal class MainScreenViewModelTest : FreeSpec() {
             "Should set MainScreenUIState = Error if localFileRepository.getFileList returns error" {
                 // 🔴 Given
                 setupViewModel()
-                mockLocalFileRepository.getFileListResponse =
-                    Result.failure(exception = Exception("some-exception-message"))
+//                mockLocalFileRepository.getFileListResponse =
+//                    Result.failure(exception = Exception("some-exception-message"))
 
                 // 🟡 When
                 mainScreenViewModel.startExport()
@@ -410,56 +419,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
                 with(mainScreenUIState as MainScreenUIState.Error) {
                     errMsg shouldBe "☠️ Error getting json file list: some-exception-message"
-                }
-            }
-
-            "getOutputFilename" - {
-                "Should set correct filename when exportPlaceVisit and exportActivitySegment are true" {
-                    // 🔴 Given
-                    setupViewModel()
-                    mainScreenViewModel.setExportPlaceVisit(enabled = true)
-                    mainScreenViewModel.setExportActivitySegment(enabled = true)
-                    mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1.json"))
-                    mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
-
-                    // 🟡 When
-                    mainScreenViewModel.startExport()
-
-                    // 🟢 Then
-                    val outputFilename = mockLocalFileRepository.exportICalFilename
-                    outputFilename shouldBe "some-file-1_all.ics"
-                }
-
-                "Should set correct filename when only exportPlaceVisit is true" {
-                    // 🔴 Given
-                    setupViewModel()
-                    mainScreenViewModel.setExportPlaceVisit(enabled = true)
-                    mainScreenViewModel.setExportActivitySegment(enabled = false)
-                    mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1.json"))
-                    mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
-
-                    // 🟡 When
-                    mainScreenViewModel.startExport()
-
-                    // 🟢 Then
-                    val outputFilename = mockLocalFileRepository.exportICalFilename
-                    outputFilename shouldBe "some-file-1_places.ics"
-                }
-
-                "Should set correct filename when only exportActivitySegment is true" {
-                    // 🔴 Given
-                    setupViewModel()
-                    mainScreenViewModel.setExportPlaceVisit(enabled = false)
-                    mainScreenViewModel.setExportActivitySegment(enabled = true)
-                    mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1.json"))
-                    mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
-
-                    // 🟡 When
-                    mainScreenViewModel.startExport()
-
-                    // 🟢 Then
-                    val outputFilename = mockLocalFileRepository.exportICalFilename
-                    outputFilename shouldBe "some-file-1_activities.ics"
                 }
             }
         }

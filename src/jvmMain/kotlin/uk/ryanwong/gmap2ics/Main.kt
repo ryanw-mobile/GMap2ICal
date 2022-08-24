@@ -11,6 +11,7 @@ import io.ktor.client.engine.cio.CIO
 import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.app.configs.RyanConfig
 import uk.ryanwong.gmap2ics.app.usecases.impl.GetActivitySegmentVEventUseCaseImpl
+import uk.ryanwong.gmap2ics.app.usecases.impl.GetOutputFilenameUseCaseImpl
 import uk.ryanwong.gmap2ics.app.usecases.impl.VEventFromActivitySegmentUseCaseImpl
 import uk.ryanwong.gmap2ics.app.usecases.impl.VEventFromChildVisitUseCaseImpl
 import uk.ryanwong.gmap2ics.app.usecases.impl.VEventFromPlaceVisitUseCaseImpl
@@ -19,8 +20,8 @@ import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import uk.ryanwong.gmap2ics.data.repository.impl.LocalFileRepositoryImpl
 import uk.ryanwong.gmap2ics.data.repository.impl.PlaceDetailsRepositoryImpl
 import uk.ryanwong.gmap2ics.data.repository.impl.TimelineRepositoryImpl
-import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.impl.GoogleMapsApiClientImpl
 import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.KtorGoogleApiDataSource
+import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.impl.GoogleMapsApiClientImpl
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
 import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
 import uk.ryanwong.gmap2ics.ui.screens.mainScreen
@@ -61,6 +62,7 @@ fun main() = application {
                         placeDetailsRepository = placeDetailsRepository
                     )
                 ),
+                getOutputFilenameUseCase = GetOutputFilenameUseCaseImpl(),
                 vEventFromChildVisitUseCase = VEventFromChildVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository),
                 vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository)
             )

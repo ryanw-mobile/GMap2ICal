@@ -2,7 +2,7 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.app.usecases
+package uk.ryanwong.gmap2ics.app.usecases.impl
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
@@ -14,10 +14,9 @@ import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModel
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.mockActivitySegmentUKNoWaypoint
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.someEndDegreesLatitude
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.someEndDegreesLongitude
-import uk.ryanwong.gmap2ics.app.usecases.impl.VEventFromActivitySegmentUseCaseImpl
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
-import uk.ryanwong.gmap2ics.data.repository.mocks.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.repository.impl.PlaceDetailsNotFoundException
+import uk.ryanwong.gmap2ics.data.repository.mocks.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
 
 internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {

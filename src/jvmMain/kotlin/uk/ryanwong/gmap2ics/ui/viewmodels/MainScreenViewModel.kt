@@ -17,6 +17,7 @@ import uk.ryanwong.gmap2ics.app.models.UILogEntry
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import uk.ryanwong.gmap2ics.app.usecases.GetActivitySegmentVEventUseCase
+import uk.ryanwong.gmap2ics.app.usecases.GetOutputFilenameUseCase
 import uk.ryanwong.gmap2ics.app.usecases.VEventFromChildVisitUseCase
 import uk.ryanwong.gmap2ics.app.usecases.VEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
@@ -30,6 +31,7 @@ class MainScreenViewModel(
     private val configFile: Config,
     private val timelineRepository: TimelineRepository,
     private val localFileRepository: LocalFileRepository,
+    private val getOutputFilenameUseCase: GetOutputFilenameUseCase,
     private val getActivitySegmentVEventUseCase: GetActivitySegmentVEventUseCase,
     private val vEventFromChildVisitUseCase: VEventFromChildVisitUseCase,
     private val vEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCase,
@@ -109,7 +111,13 @@ class MainScreenViewModel(
             fileList.getOrNull()?.forEach { filename ->
                 updateStatus(message = "Processing ${stripBasePath(filename)}")
                 val eventList: List<VEvent> = getEventList(filePath = filename)
-                val outputFileName = getOutputFilename(originalFilename = filename)
+                val outputFileName = getOutputFilenameUseCase(
+                    originalFilename = filename,
+                    iCalPath = _iCalPath.value,
+                    jsonPath = _jsonPath.value,
+                    exportActivitySegment = _exportActivitySegment.value,
+                    exportPlaceVisit = _exportPlaceVisit.value
+                )
                 localFileRepository.exportICal(
                     vEvents = eventList,
                     filename = outputFileName
@@ -120,18 +128,6 @@ class MainScreenViewModel(
             updateStatus(message = "Done. Processed ${fileList.getOrNull()?.size ?: 0} files.")
             _mainScreenUIState.value = MainScreenUIState.Ready
         }
-    }
-
-    private fun getOutputFilename(originalFilename: String): String {
-        val outputFilenameSuffix = when {
-            _exportPlaceVisit.value && _exportActivitySegment.value -> "_all"
-            _exportPlaceVisit.value -> "_places"
-            else -> "_activities"
-        }
-
-        return originalFilename.replace(oldValue = _jsonPath.value, newValue = _iCalPath.value)
-            // casually reuse the filename
-            .replace(oldValue = ".json", newValue = "$outputFilenameSuffix.ics")
     }
 
     private suspend fun getEventList(filePath: String): List<VEvent> {
