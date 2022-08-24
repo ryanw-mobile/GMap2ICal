@@ -4,7 +4,6 @@
 
 package uk.ryanwong.gmap2ics.data.source.googleapi.ktor
 
-import io.kotest.common.runBlocking
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.ktor.client.engine.mock.MockEngine
@@ -13,15 +12,28 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import io.ktor.utils.io.ByteReadChannel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
 import uk.ryanwong.gmap2ics.data.models.places.Geometry
 import uk.ryanwong.gmap2ics.data.models.places.Location
 import uk.ryanwong.gmap2ics.data.models.places.Result
 import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.GoogleMapsApiClientImplTestData.mockPlaceDetailsGregAve
 import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.impl.GoogleMapsApiClientImpl
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class GoogleMapsApiClientImplTest : FreeSpec() {
 
     private lateinit var apiClient: GoogleMapsApiClientImpl
+    private lateinit var dispatcher: TestDispatcher
+    private lateinit var scope: TestScope
+
+    private fun setupDispatcher() {
+        dispatcher = StandardTestDispatcher()
+        scope = TestScope(dispatcher)
+    }
 
     private fun setupEngine(status: HttpStatusCode, payload: String) {
         val mockEngine = MockEngine { _ ->
@@ -37,7 +49,8 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
     init {
         "getPlaceDetails" - {
             "should return PlaceDetails correctly if API request is successful" {
-                runBlocking {
+                setupDispatcher()
+                scope.runTest {
                     // 🔴 Given
                     setupEngine(
                         status = HttpStatusCode.OK,
@@ -73,7 +86,8 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
             }
 
             "should return null if API request returns error message" {
-                runBlocking {
+                setupDispatcher()
+                scope.runTest {
                     // 🔴 Given
                     setupEngine(
                         status = HttpStatusCode.OK,
