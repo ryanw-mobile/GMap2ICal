@@ -8,8 +8,9 @@ import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.app.usecases.VEventFromActivitySegmentUseCase
 
-class MockVEventFromActivitySegmentUseCase(private val mockUseCaseResponse: VEvent) : VEventFromActivitySegmentUseCase {
+class MockVEventFromActivitySegmentUseCase : VEventFromActivitySegmentUseCase {
+    var mockUseCaseResponse: VEvent? = null
     override suspend fun invoke(activitySegment: ActivitySegment, enablePlacesApiLookup: Boolean): VEvent {
-        return mockUseCaseResponse
+        return mockUseCaseResponse ?: throw Exception("mock response unavailable")
     }
 }
