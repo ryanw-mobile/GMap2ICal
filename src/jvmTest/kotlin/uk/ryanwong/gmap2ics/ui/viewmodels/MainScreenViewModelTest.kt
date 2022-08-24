@@ -19,11 +19,11 @@ import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetActivitySegmentVEventUseCa
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetOutputFilenameUseCase
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromChildVisitUseCase
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromPlaceVisitUseCase
-import uk.ryanwong.gmap2ics.data.repository.impl.TimelineRepositoryImplTestData.mockTimeLineFromJsonString
 import uk.ryanwong.gmap2ics.data.repository.mocks.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.mocks.MockTimelineRepository
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
 import uk.ryanwong.gmap2ics.ui.utils.mocks.MockResourceBundle
+import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModelTestData.mockTimeLineWithActivityVisitAndChildVisit
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class MainScreenViewModelTest : FreeSpec() {
@@ -81,7 +81,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
     init {
         "setExportPlaceVisit" - {
-            "should update enablePlacesApiLookup correctly" {
+            "should update exportPlaceVisit correctly" {
                 // 🔴 Given
                 setupViewModel()
                 val initialState = mainScreenViewModel.exportPlaceVisit.first()
@@ -95,7 +95,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
         }
 
         "setExportActivitySegment" - {
-            "should update enablePlacesApiLookup correctly" {
+            "should update exportActivitySegment correctly" {
                 // 🔴 Given
                 setupViewModel()
                 val initialState = mainScreenViewModel.exportActivitySegment.first()
@@ -123,7 +123,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
         }
 
         "setVerboseLogs" - {
-            "should update _verboseLogs correctly" {
+            "should update verboseLogs correctly" {
                 // 🔴 Given
                 setupViewModel()
                 val initialState = mainScreenViewModel.verboseLogs.first()
@@ -388,7 +388,9 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 setupViewModel()
                 mockLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
                 mockGetOutputFilenameUseCase.mockUseCaseResponse = "/some-path/some-file-1.ics"
-                mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
+                mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineWithActivityVisitAndChildVisit)
+                mockGetActivitySegmentVEventUseCase.mockUseCaseResponse = mockDefaultVEvent
+                mockVEventFromChildVisitUseCase.mockUseCaseResponse = mockDefaultVEvent
 
                 // 🟡 When
                 mainScreenViewModel.startExport()
