@@ -14,11 +14,9 @@ import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.WaypointPath
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
 import us.dustinj.timezonemap.TimeZone
 
 internal object VEventTestData {
-    private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
     val mockActivitySegment = ActivitySegment(
         activities = listOf(
             Activity(activityType = ActivityType.WALKING, rawActivityType = "WALKING"),
@@ -49,10 +47,7 @@ internal object VEventTestData {
             roadSegmentPlaceIds = emptyList()
         ),
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
-        eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(
-            degreesLatitude = 26.3383300,
-            degreesLongitude = 127.8000000
-        )
+        eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
     )
 
     val mockActivityFirstSegmentPlaceDetails = PlaceDetails(
@@ -106,10 +101,7 @@ internal object VEventTestData {
             name = "some-name",
             address = "some-address"
         ),
-        eventTimeZone = mockTimeZoneMap.getOverlappingTimeZone(
-            degreesLatitude = 26.3383300,
-            degreesLongitude = 127.8000000
-        )
+        eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
     )
 
     val mockChildVisitPlaceDetails = PlaceDetails(
