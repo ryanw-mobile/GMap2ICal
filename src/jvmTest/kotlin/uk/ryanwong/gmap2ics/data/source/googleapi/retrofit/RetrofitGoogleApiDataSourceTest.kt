@@ -8,7 +8,11 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
 import retrofit2.Response
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
@@ -18,12 +22,17 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSourceTestData.retrofitApiResponseFailure
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSourceTestData.retrofitApiResponseSuccess
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class RetrofitGoogleApiDataSourceTest : FreeSpec() {
 
     private lateinit var retrofitGoogleApiDataSource: GoogleApiDataSource
     private lateinit var retrofitService: GoogleMapsApiService
+    private lateinit var dispatcher: TestDispatcher
+    private lateinit var scope: TestScope
 
     private fun setupDataSource() {
+        dispatcher = StandardTestDispatcher()
+        scope = TestScope(dispatcher)
         retrofitService = mockk()
         retrofitGoogleApiDataSource = RetrofitGoogleApiDataSource(retrofitService = retrofitService)
     }
@@ -31,9 +40,9 @@ class RetrofitGoogleApiDataSourceTest : FreeSpec() {
     init {
         "getMapsApiPlaceDetails" - {
             "Should return correct PlaceDetail if API request was successful" {
-                runBlocking {
+                setupDataSource()
+                scope.runTest {
                     // 🔴 Given
-                    setupDataSource()
                     coEvery {
                         retrofitService.getMapsApiPlaceDetails(any(), any(), any())
                     } returns retrofitApiResponseSuccess
@@ -60,9 +69,9 @@ class RetrofitGoogleApiDataSourceTest : FreeSpec() {
             }
 
             "Should throw GetPlaceDetailsAPIErrorException if API request failed" {
-                runBlocking {
+                setupDataSource()
+                scope.runTest {
                     // 🔴 Given
-                    setupDataSource()
                     coEvery {
                         retrofitService.getMapsApiPlaceDetails(any(), any(), any())
                     } returns retrofitApiResponseFailure
@@ -81,9 +90,9 @@ class RetrofitGoogleApiDataSourceTest : FreeSpec() {
             }
 
             "Should throw PlaceDetailsNotFoundException if API returns no result" {
-                runBlocking {
+                setupDataSource()
+                scope.runTest {
                     // 🔴 Given
-                    setupDataSource()
                     coEvery {
                         retrofitService.getMapsApiPlaceDetails(any(), any(), any())
                     } returns Response.success(200, uk.ryanwong.gmap2ics.data.models.places.PlaceDetails())
