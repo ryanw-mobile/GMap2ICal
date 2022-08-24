@@ -15,16 +15,11 @@ import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
-import uk.ryanwong.gmap2ics.app.usecases.GetActivitySegmentVEventUseCase
-import uk.ryanwong.gmap2ics.app.usecases.GetOutputFilenameUseCase
-import uk.ryanwong.gmap2ics.app.usecases.VEventFromChildVisitUseCase
-import uk.ryanwong.gmap2ics.app.usecases.VEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetActivitySegmentVEventUseCase
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetOutputFilenameUseCase
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromChildVisitUseCase
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromPlaceVisitUseCase
-import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
-import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
+import uk.ryanwong.gmap2ics.data.repository.impl.TimelineRepositoryImplTestData.mockTimeLineFromJsonString
 import uk.ryanwong.gmap2ics.data.repository.mocks.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.mocks.MockTimelineRepository
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
@@ -34,12 +29,12 @@ import uk.ryanwong.gmap2ics.ui.utils.mocks.MockResourceBundle
 internal class MainScreenViewModelTest : FreeSpec() {
 
     private lateinit var mainScreenViewModel: MainScreenViewModel
-    private lateinit var mockTimelineRepository: TimelineRepository
-    private lateinit var mockLocalFileRepository: LocalFileRepository
-    private lateinit var mockVEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCase
-    private lateinit var mockVEventFromChildVisitUseCase: VEventFromChildVisitUseCase
-    private lateinit var mockGetActivitySegmentVEventUseCase: GetActivitySegmentVEventUseCase
-    private lateinit var mockGetOutputFilenameUseCase: GetOutputFilenameUseCase
+    private lateinit var mockTimelineRepository: MockTimelineRepository
+    private lateinit var mockLocalFileRepository: MockLocalFileRepository
+    private lateinit var mockVEventFromPlaceVisitUseCase: MockVEventFromPlaceVisitUseCase
+    private lateinit var mockVEventFromChildVisitUseCase: MockVEventFromChildVisitUseCase
+    private lateinit var mockGetActivitySegmentVEventUseCase: MockGetActivitySegmentVEventUseCase
+    private lateinit var mockGetOutputFilenameUseCase: MockGetOutputFilenameUseCase
 
     private val mockProjectBasePath = "/default-base-path/default-sub-folder/"
 
@@ -387,16 +382,13 @@ internal class MainScreenViewModelTest : FreeSpec() {
             }
         }
 
-        /***
-         * Note: This is the core function of the App.
-         * It has to be tested heavily.
-         */
         "startExport" - {
             "Should set MainScreenUIState = Ready after running" {
                 // 🔴 Given
                 setupViewModel()
-          //      mockLocalFileRepository.getFileListResponse = Result.success(listOf("some-file-1"))
-        //        mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
+                mockLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
+                mockGetOutputFilenameUseCase.mockUseCaseResponse = "/some-path/some-file-1.ics"
+                mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineFromJsonString)
 
                 // 🟡 When
                 mainScreenViewModel.startExport()
@@ -409,8 +401,8 @@ internal class MainScreenViewModelTest : FreeSpec() {
             "Should set MainScreenUIState = Error if localFileRepository.getFileList returns error" {
                 // 🔴 Given
                 setupViewModel()
-//                mockLocalFileRepository.getFileListResponse =
-//                    Result.failure(exception = Exception("some-exception-message"))
+                mockLocalFileRepository.getFileListResponse =
+                    Result.failure(exception = Exception("some-exception-message"))
 
                 // 🟡 When
                 mainScreenViewModel.startExport()

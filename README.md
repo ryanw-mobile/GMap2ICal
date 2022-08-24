@@ -18,7 +18,7 @@ visit, I would appreciate if you could take things easy when you see me doing so
 
 This App is fully functional.
 
-* 123 unit tests written as at 23 Aug 2022
+* 124 unit tests written as at 24 Aug 2022
 * More unit tests are being written to increase coverage and protect changes
 * Unit tests for composable functions (adding, but limited assertions available)
 * Dependency Injection: Koin
