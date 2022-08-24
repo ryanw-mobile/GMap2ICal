@@ -55,7 +55,8 @@ import java.util.ResourceBundle
 @Composable
 fun LogWindowTabRow(
     logWindowUIState: LogWindowUIState,
-    resourceBundle: ResourceBundle
+    resourceBundle: ResourceBundle,
+    modifier: Modifier = Modifier
 ) {
     val buttonStateNormal = ButtonDefaults.buttonColors(
         backgroundColor = MaterialTheme.colors.background,
@@ -74,7 +75,7 @@ fun LogWindowTabRow(
 
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {

@@ -25,11 +25,12 @@ import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
 @Composable
 fun StatusBar(
     statusMessage: String,
-    progress: Float?
+    progress: Float?,
+    modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(height = 32.dp)
             .padding(horizontal = 16.dp, vertical = 8.dp)

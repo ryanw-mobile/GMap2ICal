@@ -22,7 +22,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ErrorAlertDialog(
     text: String,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -42,6 +43,6 @@ fun ErrorAlertDialog(
                 }
             }
         },
-        modifier = Modifier.defaultMinSize(minWidth = 320.dp)
+        modifier = modifier.defaultMinSize(minWidth = 320.dp)
     )
 }
