@@ -6,25 +6,36 @@ package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class StatusBarKtTest {
+@OptIn(ExperimentalCoroutinesApi::class)
+internal class StatusBarKtTest {
 
     /***
      * 1. Currently, Compose Desktop test runs on JUnit4 only.
      * 2. Can't sort out how to apply @get:Rule on Kotest so back to JUnit4.
      * 3. Compose Desktop assertion library is not completed yet - limited what can be tested.
      */
+    private lateinit var scope: TestScope
 
     @get:Rule
     val compose = createComposeRule()
 
+    @Before
+    fun setupDispatcher() {
+        val dispatcher = StandardTestDispatcher()
+        scope = TestScope(dispatcher)
+    }
+
     @Test
     fun `Should not display LinearProgressIndicator if progress is null`() {
-        runBlocking(Dispatchers.Main) {
+        scope.runTest {
             // 🔴 Given
             val statusMessage = "some-status-message"
             val progress = null
@@ -45,7 +56,7 @@ class StatusBarKtTest {
 
     @Test
     fun `Should display LinearProgressIndicator if progress is 0`() {
-        runBlocking(Dispatchers.Main) {
+        scope.runTest {
             // 🔴 Given
             val statusMessage = "some-status-message"
             val progress = 0f
@@ -66,7 +77,7 @@ class StatusBarKtTest {
 
     @Test
     fun `Should display LinearProgressIndicator if progress is greater than 0`() {
-        runBlocking(Dispatchers.Unconfined) {
+        scope.runTest {
             // 🔴 Given
             val statusMessage = "some-status-message"
             val progress = 8.25f

@@ -10,7 +10,6 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import retrofit2.Response
@@ -27,11 +26,10 @@ class RetrofitGoogleApiDataSourceTest : FreeSpec() {
 
     private lateinit var retrofitGoogleApiDataSource: GoogleApiDataSource
     private lateinit var retrofitService: GoogleMapsApiService
-    private lateinit var dispatcher: TestDispatcher
     private lateinit var scope: TestScope
 
     private fun setupDataSource() {
-        dispatcher = StandardTestDispatcher()
+        val dispatcher = StandardTestDispatcher()
         scope = TestScope(dispatcher)
         retrofitService = mockk()
         retrofitGoogleApiDataSource = RetrofitGoogleApiDataSource(retrofitService = retrofitService)

@@ -14,7 +14,6 @@ import io.ktor.http.headersOf
 import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import uk.ryanwong.gmap2ics.data.models.places.Geometry
@@ -27,11 +26,10 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.impl.GoogleMapsApiClientI
 internal class GoogleMapsApiClientImplTest : FreeSpec() {
 
     private lateinit var apiClient: GoogleMapsApiClientImpl
-    private lateinit var dispatcher: TestDispatcher
     private lateinit var scope: TestScope
 
     private fun setupDispatcher() {
-        dispatcher = StandardTestDispatcher()
+        val dispatcher = StandardTestDispatcher()
         scope = TestScope(dispatcher)
     }
 
