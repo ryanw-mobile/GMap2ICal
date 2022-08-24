@@ -13,6 +13,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class StatusBarKtTest {
@@ -42,10 +43,12 @@ internal class StatusBarKtTest {
 
             // 🟡 When
             compose.setContent {
-                StatusBar(
-                    statusMessage = statusMessage,
-                    progress = progress
-                )
+                GregoryGreenTheme {
+                    StatusBar(
+                        statusMessage = statusMessage,
+                        progress = progress
+                    )
+                }
             }
             compose.awaitIdle()
 
@@ -63,10 +66,12 @@ internal class StatusBarKtTest {
 
             // 🟡 When
             compose.setContent {
-                StatusBar(
-                    statusMessage = statusMessage,
-                    progress = progress
-                )
+                GregoryGreenTheme {
+                    StatusBar(
+                        statusMessage = statusMessage,
+                        progress = progress
+                    )
+                }
             }
             compose.awaitIdle()
 
@@ -84,10 +89,12 @@ internal class StatusBarKtTest {
 
             // 🟡 When
             compose.setContent {
-                StatusBar(
-                    statusMessage = statusMessage,
-                    progress = progress
-                )
+                GregoryGreenTheme {
+                    StatusBar(
+                        statusMessage = statusMessage,
+                        progress = progress
+                    )
+                }
             }
             compose.awaitIdle()
 
