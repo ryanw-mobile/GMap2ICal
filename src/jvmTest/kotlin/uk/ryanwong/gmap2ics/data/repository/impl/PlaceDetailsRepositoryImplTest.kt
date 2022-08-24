@@ -2,7 +2,7 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.data.repository
+package uk.ryanwong.gmap2ics.data.repository.impl
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.should
@@ -12,8 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
-import uk.ryanwong.gmap2ics.data.repository.impl.PlaceDetailsNotFoundException
-import uk.ryanwong.gmap2ics.data.repository.impl.PlaceDetailsRepositoryImpl
+import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.local.mocks.MockGoogleApiDataSource
 
 @OptIn(ExperimentalCoroutinesApi::class)

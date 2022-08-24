@@ -2,7 +2,7 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.data.repository
+package uk.ryanwong.gmap2ics.data.repository.impl
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
@@ -10,9 +10,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
-import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImplTestData.mockJsonString
-import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImplTestData.mockTimeLineFromJsonString
-import uk.ryanwong.gmap2ics.data.repository.impl.TimelineRepositoryImpl
+import uk.ryanwong.gmap2ics.data.repository.impl.TimelineRepositoryImplTestData.mockJsonString
+import uk.ryanwong.gmap2ics.data.repository.impl.TimelineRepositoryImplTestData.mockTimeLineFromJsonString
 import uk.ryanwong.gmap2ics.data.source.local.mocks.MockLocalDataSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
