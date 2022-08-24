@@ -15,13 +15,13 @@ import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
+import uk.ryanwong.gmap2ics.app.usecases.MockGetActivitySegmentVEventUseCase
+import uk.ryanwong.gmap2ics.app.usecases.MockVEventFromChildVisitUseCase
+import uk.ryanwong.gmap2ics.app.usecases.MockVEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImplTestData.mockTimeLineFromJsonString
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
-import uk.ryanwong.gmap2ics.app.usecases.MockVEventFromActivitySegmentUseCase
-import uk.ryanwong.gmap2ics.app.usecases.MockVEventFromChildVisitUseCase
-import uk.ryanwong.gmap2ics.app.usecases.MockVEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.ui.utils.MockResourceBundle
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -30,9 +30,9 @@ internal class MainScreenViewModelTest : FreeSpec() {
     private lateinit var mainScreenViewModel: MainScreenViewModel
     private lateinit var mockTimelineRepository: MockTimelineRepository
     private lateinit var mockLocalFileRepository: MockLocalFileRepository
-    private lateinit var mockVEventFromActivitySegmentUseCase: MockVEventFromActivitySegmentUseCase
     private lateinit var mockVEventFromPlaceVisitUseCase: MockVEventFromPlaceVisitUseCase
     private lateinit var mockVEventFromChildVisitUseCase: MockVEventFromChildVisitUseCase
+    private lateinit var mockGetActivitySegmentVEventUseCase: MockGetActivitySegmentVEventUseCase
 
     private val mockProjectBasePath = "/default-base-path/default-sub-folder/"
 
@@ -53,22 +53,20 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
     // These tests don't touch VEvent (yet), so we feed in a default mock result
     private fun setupViewModel(
-        mockVEventFromPlaceVisitUseCaseResponse: VEvent = mockDefaultVEvent,
-        mockVEventFromActivitySegmentUseCaseResponse: VEvent = mockDefaultVEvent
+        mockVEventFromPlaceVisitUseCaseResponse: VEvent = mockDefaultVEvent
     ) {
         mockTimelineRepository = MockTimelineRepository()
         mockLocalFileRepository = MockLocalFileRepository()
-        mockVEventFromActivitySegmentUseCase =
-            MockVEventFromActivitySegmentUseCase(mockUseCaseResponse = mockVEventFromActivitySegmentUseCaseResponse)
         mockVEventFromPlaceVisitUseCase =
             MockVEventFromPlaceVisitUseCase(mockUseCaseResponse = mockVEventFromPlaceVisitUseCaseResponse)
         mockVEventFromChildVisitUseCase = MockVEventFromChildVisitUseCase()
+        mockGetActivitySegmentVEventUseCase = MockGetActivitySegmentVEventUseCase()
 
         mainScreenViewModel = MainScreenViewModel(
             configFile = MockConfig(),
             timelineRepository = mockTimelineRepository,
             localFileRepository = mockLocalFileRepository,
-            vEventFromActivitySegmentUseCase = mockVEventFromActivitySegmentUseCase,
+            getActivitySegmentVEventUseCase = mockGetActivitySegmentVEventUseCase,
             vEventFromPlaceVisitUseCase = mockVEventFromPlaceVisitUseCase,
             vEventFromChildVisitUseCase = mockVEventFromChildVisitUseCase,
             resourceBundle = MockResourceBundle(),

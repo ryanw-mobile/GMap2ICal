@@ -10,6 +10,10 @@ import io.github.aakira.napier.Napier
 import io.ktor.client.engine.cio.CIO
 import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.app.configs.RyanConfig
+import uk.ryanwong.gmap2ics.app.usecases.GetActivitySegmentVEventUseCaseImpl
+import uk.ryanwong.gmap2ics.app.usecases.VEventFromActivitySegmentUseCaseImpl
+import uk.ryanwong.gmap2ics.app.usecases.VEventFromChildVisitUseCaseImpl
+import uk.ryanwong.gmap2ics.app.usecases.VEventFromPlaceVisitUseCaseImpl
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapImpl
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepositoryImpl
@@ -20,9 +24,6 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.KtorGoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
 import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
 import uk.ryanwong.gmap2ics.ui.screens.mainScreen
-import uk.ryanwong.gmap2ics.app.usecases.VEventFromActivitySegmentUseCaseImpl
-import uk.ryanwong.gmap2ics.app.usecases.VEventFromChildVisitUseCaseImpl
-import uk.ryanwong.gmap2ics.app.usecases.VEventFromPlaceVisitUseCaseImpl
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import us.dustinj.timezonemap.TimeZoneMap
 
@@ -55,8 +56,10 @@ fun main() = application {
                     timeZoneMap = timeZoneMap,
                     kotlinJson = Json { ignoreUnknownKeys = true }),
                 localFileRepository = LocalFileRepositoryImpl(),
-                vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
-                    placeDetailsRepository = placeDetailsRepository
+                getActivitySegmentVEventUseCase = GetActivitySegmentVEventUseCaseImpl(
+                    vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
+                        placeDetailsRepository = placeDetailsRepository
+                    )
                 ),
                 vEventFromChildVisitUseCase = VEventFromChildVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository),
                 vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository)

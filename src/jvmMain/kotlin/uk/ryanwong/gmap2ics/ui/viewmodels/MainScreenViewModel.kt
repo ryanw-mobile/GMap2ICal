@@ -15,9 +15,8 @@ import uk.ryanwong.gmap2ics.app.configs.Config
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.app.models.UILogEntry
 import uk.ryanwong.gmap2ics.app.models.VEvent
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
-import uk.ryanwong.gmap2ics.app.usecases.VEventFromActivitySegmentUseCase
+import uk.ryanwong.gmap2ics.app.usecases.GetActivitySegmentVEventUseCase
 import uk.ryanwong.gmap2ics.app.usecases.VEventFromChildVisitUseCase
 import uk.ryanwong.gmap2ics.app.usecases.VEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
@@ -31,7 +30,7 @@ class MainScreenViewModel(
     private val configFile: Config,
     private val timelineRepository: TimelineRepository,
     private val localFileRepository: LocalFileRepository,
-    private val vEventFromActivitySegmentUseCase: VEventFromActivitySegmentUseCase,
+    private val getActivitySegmentVEventUseCase: GetActivitySegmentVEventUseCase,
     private val vEventFromChildVisitUseCase: VEventFromChildVisitUseCase,
     private val vEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCase,
     private val resourceBundle: ResourceBundleWrapper = DefaultResourceBundle(),
@@ -151,9 +150,24 @@ class MainScreenViewModel(
 
                 // Should be either activity or place visited, but no harm to also support cases with both
                 if (_exportActivitySegment.value) {
-                    val vEvent =
-                        timelineEntry.activitySegment?.let { activitySegment -> getActivitySegmentVEvent(activitySegment) }
-                    vEvent?.let { event -> eventList.add(event) }
+                    timelineEntry.activitySegment?.let { activitySegment ->
+                        val vEvent = getActivitySegmentVEventUseCase(
+                            activitySegment = activitySegment,
+                            ignoredActivityType = configFile.ignoredActivityType,
+                            enablePlacesApiLookup = _enablePlacesApiLookup.value
+                        )
+
+                        vEvent?.let { event ->
+                            eventList.add(event)
+                            appendExportedLog(
+                                emoji = "\uD83D\uDDD3",
+                                message = "${event.dtStart.toUITimestamp()}: ${event.summary}"
+                            )
+                        } ?: appendIgnoredLog(
+                            emoji = "🚫",
+                            message = "${activitySegment.durationStartTimestamp.toUITimestamp()}: Activity ${activitySegment.activityType}"
+                        )
+                    }
                 }
 
                 if (_exportPlaceVisit.value) {
@@ -168,26 +182,6 @@ class MainScreenViewModel(
         }
         updateStatus(message = "Processed ${timeline.getOrNull()?.timelineEntries?.size ?: 0} timeline entries.")
         return eventList
-    }
-
-    private suspend fun getActivitySegmentVEvent(activitySegment: ActivitySegment): VEvent? {
-        return if (configFile.ignoredActivityType.contains(activitySegment.activityType)) {
-            appendIgnoredLog(
-                emoji = "🚫",
-                message = "${activitySegment.durationStartTimestamp.toUITimestamp()}: Activity ${activitySegment.activityType}"
-            )
-            null
-        } else {
-            return vEventFromActivitySegmentUseCase(
-                activitySegment = activitySegment,
-                enablePlacesApiLookup = _enablePlacesApiLookup.value
-            ).also { vEvent ->
-                appendExportedLog(
-                    emoji = "\uD83D\uDDD3",
-                    message = "${vEvent.dtStart.toUITimestamp()}: ${vEvent.summary}"
-                )
-            }
-        }
     }
 
     private suspend fun getPlaceVisitVEvent(placeVisit: PlaceVisit): List<VEvent> {
