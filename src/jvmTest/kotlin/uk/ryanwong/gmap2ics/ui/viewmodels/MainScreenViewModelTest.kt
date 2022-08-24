@@ -7,6 +7,8 @@ package uk.ryanwong.gmap2ics.ui.viewmodels
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -22,8 +24,8 @@ import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.data.repository.mocks.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.mocks.MockTimelineRepository
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
-import uk.ryanwong.gmap2ics.ui.utils.mocks.MockResourceBundle
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModelTestData.mockTimeLineWithActivityVisitAndChildVisit
+import java.util.ResourceBundle
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class MainScreenViewModelTest : FreeSpec() {
@@ -35,6 +37,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
     private lateinit var mockVEventFromChildVisitUseCase: MockVEventFromChildVisitUseCase
     private lateinit var mockGetActivitySegmentVEventUseCase: MockGetActivitySegmentVEventUseCase
     private lateinit var mockGetOutputFilenameUseCase: MockGetOutputFilenameUseCase
+    private lateinit var mockResourceBundle: ResourceBundle
 
     private val mockProjectBasePath = "/default-base-path/default-sub-folder/"
 
@@ -64,6 +67,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
         mockVEventFromChildVisitUseCase = MockVEventFromChildVisitUseCase()
         mockGetActivitySegmentVEventUseCase = MockGetActivitySegmentVEventUseCase()
         mockGetOutputFilenameUseCase = MockGetOutputFilenameUseCase()
+        mockResourceBundle = mockk()
 
         mainScreenViewModel = MainScreenViewModel(
             configFile = MockConfig(),
@@ -73,7 +77,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
             getOutputFilenameUseCase = mockGetOutputFilenameUseCase,
             vEventFromPlaceVisitUseCase = mockVEventFromPlaceVisitUseCase,
             vEventFromChildVisitUseCase = mockVEventFromChildVisitUseCase,
-            resourceBundle = MockResourceBundle(),
+            resourceBundle = mockResourceBundle,
             projectBasePath = mockProjectBasePath,
             dispatcher = UnconfinedTestDispatcher()
         )
@@ -169,13 +173,16 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 "should keep mainScreenUIState unchanged" {
                     // 🔴 Given
                     setupViewModel()
+                    every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
 
                     // 🟡 When
                     mainScreenViewModel.onChangeJsonPath()
 
                     // 🟢 Then
-                    mainScreenViewModel.mainScreenUIState.first().shouldBeTypeOf<MainScreenUIState.Error>()
+                    val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
+                    mainScreenUIState.shouldBeTypeOf<MainScreenUIState.Error>()
+                    mainScreenUIState.errMsg shouldBe "some-error-string"
                 }
             }
         }
@@ -213,13 +220,16 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 "should keep mainScreenUIState unchanged" {
                     // 🔴 Given
                     setupViewModel()
+                    every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
 
                     // 🟡 When
                     mainScreenViewModel.onChangeICalPath()
 
                     // 🟢 Then
-                    mainScreenViewModel.mainScreenUIState.first().shouldBeTypeOf<MainScreenUIState.Error>()
+                    val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
+                    mainScreenUIState.shouldBeTypeOf<MainScreenUIState.Error>()
+                    mainScreenUIState.errMsg shouldBe "some-error-string"
                 }
             }
         }
@@ -276,6 +286,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 "should set MainScreenUIState = Error with correct error message" {
                     // 🔴 Given
                     setupViewModel()
+                    every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
                     mainScreenViewModel.onChangeJsonPath()
 
                     // 🟡 When
@@ -283,7 +294,8 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
                     // 🟢 Then
                     val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
-                    (mainScreenUIState as MainScreenUIState.Error).errMsg shouldBe "mock-string-for-error.updating.json.path"
+                    mainScreenUIState.shouldBeTypeOf<MainScreenUIState.Error>()
+                    (mainScreenUIState as MainScreenUIState.Error).errMsg shouldBe "some-error-string"
                 }
             }
         }
@@ -355,6 +367,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 "should set MainScreenUIState = Error with correct error message" {
                     // 🔴 Given
                     setupViewModel()
+                    every { mockResourceBundle.getString("error.updating.ical.path") } returns "some-error-string"
                     mainScreenViewModel.onChangeICalPath()
 
                     // 🟡 When
@@ -362,7 +375,8 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
                     // 🟢 Then
                     val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
-                    (mainScreenUIState as MainScreenUIState.Error).errMsg shouldBe "mock-string-for-error.updating.ical.path"
+                    mainScreenUIState.shouldBeTypeOf<MainScreenUIState.Error>()
+                    (mainScreenUIState as MainScreenUIState.Error).errMsg shouldBe "some-error-string"
                 }
             }
         }

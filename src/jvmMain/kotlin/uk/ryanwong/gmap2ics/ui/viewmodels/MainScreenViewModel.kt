@@ -23,9 +23,8 @@ import uk.ryanwong.gmap2ics.app.usecases.VEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
-import uk.ryanwong.gmap2ics.ui.utils.DefaultResourceBundle
-import uk.ryanwong.gmap2ics.ui.utils.ResourceBundleWrapper
 import java.nio.file.Paths
+import java.util.ResourceBundle
 
 class MainScreenViewModel(
     private val configFile: Config,
@@ -35,7 +34,7 @@ class MainScreenViewModel(
     private val getActivitySegmentVEventUseCase: GetActivitySegmentVEventUseCase,
     private val vEventFromChildVisitUseCase: VEventFromChildVisitUseCase,
     private val vEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCase,
-    private val resourceBundle: ResourceBundleWrapper = DefaultResourceBundle(),
+    private val resourceBundle: ResourceBundle,
     private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/"),
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {

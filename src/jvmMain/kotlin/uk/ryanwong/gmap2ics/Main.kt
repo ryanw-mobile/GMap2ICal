@@ -27,6 +27,8 @@ import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
 import uk.ryanwong.gmap2ics.ui.screens.mainScreen
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import us.dustinj.timezonemap.TimeZoneMap
+import java.util.Locale
+import java.util.ResourceBundle
 
 fun main() = application {
     Napier.base(DebugAntilog())
@@ -47,12 +49,14 @@ fun main() = application {
         apiLanguageOverride = configFile.apiLanguageOverride
     )
     val timeZoneMap: TimeZoneMapWrapper = TimeZoneMapImpl(timeZoneMap = TimeZoneMap.forEverywhere())
+    val resourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH)
 
     GregoryGreenTheme {
         mainScreen(
             onCloseRequest = { exitApplication() },
             mainScreenViewModel = MainScreenViewModel(
                 configFile = configFile,
+                resourceBundle = resourceBundle,
                 timelineRepository = TimelineRepositoryImpl(
                     timeZoneMap = timeZoneMap,
                     kotlinJson = Json { ignoreUnknownKeys = true }),
