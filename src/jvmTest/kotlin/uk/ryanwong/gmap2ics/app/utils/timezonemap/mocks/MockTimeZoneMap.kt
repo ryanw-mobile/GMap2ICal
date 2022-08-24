@@ -2,7 +2,7 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.app.utils.timezonemap
+package uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks
 
 import com.esri.core.geometry.Polygon
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper

@@ -17,6 +17,7 @@ import uk.ryanwong.gmap2ics.data.models.places.Geometry
 import uk.ryanwong.gmap2ics.data.models.places.Location
 import uk.ryanwong.gmap2ics.data.models.places.Result
 import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.GoogleMapsApiClientImplTestData.mockPlaceDetailsGregAve
+import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.impl.GoogleMapsApiClientImpl
 
 internal class GoogleMapsApiClientImplTest : FreeSpec() {
 

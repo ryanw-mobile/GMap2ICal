@@ -12,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Response
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
-import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsNotFoundException
+import uk.ryanwong.gmap2ics.data.repository.impl.PlaceDetailsNotFoundException
 import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
 import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSourceTestData.retrofitApiResponseFailure

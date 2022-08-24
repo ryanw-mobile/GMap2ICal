@@ -2,7 +2,7 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.data.source.googleapi.ktor
+package uk.ryanwong.gmap2ics.data.source.googleapi.ktor.impl
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -13,6 +13,7 @@ import io.ktor.client.request.parameter
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.data.models.places.PlaceDetails
+import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.GoogleMapsApiClient
 
 class GoogleMapsApiClientImpl(engine: HttpClientEngine) : GoogleMapsApiClient {
     private val baseUrl = "https://maps.googleapis.com"

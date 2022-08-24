@@ -9,7 +9,7 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
 import uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisitDataModelTestData.mockPlaceVisitDataModel
 import us.dustinj.timezonemap.TimeZone
 

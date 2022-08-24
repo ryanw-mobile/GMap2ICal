@@ -8,7 +8,7 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.app.models.timeline.TimelineTestData.mockTimeline
 import uk.ryanwong.gmap2ics.app.models.timeline.TimelineTestData.mockTimelineObjects
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
 import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
 
 internal class TimelineTest : FreeSpec() {

@@ -8,7 +8,7 @@ import com.esri.core.geometry.Polygon
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
 import us.dustinj.timezonemap.TimeZone
 
 internal object ActivitySegmentAppModelTestData {

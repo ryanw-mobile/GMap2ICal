@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.data.except
-import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsNotFoundException
+import uk.ryanwong.gmap2ics.data.repository.impl.PlaceDetailsNotFoundException
 import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
 import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 import kotlin.coroutines.cancellation.CancellationException

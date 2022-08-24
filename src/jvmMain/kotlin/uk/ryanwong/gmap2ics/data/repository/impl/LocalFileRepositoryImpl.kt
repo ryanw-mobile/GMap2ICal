@@ -2,11 +2,12 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.data.repository
+package uk.ryanwong.gmap2ics.data.repository.impl
 
 import uk.ryanwong.gmap2ics.app.models.VEvent
+import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
 import uk.ryanwong.gmap2ics.data.source.local.LocalDataSource
-import uk.ryanwong.gmap2ics.data.source.local.LocalDataSourceImpl
+import uk.ryanwong.gmap2ics.data.source.local.impl.LocalDataSourceImpl
 
 class LocalFileRepositoryImpl(
     private val localDataSource: LocalDataSource = LocalDataSourceImpl()

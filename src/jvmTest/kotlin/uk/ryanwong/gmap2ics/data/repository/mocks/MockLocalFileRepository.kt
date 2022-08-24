@@ -2,9 +2,10 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.data.repository
+package uk.ryanwong.gmap2ics.data.repository.mocks
 
 import uk.ryanwong.gmap2ics.app.models.VEvent
+import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
 
 class MockLocalFileRepository : LocalFileRepository {
     var exportICalResponse: Result<Unit>? = null

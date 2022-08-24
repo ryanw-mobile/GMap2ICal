@@ -14,7 +14,7 @@ import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.WaypointPath
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
 import us.dustinj.timezonemap.TimeZone
 
 internal object VEventTestData {

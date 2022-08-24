@@ -2,13 +2,14 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.data.source.local
+package uk.ryanwong.gmap2ics.data.source.local.impl
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.data.except
+import uk.ryanwong.gmap2ics.data.source.local.LocalDataSource
 import java.io.File
 import java.io.FileWriter
 import java.nio.file.Files

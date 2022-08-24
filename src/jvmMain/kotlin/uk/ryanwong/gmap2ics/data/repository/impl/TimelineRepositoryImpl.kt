@@ -2,7 +2,7 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.data.repository
+package uk.ryanwong.gmap2ics.data.repository.impl
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -12,8 +12,9 @@ import uk.ryanwong.gmap2ics.app.models.timeline.Timeline
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
+import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.data.source.local.LocalDataSource
-import uk.ryanwong.gmap2ics.data.source.local.LocalDataSourceImpl
+import uk.ryanwong.gmap2ics.data.source.local.impl.LocalDataSourceImpl
 import kotlin.coroutines.cancellation.CancellationException
 
 class TimelineRepositoryImpl(

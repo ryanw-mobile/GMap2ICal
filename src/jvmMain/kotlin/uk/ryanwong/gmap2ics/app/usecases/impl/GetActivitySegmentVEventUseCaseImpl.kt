@@ -2,11 +2,13 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.app.usecases
+package uk.ryanwong.gmap2ics.app.usecases.impl
 
 import uk.ryanwong.gmap2ics.app.ActivityType
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
+import uk.ryanwong.gmap2ics.app.usecases.GetActivitySegmentVEventUseCase
+import uk.ryanwong.gmap2ics.app.usecases.VEventFromActivitySegmentUseCase
 
 class GetActivitySegmentVEventUseCaseImpl(
     private val vEventFromActivitySegmentUseCase: VEventFromActivitySegmentUseCase

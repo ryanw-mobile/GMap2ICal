@@ -15,14 +15,14 @@ import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
-import uk.ryanwong.gmap2ics.app.usecases.MockGetActivitySegmentVEventUseCase
-import uk.ryanwong.gmap2ics.app.usecases.MockVEventFromChildVisitUseCase
-import uk.ryanwong.gmap2ics.app.usecases.MockVEventFromPlaceVisitUseCase
-import uk.ryanwong.gmap2ics.data.repository.MockLocalFileRepository
-import uk.ryanwong.gmap2ics.data.repository.MockTimelineRepository
+import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetActivitySegmentVEventUseCase
+import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromChildVisitUseCase
+import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromPlaceVisitUseCase
+import uk.ryanwong.gmap2ics.data.repository.mocks.MockLocalFileRepository
+import uk.ryanwong.gmap2ics.data.repository.mocks.MockTimelineRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepositoryImplTestData.mockTimeLineFromJsonString
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
-import uk.ryanwong.gmap2ics.ui.utils.MockResourceBundle
+import uk.ryanwong.gmap2ics.ui.utils.mocks.MockResourceBundle
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class MainScreenViewModelTest : FreeSpec() {

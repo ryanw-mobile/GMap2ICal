@@ -12,10 +12,10 @@ import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
-import uk.ryanwong.gmap2ics.app.usecases.VEventFromChildVisitUseCaseImpl
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.MockTimeZoneMap
-import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
-import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsNotFoundException
+import uk.ryanwong.gmap2ics.app.usecases.impl.VEventFromChildVisitUseCaseImpl
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
+import uk.ryanwong.gmap2ics.data.repository.mocks.MockPlaceDetailsRepository
+import uk.ryanwong.gmap2ics.data.repository.impl.PlaceDetailsNotFoundException
 import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
 
 internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {

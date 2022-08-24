@@ -12,7 +12,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
-import uk.ryanwong.gmap2ics.data.source.local.MockGoogleApiDataSource
+import uk.ryanwong.gmap2ics.data.repository.impl.PlaceDetailsNotFoundException
+import uk.ryanwong.gmap2ics.data.repository.impl.PlaceDetailsRepositoryImpl
+import uk.ryanwong.gmap2ics.data.source.local.mocks.MockGoogleApiDataSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class PlaceDetailsRepositoryImplTest : FreeSpec() {

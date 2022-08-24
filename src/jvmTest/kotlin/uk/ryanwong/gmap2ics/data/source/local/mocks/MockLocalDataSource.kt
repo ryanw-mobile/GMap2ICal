@@ -2,7 +2,9 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.data.source.local
+package uk.ryanwong.gmap2ics.data.source.local.mocks
+
+import uk.ryanwong.gmap2ics.data.source.local.LocalDataSource
 
 class MockLocalDataSource : LocalDataSource {
     var getFileListResponse: Result<List<String>>? = null

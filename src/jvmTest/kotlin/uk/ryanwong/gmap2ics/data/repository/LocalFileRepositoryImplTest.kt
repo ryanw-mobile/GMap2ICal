@@ -9,7 +9,8 @@ import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
-import uk.ryanwong.gmap2ics.data.source.local.MockLocalDataSource
+import uk.ryanwong.gmap2ics.data.repository.impl.LocalFileRepositoryImpl
+import uk.ryanwong.gmap2ics.data.source.local.mocks.MockLocalDataSource
 import java.io.IOException
 
 internal class LocalFileRepositoryImplTest : FreeSpec() {

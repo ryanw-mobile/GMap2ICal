@@ -13,9 +13,9 @@ import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
-import uk.ryanwong.gmap2ics.app.usecases.VEventFromPlaceVisitUseCaseImpl
-import uk.ryanwong.gmap2ics.data.repository.MockPlaceDetailsRepository
-import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsNotFoundException
+import uk.ryanwong.gmap2ics.app.usecases.impl.VEventFromPlaceVisitUseCaseImpl
+import uk.ryanwong.gmap2ics.data.repository.mocks.MockPlaceDetailsRepository
+import uk.ryanwong.gmap2ics.data.repository.impl.PlaceDetailsNotFoundException
 import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
 import us.dustinj.timezonemap.TimeZone
 

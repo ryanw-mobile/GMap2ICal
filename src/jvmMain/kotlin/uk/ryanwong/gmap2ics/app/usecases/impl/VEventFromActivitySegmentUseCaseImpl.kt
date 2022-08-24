@@ -2,11 +2,12 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.app.usecases
+package uk.ryanwong.gmap2ics.app.usecases.impl
 
 import io.github.aakira.napier.Napier
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
+import uk.ryanwong.gmap2ics.app.usecases.VEventFromActivitySegmentUseCase
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.shouldShowMiles
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 
