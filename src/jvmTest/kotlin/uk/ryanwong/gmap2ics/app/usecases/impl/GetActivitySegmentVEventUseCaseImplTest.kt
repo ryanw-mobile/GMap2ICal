@@ -69,9 +69,9 @@ class GetActivitySegmentVEventUseCaseImplTest : FreeSpec() {
             "When enablePlaceApiLookup is false" {
                 // 🔴 Given
                 setupUseCase()
-                val activitySegment = VEventTestData.mockActivitySegment // Conversion is mocked so doesn't matter
+                val activitySegment = VEventTestData.mockActivitySegment
                 val ignoredActivityType = listOf(ActivityType.STILL)
-                val enablePlacesApiLookup = true
+                val enablePlacesApiLookup = false
                 mockVEventFromActivitySegmentUseCase.mockUseCaseResponse = mockVEvent
 
                 // 🟡 When
