@@ -6,6 +6,7 @@ package uk.ryanwong.gmap2ics.app.usecases.impl
 
 import io.github.aakira.napier.Napier
 import uk.ryanwong.gmap2ics.app.models.VEvent
+import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.app.usecases.VEventFromActivitySegmentUseCase
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.shouldShowMiles
@@ -19,59 +20,35 @@ class VEventFromActivitySegmentUseCaseImpl(
         activitySegment: ActivitySegment,
         enablePlacesApiLookup: Boolean
     ): VEvent {
-
-        // Extra information required by timelineItem
         val eventTimeZone = activitySegment.eventTimeZone
-        val firstPlaceDetails = activitySegment.waypointPath?.roadSegmentPlaceIds?.firstOrNull()?.let { placeId ->
-            placeDetailsRepository.getPlaceDetails(
-                placeId = placeId,
-                placeTimeZoneId = eventTimeZone?.zoneId,
-                enablePlacesApiLookup = enablePlacesApiLookup
-            ).let { result ->
-                result.exceptionOrNull()?.let {
-                    Napier.e(tag = "firstPlaceDetails", message = it.localizedMessage)
-                }
-                result.getOrNull()
-            }
-        }
 
-        val lastPlaceDetails = activitySegment.waypointPath?.roadSegmentPlaceIds?.lastOrNull()?.let { placeId ->
-            placeDetailsRepository.getPlaceDetails(
-                placeId = placeId,
-                placeTimeZoneId = eventTimeZone?.zoneId,
-                enablePlacesApiLookup = enablePlacesApiLookup
-            ).let { result ->
-                result.exceptionOrNull()?.let {
-                    Napier.e(tag = "lastPlaceDetails", message = it.localizedMessage)
-                }
-                result.getOrNull()
-            }
-        }
+        val firstPlaceDetails = getPlaceDetails(
+            placeId = activitySegment.waypointPath?.roadSegmentPlaceIds?.firstOrNull(),
+            placeTimeZoneId = eventTimeZone?.zoneId,
+            enablePlacesApiLookup = enablePlacesApiLookup,
+            napierTag = "firstPlaceDetails"
+        )
 
-        val startPlaceDetails = activitySegment.startLocation.placeId?.let { placeId ->
-            placeDetailsRepository.getPlaceDetails(
-                placeId = placeId,
-                placeTimeZoneId = eventTimeZone?.zoneId,
-                enablePlacesApiLookup = enablePlacesApiLookup
-            ).let { result ->
-                result.exceptionOrNull()?.let {
-                    Napier.e(tag = "startPlaceDetails", message = it.localizedMessage)
-                }
-                result.getOrNull()
-            }
-        }
-        val endPlaceDetails = activitySegment.endLocation.placeId?.let { placeId ->
-            placeDetailsRepository.getPlaceDetails(
-                placeId = placeId,
-                placeTimeZoneId = eventTimeZone?.zoneId,
-                enablePlacesApiLookup = enablePlacesApiLookup
-            ).let { result ->
-                result.exceptionOrNull()?.let {
-                    Napier.e(tag = "endPlaceDetails", message = it.localizedMessage)
-                }
-                result.getOrNull()
-            }
-        }
+        val lastPlaceDetails = getPlaceDetails(
+            placeId = activitySegment.waypointPath?.roadSegmentPlaceIds?.lastOrNull(),
+            placeTimeZoneId = eventTimeZone?.zoneId,
+            enablePlacesApiLookup = enablePlacesApiLookup,
+            napierTag = "lastPlaceDetails"
+        )
+        
+        val startPlaceDetails = getPlaceDetails(
+            placeId = activitySegment.startLocation.placeId,
+            placeTimeZoneId = eventTimeZone?.zoneId,
+            enablePlacesApiLookup = enablePlacesApiLookup,
+            napierTag = "startPlaceDetails"
+        )
+
+        val endPlaceDetails = getPlaceDetails(
+            placeId = activitySegment.endLocation.placeId,
+            placeTimeZoneId = eventTimeZone?.zoneId,
+            enablePlacesApiLookup = enablePlacesApiLookup,
+            napierTag = "endPlaceDetails"
+        )
 
         return VEvent.from(
             activitySegment = activitySegment,
@@ -81,5 +58,28 @@ class VEventFromActivitySegmentUseCaseImpl(
             startPlaceDetails = startPlaceDetails,
             endPlaceDetails = endPlaceDetails
         )
+    }
+
+    private suspend fun getPlaceDetails(
+        placeId: String?,
+        placeTimeZoneId: String?,
+        enablePlacesApiLookup: Boolean,
+        napierTag: String
+    ): PlaceDetails? {
+        if (placeId == null) {
+            return null
+        }
+
+        val result = placeDetailsRepository.getPlaceDetails(
+            placeId = placeId,
+            placeTimeZoneId = placeTimeZoneId,
+            enablePlacesApiLookup = enablePlacesApiLookup
+        )
+
+        result.exceptionOrNull()?.let {
+            Napier.e(tag = napierTag, message = it.localizedMessage)
+        }
+
+        return result.getOrNull()
     }
 }
