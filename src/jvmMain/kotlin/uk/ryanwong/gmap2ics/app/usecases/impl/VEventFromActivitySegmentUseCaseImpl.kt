@@ -35,7 +35,7 @@ class VEventFromActivitySegmentUseCaseImpl(
             enablePlacesApiLookup = enablePlacesApiLookup,
             napierTag = "lastPlaceDetails"
         )
-        
+
         val startPlaceDetails = getPlaceDetails(
             placeId = activitySegment.startLocation.placeId,
             placeTimeZoneId = eventTimeZone?.zoneId,
