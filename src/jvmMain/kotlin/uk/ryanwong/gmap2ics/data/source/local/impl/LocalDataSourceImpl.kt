@@ -35,7 +35,7 @@ class LocalDataSourceImpl(
         }
     }
 
-    override suspend fun getJsonString(filePath: String): String {
+    override suspend fun readStringFromFile(filePath: String): String {
         return withContext(dispatcher) {
             File(filePath).readText(Charsets.UTF_8)
         }

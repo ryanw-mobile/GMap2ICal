@@ -27,7 +27,7 @@ class TimelineRepositoryImpl(
     override suspend fun getTimeLine(filePath: String): Result<Timeline> {
         return withContext(dispatcher) {
             Result.runCatching {
-                val jsonString = localDataSource.getJsonString(filePath = filePath)
+                val jsonString = localDataSource.readStringFromFile(filePath = filePath)
                 val timelineObjects = kotlinJson.decodeFromString(TimelineObjects.serializer(), jsonString)
                 Timeline.from(timelineObjects = timelineObjects, timeZoneMap = timeZoneMap)
             }.except<CancellationException, _>()

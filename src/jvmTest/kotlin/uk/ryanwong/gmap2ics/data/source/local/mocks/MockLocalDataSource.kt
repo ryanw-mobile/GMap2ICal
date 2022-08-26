@@ -24,7 +24,7 @@ class MockLocalDataSource : LocalDataSource {
     }
 
     var getJsonStringResponse: String = ""
-    override suspend fun getJsonString(filePath: String): String {
+    override suspend fun readStringFromFile(filePath: String): String {
         return getJsonStringResponse
     }
 }
