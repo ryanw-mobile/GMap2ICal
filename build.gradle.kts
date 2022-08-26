@@ -36,7 +36,7 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
                 implementation("us.dustinj.timezonemap:timezonemap:4.5")
                 implementation("com.squareup.retrofit2:retrofit:2.9.0")
                 implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
