@@ -223,19 +223,27 @@ class MainScreenViewModel(
     }
 
     fun setExportPlaceVisit(enabled: Boolean) {
-        _exportPlaceVisit.value = enabled
+        if (_mainScreenUIState.value is MainScreenUIState.Ready) {
+            _exportPlaceVisit.value = enabled
+        }
     }
 
     fun setExportActivitySegment(enabled: Boolean) {
-        _exportActivitySegment.value = enabled
+        if (_mainScreenUIState.value is MainScreenUIState.Ready) {
+            _exportActivitySegment.value = enabled
+        }
     }
 
     fun setEnablePlacesApiLookup(enabled: Boolean) {
-        _enablePlacesApiLookup.value = enabled
+        if (_mainScreenUIState.value is MainScreenUIState.Ready) {
+            _enablePlacesApiLookup.value = enabled
+        }
     }
 
     fun setVerboseLogs(enabled: Boolean) {
-        _verboseLogs.value = enabled
+        if (_mainScreenUIState.value is MainScreenUIState.Ready) {
+            _verboseLogs.value = enabled
+        }
     }
 
     fun onChangeJsonPath() {

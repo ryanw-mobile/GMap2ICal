@@ -85,7 +85,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
     init {
         "setExportPlaceVisit" - {
-            "should update exportPlaceVisit correctly" {
+            "should update exportPlaceVisit correctly when mainScreenUIState is Ready" {
                 // 🔴 Given
                 setupViewModel()
                 val initialState = mainScreenViewModel.exportPlaceVisit.first()
@@ -96,10 +96,49 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 // 🟢 Then
                 mainScreenViewModel.exportPlaceVisit.first() shouldBe !initialState
             }
+
+            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeICalPathDialog" {
+                // 🔴 Given
+                setupViewModel()
+                mainScreenViewModel.onChangeICalPath()
+                val initialState = mainScreenViewModel.exportPlaceVisit.first()
+
+                // 🟡 When
+                mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.exportPlaceVisit.first() shouldBe initialState
+            }
+
+            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeJsonPathDialog" {
+                // 🔴 Given
+                setupViewModel()
+                mainScreenViewModel.onChangeJsonPath()
+                val initialState = mainScreenViewModel.exportPlaceVisit.first()
+
+                // 🟡 When
+                mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.exportPlaceVisit.first() shouldBe initialState
+            }
+
+            "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
+                setupViewModel()
+                every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
+                mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+                val initialState = mainScreenViewModel.exportPlaceVisit.first()
+
+                // 🟡 When
+                mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.exportPlaceVisit.first() shouldBe initialState
+            }
         }
 
         "setExportActivitySegment" - {
-            "should update exportActivitySegment correctly" {
+            "should update exportActivitySegment correctly when mainScreenUIState is Ready" {
                 // 🔴 Given
                 setupViewModel()
                 val initialState = mainScreenViewModel.exportActivitySegment.first()
@@ -110,10 +149,49 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 // 🟢 Then
                 mainScreenViewModel.exportActivitySegment.first() shouldBe !initialState
             }
+
+            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeICalPathDialog" {
+                // 🔴 Given
+                setupViewModel()
+                mainScreenViewModel.onChangeICalPath()
+                val initialState = mainScreenViewModel.exportActivitySegment.first()
+
+                // 🟡 When
+                mainScreenViewModel.setExportActivitySegment(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.exportActivitySegment.first() shouldBe initialState
+            }
+
+            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeJsonPathDialog" {
+                // 🔴 Given
+                setupViewModel()
+                mainScreenViewModel.onChangeJsonPath()
+                val initialState = mainScreenViewModel.exportActivitySegment.first()
+
+                // 🟡 When
+                mainScreenViewModel.setExportActivitySegment(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.exportActivitySegment.first() shouldBe initialState
+            }
+
+            "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
+                setupViewModel()
+                every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
+                mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+                val initialState = mainScreenViewModel.exportActivitySegment.first()
+
+                // 🟡 When
+                mainScreenViewModel.setExportActivitySegment(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.exportActivitySegment.first() shouldBe initialState
+            }
         }
 
         "setEnablePlacesApiLookup" - {
-            "should update enablePlacesApiLookup correctly" {
+            "should update enablePlacesApiLookup correctly when mainScreenUIState is Ready" {
                 // 🔴 Given
                 setupViewModel()
                 val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
@@ -124,10 +202,49 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 // 🟢 Then
                 mainScreenViewModel.enablePlacesApiLookup.first() shouldBe !initialState
             }
+
+            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeICalPathDialog" {
+                // 🔴 Given
+                setupViewModel()
+                mainScreenViewModel.onChangeICalPath()
+                val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
+
+                // 🟡 When
+                mainScreenViewModel.setEnablePlacesApiLookup(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.enablePlacesApiLookup.first() shouldBe initialState
+            }
+
+            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeJsonPathDialog" {
+                // 🔴 Given
+                setupViewModel()
+                mainScreenViewModel.onChangeJsonPath()
+                val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
+
+                // 🟡 When
+                mainScreenViewModel.setEnablePlacesApiLookup(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.enablePlacesApiLookup.first() shouldBe initialState
+            }
+
+            "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
+                setupViewModel()
+                every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
+                mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+                val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
+
+                // 🟡 When
+                mainScreenViewModel.setEnablePlacesApiLookup(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.enablePlacesApiLookup.first() shouldBe initialState
+            }
         }
 
         "setVerboseLogs" - {
-            "should update verboseLogs correctly" {
+            "should update verboseLogs correctly when mainScreenUIState is Ready" {
                 // 🔴 Given
                 setupViewModel()
                 val initialState = mainScreenViewModel.verboseLogs.first()
@@ -137,6 +254,45 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
                 // 🟢 Then
                 mainScreenViewModel.verboseLogs.first() shouldBe !initialState
+            }
+
+            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeICalPathDialog" {
+                // 🔴 Given
+                setupViewModel()
+                mainScreenViewModel.onChangeICalPath()
+                val initialState = mainScreenViewModel.verboseLogs.first()
+
+                // 🟡 When
+                mainScreenViewModel.setVerboseLogs(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.verboseLogs.first() shouldBe initialState
+            }
+
+            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeJsonPathDialog" {
+                // 🔴 Given
+                setupViewModel()
+                mainScreenViewModel.onChangeJsonPath()
+                val initialState = mainScreenViewModel.verboseLogs.first()
+
+                // 🟡 When
+                mainScreenViewModel.setVerboseLogs(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.verboseLogs.first() shouldBe initialState
+            }
+
+            "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
+                setupViewModel()
+                every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
+                mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+                val initialState = mainScreenViewModel.verboseLogs.first()
+
+                // 🟡 When
+                mainScreenViewModel.setVerboseLogs(enabled = !initialState)
+
+                // 🟢 Then
+                mainScreenViewModel.verboseLogs.first() shouldBe initialState
             }
         }
 
