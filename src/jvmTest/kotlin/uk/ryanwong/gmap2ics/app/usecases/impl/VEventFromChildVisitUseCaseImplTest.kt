@@ -13,7 +13,6 @@ import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
 import uk.ryanwong.gmap2ics.data.repository.impl.PlaceDetailsNotFoundException
 import uk.ryanwong.gmap2ics.data.repository.mocks.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
@@ -28,7 +27,6 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
 
     private lateinit var vEventFromChildVisitUseCase: VEventFromChildVisitUseCaseImpl
     private lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
-    private val mockTimeZoneMap: MockTimeZoneMap = MockTimeZoneMap()
 
     private val someLatitudeE7 = 263383300
     private val someLongitudeE7 = 1278000000
@@ -96,6 +94,130 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z"
             )
         }
+
+        "should return correct VEvent if childVisit.location.placeId is null" {
+            // 🔴 Given
+            setupUseCase()
+            val childVisit = mockChildVisit.copy(
+                location = mockChildVisit.location.copy(
+                    placeId = null
+                )
+            )
+            val enabledPlacesApiLookup = true
+            mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+                PlaceDetails(
+                    placeId = "place-id-to-be-kept",
+                    name = "some-place-name",
+                    formattedAddress = "some-formatted-address",
+                    geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+                    types = listOf("ATM"),
+                    url = "https://some.url/"
+                )
+            )
+
+            // 🟡 When
+            val vEvent = vEventFromChildVisitUseCase(
+                childVisit = childVisit,
+                enablePlacesApiLookup = enabledPlacesApiLookup
+            )
+
+            // 🟢 Then
+            vEvent shouldBe VEvent(
+                uid = "2011-11-11T11:22:22.222Z",
+                placeId = null,
+                dtStamp = "2011-11-11T11:22:22.222Z",
+                organizer = null,
+                dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
+                summary = "📍 some-name",
+                location = "some-address",
+                geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+                description = "Place ID:\\nnull\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:null",
+                url = "https://www.google.com/maps/place/?q=place_id:null",
+                lastModified = "2011-11-11T11:22:22.222Z"
+            )
+        }
+
+        "should return correct VEvent if childVisit.eventTimeZone is null" {
+            // 🔴 Given
+            setupUseCase()
+            val childVisit = mockChildVisit.copy(
+                eventTimeZone = null
+            )
+            val enabledPlacesApiLookup = true
+            mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+                PlaceDetails(
+                    placeId = "place-id-to-be-kept",
+                    name = "some-place-name",
+                    formattedAddress = "some-formatted-address",
+                    geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+                    types = listOf("ATM"),
+                    url = "https://some.url/"
+                )
+            )
+
+            // 🟡 When
+            val vEvent = vEventFromChildVisitUseCase(
+                childVisit = childVisit,
+                enablePlacesApiLookup = enabledPlacesApiLookup
+            )
+
+            // 🟢 Then
+            vEvent shouldBe VEvent(
+                uid = "2011-11-11T11:22:22.222Z",
+                placeId = "place-id-to-be-kept",
+                dtStamp = "2011-11-11T11:22:22.222Z",
+                organizer = null,
+                dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
+                summary = "\uD83C\uDFE7 some-place-name",
+                location = "some-formatted-address",
+                geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+                description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/",
+                url = "https://some.url/",
+                lastModified = "2011-11-11T11:22:22.222Z"
+            )
+        }
+
+        "should return correct VEvent if enabledPlacesApiLookup is false" {
+            // 🔴 Given
+            setupUseCase()
+            val childVisit = mockChildVisit
+            val enabledPlacesApiLookup = false
+            mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+                PlaceDetails(
+                    placeId = "place-id-to-be-kept",
+                    name = "some-place-name",
+                    formattedAddress = "some-formatted-address",
+                    geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+                    types = listOf("ATM"),
+                    url = "https://some.url/"
+                )
+            )
+
+            // 🟡 When
+            val vEvent = vEventFromChildVisitUseCase(
+                childVisit = childVisit,
+                enablePlacesApiLookup = enabledPlacesApiLookup
+            )
+
+            // 🟢 Then
+            vEvent shouldBe VEvent(
+                uid = "2011-11-11T11:22:22.222Z",
+                placeId = "place-id-to-be-kept",
+                dtStamp = "2011-11-11T11:22:22.222Z",
+                organizer = null,
+                dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
+                summary = "\uD83C\uDFE7 some-place-name",
+                location = "some-formatted-address",
+                geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+                description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/",
+                url = "https://some.url/",
+                lastModified = "2011-11-11T11:22:22.222Z"
+            )
+        }
+
 
         "should still return correct VEvent if repository returns PlaceDetailsNotFoundException" {
             // 🔴 Given
