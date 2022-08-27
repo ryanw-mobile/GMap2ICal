@@ -22,6 +22,9 @@ class VEventFromActivitySegmentUseCaseImpl(
     ): VEvent {
         val eventTimeZone = activitySegment.eventTimeZone
 
+        // Note: Known that if roadSegmentPlaceIds has only one placeId,
+        // then firstPlaceDetails will be the same as lastPlaceDetails,
+        // and it still makes sense
         val firstPlaceDetails = getPlaceDetails(
             placeId = activitySegment.waypointPath?.roadSegmentPlaceIds?.firstOrNull(),
             placeTimeZoneId = eventTimeZone?.zoneId,
