@@ -57,13 +57,10 @@ internal class MainScreenViewModelTest : FreeSpec() {
     )
 
     // These tests don't touch VEvent (yet), so we feed in a default mock result
-    private fun setupViewModel(
-        mockVEventFromPlaceVisitUseCaseResponse: VEvent = mockDefaultVEvent
-    ) {
+    private fun setupViewModel() {
         mockTimelineRepository = MockTimelineRepository()
         mockLocalFileRepository = MockLocalFileRepository()
-        mockVEventFromPlaceVisitUseCase =
-            MockVEventFromPlaceVisitUseCase(mockUseCaseResponse = mockVEventFromPlaceVisitUseCaseResponse)
+        mockVEventFromPlaceVisitUseCase = MockVEventFromPlaceVisitUseCase()
         mockVEventFromChildVisitUseCase = MockVEventFromChildVisitUseCase()
         mockGetActivitySegmentVEventUseCase = MockGetActivitySegmentVEventUseCase()
         mockGetOutputFilenameUseCase = MockGetOutputFilenameUseCase()
@@ -559,6 +556,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 mockLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
                 mockGetOutputFilenameUseCase.mockUseCaseResponse = "/some-path/some-file-1.ics"
                 mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineWithActivityVisitAndChildVisit)
+                mockVEventFromPlaceVisitUseCase.mockUseCaseResponse = mockDefaultVEvent
                 mockGetActivitySegmentVEventUseCase.mockUseCaseResponse = mockDefaultVEvent
                 mockVEventFromChildVisitUseCase.mockUseCaseResponse = mockDefaultVEvent
 

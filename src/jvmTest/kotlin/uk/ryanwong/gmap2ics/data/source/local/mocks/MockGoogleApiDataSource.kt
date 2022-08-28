@@ -7,7 +7,7 @@ package uk.ryanwong.gmap2ics.data.source.local.mocks
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 
-class MockGoogleApiDataSource() : GoogleApiDataSource {
+class MockGoogleApiDataSource : GoogleApiDataSource {
     var getMapsApiPlaceDetailsResponse: Result<PlaceDetails>? = null
     var getMapsApiPlaceDetailsLanguageRequested: String? = null
 
