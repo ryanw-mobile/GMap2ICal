@@ -15,6 +15,7 @@ import uk.ryanwong.gmap2ics.app.configs.Config
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.app.models.UILogEntry
 import uk.ryanwong.gmap2ics.app.models.VEvent
+import uk.ryanwong.gmap2ics.app.models.timeline.Timeline
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import uk.ryanwong.gmap2ics.app.usecases.GetActivitySegmentVEventUseCase
 import uk.ryanwong.gmap2ics.app.usecases.GetOutputFilenameUseCase
@@ -107,16 +108,18 @@ class MainScreenViewModel(
             }
 
             // Exporting multiple events in one single ics file
-            fileList.getOrNull()?.forEach { filename ->
-                updateStatus(message = "Processing ${stripBasePath(filename)}")
-                val eventList: List<VEvent> = getEventList(filePath = filename)
+            fileList.getOrNull()?.forEach { filePath ->
+                updateStatus(message = "Processing ${stripBasePath(filePath)}")
+                val timeline = timelineRepository.getTimeLine(filePath = filePath)
+                val eventList: List<VEvent> = getEventList(timeline = timeline)
                 val outputFileName = getOutputFilenameUseCase(
-                    originalFilename = filename,
+                    originalFilename = filePath,
                     iCalPath = _iCalPath.value,
                     jsonPath = _jsonPath.value,
                     exportActivitySegment = _exportActivitySegment.value,
                     exportPlaceVisit = _exportPlaceVisit.value
                 )
+
                 localFileRepository.exportICal(
                     vEvents = eventList,
                     filename = outputFileName
@@ -129,9 +132,8 @@ class MainScreenViewModel(
         }
     }
 
-    private suspend fun getEventList(filePath: String): List<VEvent> {
+    private suspend fun getEventList(timeline: Result<Timeline>): List<VEvent> {
         val eventList = mutableListOf<VEvent>()
-        val timeline = timelineRepository.getTimeLine(filePath = filePath)
 
         timeline.getOrNull()?.let {
             val itemCount = it.timelineEntries.size
