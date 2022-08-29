@@ -42,10 +42,10 @@ class LocalDataSourceImpl(
         }
     }
 
-    override suspend fun fileWriter(filename: String, contents: String): Result<Unit> {
+    override suspend fun fileWriter(filePath: String, contents: String): Result<Unit> {
         return withContext(dispatcher) {
             Result.runCatching {
-                FileWriter(filename, false).use { fileWriter ->
+                FileWriter(filePath, false).use { fileWriter ->
                     fileWriter.write(contents)
                 }
             }.except<CancellationException, _>()

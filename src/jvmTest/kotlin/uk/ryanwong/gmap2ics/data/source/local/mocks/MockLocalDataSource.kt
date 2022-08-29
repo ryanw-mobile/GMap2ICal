@@ -17,8 +17,8 @@ class MockLocalDataSource : LocalDataSource {
     var fileWriterContents: String? = null
         private set
     var fileWriterResponse: Result<Unit>? = null
-    override suspend fun fileWriter(filename: String, contents: String): Result<Unit> {
-        fileWriterFileName = filename
+    override suspend fun fileWriter(filePath: String, contents: String): Result<Unit> {
+        fileWriterFileName = filePath
         fileWriterContents = contents
         return fileWriterResponse ?: Result.failure(Exception("mock response unavailable"))
     }
