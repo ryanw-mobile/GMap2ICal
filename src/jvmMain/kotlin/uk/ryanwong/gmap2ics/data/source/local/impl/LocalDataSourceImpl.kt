@@ -19,14 +19,15 @@ class LocalDataSourceImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LocalDataSource {
 
+    /***
+     * Note: Current implementation accepts paths outside the project directory
+     */
     override suspend fun getFileList(absolutePath: String, extension: String): Result<List<String>> {
         return withContext(dispatcher) {
             Result.runCatching {
                 val fileList = mutableListOf<String>()
-                val projectDirAbsolutePath = Paths.get("").toAbsolutePath().toString()
-                val resourcesPath = Paths.get(projectDirAbsolutePath, absolutePath)
 
-                Files.walk(resourcesPath)
+                Files.walk(Paths.get(absolutePath))
                     .filter { file -> Files.isRegularFile(file) }
                     .filter { file -> file.toString().endsWith(suffix = ".$extension") }
                     .forEach { file -> fileList.add(file.toString()) }
