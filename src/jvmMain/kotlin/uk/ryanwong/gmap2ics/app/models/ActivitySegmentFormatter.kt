@@ -15,12 +15,14 @@ object ActivitySegmentFormatter {
         endLocation: String?
     ): String {
         // PlaceDetails are the most reliable source
-        if (startPlaceDetails != null || endPlaceDetails != null) {
-            return "(${startPlaceDetails?.name} ➡ ${endPlaceDetails?.name})"
-        }
+        return when {
+            startPlaceDetails != null || endPlaceDetails != null -> {
+                "(${startPlaceDetails?.name} ➡ ${endPlaceDetails?.name})"
+            }
 
-        return if (startLocation == null && endLocation == null) ""
-        else "(${startLocation} ➡ ${endLocation})"
+            startLocation == null && endLocation == null -> ""
+            else -> "(${startLocation} ➡ ${endLocation})"
+        }
     }
 
     fun parseTimelineDescription(
