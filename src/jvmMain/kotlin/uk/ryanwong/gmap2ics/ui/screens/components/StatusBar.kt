@@ -16,11 +16,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
+import uk.ryanwong.gmap2ics.ui.screens.ContentDescriptions
 
 @Composable
 fun StatusBar(
@@ -48,7 +50,9 @@ fun StatusBar(
                 progress = progress,
                 modifier = Modifier
                     .width(120.dp)
-                    .testTag(tag = "LinearProgressIndicator")
+                    .semantics {
+                        contentDescription = ContentDescriptions.LINEAR_PROGRESS_INDICATOR
+                    }
             )
         }
     }

@@ -5,7 +5,7 @@
 package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithContentDescription
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
@@ -14,6 +14,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
+import uk.ryanwong.gmap2ics.ui.screens.ContentDescriptions
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class StatusBarKtTest {
@@ -53,7 +54,7 @@ internal class StatusBarKtTest {
             compose.awaitIdle()
 
             // 🟢 Then
-            compose.onNodeWithTag(testTag = "LinearProgressIndicator").assertDoesNotExist()
+            compose.onNodeWithContentDescription(label = ContentDescriptions.LINEAR_PROGRESS_INDICATOR).assertDoesNotExist()
         }
     }
 
@@ -76,7 +77,7 @@ internal class StatusBarKtTest {
             compose.awaitIdle()
 
             // 🟢 Then
-            compose.onNodeWithTag(testTag = "LinearProgressIndicator").assertExists()
+            compose.onNodeWithContentDescription(label = ContentDescriptions.LINEAR_PROGRESS_INDICATOR).assertExists()
         }
     }
 
@@ -99,7 +100,7 @@ internal class StatusBarKtTest {
             compose.awaitIdle()
 
             // 🟢 Then
-            compose.onNodeWithTag(testTag = "LinearProgressIndicator").assertExists()
+            compose.onNodeWithContentDescription(label = ContentDescriptions.LINEAR_PROGRESS_INDICATOR).assertExists()
         }
     }
 }
