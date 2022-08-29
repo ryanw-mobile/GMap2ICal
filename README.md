@@ -18,7 +18,7 @@ visit, I would appreciate if you could take things easy when you see me doing so
 
 This App is fully functional.
 
-* 155 unit tests written as at 27 Aug 2022 to protect changes
+* 155 unit tests written as at 29 Aug 2022 to protect changes
 * Unit tests for composable functions (adding, but limited assertions available)
 * Dependency Injection: Dagger 2
 * Integrate SQLite (`SQLDelight`) as preferences store, and Google Maps Place API caches
@@ -67,6 +67,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * [Bitrise](https://app.bitrise.io/) - CI
 * [Kover](https://github.com/Kotlin/kotlinx-kover) - code coverage
 * [codecov](https://codecov.io/) - code coverage
+* [Ktlint Gradle](https://github.com/jlleitschuh/ktlint-gradle) - ktlint plugin to check and apply code autoformat
 
 ## How to export the Google Maps Timeline as the data set for processing
 
