@@ -10,6 +10,7 @@ plugins {
     kotlin("plugin.serialization") version "1.7.10"
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
     id("org.jetbrains.compose")
+    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
 }
 
 group = "uk.ryanwong"
