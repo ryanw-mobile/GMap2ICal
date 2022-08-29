@@ -434,7 +434,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 }
             }
 
-
             "When JFileChooserResult is Error" - {
                 "should set MainScreenUIState = Error with correct error message" {
                     // 🔴 Given
@@ -514,7 +513,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
                     mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.Ready
                 }
             }
-
 
             "When JFileChooserResult is Error" - {
                 "should set MainScreenUIState = Error with correct error message" {

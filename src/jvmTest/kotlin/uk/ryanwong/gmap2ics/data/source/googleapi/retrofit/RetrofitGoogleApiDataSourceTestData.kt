@@ -11,7 +11,6 @@ import uk.ryanwong.gmap2ics.data.models.places.Location
 import uk.ryanwong.gmap2ics.data.models.places.PlaceDetails
 import uk.ryanwong.gmap2ics.data.models.places.Result
 
-
 object RetrofitGoogleApiDataSourceTestData {
 
     val retrofitApiResponseSuccess: Response<PlaceDetails> = Response.success(

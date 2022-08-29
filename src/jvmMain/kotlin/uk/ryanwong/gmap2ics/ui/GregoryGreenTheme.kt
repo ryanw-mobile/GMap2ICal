@@ -31,7 +31,6 @@ fun GregoryGreenTheme(
             onError = Color(0xff690005),
             isLight = false
         )
-
     } else {
         Colors(
             primary = Color(0xff006c51),

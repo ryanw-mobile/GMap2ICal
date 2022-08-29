@@ -142,8 +142,8 @@ fun mainScreen(
                         resourceBundle = resourceBundle
                     )
 
-                    val shouldExportButtonEnabled = (uiState == MainScreenUIState.Ready)
-                            && (exportActivitySegment || exportPlaceVisit)
+                    val shouldExportButtonEnabled = (uiState == MainScreenUIState.Ready) &&
+                        (exportActivitySegment || exportPlaceVisit)
                     ExportActionButton(
                         enabled = shouldExportButtonEnabled,
                         onButtonClicked = { mainScreenViewModel.startExport() },

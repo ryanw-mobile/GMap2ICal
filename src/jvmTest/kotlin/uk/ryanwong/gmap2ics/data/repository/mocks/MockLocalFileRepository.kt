@@ -18,7 +18,7 @@ class MockLocalFileRepository : LocalFileRepository {
     }
 
     var getFileListResponse: Result<List<String>>? = null
-    override suspend fun getFileList(absolutePath: String, extension: String): Result<List<String>> {
+    override suspend fun getFileList(relativePath: String, extension: String): Result<List<String>> {
         return getFileListResponse ?: Result.failure(Exception("mock response unavailable"))
     }
 }

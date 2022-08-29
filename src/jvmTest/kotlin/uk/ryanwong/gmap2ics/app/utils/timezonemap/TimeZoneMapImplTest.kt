@@ -8,7 +8,7 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import us.dustinj.timezonemap.TimeZoneMap
 
-internal class PlaceDetailsTest : FreeSpec() {
+internal class TimeZoneMapImplTest : FreeSpec() {
 
     /***
      * Note:

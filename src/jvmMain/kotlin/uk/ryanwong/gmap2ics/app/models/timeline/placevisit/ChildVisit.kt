@@ -33,7 +33,6 @@ data class ChildVisit(
                 val locationAppModel = Location.from(locationDataModel = location)
                 return if (duration == null || locationAppModel == null) {
                     null
-
                 } else {
                     val eventTimeZone = timeZoneMap.getOverlappingTimeZone(
                         degreesLatitude = locationAppModel.getLatitude(),

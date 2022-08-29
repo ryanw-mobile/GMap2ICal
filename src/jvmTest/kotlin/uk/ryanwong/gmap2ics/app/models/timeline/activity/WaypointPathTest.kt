@@ -105,5 +105,4 @@ internal class WaypointPathTest : FreeSpec() {
             )
         }
     }
-
 }

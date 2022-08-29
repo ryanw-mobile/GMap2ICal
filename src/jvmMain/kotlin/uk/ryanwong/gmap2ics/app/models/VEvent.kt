@@ -54,12 +54,12 @@ data class VEvent(
                     "${mileageFormat.format(distanceInKilometers)}km"
 
                 val subject = "${activityType.emoji} $distanceString ${
-                    ActivitySegmentFormatter.parseActivityRouteText(
-                        startPlaceDetails = startPlaceDetails,
-                        endPlaceDetails = endPlaceDetails,
-                        startLocation = startLocation.name,
-                        endLocation = endLocation.name
-                    )
+                ActivitySegmentFormatter.parseActivityRouteText(
+                    startPlaceDetails = startPlaceDetails,
+                    endPlaceDetails = endPlaceDetails,
+                    startLocation = startLocation.name,
+                    endLocation = endLocation.name
+                )
                 }"
 
                 // Try to extract more meaningful information than just the miles travelled
@@ -92,7 +92,7 @@ data class VEvent(
                         longitude = endLocation.getLongitude()
                     ),
                     location = endLocation.address ?: lastPlaceDetails?.formattedAddress
-                    ?: endLocation.getFormattedLatLng(),
+                        ?: endLocation.getFormattedLatLng(),
                     url = endLocation.placeId?.let { endLocation.getGoogleMapsPlaceIdLink() }
                         ?: endLocation.getGoogleMapsLatLngLink(),
                     lastModified = lastEditedTimestamp,
@@ -161,17 +161,17 @@ data class VEvent(
             append(
                 // X-Title string has not much value. keep that simple.
                 "X-TITLE=\"${
-                    xTitle.replace(oldValue = "\n", newValue = " ")
-                        .replace(oldValue = ",", newValue = " ")
+                xTitle.replace(oldValue = "\n", newValue = " ")
+                    .replace(oldValue = ",", newValue = " ")
                 }\":geo:${geo?.getFormattedLatLng() ?: "0,0"}\n"
             )
             append("UID:$uid\n")
             append("DTSTAMP:$dtStamp\n")
             append(
                 "LOCATION:${
-                    location
-                        .replace(oldValue = "\n", newValue = ", ")
-                        .replace(oldValue = ",", newValue = "\\,")
+                location
+                    .replace(oldValue = "\n", newValue = ", ")
+                    .replace(oldValue = ",", newValue = "\\,")
                 }\n"
             )
             append("SUMMARY:$summary\n")
@@ -198,4 +198,3 @@ data class VEvent(
         return stringBuilder.toString()
     }
 }
-

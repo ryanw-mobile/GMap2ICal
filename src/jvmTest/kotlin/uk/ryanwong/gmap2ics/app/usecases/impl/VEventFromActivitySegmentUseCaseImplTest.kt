@@ -251,20 +251,20 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
 
                 // 🟢 Then
                 vEvent shouldBe
-                        VEvent(
-                            uid = "2011-11-11T11:22:22.222Z",
-                            placeId = "some-end-place-id",
-                            dtStamp = "2011-11-11T11:22:22.222Z",
-                            organizer = null,
-                            dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
-                            dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
-                            summary = "✈️ 0.1km (some-place-name ➡ some-place-name)",
-                            location = "26.33933,127.85",
-                            geo = LatLng(latitude = 26.33933, longitude = 127.85),
-                            description = "Start Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-place-id\\n\\nEnd Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-place-id\\n\\n",
-                            url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
-                            lastModified = "2011-11-11T11:22:22.222Z"
-                        )
+                    VEvent(
+                        uid = "2011-11-11T11:22:22.222Z",
+                        placeId = "some-end-place-id",
+                        dtStamp = "2011-11-11T11:22:22.222Z",
+                        organizer = null,
+                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
+                        summary = "✈️ 0.1km (some-place-name ➡ some-place-name)",
+                        location = "26.33933,127.85",
+                        geo = LatLng(latitude = 26.33933, longitude = 127.85),
+                        description = "Start Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-place-id\\n\\nEnd Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-place-id\\n\\n",
+                        url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
+                        lastModified = "2011-11-11T11:22:22.222Z"
+                    )
             }
         }
 

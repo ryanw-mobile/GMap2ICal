@@ -55,14 +55,14 @@ class RetrofitGoogleApiDataSourceTest : FreeSpec() {
                     // 🟢 Then
                     placeDetails.isSuccess shouldBe true
                     placeDetails.getOrNull() shouldBe
-                            PlaceDetails(
-                                placeId = "some-place-id",
-                                name = "some-name",
-                                formattedAddress = "some-formatted-address",
-                                geo = LatLng(latitude = 50.44444444444444, longitude = -2.111111111111111),
-                                types = listOf("route"),
-                                url = "https://maps.google.com/?q=some+address,+Manchester+M21,+UK&ftid=0x1111111111111111:0x1111111111111111"
-                            )
+                        PlaceDetails(
+                            placeId = "some-place-id",
+                            name = "some-name",
+                            formattedAddress = "some-formatted-address",
+                            geo = LatLng(latitude = 50.44444444444444, longitude = -2.111111111111111),
+                            types = listOf("route"),
+                            url = "https://maps.google.com/?q=some+address,+Manchester+M21,+UK&ftid=0x1111111111111111:0x1111111111111111"
+                        )
                 }
             }
 

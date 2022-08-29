@@ -8,6 +8,8 @@ import uk.ryanwong.gmap2ics.data.models.places.PlaceDetails
 
 interface GoogleMapsApiClient {
     suspend fun getPlaceDetails(
-        placeId: String, apiKey: String, language: String?
+        placeId: String,
+        apiKey: String,
+        language: String?
     ): PlaceDetails?
 }

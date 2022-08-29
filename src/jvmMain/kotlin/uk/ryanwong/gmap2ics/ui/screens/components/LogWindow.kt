@@ -73,7 +73,6 @@ fun LogWindowTabRow(
     val bubbleStateActiveBackground = MaterialTheme.colors.error
     val bubbleStateActiveTextColor = MaterialTheme.colors.onError
 
-
     Row(
         modifier = modifier
             .fillMaxWidth()

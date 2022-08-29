@@ -21,7 +21,7 @@ object ActivitySegmentFormatter {
             }
 
             startLocation == null && endLocation == null -> ""
-            else -> "(${startLocation} ➡ ${endLocation})"
+            else -> "($startLocation ➡ $endLocation)"
         }
     }
 
@@ -42,9 +42,9 @@ object ActivitySegmentFormatter {
         } ?: ""
 
         return startLocationText +
-                endLocationText +
-                firstSegmentText +
-                lastSegmentText
+            endLocationText +
+            firstSegmentText +
+            lastSegmentText
     }
 
     fun getStartLocationText(startLocation: Location, placeDetails: PlaceDetails?): String {
@@ -52,7 +52,6 @@ object ActivitySegmentFormatter {
             "Start Location: ${place.formattedAddress}\\n${startLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
         }
             ?: "Start Location: ${startLocation.getFormattedLatLng()}\\n${startLocation.getGoogleMapsLatLngLink()}\\n\\n"
-
     }
 
     fun getEndLocationText(endLocation: Location, placeDetails: PlaceDetails?): String {

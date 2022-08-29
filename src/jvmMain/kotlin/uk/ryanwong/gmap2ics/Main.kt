@@ -59,7 +59,8 @@ fun main() = application {
                 resourceBundle = resourceBundle,
                 timelineRepository = TimelineRepositoryImpl(
                     timeZoneMap = timeZoneMap,
-                    kotlinJson = Json { ignoreUnknownKeys = true }),
+                    kotlinJson = Json { ignoreUnknownKeys = true }
+                ),
                 localFileRepository = LocalFileRepositoryImpl(),
                 getActivitySegmentVEventUseCase = GetActivitySegmentVEventUseCaseImpl(
                     vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(

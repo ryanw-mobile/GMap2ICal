@@ -218,7 +218,6 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
             )
         }
 
-
         "should still return correct VEvent if repository returns PlaceDetailsNotFoundException" {
             // 🔴 Given
             setupUseCase()

@@ -90,7 +90,7 @@ class MainScreenViewModel(
 
         CoroutineScope(dispatcher).launch {
             val fileList = localFileRepository.getFileList(
-                absolutePath = _jsonPath.value,
+                relativePath = _jsonPath.value,
                 extension = "json"
             )
 
@@ -268,8 +268,9 @@ class MainScreenViewModel(
             }
 
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
-            else -> _mainScreenUIState.value =
-                MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.json.path"))
+            else ->
+                _mainScreenUIState.value =
+                    MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.json.path"))
         }
     }
 
@@ -281,8 +282,9 @@ class MainScreenViewModel(
             }
 
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
-            else -> _mainScreenUIState.value =
-                MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.ical.path"))
+            else ->
+                _mainScreenUIState.value =
+                    MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.ical.path"))
         }
     }
 

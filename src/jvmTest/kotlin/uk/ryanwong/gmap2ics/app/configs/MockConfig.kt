@@ -5,7 +5,6 @@
 package uk.ryanwong.gmap2ics.app.configs
 
 import uk.ryanwong.gmap2ics.app.ActivityType
-import uk.ryanwong.gmap2ics.app.configs.Config
 
 class MockConfig : Config {
     override val jsonPath = "./src/main/resources"

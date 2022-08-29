@@ -144,7 +144,6 @@ class LocalDataSourceImplTest : FreeSpec() {
                     // 🔴 Given
                     val absolutePath = tempDir.absolutePath + "/some-invalid-file-path"
 
-
                     // 🟡 When
                     val exception = shouldThrow<FileNotFoundException> {
                         localDataSource.readStringFromFile(

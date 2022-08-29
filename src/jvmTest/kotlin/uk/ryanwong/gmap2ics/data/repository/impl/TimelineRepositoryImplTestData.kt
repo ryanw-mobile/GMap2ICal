@@ -276,11 +276,13 @@ object TimelineRepositoryImplTestData {
                     waypointPath = null,
                     lastEditedTimestamp = "2019-07-08T07:26:17.631Z",
                     eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
-                ), placeVisit = null
+                ),
+                placeVisit = null
             ),
 
             TimelineEntry(
-                activitySegment = null, placeVisit = PlaceVisit(
+                activitySegment = null,
+                placeVisit = PlaceVisit(
                     durationEndTimestamp = RawTimestamp(
                         timestamp = "2019-07-08T08:17:27.614Z",
                         timezoneId = "Asia/Tokyo"
@@ -345,7 +347,8 @@ object TimelineRepositoryImplTestData {
                     ),
                     lastEditedTimestamp = "2019-07-08T08:38:26.614Z",
                     eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
-                ), placeVisit = null
+                ),
+                placeVisit = null
             )
         )
     )

@@ -96,7 +96,6 @@ internal class LocationTest : FreeSpec() {
                 )
             }
 
-
             "should return null if activityLocationDataModel does not contain latitudeE7" {
                 // 🔴 Given
                 val activityLocationDataModel = uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation(

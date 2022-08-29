@@ -11,8 +11,8 @@ import uk.ryanwong.gmap2ics.app.ActivityType
  * You may implement different processing rules in order to generate ICS dataset for different purposes
  */
 interface Config {
-    val jsonPath: String  // Location of the source Json Files
-    val icalPath: String  // Location of the processed iCal output
+    val jsonPath: String // Location of the source Json Files
+    val icalPath: String // Location of the processed iCal output
     val exportPlaceVisit: Boolean
     val exportActivitySegment: Boolean
     val ignoredActivityType: List<ActivityType>

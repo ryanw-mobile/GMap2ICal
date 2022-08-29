@@ -21,16 +21,20 @@ class GoogleMapsApiClientImpl(engine: HttpClientEngine) : GoogleMapsApiClient {
 
     private val httpClient = HttpClient(engine) {
         install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-                prettyPrint = true
-                isLenient = true
-            })
+            json(
+                Json {
+                    ignoreUnknownKeys = true
+                    prettyPrint = true
+                    isLenient = true
+                }
+            )
         }
     }
 
     override suspend fun getPlaceDetails(
-        placeId: String, apiKey: String, language: String?
+        placeId: String,
+        apiKey: String,
+        language: String?
     ): PlaceDetails? {
         return httpClient.get(placeDetailsUrl) {
             parameter("place_id", placeId)

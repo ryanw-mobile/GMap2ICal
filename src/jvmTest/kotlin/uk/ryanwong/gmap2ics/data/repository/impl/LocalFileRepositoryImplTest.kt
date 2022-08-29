@@ -115,44 +115,44 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                 exportICalResponse.isSuccess shouldBe true
                 localDataSource.fileWriterFileName shouldBe "some-file-name"
                 localDataSource.fileWriterContents shouldBe "BEGIN:VCALENDAR\n" +
-                        "VERSION:2.0\n" +
-                        "BEGIN:VEVENT\n" +
-                        "TRANSP:OPAQUE\n" +
-                        "DTSTART;TZID=Asia/Tokyo:20111112T051111\n" +
-                        "DTEND;TZID=Asia/Tokyo:20111112T052222\n" +
-                        "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
-                        "X-TITLE=\"some-formatted-address\":geo:26.33833,127.8\n" +
-                        "UID:2011-11-11T11:22:22.222Z\n" +
-                        "DTSTAMP:2011-11-11T11:22:22.222Z\n" +
-                        "LOCATION:some-formatted-address\n" +
-                        "SUMMARY:\uD83C\uDFE7 some-place-name\n" +
-                        "DESCRIPTION:Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/\n" +
-                        "URL;VALUE=URI:https://some.url/\n" +
-                        "STATUS:CONFIRMED\n" +
-                        "SEQUENCE:1\n" +
-                        "LAST-MODIFIED:2011-11-11T11:22:22.222Z\n" +
-                        "CREATED:2011-11-11T11:22:22.222Z\n" +
-                        "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
-                        "END:VEVENT\n" +
-                        "BEGIN:VEVENT\n" +
-                        "TRANSP:OPAQUE\n" +
-                        "DTSTART;TZID=Asia/Tokyo:20111112T051111\n" +
-                        "DTEND;TZID=Asia/Tokyo:20111112T052222\n" +
-                        "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
-                        "X-TITLE=\"26.33833 127.8\":geo:26.33833,127.8\n" +
-                        "UID:2011-11-11T11:22:22.222Z\n" +
-                        "DTSTAMP:2011-11-11T11:22:22.222Z\n" +
-                        "LOCATION:\n" +
-                        "SUMMARY:\uD83D\uDCCD null\n" +
-                        "DESCRIPTION:Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\n" +
-                        "URL;VALUE=URI:https://www.google.com/maps/place/?q=place_id:some-place-id\n" +
-                        "STATUS:CONFIRMED\n" +
-                        "SEQUENCE:1\n" +
-                        "LAST-MODIFIED:2011-11-11T11:22:22.222Z\n" +
-                        "CREATED:2011-11-11T11:22:22.222Z\n" +
-                        "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
-                        "END:VEVENT\n" +
-                        "END:VCALENDAR\n"
+                    "VERSION:2.0\n" +
+                    "BEGIN:VEVENT\n" +
+                    "TRANSP:OPAQUE\n" +
+                    "DTSTART;TZID=Asia/Tokyo:20111112T051111\n" +
+                    "DTEND;TZID=Asia/Tokyo:20111112T052222\n" +
+                    "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
+                    "X-TITLE=\"some-formatted-address\":geo:26.33833,127.8\n" +
+                    "UID:2011-11-11T11:22:22.222Z\n" +
+                    "DTSTAMP:2011-11-11T11:22:22.222Z\n" +
+                    "LOCATION:some-formatted-address\n" +
+                    "SUMMARY:\uD83C\uDFE7 some-place-name\n" +
+                    "DESCRIPTION:Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/\n" +
+                    "URL;VALUE=URI:https://some.url/\n" +
+                    "STATUS:CONFIRMED\n" +
+                    "SEQUENCE:1\n" +
+                    "LAST-MODIFIED:2011-11-11T11:22:22.222Z\n" +
+                    "CREATED:2011-11-11T11:22:22.222Z\n" +
+                    "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
+                    "END:VEVENT\n" +
+                    "BEGIN:VEVENT\n" +
+                    "TRANSP:OPAQUE\n" +
+                    "DTSTART;TZID=Asia/Tokyo:20111112T051111\n" +
+                    "DTEND;TZID=Asia/Tokyo:20111112T052222\n" +
+                    "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
+                    "X-TITLE=\"26.33833 127.8\":geo:26.33833,127.8\n" +
+                    "UID:2011-11-11T11:22:22.222Z\n" +
+                    "DTSTAMP:2011-11-11T11:22:22.222Z\n" +
+                    "LOCATION:\n" +
+                    "SUMMARY:\uD83D\uDCCD null\n" +
+                    "DESCRIPTION:Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\n" +
+                    "URL;VALUE=URI:https://www.google.com/maps/place/?q=place_id:some-place-id\n" +
+                    "STATUS:CONFIRMED\n" +
+                    "SEQUENCE:1\n" +
+                    "LAST-MODIFIED:2011-11-11T11:22:22.222Z\n" +
+                    "CREATED:2011-11-11T11:22:22.222Z\n" +
+                    "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
+                    "END:VEVENT\n" +
+                    "END:VCALENDAR\n"
             }
 
             "should return Result.failure if data source return error" {

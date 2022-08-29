@@ -33,17 +33,14 @@ class KtorGoogleApiDataSource(
                     response?.result?.let { result ->
                         PlaceDetails.from(placeDetailsResult = result)
                     }
-
                 } catch (cancellationException: CancellationException) {
                     throw cancellationException
-
                 } catch (ex: Exception) {
                     Napier.e(message = "getPlaceDetails", throwable = ex)
                     throw GetPlaceDetailsAPIErrorException(apiErrorMessage = ex.localizedMessage)
                 }
 
                 result ?: throw PlaceDetailsNotFoundException(placeId = placeId)
-
             }.except<CancellationException, _>()
         }
     }

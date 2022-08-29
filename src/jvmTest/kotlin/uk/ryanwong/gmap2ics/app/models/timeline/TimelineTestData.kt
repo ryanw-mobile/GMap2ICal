@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk) 
+ * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
 package uk.ryanwong.gmap2ics.app.models.timeline
@@ -53,15 +53,18 @@ internal object TimelineTestData {
                         placeId = null
                     ),
                     waypointPath = WaypointPath(
-                        confidence = 0.9905998589035128, distanceMeters = 3838.6799403449295, roadSegment = listOf(
+                        confidence = 0.9905998589035128, distanceMeters = 3838.6799403449295,
+                        roadSegment = listOf(
                             RoadSegment(duration = "12s", placeId = "some-road-segment-place-id-1"),
                             RoadSegment(duration = "8s", placeId = "some-road-segment-place-id-2"),
                             RoadSegment(duration = "7s", placeId = "some-road-segment-place-id-3"),
-                        ), source = "INFERRED", travelMode = "DRIVE"
+                        ),
+                        source = "INFERRED", travelMode = "DRIVE"
                     ),
                     lastEditedTimestamp = null,
                     activityConfidence = null
-                ), placeVisit = null
+                ),
+                placeVisit = null
             ),
             TimelineObject(
                 activitySegment = null,
@@ -115,15 +118,18 @@ internal object TimelineTestData {
                         placeId = null
                     ),
                     waypointPath = WaypointPath(
-                        confidence = 0.9996660206177816, distanceMeters = 2318.9909458116717, roadSegment = listOf(
+                        confidence = 0.9996660206177816, distanceMeters = 2318.9909458116717,
+                        roadSegment = listOf(
                             RoadSegment(duration = "3s", placeId = "some-road-segment-place-id-1"),
                             RoadSegment(duration = "2s", placeId = "some-road-segment-place-id-2"),
                             RoadSegment(duration = "12s", placeId = "some-road-segment-place-id-3")
-                        ), source = "INFERRED", travelMode = "DRIVE"
+                        ),
+                        source = "INFERRED", travelMode = "DRIVE"
                     ),
                     lastEditedTimestamp = null,
                     activityConfidence = null
-                ), placeVisit = PlaceVisit(
+                ),
+                placeVisit = PlaceVisit(
                     centerLatE7 = null,
                     centerLngE7 = null,
                     duration = Duration(
@@ -203,7 +209,8 @@ internal object TimelineTestData {
                     ),
                     lastEditedTimestamp = "2022-01-03T14:18:02Z",
                     eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
-                ), placeVisit = null
+                ),
+                placeVisit = null
             ),
             TimelineEntry(
                 activitySegment = null,
@@ -225,7 +232,8 @@ internal object TimelineTestData {
                     childVisits = listOf(),
                     eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
                 )
-            ), TimelineEntry(
+            ),
+            TimelineEntry(
                 activitySegment = uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment(
                     activities = listOf(
                         uk.ryanwong.gmap2ics.app.models.timeline.activity.Activity(
