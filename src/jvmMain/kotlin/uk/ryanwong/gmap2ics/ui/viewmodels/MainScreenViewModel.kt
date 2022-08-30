@@ -8,6 +8,7 @@ import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -37,7 +38,7 @@ class MainScreenViewModel(
     private val vEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCase,
     private val resourceBundle: ResourceBundle,
     private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/"),
-    private val dispatcher: CoroutineDispatcher = Dispatchers.Default
+    dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
     private var _mainScreenUIState: MutableStateFlow<MainScreenUIState> = MutableStateFlow(MainScreenUIState.Ready)
     val mainScreenUIState: StateFlow<MainScreenUIState> = _mainScreenUIState
@@ -69,6 +70,9 @@ class MainScreenViewModel(
     private var _verboseLogs = MutableStateFlow(false)
     val verboseLogs: StateFlow<Boolean> = _verboseLogs
 
+    private val coroutineJob = Job()
+    private val viewModelScope = CoroutineScope(coroutineJob + dispatcher)
+
     init {
         // Default values, overridable from UI
         // TODO: might provide as profiles
@@ -88,7 +92,7 @@ class MainScreenViewModel(
         _exportedLogs.value = emptyList()
         _ignoredLogs.value = emptyList()
 
-        CoroutineScope(dispatcher).launch {
+        viewModelScope.launch {
             val fileList = localFileRepository.getFileList(
                 relativePath = _jsonPath.value,
                 extension = "json"
