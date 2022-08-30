@@ -72,8 +72,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
             localFileRepository = mockLocalFileRepository,
             getActivitySegmentVEventUseCase = mockGetActivitySegmentVEventUseCase,
             getOutputFilenameUseCase = mockGetOutputFilenameUseCase,
-            vEventFromPlaceVisitUseCase = mockVEventFromPlaceVisitUseCase,
-            vEventFromChildVisitUseCase = mockVEventFromChildVisitUseCase,
+            getPlaceVisitVEventUseCase = mockk(),
             resourceBundle = mockResourceBundle,
             projectBasePath = mockProjectBasePath,
             dispatcher = UnconfinedTestDispatcher()
@@ -447,7 +446,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                     // 🟢 Then
                     val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
                     mainScreenUIState.shouldBeTypeOf<MainScreenUIState.Error>()
-                    (mainScreenUIState as MainScreenUIState.Error).errMsg shouldBe "some-error-string"
+                    mainScreenUIState.errMsg shouldBe "some-error-string"
                 }
             }
         }
@@ -527,7 +526,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                     // 🟢 Then
                     val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
                     mainScreenUIState.shouldBeTypeOf<MainScreenUIState.Error>()
-                    (mainScreenUIState as MainScreenUIState.Error).errMsg shouldBe "some-error-string"
+                    mainScreenUIState.errMsg shouldBe "some-error-string"
                 }
             }
         }

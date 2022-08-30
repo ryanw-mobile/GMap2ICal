@@ -4,7 +4,6 @@
 
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,11 +16,9 @@ import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.app.models.UILogEntry
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.Timeline
-import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import uk.ryanwong.gmap2ics.app.usecases.GetActivitySegmentVEventUseCase
 import uk.ryanwong.gmap2ics.app.usecases.GetOutputFilenameUseCase
-import uk.ryanwong.gmap2ics.app.usecases.VEventFromChildVisitUseCase
-import uk.ryanwong.gmap2ics.app.usecases.VEventFromPlaceVisitUseCase
+import uk.ryanwong.gmap2ics.app.usecases.GetPlaceVisitVEventUseCase
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
@@ -34,11 +31,10 @@ class MainScreenViewModel(
     private val localFileRepository: LocalFileRepository,
     private val getOutputFilenameUseCase: GetOutputFilenameUseCase,
     private val getActivitySegmentVEventUseCase: GetActivitySegmentVEventUseCase,
-    private val vEventFromChildVisitUseCase: VEventFromChildVisitUseCase,
-    private val vEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCase,
+    private val getPlaceVisitVEventUseCase: GetPlaceVisitVEventUseCase,
     private val resourceBundle: ResourceBundle,
     private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/"),
-    dispatcher: CoroutineDispatcher = Dispatchers.Default
+    dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) {
     private var _mainScreenUIState: MutableStateFlow<MainScreenUIState> = MutableStateFlow(MainScreenUIState.Ready)
     val mainScreenUIState: StateFlow<MainScreenUIState> = _mainScreenUIState
@@ -85,6 +81,8 @@ class MainScreenViewModel(
             _verboseLogs.value = verboseLogs
             updateStatus(message = "Applied configurations: ".plus(configFile.javaClass.toString().split(".").last()))
         }
+
+        observeGetPlaceVisitVEventUseCaseFlows()
     }
 
     fun startExport() {
@@ -172,7 +170,15 @@ class MainScreenViewModel(
                 }
 
                 if (_exportPlaceVisit.value) {
-                    val vEventList = timelineEntry.placeVisit?.let { getPlaceVisitVEvent(it) }
+                    val vEventList =
+                        timelineEntry.placeVisit?.let { placeVisit ->
+                            getPlaceVisitVEventUseCase(
+                                placeVisit = placeVisit,
+                                enablePlacesApiLookup = _enablePlacesApiLookup.value,
+                                ignoredVisitedPlaceIds = configFile.ignoredVisitedPlaceIds,
+                                verboseConsoleLog = _verboseLogs.value,
+                            )
+                        }
                     vEventList?.let { eventList.addAll(vEventList) }
                 }
             }
@@ -182,49 +188,6 @@ class MainScreenViewModel(
             processResultFailure(userFriendlyMessage = "☠️ Error processing timeline", throwable)
         }
         updateStatus(message = "Processed ${timeline.getOrNull()?.timelineEntries?.size ?: 0} timeline entries.")
-        return eventList
-    }
-
-    private suspend fun getPlaceVisitVEvent(placeVisit: PlaceVisit): List<VEvent> {
-        val eventList: MutableList<VEvent> = mutableListOf()
-
-        // If parent visit is to be ignored, child has no meaning to stay
-        if (configFile.ignoredVisitedPlaceIds.contains(placeVisit.location.placeId)) {
-            appendIgnoredLog(
-                emoji = "🚫",
-                message = "${placeVisit.durationStartTimestamp.toUITimestamp()}: Place ID ${placeVisit.location.placeId}"
-            )
-        } else {
-            vEventFromPlaceVisitUseCase(
-                placeVisit = placeVisit,
-                enablePlacesApiLookup = _enablePlacesApiLookup.value
-            ).let { vEvent ->
-                eventList.add(vEvent)
-                appendExportedLog(
-                    emoji = "\uD83D\uDDD3",
-                    message = "${vEvent.dtStart.toUITimestamp()}: ${vEvent.summary}"
-                )
-                printVerboseConsoleLog(message = vEvent.toString())
-            }
-
-            // If we have child-visits, we export them as individual events
-            // ChildVisit might have unconfirmed location which does not have a duration
-            placeVisit.childVisits.forEach { childVisit ->
-                if (!configFile.ignoredVisitedPlaceIds.contains(childVisit.location.placeId)) {
-                    vEventFromChildVisitUseCase(
-                        childVisit = childVisit,
-                        enablePlacesApiLookup = _enablePlacesApiLookup.value
-                    )?.let { vEvent ->
-                        eventList.add(vEvent)
-                        appendExportedLog(
-                            emoji = "\uD83D\uDDD3",
-                            message = "${vEvent.dtStart.toUITimestamp()}: ${vEvent.summary}"
-                        )
-                        printVerboseConsoleLog(message = vEvent.toString())
-                    }
-                }
-            }
-        }
         return eventList
     }
 
@@ -304,18 +267,20 @@ class MainScreenViewModel(
         }
     }
 
-    private fun printVerboseConsoleLog(message: String) {
-        if (_verboseLogs.value) {
-            Napier.v(tag = "MainScreenViewModel", message = message)
-        }
-    }
-
     private fun appendExportedLog(emoji: String, message: String) {
-        _exportedLogs.value = _exportedLogs.value + UILogEntry(emoji = emoji, message = message)
+        appendExportedLog(uiLogEntry = UILogEntry(emoji = emoji, message = message))
     }
 
     private fun appendIgnoredLog(emoji: String, message: String) {
-        _ignoredLogs.value = _ignoredLogs.value + UILogEntry(emoji = emoji, message = message)
+        appendIgnoredLog(uiLogEntry = UILogEntry(emoji = emoji, message = message))
+    }
+
+    private fun appendExportedLog(uiLogEntry: UILogEntry) {
+        _exportedLogs.value = _exportedLogs.value + uiLogEntry
+    }
+
+    private fun appendIgnoredLog(uiLogEntry: UILogEntry) {
+        _ignoredLogs.value = _ignoredLogs.value + uiLogEntry
     }
 
     private fun updateStatus(message: String) {
@@ -325,5 +290,19 @@ class MainScreenViewModel(
     private fun processResultFailure(userFriendlyMessage: String, throwable: Throwable?): String {
         throwable?.printStackTrace()
         return "☠️ $userFriendlyMessage: ".plus(throwable?.localizedMessage ?: "unknown error")
+    }
+
+    private fun observeGetPlaceVisitVEventUseCaseFlows() {
+        viewModelScope.launch {
+            getPlaceVisitVEventUseCase.exportedEvents.collect { uiLogEntry ->
+                appendExportedLog(uiLogEntry = uiLogEntry)
+            }
+        }
+
+        viewModelScope.launch {
+            getPlaceVisitVEventUseCase.ignoredEvents.collect { uiLogEntry ->
+                appendIgnoredLog(uiLogEntry = uiLogEntry)
+            }
+        }
     }
 }

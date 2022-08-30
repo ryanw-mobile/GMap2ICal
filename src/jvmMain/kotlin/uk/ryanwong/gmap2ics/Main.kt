@@ -12,6 +12,7 @@ import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.app.configs.RyanConfig
 import uk.ryanwong.gmap2ics.app.usecases.impl.GetActivitySegmentVEventUseCaseImpl
 import uk.ryanwong.gmap2ics.app.usecases.impl.GetOutputFilenameUseCaseImpl
+import uk.ryanwong.gmap2ics.app.usecases.impl.GetPlaceVisitVEventUseCaseImpl
 import uk.ryanwong.gmap2ics.app.usecases.impl.VEventFromActivitySegmentUseCaseImpl
 import uk.ryanwong.gmap2ics.app.usecases.impl.VEventFromChildVisitUseCaseImpl
 import uk.ryanwong.gmap2ics.app.usecases.impl.VEventFromPlaceVisitUseCaseImpl
@@ -50,6 +51,10 @@ fun main() = application {
     )
     val timeZoneMap: TimeZoneMapWrapper = TimeZoneMapImpl(timeZoneMap = TimeZoneMap.forEverywhere())
     val resourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH)
+    val getPlaceVisitVEventUseCase = GetPlaceVisitVEventUseCaseImpl(
+        vEventFromChildVisitUseCase = VEventFromChildVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository),
+        vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository),
+    )
 
     GregoryGreenTheme {
         mainScreen(
@@ -68,8 +73,7 @@ fun main() = application {
                     )
                 ),
                 getOutputFilenameUseCase = GetOutputFilenameUseCaseImpl(),
-                vEventFromChildVisitUseCase = VEventFromChildVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository),
-                vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository)
+                getPlaceVisitVEventUseCase = getPlaceVisitVEventUseCase,
             )
         )
     }
