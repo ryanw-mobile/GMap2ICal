@@ -19,6 +19,7 @@ import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetActivitySegmentVEventUseCase
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetOutputFilenameUseCase
+import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetPlaceVisitVEventUseCase
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromChildVisitUseCase
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromPlaceVisitUseCase
 import uk.ryanwong.gmap2ics.data.repository.mocks.MockLocalFileRepository
@@ -37,6 +38,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
     private lateinit var mockVEventFromChildVisitUseCase: MockVEventFromChildVisitUseCase
     private lateinit var mockGetActivitySegmentVEventUseCase: MockGetActivitySegmentVEventUseCase
     private lateinit var mockGetOutputFilenameUseCase: MockGetOutputFilenameUseCase
+    private lateinit var mockGetPlaceVisitVEventUseCase: MockGetPlaceVisitVEventUseCase
     private lateinit var mockResourceBundle: ResourceBundle
 
     private val mockProjectBasePath = "/default-base-path/default-sub-folder/"
@@ -64,6 +66,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
         mockVEventFromChildVisitUseCase = MockVEventFromChildVisitUseCase()
         mockGetActivitySegmentVEventUseCase = MockGetActivitySegmentVEventUseCase()
         mockGetOutputFilenameUseCase = MockGetOutputFilenameUseCase()
+        mockGetPlaceVisitVEventUseCase = MockGetPlaceVisitVEventUseCase()
         mockResourceBundle = mockk()
 
         mainScreenViewModel = MainScreenViewModel(
@@ -72,10 +75,10 @@ internal class MainScreenViewModelTest : FreeSpec() {
             localFileRepository = mockLocalFileRepository,
             getActivitySegmentVEventUseCase = mockGetActivitySegmentVEventUseCase,
             getOutputFilenameUseCase = mockGetOutputFilenameUseCase,
-            getPlaceVisitVEventUseCase = mockk(),
+            getPlaceVisitVEventUseCase = mockGetPlaceVisitVEventUseCase,
             resourceBundle = mockResourceBundle,
             projectBasePath = mockProjectBasePath,
-            dispatcher = UnconfinedTestDispatcher()
+            dispatcher = UnconfinedTestDispatcher(),
         )
     }
 
@@ -556,6 +559,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 mockVEventFromPlaceVisitUseCase.mockUseCaseResponse = mockDefaultVEvent
                 mockGetActivitySegmentVEventUseCase.mockUseCaseResponse = mockDefaultVEvent
                 mockVEventFromChildVisitUseCase.mockUseCaseResponse = mockDefaultVEvent
+                mockGetPlaceVisitVEventUseCase.mockUseCaseResponse = listOf(mockDefaultVEvent)
 
                 // 🟡 When
                 mainScreenViewModel.startExport()
@@ -568,6 +572,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
             "Should set MainScreenUIState = Error if localFileRepository.getFileList returns error" {
                 // 🔴 Given
                 setupViewModel()
+                mockGetPlaceVisitVEventUseCase.mockUseCaseResponse = listOf(mockDefaultVEvent)
                 mockLocalFileRepository.getFileListResponse =
                     Result.failure(exception = Exception("some-exception-message"))
 
