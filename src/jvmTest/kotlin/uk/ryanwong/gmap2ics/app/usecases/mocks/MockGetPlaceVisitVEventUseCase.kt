@@ -24,8 +24,16 @@ class MockGetPlaceVisitVEventUseCase : GetPlaceVisitVEventUseCase {
         placeVisit: PlaceVisit,
         ignoredVisitedPlaceIds: List<String>,
         enablePlacesApiLookup: Boolean,
-        verboseConsoleLog: Boolean
+        verboseConsoleLog: Boolean,
     ): List<VEvent> {
         return mockUseCaseResponse ?: throw Exception("mock response unavailable")
+    }
+
+    suspend fun emitIgnoredEvent(uiLogEntry: UILogEntry) {
+        _ignoredEvents.emit(uiLogEntry)
+    }
+
+    suspend fun emitExportedEvent(uiLogEntry: UILogEntry) {
+        _exportedEvents.emit(uiLogEntry)
     }
 }

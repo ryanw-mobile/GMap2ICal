@@ -11,10 +11,14 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import uk.ryanwong.gmap2ics.app.configs.MockConfig
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
+import uk.ryanwong.gmap2ics.app.models.UILogEntry
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetActivitySegmentVEventUseCase
@@ -26,6 +30,7 @@ import uk.ryanwong.gmap2ics.data.repository.mocks.MockLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.mocks.MockTimelineRepository
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModelTestData.mockTimeLineWithActivityVisitAndChildVisit
+import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModelTestData.mockTimeLineWithSingleActivity
 import java.util.ResourceBundle
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -583,6 +588,82 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
                 with(mainScreenUIState as MainScreenUIState.Error) {
                     errMsg shouldBe "☠️ Error getting json file list: some-exception-message"
+                }
+            }
+
+            "getActivitySegmentVEventUseCase" - {
+                "Should append Ignore Log if getActivitySegmentVEventUseCase returns null" {
+                    // 🔴 Given
+                    setupViewModel()
+                    mockLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
+                    mockGetOutputFilenameUseCase.mockUseCaseResponse = "/some-path/some-file-1.ics"
+                    mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineWithSingleActivity)
+                    mockVEventFromPlaceVisitUseCase.mockUseCaseResponse = mockDefaultVEvent
+                    mockGetActivitySegmentVEventUseCase.mockUseCaseResponse = null
+                    mockVEventFromChildVisitUseCase.mockUseCaseResponse = mockDefaultVEvent
+                    mockGetPlaceVisitVEventUseCase.mockUseCaseResponse = listOf(mockDefaultVEvent)
+
+                    // 🟡 When
+                    mainScreenViewModel.startExport()
+
+                    // 🟢 Then
+                    val ignoredLogs = mainScreenViewModel.ignoredLogs.first()
+                    ignoredLogs shouldBe listOf(
+                        UILogEntry(emoji = "🚫", message = "08/07/2019 12:00:33: Activity FLYING")
+                    )
+                }
+
+                "Should append Exported Log if getActivitySegmentVEventUseCase returns VEvent" {
+                    // 🔴 Given
+                    setupViewModel()
+                    mockLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
+                    mockGetOutputFilenameUseCase.mockUseCaseResponse = "/some-path/some-file-1.ics"
+                    mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineWithSingleActivity)
+                    mockVEventFromPlaceVisitUseCase.mockUseCaseResponse = null
+                    mockGetActivitySegmentVEventUseCase.mockUseCaseResponse = mockDefaultVEvent
+                    mockVEventFromChildVisitUseCase.mockUseCaseResponse = null
+                    mockGetPlaceVisitVEventUseCase.mockUseCaseResponse = null
+
+                    // 🟡 When
+                    mainScreenViewModel.startExport()
+
+                    // 🟢 Then
+                    val exportedLogs = mainScreenViewModel.exportedLogs.first()
+                    exportedLogs shouldBe listOf(
+                        UILogEntry(emoji = "🗓", message = "12/11/2011 05:11:11: 📍 some-summary")
+                    )
+                }
+            }
+        }
+
+        "observeGetPlaceVisitVEventUseCaseFlows" - {
+            "Should append Ignore Log if getPlaceVisitVEventUseCase.ignoredEvents emits something" {
+                TestScope(StandardTestDispatcher()).runTest {
+                    // 🔴 Given
+                    setupViewModel()
+                    val uiLogEntry = UILogEntry(emoji = "🚫", message = "08/07/2019 12:00:33: Activity FLYING")
+
+                    // 🟡 When
+                    mockGetPlaceVisitVEventUseCase.emitIgnoredEvent(uiLogEntry = uiLogEntry)
+
+                    // 🟢 Then
+                    val ignoredLogs = mainScreenViewModel.ignoredLogs.first()
+                    ignoredLogs shouldBe listOf(uiLogEntry)
+                }
+            }
+
+            "Should append Exported Log if getPlaceVisitVEventUseCase.exportedEvents emits something" {
+                TestScope(StandardTestDispatcher()).runTest {
+                    // 🔴 Given
+                    setupViewModel()
+                    val uiLogEntry = UILogEntry(emoji = "🗓", message = "12/11/2011 05:11:11: 📍 some-summary")
+
+                    // 🟡 When
+                    mockGetPlaceVisitVEventUseCase.emitExportedEvent(uiLogEntry = uiLogEntry)
+
+                    // 🟢 Then
+                    val exportedLogs = mainScreenViewModel.exportedLogs.first()
+                    exportedLogs shouldBe listOf(uiLogEntry)
                 }
             }
         }

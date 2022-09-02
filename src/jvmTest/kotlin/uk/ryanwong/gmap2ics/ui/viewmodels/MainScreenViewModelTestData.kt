@@ -156,4 +156,52 @@ object MainScreenViewModelTestData {
             )
         )
     )
+
+    val mockTimeLineWithSingleActivity = Timeline(
+        timelineEntries = listOf(
+            TimelineEntry(
+                activitySegment =
+                ActivitySegment(
+                    activities = listOf(
+                        Activity(activityType = ActivityType.FLYING, rawActivityType = "FLYING"),
+                        Activity(
+                            activityType = ActivityType.IN_PASSENGER_VEHICLE,
+                            rawActivityType = "IN_PASSENGER_VEHICLE"
+                        ),
+                        Activity(activityType = ActivityType.WALKING, rawActivityType = "WALKING")
+                    ),
+                    activityType = ActivityType.FLYING,
+                    rawActivityType = "FLYING",
+                    distance = 0,
+                    durationEndTimestamp = RawTimestamp(
+                        timestamp = "2019-07-08T07:26:17.631Z",
+                        timezoneId = "Asia/Tokyo"
+                    ),
+                    durationStartTimestamp = RawTimestamp(
+                        timestamp = "2019-07-08T03:00:33.170Z",
+                        timezoneId = "Asia/Tokyo"
+                    ),
+                    endLocation =
+                    Location(
+                        placeId = "ChIJVze90XnzImARoRp3YqEpbtU",
+                        latitudeE7 = 357719867,
+                        longitudeE7 = 1403928501,
+                        name = "Narita International Airport",
+                        address = "日本\n〒282-0004 千葉県成田市古込１−１"
+                    ),
+                    startLocation = Location(
+                        placeId = null,
+                        latitudeE7 = 223126356,
+                        longitudeE7 = 1139226425,
+                        name = null,
+                        address = null
+                    ),
+                    waypointPath = null,
+                    lastEditedTimestamp = "2019-07-08T07:26:17.631Z",
+                    eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
+                ),
+                placeVisit = null
+            ),
+        )
+    )
 }

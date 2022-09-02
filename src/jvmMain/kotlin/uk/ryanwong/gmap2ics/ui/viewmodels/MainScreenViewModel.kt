@@ -34,7 +34,7 @@ class MainScreenViewModel(
     private val getPlaceVisitVEventUseCase: GetPlaceVisitVEventUseCase,
     private val resourceBundle: ResourceBundle,
     private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/"),
-    dispatcher: CoroutineDispatcher = Dispatchers.Default,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) {
     private var _mainScreenUIState: MutableStateFlow<MainScreenUIState> = MutableStateFlow(MainScreenUIState.Ready)
     val mainScreenUIState: StateFlow<MainScreenUIState> = _mainScreenUIState
@@ -159,12 +159,16 @@ class MainScreenViewModel(
                         vEvent?.let { event ->
                             eventList.add(event)
                             appendExportedLog(
-                                emoji = "\uD83D\uDDD3",
-                                message = "${event.dtStart.toUITimestamp()}: ${event.summary}"
+                                uiLogEntry = UILogEntry(
+                                    emoji = "\uD83D\uDDD3",
+                                    message = "${event.dtStart.toUITimestamp()}: ${event.summary}"
+                                )
                             )
                         } ?: appendIgnoredLog(
-                            emoji = "🚫",
-                            message = "${activitySegment.durationStartTimestamp.toUITimestamp()}: Activity ${activitySegment.activityType}"
+                            uiLogEntry = UILogEntry(
+                                emoji = "🚫",
+                                message = "${activitySegment.durationStartTimestamp.toUITimestamp()}: Activity ${activitySegment.activityType}"
+                            )
                         )
                     }
                 }
@@ -265,14 +269,6 @@ class MainScreenViewModel(
         } else {
             absolutePath
         }
-    }
-
-    private fun appendExportedLog(emoji: String, message: String) {
-        appendExportedLog(uiLogEntry = UILogEntry(emoji = emoji, message = message))
-    }
-
-    private fun appendIgnoredLog(emoji: String, message: String) {
-        appendIgnoredLog(uiLogEntry = UILogEntry(emoji = emoji, message = message))
     }
 
     private fun appendExportedLog(uiLogEntry: UILogEntry) {
