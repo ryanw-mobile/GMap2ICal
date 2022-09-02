@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.app.models.timeline
 
-import uk.ryanwong.gmap2ics.app.PlaceType
+import uk.ryanwong.gmap2ics.app.models.PlaceType
 import uk.ryanwong.gmap2ics.data.models.places.Result
 
 data class PlaceDetails(

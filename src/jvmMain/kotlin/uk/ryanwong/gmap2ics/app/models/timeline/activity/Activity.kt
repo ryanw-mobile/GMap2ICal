@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.app.models.timeline.activity
 
-import uk.ryanwong.gmap2ics.app.ActivityType
+import uk.ryanwong.gmap2ics.app.models.ActivityType
 
 data class Activity(
     val activityType: ActivityType,

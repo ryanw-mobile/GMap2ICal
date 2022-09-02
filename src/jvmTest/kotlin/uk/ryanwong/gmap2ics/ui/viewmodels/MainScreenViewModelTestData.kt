@@ -5,7 +5,7 @@
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
 import com.esri.core.geometry.Polygon
-import uk.ryanwong.gmap2ics.app.ActivityType
+import uk.ryanwong.gmap2ics.app.models.ActivityType
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import uk.ryanwong.gmap2ics.app.models.timeline.Timeline

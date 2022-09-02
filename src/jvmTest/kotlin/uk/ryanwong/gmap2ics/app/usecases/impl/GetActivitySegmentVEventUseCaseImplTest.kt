@@ -6,7 +6,7 @@ package uk.ryanwong.gmap2ics.app.usecases.impl
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.app.ActivityType
+import uk.ryanwong.gmap2ics.app.models.ActivityType
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.VEventTestData

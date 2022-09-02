@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.app.usecases.mocks
 
-import uk.ryanwong.gmap2ics.app.ActivityType
+import uk.ryanwong.gmap2ics.app.models.ActivityType
 import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.app.usecases.GetActivitySegmentVEventUseCase
