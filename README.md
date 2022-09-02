@@ -18,11 +18,10 @@ visit, I would appreciate if you could take things easy when you see me doing so
 
 This App is fully functional.
 
-* 155 unit tests written as at 29 Aug 2022 to protect changes
+* 159 unit tests written as at 2 Sep 2022 to protect changes
 * Unit tests for composable functions (adding, but limited assertions available)
 * Dependency Injection: Dagger 2
 * Integrate SQLite (`SQLDelight`) as preferences store, and Google Maps Place API caches
-* Considering okio as Java.io replacement
 
 ## Background
 
