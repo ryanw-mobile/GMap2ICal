@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
+import uk.ryanwong.gmap2ics.ui.theme.JapanesePurpleTheme
 import java.text.MessageFormat
 import java.util.Locale
 import java.util.ResourceBundle
@@ -45,7 +45,7 @@ fun SettingsPanel(
     onChangeJsonPath: () -> Unit,
     onChangeICalPath: () -> Unit,
     modifier: Modifier = Modifier,
-    resourceBundle: ResourceBundle
+    resourceBundle: ResourceBundle,
 ) {
     Row(
         modifier = modifier
@@ -117,7 +117,7 @@ fun ExportOptionsGroup(
     onExportActivitySegmentClicked: (Boolean) -> Unit,
     onExportPlaceVisitClicked: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    resourceBundle: ResourceBundle
+    resourceBundle: ResourceBundle,
 ) {
     Column(
         modifier = modifier
@@ -167,7 +167,7 @@ fun ExtraOptionsGroup(
     onEnablePlaceApiLookupClicked: (Boolean) -> Unit,
     onVerboseLogClicked: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    resourceBundle: ResourceBundle
+    resourceBundle: ResourceBundle,
 ) {
     Column(
         modifier = modifier
@@ -212,7 +212,7 @@ fun ExtraOptionsGroup(
 @Preview
 @Composable
 fun ExportOptionsGroupPreview() {
-    GregoryGreenTheme {
+    JapanesePurpleTheme {
         ExportOptionsGroup(
             exportPlaceVisit = true,
             exportActivitySegment = false,

@@ -13,8 +13,8 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
 import uk.ryanwong.gmap2ics.ui.screens.ContentDescriptions
+import uk.ryanwong.gmap2ics.ui.theme.JapanesePurpleTheme
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class StatusBarKtTest {
@@ -44,7 +44,7 @@ internal class StatusBarKtTest {
 
             // 🟡 When
             compose.setContent {
-                GregoryGreenTheme {
+                JapanesePurpleTheme {
                     StatusBar(
                         statusMessage = statusMessage,
                         progress = progress
@@ -54,7 +54,8 @@ internal class StatusBarKtTest {
             compose.awaitIdle()
 
             // 🟢 Then
-            compose.onNodeWithContentDescription(label = ContentDescriptions.LINEAR_PROGRESS_INDICATOR).assertDoesNotExist()
+            compose.onNodeWithContentDescription(label = ContentDescriptions.LINEAR_PROGRESS_INDICATOR)
+                .assertDoesNotExist()
         }
     }
 
@@ -67,7 +68,7 @@ internal class StatusBarKtTest {
 
             // 🟡 When
             compose.setContent {
-                GregoryGreenTheme {
+                JapanesePurpleTheme {
                     StatusBar(
                         statusMessage = statusMessage,
                         progress = progress
@@ -90,7 +91,7 @@ internal class StatusBarKtTest {
 
             // 🟡 When
             compose.setContent {
-                GregoryGreenTheme {
+                JapanesePurpleTheme {
                     StatusBar(
                         statusMessage = statusMessage,
                         progress = progress

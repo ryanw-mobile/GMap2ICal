@@ -21,14 +21,14 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
 import uk.ryanwong.gmap2ics.ui.screens.ContentDescriptions
+import uk.ryanwong.gmap2ics.ui.theme.JapanesePurpleTheme
 
 @Composable
 fun StatusBar(
     statusMessage: String,
     progress: Float?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -61,7 +61,7 @@ fun StatusBar(
 @Preview
 @Composable
 private fun StatusBarPreview() {
-    GregoryGreenTheme {
+    JapanesePurpleTheme {
         StatusBar(
             statusMessage = "some-long-message ".repeat(10),
             progress = 82.5f

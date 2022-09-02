@@ -49,14 +49,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import uk.ryanwong.gmap2ics.app.models.UILogEntry
-import uk.ryanwong.gmap2ics.ui.GregoryGreenTheme
+import uk.ryanwong.gmap2ics.ui.theme.JapanesePurpleTheme
 import java.util.ResourceBundle
 
 @Composable
 fun LogWindowTabRow(
     logWindowUIState: LogWindowUIState,
     resourceBundle: ResourceBundle,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val buttonStateNormal = ButtonDefaults.buttonColors(
         backgroundColor = MaterialTheme.colors.background,
@@ -70,8 +70,8 @@ fun LogWindowTabRow(
 
     val bubbleStateNormalBackground = Color.LightGray
     val bubbleStateNormalTextColor = Color.Black
-    val bubbleStateActiveBackground = MaterialTheme.colors.error
-    val bubbleStateActiveTextColor = MaterialTheme.colors.onError
+    val bubbleStateActiveBackground = MaterialTheme.colors.primaryVariant
+    val bubbleStateActiveTextColor = MaterialTheme.colors.onBackground
 
     Row(
         modifier = modifier
@@ -127,7 +127,7 @@ fun BubbleInteger(
     value: Int,
     textColor: Color,
     backgroundColor: Color,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     if (value > 0) {
         Surface(
@@ -149,11 +149,11 @@ fun BubbleInteger(
 @Preview
 @Composable
 private fun BubbleIntegerPreview() {
-    GregoryGreenTheme {
+    JapanesePurpleTheme {
         BubbleInteger(
             value = 100,
-            backgroundColor = Color.LightGray,
-            textColor = Color.DarkGray
+            backgroundColor = MaterialTheme.colors.primaryVariant,
+            textColor = MaterialTheme.colors.onBackground
         )
     }
 }
@@ -163,7 +163,7 @@ fun LogWindow(
     logEntries: List<UILogEntry>,
     lazyListState: LazyListState,
     scrollState: ScrollState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier) {
         // Making text selectable helps crosscheck source files for debugging purpose
