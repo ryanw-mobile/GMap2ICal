@@ -31,11 +31,7 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
     private lateinit var vEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCaseImpl
     private lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
 
-    /***
-     * Greg, How about this?
-     * If we want some numerical values, we name the variables in the "meaningless" way you like,
-     * and we still can put some arbitrary values for testing?
-     */
+    // Taking a balance between using numerical values for testing and showing these carries no special meanings.
     private val someLatitudeE7 = 263383300
     private val someLongitudeE7 = 1278000000
     private val someDegreesLatitude = 26.3383300

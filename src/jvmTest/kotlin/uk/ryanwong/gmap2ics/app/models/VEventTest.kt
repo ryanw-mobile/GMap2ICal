@@ -27,7 +27,6 @@ internal class VEventTest : FreeSpec() {
      */
 
     /**
-     * I am doing a bit different from Greg.
      * While for some strings we can safely replace them with "some-strings", for those we expect some special formatting,
      * like timestamp, or url, I would take a balance by making them meaningless enough but keeping the format.
      */
@@ -316,23 +315,23 @@ internal class VEventTest : FreeSpec() {
 
                 // 🟢 Then
                 iCalString shouldBe "BEGIN:VEVENT\n" +
-                    "TRANSP:OPAQUE\n" +
-                    "DTSTART;TZID=Asia/Tokyo:20111112T051111\n" +
-                    "DTEND;TZID=Asia/Tokyo:20111112T052222\n" +
-                    "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
-                    "X-TITLE=\"some-place-details-formatted-address\":geo:26.33833,127.8\n" +
-                    "UID:2011-11-11T11:22:22.222Z\n" +
-                    "DTSTAMP:2011-11-11T11:22:22.222Z\n" +
-                    "LOCATION:some-place-details-formatted-address\n" +
-                    "SUMMARY:\uD83C\uDFDE some-place-details-name\n" +
-                    "DESCRIPTION:Place ID:\\nsome-child-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051\n" +
-                    "URL;VALUE=URI:https://maps.google.com/?cid=1021876599690425051\n" +
-                    "STATUS:CONFIRMED\n" +
-                    "SEQUENCE:1\n" +
-                    "LAST-MODIFIED:2011-11-11T11:22:22.222Z\n" +
-                    "CREATED:2011-11-11T11:22:22.222Z\n" +
-                    "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
-                    "END:VEVENT\n"
+                        "TRANSP:OPAQUE\n" +
+                        "DTSTART;TZID=Asia/Tokyo:20111112T051111\n" +
+                        "DTEND;TZID=Asia/Tokyo:20111112T052222\n" +
+                        "X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-APPLE-RADIUS=147;\n" +
+                        "X-TITLE=\"some-place-details-formatted-address\":geo:26.33833,127.8\n" +
+                        "UID:2011-11-11T11:22:22.222Z\n" +
+                        "DTSTAMP:2011-11-11T11:22:22.222Z\n" +
+                        "LOCATION:some-place-details-formatted-address\n" +
+                        "SUMMARY:\uD83C\uDFDE some-place-details-name\n" +
+                        "DESCRIPTION:Place ID:\\nsome-child-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051\n" +
+                        "URL;VALUE=URI:https://maps.google.com/?cid=1021876599690425051\n" +
+                        "STATUS:CONFIRMED\n" +
+                        "SEQUENCE:1\n" +
+                        "LAST-MODIFIED:2011-11-11T11:22:22.222Z\n" +
+                        "CREATED:2011-11-11T11:22:22.222Z\n" +
+                        "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
+                        "END:VEVENT\n"
             }
         }
     }
