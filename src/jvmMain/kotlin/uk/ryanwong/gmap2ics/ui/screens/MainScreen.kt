@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -41,6 +40,7 @@ import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowTabRow
 import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowUIState
 import uk.ryanwong.gmap2ics.ui.screens.components.SettingsPanel
 import uk.ryanwong.gmap2ics.ui.screens.components.StatusBar
+import uk.ryanwong.gmap2ics.ui.theme.JapanesePurpleTheme
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import java.util.Locale
 import java.util.ResourceBundle.getBundle
@@ -111,7 +111,7 @@ fun mainScreen(
             }
         }
 
-        MaterialTheme {
+        JapanesePurpleTheme {
             Column(modifier = Modifier.fillMaxSize()) {
 
                 Row(
