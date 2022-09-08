@@ -2,7 +2,7 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.ui.theme
+package uk.ryanwong.gmap2ics.ui.theme.japanesepurple
 
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme

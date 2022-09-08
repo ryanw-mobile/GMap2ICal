@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import uk.ryanwong.gmap2ics.ui.theme.JapanesePurpleTheme
+import uk.ryanwong.gmap2ics.ui.theme.royalpurple.RoyalPurpleTheme
 import java.text.MessageFormat
 import java.util.Locale
 import java.util.ResourceBundle
@@ -212,7 +212,7 @@ fun ExtraOptionsGroup(
 @Preview
 @Composable
 fun ExportOptionsGroupPreview() {
-    JapanesePurpleTheme {
+    RoyalPurpleTheme {
         ExportOptionsGroup(
             exportPlaceVisit = true,
             exportActivitySegment = false,

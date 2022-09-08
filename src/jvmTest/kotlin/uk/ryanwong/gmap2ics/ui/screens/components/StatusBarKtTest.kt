@@ -14,7 +14,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import uk.ryanwong.gmap2ics.ui.screens.ContentDescriptions
-import uk.ryanwong.gmap2ics.ui.theme.JapanesePurpleTheme
+import uk.ryanwong.gmap2ics.ui.theme.japanesepurple.JapanesePurpleTheme
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class StatusBarKtTest {
