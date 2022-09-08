@@ -31,7 +31,7 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import uk.ryanwong.gmap2ics.ui.theme.JapanesePurpleTheme
+import uk.ryanwong.gmap2ics.ui.theme.royalpurple.RoyalPurpleTheme
 
 @Composable
 fun BinaryOptionButton(
@@ -80,7 +80,7 @@ fun BinaryOptionButton(
 @Preview
 @Composable
 private fun previewBinaryOptionButtonOff() {
-    JapanesePurpleTheme {
+    RoyalPurpleTheme {
         BinaryOptionButton(
             isChecked = false,
             text = "Activity\nSegment",
@@ -93,7 +93,7 @@ private fun previewBinaryOptionButtonOff() {
 @Preview
 @Composable
 private fun previewBinaryOptionButtonOn() {
-    JapanesePurpleTheme {
+    RoyalPurpleTheme {
         BinaryOptionButton(
             isChecked = true,
             text = "Activity\nSegment",

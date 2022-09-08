@@ -2,7 +2,8 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-package uk.ryanwong.gmap2ics.ui.theme
+package uk.ryanwong.gmap2ics.ui.theme.japanesepurple
+
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xFF8B4484)
