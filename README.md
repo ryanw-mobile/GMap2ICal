@@ -18,7 +18,7 @@ visit, I would appreciate if you could take things easy when you see me doing so
 
 This App is fully functional.
 
-* 164 unit tests written as at 9 Sep 2022 to protect changes
+* 167 unit tests written as at 9 Sep 2022 to protect changes
 * Unit tests for composable functions (adding, but limited assertions available)
 * Dependency Injection: Dagger 2
 * Integrate SQLite (`SQLDelight`) as preferences store, and Google Maps Place API caches
