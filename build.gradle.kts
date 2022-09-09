@@ -93,7 +93,7 @@ tasks.koverMergedHtmlReport {
         "uk.ryanwong.gmap2ics.app.configs.*",
         "uk.ryanwong.gmap2ics.ui.screens.*",
         "uk.ryanwong.gmap2ics.ComposableSingletons*",
-        "uk.ryanwong.gmap2ics.ui.GregoryGreenTheme*"
+        "uk.ryanwong.gmap2ics.ui.theme.*"
     )
 }
 
@@ -102,7 +102,7 @@ tasks.koverMergedXmlReport {
         "uk.ryanwong.gmap2ics.app.configs.*",
         "uk.ryanwong.gmap2ics.ui.screens.*",
         "uk.ryanwong.gmap2ics.ComposableSingletons*",
-        "uk.ryanwong.gmap2ics.ui.GregoryGreenTheme*"
+        "uk.ryanwong.gmap2ics.ui.theme.*"
     )
 }
 
