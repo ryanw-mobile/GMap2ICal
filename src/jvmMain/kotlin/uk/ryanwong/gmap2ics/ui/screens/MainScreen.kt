@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
@@ -34,6 +35,8 @@ import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.ui.screens.components.ErrorAlertDialog
 import uk.ryanwong.gmap2ics.ui.screens.components.ExportActionButton
+import uk.ryanwong.gmap2ics.ui.screens.components.ExportOptionsGroup
+import uk.ryanwong.gmap2ics.ui.screens.components.ExtraOptionsGroup
 import uk.ryanwong.gmap2ics.ui.screens.components.LogWindow
 import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowTab
 import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowTabRow
@@ -50,7 +53,7 @@ import javax.swing.UIManager
 @Composable
 fun mainScreen(
     onCloseRequest: () -> Unit,
-    mainScreenViewModel: MainScreenViewModel
+    mainScreenViewModel: MainScreenViewModel,
 ) {
     val resourceBundle = getBundle("resources", Locale.ENGLISH)
     val windowState = rememberWindowState(width = 800.dp, height = 560.dp)
@@ -124,22 +127,34 @@ fun mainScreen(
                     SettingsPanel(
                         jsonPath = jsonPath,
                         iCalPath = iCalPath,
-                        exportPlaceVisit = exportPlaceVisit,
-                        exportActivitySegment = exportActivitySegment,
-                        enablePlacesApiLookup = enablePlacesApiLookup,
-                        verboseLogs = verboseLogs,
-                        onExportPlaceVisitChanged = { enabled -> mainScreenViewModel.setExportPlaceVisit(enabled) },
-                        onExportActivitySegmentChanged = { enabled ->
-                            mainScreenViewModel.setExportActivitySegment(enabled)
-                        },
-                        onEnablePlaceApiLookupChanged = { enabled ->
-                            mainScreenViewModel.setEnablePlacesApiLookup(enabled)
-                        },
-                        onVerboseLogsChanged = { enabled -> mainScreenViewModel.setVerboseLogs(enabled) },
                         onChangeJsonPath = { mainScreenViewModel.onChangeJsonPath() },
                         onChangeICalPath = { mainScreenViewModel.onChangeICalPath() },
                         modifier = Modifier.weight(weight = 1.0f, fill = true),
-                        resourceBundle = resourceBundle
+                        resourceBundle = resourceBundle,
+                        exportOptionsGroup = {
+                            ExportOptionsGroup(
+                                exportPlaceVisit = exportPlaceVisit,
+                                exportActivitySegment = exportActivitySegment,
+                                onExportActivitySegmentClicked = { enabled ->
+                                    mainScreenViewModel.setExportActivitySegment(enabled)
+                                },
+                                onExportPlaceVisitClicked = { enabled -> mainScreenViewModel.setExportPlaceVisit(enabled) },
+                                modifier = Modifier.wrapContentSize(),
+                                resourceBundle = resourceBundle
+                            )
+                        },
+                        extraOptionsGroup = {
+                            ExtraOptionsGroup(
+                                isPlaceApiEnabled = enablePlacesApiLookup,
+                                isVerboseLogEnabled = verboseLogs,
+                                onEnablePlaceApiLookupClicked = { enabled ->
+                                    mainScreenViewModel.setEnablePlacesApiLookup(enabled)
+                                },
+                                onVerboseLogClicked = { enabled -> mainScreenViewModel.setVerboseLogs(enabled) },
+                                modifier = Modifier.wrapContentSize(),
+                                resourceBundle = resourceBundle
+                            )
+                        }
                     )
 
                     val shouldExportButtonEnabled = (uiState == MainScreenUIState.Ready) &&
