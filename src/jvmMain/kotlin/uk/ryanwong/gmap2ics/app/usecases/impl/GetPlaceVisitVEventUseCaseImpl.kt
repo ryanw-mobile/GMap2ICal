@@ -60,6 +60,13 @@ class GetPlaceVisitVEventUseCaseImpl(
             // ChildVisit might have unconfirmed location which does not have a duration
             placeVisit.childVisits.forEach { childVisit ->
                 if (ignoredVisitedPlaceIds.contains(childVisit.location.placeId)) {
+                    _ignoredEvents.emit(
+                        UILogEntry(
+                            emoji = "🚫",
+                            message = "${childVisit.durationStartTimestamp.toUITimestamp()}: Place ID ${childVisit.location.placeId}"
+                        )
+                    )
+                } else {
                     vEventFromChildVisitUseCase(
                         childVisit = childVisit,
                         enablePlacesApiLookup = enablePlacesApiLookup
