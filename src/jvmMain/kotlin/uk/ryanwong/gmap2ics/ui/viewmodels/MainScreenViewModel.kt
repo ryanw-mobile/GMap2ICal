@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -83,6 +84,13 @@ class MainScreenViewModel(
         }
 
         observeGetPlaceVisitVEventUseCaseFlows()
+    }
+
+    fun cancelExport() {
+        if (_mainScreenUIState.value is MainScreenUIState.Processing) {
+            viewModelScope.cancel()
+            _mainScreenUIState.value = MainScreenUIState.Ready
+        }
     }
 
     fun startExport() {
