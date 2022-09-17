@@ -33,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
+import uk.ryanwong.gmap2ics.ui.screens.components.CancelActionButton
 import uk.ryanwong.gmap2ics.ui.screens.components.ErrorAlertDialog
 import uk.ryanwong.gmap2ics.ui.screens.components.ExportActionButton
 import uk.ryanwong.gmap2ics.ui.screens.components.ExportOptionsGroup
@@ -157,15 +158,22 @@ fun mainScreen(
                         }
                     )
 
-                    val shouldExportButtonEnabled = (uiState == MainScreenUIState.Ready) &&
-                        (exportActivitySegment || exportPlaceVisit)
-                    ExportActionButton(
-                        enabled = shouldExportButtonEnabled,
-                        onButtonClicked = { mainScreenViewModel.startExport() },
-                        resourceBundle = resourceBundle,
-                        modifier = Modifier
-                            .padding(end = 16.dp)
-                    )
+                    if (uiState is MainScreenUIState.Processing) {
+                        CancelActionButton(
+                            onButtonClicked = { mainScreenViewModel.cancelExport() },
+                            resourceBundle = resourceBundle,
+                            modifier = Modifier.padding(end = 16.dp)
+                        )
+                    } else {
+                        val shouldExportButtonEnabled = (uiState == MainScreenUIState.Ready) &&
+                            (exportActivitySegment || exportPlaceVisit)
+                        ExportActionButton(
+                            enabled = shouldExportButtonEnabled,
+                            onButtonClicked = { mainScreenViewModel.startExport() },
+                            resourceBundle = resourceBundle,
+                            modifier = Modifier.padding(end = 16.dp)
+                        )
+                    }
                 }
 
                 Spacer(
