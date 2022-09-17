@@ -635,7 +635,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 }
             }
         }
-        
+
         "observeGetPlaceVisitVEventUseCaseFlows" - {
             "Should append Ignore Log if getPlaceVisitVEventUseCase.ignoredEvents emits something" {
                 TestScope(StandardTestDispatcher()).runTest {
