@@ -30,7 +30,8 @@ kotlin {
         withJava()
     }
 
-    val ktorVersion = "2.1.0"
+    val ktorVersion = "2.1.1"
+    val kotestVersion = "5.4.2"
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -55,11 +56,11 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-                implementation("io.mockk:mockk:1.12.5")
+                implementation("io.mockk:mockk:1.12.7")
                 // kotest
-                implementation("io.kotest:kotest-runner-junit5:5.3.1")
-                implementation("io.kotest:kotest-assertions-core:5.3.1")
-                implementation("io.kotest:kotest-property:5.3.1")
+                implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+                implementation("io.kotest:kotest-assertions-core:$kotestVersion")
+                implementation("io.kotest:kotest-property:$kotestVersion")
                 // ktor
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
                 // Compose
@@ -93,7 +94,8 @@ tasks.koverMergedHtmlReport {
         "uk.ryanwong.gmap2ics.app.configs.*",
         "uk.ryanwong.gmap2ics.ui.screens.*",
         "uk.ryanwong.gmap2ics.ComposableSingletons*",
-        "uk.ryanwong.gmap2ics.ui.theme.*"
+        "uk.ryanwong.gmap2ics.ui.theme.*",
+        "uk.ryanwong.gmap2ics.MainKt"
     )
 }
 
@@ -102,7 +104,8 @@ tasks.koverMergedXmlReport {
         "uk.ryanwong.gmap2ics.app.configs.*",
         "uk.ryanwong.gmap2ics.ui.screens.*",
         "uk.ryanwong.gmap2ics.ComposableSingletons*",
-        "uk.ryanwong.gmap2ics.ui.theme.*"
+        "uk.ryanwong.gmap2ics.ui.theme.*",
+        "uk.ryanwong.gmap2ics.MainKt"
     )
 }
 
