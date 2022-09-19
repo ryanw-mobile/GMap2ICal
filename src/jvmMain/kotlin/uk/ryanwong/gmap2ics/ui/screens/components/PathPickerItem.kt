@@ -55,7 +55,7 @@ fun PathPickerItem(
                 enabled = true,
                 shape = CircleShape,
                 colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
-                onClick = { onClick },
+                onClick = onClick,
                 contentPadding = PaddingValues(all = 4.dp),
                 modifier = Modifier.size(size = 24.dp)
             ) {
