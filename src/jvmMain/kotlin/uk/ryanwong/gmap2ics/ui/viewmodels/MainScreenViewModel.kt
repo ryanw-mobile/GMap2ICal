@@ -67,7 +67,7 @@ class MainScreenViewModel(
     val verboseLogs: StateFlow<Boolean> = _verboseLogs
 
     private var coroutineJob: Job? = null
-    private val viewModelScope = CoroutineScope(Job() + dispatcher)
+    private val viewModelScope = CoroutineScope(dispatcher)
 
     init {
         // Default values, overridable from UI
@@ -100,7 +100,7 @@ class MainScreenViewModel(
         _exportedLogs.value = emptyList()
         _ignoredLogs.value = emptyList()
 
-        coroutineJob = CoroutineScope(dispatcher).launch {
+        coroutineJob = viewModelScope.launch {
             val fileList = localFileRepository.getFileList(
                 relativePath = _jsonPath.value,
                 extension = "json"
