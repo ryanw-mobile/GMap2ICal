@@ -100,49 +100,47 @@ class MainScreenViewModel(
         _exportedLogs.value = emptyList()
         _ignoredLogs.value = emptyList()
 
-        coroutineJob = Job().run {
-            CoroutineScope(this + dispatcher).launch {
-                val fileList = localFileRepository.getFileList(
-                    relativePath = _jsonPath.value,
-                    extension = "json"
+        coroutineJob = CoroutineScope(dispatcher).launch {
+            val fileList = localFileRepository.getFileList(
+                relativePath = _jsonPath.value,
+                extension = "json"
+            )
+
+            if (fileList.isFailure) {
+                _mainScreenUIState.value =
+                    MainScreenUIState.Error(
+                        errMsg = processResultFailure(
+                            userFriendlyMessage = "Error getting json file list",
+                            throwable = fileList.exceptionOrNull()
+                        )
+                    )
+                return@launch
+            } else {
+                updateStatus(message = "${fileList.getOrNull()?.size ?: 0} files to be processed")
+            }
+
+            // Exporting multiple events in one single ics file
+            fileList.getOrNull()?.forEach { filePath ->
+                updateStatus(message = "Processing ${stripBasePath(filePath)}")
+                val timeline = timelineRepository.getTimeLine(filePath = filePath)
+                val eventList: List<VEvent> = getEventList(timeline = timeline)
+                val outputFileName = getOutputFilenameUseCase(
+                    originalFilename = filePath,
+                    iCalPath = _iCalPath.value,
+                    jsonPath = _jsonPath.value,
+                    exportActivitySegment = _exportActivitySegment.value,
+                    exportPlaceVisit = _exportPlaceVisit.value
                 )
 
-                if (fileList.isFailure) {
-                    _mainScreenUIState.value =
-                        MainScreenUIState.Error(
-                            errMsg = processResultFailure(
-                                userFriendlyMessage = "Error getting json file list",
-                                throwable = fileList.exceptionOrNull()
-                            )
-                        )
-                    return@launch
-                } else {
-                    updateStatus(message = "${fileList.getOrNull()?.size ?: 0} files to be processed")
-                }
-
-                // Exporting multiple events in one single ics file
-                fileList.getOrNull()?.forEach { filePath ->
-                    updateStatus(message = "Processing ${stripBasePath(filePath)}")
-                    val timeline = timelineRepository.getTimeLine(filePath = filePath)
-                    val eventList: List<VEvent> = getEventList(timeline = timeline)
-                    val outputFileName = getOutputFilenameUseCase(
-                        originalFilename = filePath,
-                        iCalPath = _iCalPath.value,
-                        jsonPath = _jsonPath.value,
-                        exportActivitySegment = _exportActivitySegment.value,
-                        exportPlaceVisit = _exportPlaceVisit.value
-                    )
-
-                    localFileRepository.exportICal(
-                        vEvents = eventList,
-                        filename = outputFileName
-                    )
-                    updateStatus("iCal events saved to ${stripBasePath(outputFileName)}")
-                }
-
-                updateStatus(message = "Done. Processed ${fileList.getOrNull()?.size ?: 0} files.")
-                _mainScreenUIState.value = MainScreenUIState.Ready
+                localFileRepository.exportICal(
+                    vEvents = eventList,
+                    filename = outputFileName
+                )
+                updateStatus("iCal events saved to ${stripBasePath(outputFileName)}")
             }
+
+            updateStatus(message = "Done. Processed ${fileList.getOrNull()?.size ?: 0} files.")
+            _mainScreenUIState.value = MainScreenUIState.Ready
         }
     }
 
