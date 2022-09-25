@@ -87,10 +87,12 @@ class MainScreenViewModel(
 
     fun cancelExport() {
         if (_mainScreenUIState.value is MainScreenUIState.Processing) {
-            coroutineJob?.run {
-                cancel()
-                updateStatus(message = "Operation cancelled")
-                _mainScreenUIState.value = MainScreenUIState.Ready
+            coroutineJob?.let { job ->
+                if (job.isActive) {
+                    job.cancel()
+                    updateStatus(message = "Operation cancelled")
+                    _mainScreenUIState.value = MainScreenUIState.Ready
+                }
             }
         }
     }
@@ -300,14 +302,16 @@ class MainScreenViewModel(
 
     private fun observeGetPlaceVisitVEventUseCaseFlows() {
         viewModelScope.launch {
-            getPlaceVisitVEventUseCase.exportedEvents.collect { uiLogEntry ->
-                appendExportedLog(uiLogEntry = uiLogEntry)
+            launch {
+                getPlaceVisitVEventUseCase.exportedEvents.collect { uiLogEntry ->
+                    appendExportedLog(uiLogEntry = uiLogEntry)
+                }
             }
-        }
 
-        viewModelScope.launch {
-            getPlaceVisitVEventUseCase.ignoredEvents.collect { uiLogEntry ->
-                appendIgnoredLog(uiLogEntry = uiLogEntry)
+            launch {
+                getPlaceVisitVEventUseCase.ignoredEvents.collect { uiLogEntry ->
+                    appendIgnoredLog(uiLogEntry = uiLogEntry)
+                }
             }
         }
     }
