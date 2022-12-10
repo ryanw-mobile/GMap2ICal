@@ -38,7 +38,7 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 implementation("us.dustinj.timezonemap:timezonemap:4.5")
                 implementation("com.squareup.retrofit2:retrofit:2.9.0")
                 implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
@@ -66,8 +66,8 @@ kotlin {
                 // Compose
                 implementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
                 // implementation("org.jetbrains.compose.ui:ui-test-junit4:1.2.0-alpha01-dev620")
-                implementation("org.junit.jupiter:junit-jupiter:5.7.0")
-                implementation("org.junit.vintage:junit-vintage-engine:5.7.0")
+                implementation("org.junit.jupiter:junit-jupiter:5.9.1")
+                implementation("org.junit.vintage:junit-vintage-engine:5.9.1")
             }
         }
     }
