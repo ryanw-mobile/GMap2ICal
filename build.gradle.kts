@@ -66,8 +66,8 @@ kotlin {
                 // Compose
                 implementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
                 // implementation("org.jetbrains.compose.ui:ui-test-junit4:1.2.0-alpha01-dev620")
-                implementation("org.junit.jupiter:junit-jupiter:5.7.0")
-                implementation("org.junit.vintage:junit-vintage-engine:5.7.0")
+                implementation("org.junit.jupiter:junit-jupiter:5.9.1")
+                implementation("org.junit.vintage:junit-vintage-engine:5.9.1")
             }
         }
     }
