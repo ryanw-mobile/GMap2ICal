@@ -2,19 +2,20 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    kotlin("multiplatform") version "1.7.20"
-    kotlin("plugin.serialization") version "1.7.20"
-    id("org.jetbrains.kotlinx.kover") version "0.6.1"
-    id("org.jetbrains.compose")
-    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.serialization)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.gradle.ktlint)
+    alias(libs.plugins.kotest)
 }
 
 group = "uk.ryanwong"
-version = "1.0-SNAPSHOT"
+version = libs.versions.application.version.get()
 
 repositories {
     google()
@@ -30,24 +31,22 @@ kotlin {
         withJava()
     }
 
-    val ktorVersion = "2.2.1"
-    val kotestVersion = "5.5.4"
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-                implementation("us.dustinj.timezonemap:timezonemap:4.5")
-                implementation("com.squareup.retrofit2:retrofit:2.9.0")
-                implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
-                implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("io.ktor:ktor-client-cio:$ktorVersion")
-                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-                implementation("io.github.aakira:napier:2.6.1")
+                implementation(libs.kotlinx.coroutines.core.jvm)
+                implementation(libs.kotlinx.coroutines.swing)
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.timezonemap)
+                implementation(libs.retrofit)
+                implementation(libs.retrofit2.kotlin.coroutines.adapter)
+                implementation(libs.retrofit2.kotlinx.serialization.converter)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.cio)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.napier)
             }
         }
         val commonTest by getting {
@@ -55,19 +54,16 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-                implementation("io.mockk:mockk:1.13.3")
-                // kotest
-                implementation("io.kotest:kotest-runner-junit5:$kotestVersion")
-                implementation("io.kotest:kotest-assertions-core:$kotestVersion")
-                implementation("io.kotest:kotest-property:$kotestVersion")
-                // ktor
-                implementation("io.ktor:ktor-client-mock:$ktorVersion")
-                // Compose
-                implementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
-                // implementation("org.jetbrains.compose.ui:ui-test-junit4:1.2.0-alpha01-dev620")
-                implementation("org.junit.jupiter:junit-jupiter:5.9.1")
-                implementation("org.junit.vintage:junit-vintage-engine:5.9.1")
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.mockk)
+                implementation(libs.kotest.framework.engine)
+                implementation(libs.kotest.runner.junit5.jvm)
+                implementation(libs.kotest.assertions.core)
+                implementation(libs.kotest.property)
+                implementation(libs.ktor.client.mock)
+                implementation(libs.compose.ui.test.junit4)
+                implementation(libs.junit.jupiter)
+                implementation(libs.junit.vintage.engine)
             }
         }
     }
@@ -107,7 +103,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "GMapTimelineToICS"
-            packageVersion = "1.0.0"
+            packageVersion = libs.versions.application.version.get()
         }
     }
 }
