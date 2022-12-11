@@ -6,9 +6,9 @@ import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("multiplatform") version "1.7.10"
-    kotlin("plugin.serialization") version "1.7.10"
-    id("org.jetbrains.kotlinx.kover") version "0.5.1"
+    kotlin("multiplatform") version "1.7.20"
+    kotlin("plugin.serialization") version "1.7.20"
+    id("org.jetbrains.kotlinx.kover") version "0.6.1"
     id("org.jetbrains.compose")
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
 }
@@ -30,15 +30,15 @@ kotlin {
         withJava()
     }
 
-    val ktorVersion = "2.1.1"
-    val kotestVersion = "5.4.2"
+    val ktorVersion = "2.2.1"
+    val kotestVersion = "5.5.4"
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 implementation("us.dustinj.timezonemap:timezonemap:4.5")
                 implementation("com.squareup.retrofit2:retrofit:2.9.0")
                 implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
@@ -66,9 +66,37 @@ kotlin {
                 // Compose
                 implementation(compose("org.jetbrains.compose.ui:ui-test-junit4"))
                 // implementation("org.jetbrains.compose.ui:ui-test-junit4:1.2.0-alpha01-dev620")
-                implementation("org.junit.jupiter:junit-jupiter:5.7.0")
-                implementation("org.junit.vintage:junit-vintage-engine:5.7.0")
+                implementation("org.junit.jupiter:junit-jupiter:5.9.1")
+                implementation("org.junit.vintage:junit-vintage-engine:5.9.1")
             }
+        }
+    }
+}
+
+koverMerged {
+    enable()
+
+    htmlReport {
+        overrideClassFilter {
+            excludes += listOf(
+                "uk.ryanwong.gmap2ics.app.configs.*",
+                "uk.ryanwong.gmap2ics.ui.screens.*",
+                "uk.ryanwong.gmap2ics.ComposableSingletons*",
+                "uk.ryanwong.gmap2ics.ui.theme.*",
+                "uk.ryanwong.gmap2ics.MainKt"
+            )
+        }
+    }
+
+    xmlReport {
+        overrideClassFilter {
+            excludes += listOf(
+                "uk.ryanwong.gmap2ics.app.configs.*",
+                "uk.ryanwong.gmap2ics.ui.screens.*",
+                "uk.ryanwong.gmap2ics.ComposableSingletons*",
+                "uk.ryanwong.gmap2ics.ui.theme.*",
+                "uk.ryanwong.gmap2ics.MainKt"
+            )
         }
     }
 }
@@ -87,26 +115,12 @@ compose.desktop {
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
     jvmArgs = mutableListOf("--enable-preview")
-}
 
-tasks.koverMergedHtmlReport {
-    excludes = listOf(
-        "uk.ryanwong.gmap2ics.app.configs.*",
-        "uk.ryanwong.gmap2ics.ui.screens.*",
-        "uk.ryanwong.gmap2ics.ComposableSingletons*",
-        "uk.ryanwong.gmap2ics.ui.theme.*",
-        "uk.ryanwong.gmap2ics.MainKt"
-    )
-}
-
-tasks.koverMergedXmlReport {
-    excludes = listOf(
-        "uk.ryanwong.gmap2ics.app.configs.*",
-        "uk.ryanwong.gmap2ics.ui.screens.*",
-        "uk.ryanwong.gmap2ics.ComposableSingletons*",
-        "uk.ryanwong.gmap2ics.ui.theme.*",
-        "uk.ryanwong.gmap2ics.MainKt"
-    )
+    extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {
+        // set to true to disable instrumentation of this task,
+        // Kover reports will not depend on the results of its execution
+        isDisabled.set(false)
+    }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
