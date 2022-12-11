@@ -8,7 +8,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("multiplatform") version "1.7.20"
     kotlin("plugin.serialization") version "1.7.20"
-    id("org.jetbrains.kotlinx.kover") version "0.5.1"
+    id("org.jetbrains.kotlinx.kover") version "0.6.1"
     id("org.jetbrains.compose")
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
 }
@@ -73,6 +73,34 @@ kotlin {
     }
 }
 
+koverMerged {
+    enable()
+
+    htmlReport {
+        overrideClassFilter {
+            excludes += listOf(
+                "uk.ryanwong.gmap2ics.app.configs.*",
+                "uk.ryanwong.gmap2ics.ui.screens.*",
+                "uk.ryanwong.gmap2ics.ComposableSingletons*",
+                "uk.ryanwong.gmap2ics.ui.theme.*",
+                "uk.ryanwong.gmap2ics.MainKt"
+            )
+        }
+    }
+
+    xmlReport {
+        overrideClassFilter {
+            excludes += listOf(
+                "uk.ryanwong.gmap2ics.app.configs.*",
+                "uk.ryanwong.gmap2ics.ui.screens.*",
+                "uk.ryanwong.gmap2ics.ComposableSingletons*",
+                "uk.ryanwong.gmap2ics.ui.theme.*",
+                "uk.ryanwong.gmap2ics.MainKt"
+            )
+        }
+    }
+}
+
 compose.desktop {
     application {
         mainClass = "MainKt"
@@ -87,26 +115,12 @@ compose.desktop {
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
     jvmArgs = mutableListOf("--enable-preview")
-}
 
-tasks.koverMergedHtmlReport {
-    excludes = listOf(
-        "uk.ryanwong.gmap2ics.app.configs.*",
-        "uk.ryanwong.gmap2ics.ui.screens.*",
-        "uk.ryanwong.gmap2ics.ComposableSingletons*",
-        "uk.ryanwong.gmap2ics.ui.theme.*",
-        "uk.ryanwong.gmap2ics.MainKt"
-    )
-}
-
-tasks.koverMergedXmlReport {
-    excludes = listOf(
-        "uk.ryanwong.gmap2ics.app.configs.*",
-        "uk.ryanwong.gmap2ics.ui.screens.*",
-        "uk.ryanwong.gmap2ics.ComposableSingletons*",
-        "uk.ryanwong.gmap2ics.ui.theme.*",
-        "uk.ryanwong.gmap2ics.MainKt"
-    )
+    extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {
+        // set to true to disable instrumentation of this task,
+        // Kover reports will not depend on the results of its execution
+        isDisabled.set(false)
+    }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
