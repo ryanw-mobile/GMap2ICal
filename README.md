@@ -52,6 +52,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * Kotlin Coroutines
 * Compose Desktop UI
 * MVVM architecture with use-cases
+* Gradle Version Catalog
 
 ### Major libraries used
 
@@ -67,6 +68,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * [Kover](https://github.com/Kotlin/kotlinx-kover) - code coverage
 * [codecov](https://codecov.io/) - code coverage
 * [Ktlint Gradle](https://github.com/jlleitschuh/ktlint-gradle) - ktlint plugin to check and apply code autoformat
+* [Mend Renovate](https://www.mend.io/free-developer-tools/renovate/) - automatic dependency updates
 
 ## How to export the Google Maps Timeline as the data set for processing
 
