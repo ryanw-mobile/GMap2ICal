@@ -23,7 +23,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
-import uk.ryanwong.gmap2ics.ui.theme.royalpurple.RoyalPurpleTheme
 import java.text.MessageFormat
 import java.util.Locale
 import java.util.ResourceBundle
