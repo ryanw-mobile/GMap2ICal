@@ -2,6 +2,7 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
+import kotlinx.kover.api.KoverMergedConfig
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 @Suppress("DSL_SCOPE_VIOLATION")
@@ -69,31 +70,39 @@ kotlin {
     }
 }
 
-koverMerged {
-    enable()
+apply(plugin = "kover")
 
-    htmlReport {
-        overrideClassFilter {
-            excludes += listOf(
-                "uk.ryanwong.gmap2ics.app.configs.*",
-                "uk.ryanwong.gmap2ics.ui.screens.*",
-                "uk.ryanwong.gmap2ics.ComposableSingletons*",
-                "uk.ryanwong.gmap2ics.ui.theme.*",
-                "uk.ryanwong.gmap2ics.MainKt"
+extensions.configure<KoverMergedConfig> {
+    enable()
+}
+
+kover {
+    isDisabled.set(false) // true to disable instrumentation and all Kover tasks in this project
+    engine.set(kotlinx.kover.api.DefaultIntellijEngine) // change Coverage Engine
+    filters {
+        classes {
+            excludes.addAll(
+                listOf(
+                    "uk.ryanwong.gmap2ics.app.configs.*",
+                    "uk.ryanwong.gmap2ics.ui.screens.*",
+                    "uk.ryanwong.gmap2ics.ComposableSingletons*",
+                    "uk.ryanwong.gmap2ics.ui.theme.*",
+                    "uk.ryanwong.gmap2ics.MainKt"
+                )
             )
         }
     }
 
     xmlReport {
-        overrideClassFilter {
-            excludes += listOf(
-                "uk.ryanwong.gmap2ics.app.configs.*",
-                "uk.ryanwong.gmap2ics.ui.screens.*",
-                "uk.ryanwong.gmap2ics.ComposableSingletons*",
-                "uk.ryanwong.gmap2ics.ui.theme.*",
-                "uk.ryanwong.gmap2ics.MainKt"
-            )
-        }
+        onCheck.set(true) // true to run koverXmlReport task during the execution of the check task (if it exists) of the current project
+    }
+
+    htmlReport {
+        onCheck.set(true) // true to run koverHtmlReport task during the execution of the check task (if it exists) of the current project
+    }
+
+    verify {
+        onCheck.set(true) // true to run koverVerify task during the execution of the check task (if it exists) of the current project
     }
 }
 
@@ -111,18 +120,4 @@ compose.desktop {
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
     jvmArgs = mutableListOf("--enable-preview")
-
-    extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {
-        // set to true to disable instrumentation of this task,
-        // Kover reports will not depend on the results of its execution
-        isDisabled.set(false)
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        freeCompilerArgs += listOf(
-            "-P", "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
-        )
-    }
 }
