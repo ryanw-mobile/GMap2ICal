@@ -44,7 +44,7 @@ import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowTabRow
 import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowUIState
 import uk.ryanwong.gmap2ics.ui.screens.components.SettingsPanel
 import uk.ryanwong.gmap2ics.ui.screens.components.StatusBar
-import uk.ryanwong.gmap2ics.ui.theme.royalpurple.RoyalPurpleTheme
+import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import java.util.Locale
 import java.util.ResourceBundle.getBundle
@@ -115,7 +115,7 @@ fun mainScreen(
             }
         }
 
-        RoyalPurpleTheme {
+        GregoryGreenTheme {
             Column(modifier = Modifier.fillMaxSize()) {
 
                 Row(

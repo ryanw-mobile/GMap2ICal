@@ -28,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 import java.util.Locale
 import java.util.ResourceBundle
 
@@ -94,7 +95,7 @@ fun PathPickerItem(
 @Preview
 @Composable
 fun PathPickerItemPreview() {
-    MaterialTheme {
+    GregoryGreenTheme {
         PathPickerItem(
             title = "some very long text ".repeat(10),
             currentPath = "some very long text ".repeat(10),

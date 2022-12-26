@@ -25,7 +25,7 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.KtorGoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.source.googleapi.ktor.impl.GoogleMapsApiClientImpl
 import uk.ryanwong.gmap2ics.data.source.googleapi.retrofit.RetrofitGoogleApiDataSource
 import uk.ryanwong.gmap2ics.ui.screens.mainScreen
-import uk.ryanwong.gmap2ics.ui.theme.royalpurple.RoyalPurpleTheme
+import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import us.dustinj.timezonemap.TimeZoneMap
 import java.util.Locale
@@ -56,7 +56,7 @@ fun main() = application {
         vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository),
     )
 
-    RoyalPurpleTheme {
+    GregoryGreenTheme {
         mainScreen(
             onCloseRequest = { exitApplication() },
             mainScreenViewModel = MainScreenViewModel(

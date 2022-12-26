@@ -49,7 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import uk.ryanwong.gmap2ics.app.models.UILogEntry
-import uk.ryanwong.gmap2ics.ui.theme.royalpurple.RoyalPurpleTheme
+import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 import java.util.ResourceBundle
 
 @Composable
@@ -149,7 +149,7 @@ fun BubbleInteger(
 @Preview
 @Composable
 private fun BubbleIntegerPreview() {
-    RoyalPurpleTheme {
+    GregoryGreenTheme {
         BubbleInteger(
             value = 100,
             backgroundColor = MaterialTheme.colors.primaryVariant,
@@ -240,7 +240,7 @@ fun LogWindow(
 @Preview
 @Composable
 private fun LogWindowPreview() {
-    MaterialTheme {
+    GregoryGreenTheme {
         LogWindow(
             logEntries = listOf(
                 UILogEntry(
