@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import uk.ryanwong.gmap2ics.ui.screens.ContentDescriptions
-import uk.ryanwong.gmap2ics.ui.theme.royalpurple.RoyalPurpleTheme
+import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 
 @Composable
 fun StatusBar(
@@ -61,7 +61,7 @@ fun StatusBar(
 @Preview
 @Composable
 private fun StatusBarPreview() {
-    RoyalPurpleTheme {
+    GregoryGreenTheme {
         StatusBar(
             statusMessage = "some-long-message ".repeat(10),
             progress = 82.5f

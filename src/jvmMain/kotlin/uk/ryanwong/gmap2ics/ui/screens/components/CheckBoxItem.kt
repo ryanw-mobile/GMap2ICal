@@ -19,6 +19,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 
 @Composable
 fun CheckBoxItem(
@@ -53,7 +54,7 @@ fun CheckBoxItem(
 @Preview
 @Composable
 fun CheckBoxItemPreview() {
-    MaterialTheme {
+    GregoryGreenTheme {
         CheckBoxItem(
             text = "some very long text".repeat(10),
             checked = true,

@@ -14,7 +14,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import uk.ryanwong.gmap2ics.ui.screens.ContentDescriptions
-import uk.ryanwong.gmap2ics.ui.theme.japanesepurple.JapanesePurpleTheme
+import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class StatusBarKtTest {
@@ -44,7 +44,7 @@ internal class StatusBarKtTest {
 
             // 🟡 When
             compose.setContent {
-                JapanesePurpleTheme {
+                GregoryGreenTheme {
                     StatusBar(
                         statusMessage = statusMessage,
                         progress = progress
@@ -68,7 +68,7 @@ internal class StatusBarKtTest {
 
             // 🟡 When
             compose.setContent {
-                JapanesePurpleTheme {
+                GregoryGreenTheme {
                     StatusBar(
                         statusMessage = statusMessage,
                         progress = progress
@@ -91,7 +91,7 @@ internal class StatusBarKtTest {
 
             // 🟡 When
             compose.setContent {
-                JapanesePurpleTheme {
+                GregoryGreenTheme {
                     StatusBar(
                         statusMessage = statusMessage,
                         progress = progress
