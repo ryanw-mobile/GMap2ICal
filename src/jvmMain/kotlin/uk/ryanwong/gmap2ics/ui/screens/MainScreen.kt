@@ -46,6 +46,7 @@ import uk.ryanwong.gmap2ics.ui.screens.components.SettingsPanel
 import uk.ryanwong.gmap2ics.ui.screens.components.StatusBar
 import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
+import java.awt.Dimension
 import java.util.Locale
 import java.util.ResourceBundle.getBundle
 import javax.swing.JFileChooser
@@ -77,6 +78,8 @@ fun mainScreen(
         val verboseLogs by mainScreenViewModel.verboseLogs.collectAsState()
         val progress: MutableState<Float?> = remember { mutableStateOf(null) }
         val selectLogWindowTab = remember { mutableStateOf(LogWindowTab.EXPORTED) }
+
+        window.minimumSize = Dimension(640, 480)
 
         when (uiState) {
             is MainScreenUIState.ChangeJsonPath -> {
@@ -166,7 +169,7 @@ fun mainScreen(
                         )
                     } else {
                         val shouldExportButtonEnabled = (uiState == MainScreenUIState.Ready) &&
-                            (exportActivitySegment || exportPlaceVisit)
+                                (exportActivitySegment || exportPlaceVisit)
                         ExportActionButton(
                             enabled = shouldExportButtonEnabled,
                             onButtonClicked = { mainScreenViewModel.startExport() },
