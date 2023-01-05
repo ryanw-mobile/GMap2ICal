@@ -169,7 +169,7 @@ fun mainScreen(
                         )
                     } else {
                         val shouldExportButtonEnabled = (uiState == MainScreenUIState.Ready) &&
-                                (exportActivitySegment || exportPlaceVisit)
+                            (exportActivitySegment || exportPlaceVisit)
                         ExportActionButton(
                             enabled = shouldExportButtonEnabled,
                             onButtonClicked = { mainScreenViewModel.startExport() },
