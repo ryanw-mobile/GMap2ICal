@@ -47,7 +47,7 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment.toDomainModel(
         ),
         endLocation = endLocationAppModel,
         startLocation = startLocationAppModel,
-        waypointPath = waypointPath?.let { WaypointPath.from(waypointPathDataModel = it) },
+        waypointPath = waypointPath?.toDomainModel(),
         lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
         eventTimeZone = timezone
     )
