@@ -15,7 +15,7 @@ import uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation
 import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegmentDataModelTestData.mockActivitySegment
 import us.dustinj.timezonemap.TimeZone
 
-internal class ActivitySegmentTest : FreeSpec() {
+internal class ActivitySegmentMapperTest : FreeSpec() {
 
     private lateinit var mockTimeZoneMap: MockTimeZoneMap
 
@@ -28,10 +28,7 @@ internal class ActivitySegmentTest : FreeSpec() {
             }
 
             // 🟡 When
-            val activitySegment = ActivitySegment.from(
-                activitySegmentDataModel = activitySegmentDataModel,
-                timeZoneMap = mockTimeZoneMap
-            )
+            val activitySegment = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
             // 🟢 Then
             activitySegment shouldBe ActivitySegment(
@@ -81,10 +78,7 @@ internal class ActivitySegmentTest : FreeSpec() {
             }
 
             // 🟡 When
-            val activitySegment = ActivitySegment.from(
-                activitySegmentDataModel = activitySegmentDataModel,
-                timeZoneMap = mockTimeZoneMap
-            )
+            val activitySegment = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
             // 🟢 Then
             activitySegment shouldBe ActivitySegment(
@@ -134,10 +128,7 @@ internal class ActivitySegmentTest : FreeSpec() {
             }
 
             // 🟡 When
-            val activitySegment = ActivitySegment.from(
-                activitySegmentDataModel = activitySegmentDataModel,
-                timeZoneMap = mockTimeZoneMap
-            )
+            val activitySegment = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
             // 🟢 Then
             activitySegment shouldBe ActivitySegment(
@@ -180,10 +171,7 @@ internal class ActivitySegmentTest : FreeSpec() {
             }
 
             // 🟡 When
-            val activitySegment = ActivitySegment.from(
-                activitySegmentDataModel = activitySegmentDataModel,
-                timeZoneMap = mockTimeZoneMap
-            )
+            val activitySegment = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
             // 🟢 Then
             activitySegment shouldBe ActivitySegment(
@@ -233,10 +221,7 @@ internal class ActivitySegmentTest : FreeSpec() {
             }
 
             // 🟡 When
-            val activitySegment = ActivitySegment.from(
-                activitySegmentDataModel = activitySegmentDataModel,
-                timeZoneMap = mockTimeZoneMap
-            )
+            val activitySegment = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
             // 🟢 Then
             activitySegment shouldBe null
@@ -252,10 +237,7 @@ internal class ActivitySegmentTest : FreeSpec() {
             }
 
             // 🟡 When
-            val activitySegment = ActivitySegment.from(
-                activitySegmentDataModel = activitySegmentDataModel,
-                timeZoneMap = mockTimeZoneMap
-            )
+            val activitySegment = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
             // 🟢 Then
             activitySegment shouldBe null

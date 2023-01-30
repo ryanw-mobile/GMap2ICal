@@ -7,7 +7,6 @@ package uk.ryanwong.gmap2ics.app.models.timeline.activity
 import uk.ryanwong.gmap2ics.app.models.ActivityType
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
 
 data class ActivitySegment(
@@ -21,65 +20,5 @@ data class ActivitySegment(
     val startLocation: Location,
     val waypointPath: WaypointPath? = null,
     val lastEditedTimestamp: String,
-    val eventTimeZone: TimeZone?
-) {
-    companion object {
-        fun from(
-            activitySegmentDataModel: uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment,
-            timeZoneMap: TimeZoneMapWrapper
-        ): ActivitySegment? {
-            with(activitySegmentDataModel) {
-                val startLocationAppModel: Location? = Location.from(activityLocationDataModel = startLocation)
-                val endLocationAppModel: Location? = Location.from(activityLocationDataModel = endLocation)
-
-                if (startLocationAppModel == null || endLocationAppModel == null) {
-                    return null
-                }
-
-                // Convert to enum
-                val activityTypeEnum = resolveActivityType(activityType)
-
-                val timezone = timeZoneMap.getOverlappingTimeZone(
-                    degreesLatitude = endLocationAppModel.latitudeE7 * 0.0000001,
-                    degreesLongitude = endLocationAppModel.longitudeE7 * 0.0000001,
-                )
-                return ActivitySegment(
-                    activities = activities?.mapNotNull { activity ->
-                        activity.activityType?.let {
-                            Activity(
-                                activityType = resolveActivityType(it),
-                                rawActivityType = it
-                            )
-                        }
-                    } ?: emptyList(),
-                    activityType = activityTypeEnum,
-                    rawActivityType = activityType,
-                    distance = distance ?: (waypointPath?.distanceMeters)?.toInt() ?: 0,
-                    durationEndTimestamp = RawTimestamp(
-                        timestamp = duration.endTimestamp,
-                        timezoneId = timezone?.zoneId ?: "UTC"
-                    ),
-                    durationStartTimestamp = RawTimestamp(
-                        timestamp = duration.startTimestamp,
-                        timezoneId = timezone?.zoneId ?: "UTC"
-                    ),
-                    endLocation = endLocationAppModel,
-                    startLocation = startLocationAppModel,
-                    waypointPath = waypointPath?.let { WaypointPath.from(waypointPathDataModel = it) },
-                    lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
-                    eventTimeZone = timezone
-                )
-            }
-        }
-
-        private fun resolveActivityType(activityType: String?): ActivityType {
-            return activityType?.let {
-                try {
-                    ActivityType.valueOf(it)
-                } catch (e: IllegalArgumentException) {
-                    ActivityType.UNKNOWN_ACTIVITY_TYPE
-                }
-            } ?: ActivityType.UNKNOWN_ACTIVITY_TYPE
-        }
-    }
-}
+    val eventTimeZone: TimeZone?,
+)
