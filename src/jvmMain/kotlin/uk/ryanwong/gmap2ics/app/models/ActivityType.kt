@@ -24,5 +24,17 @@ enum class ActivityType(val emoji: String) {
     SAILING("⛵️"),
     SKIING("⛷"),
     STILL("\uD83E\uDDCD"),
-    WALKING("🚶‍♂️")
+    WALKING("🚶‍♂️");
+
+    companion object {
+        fun parse(activityType: String?): ActivityType {
+            return activityType?.let {
+                try {
+                    ActivityType.valueOf(it)
+                } catch (e: IllegalArgumentException) {
+                    UNKNOWN_ACTIVITY_TYPE
+                }
+            } ?: UNKNOWN_ACTIVITY_TYPE
+        }
+    }
 }
