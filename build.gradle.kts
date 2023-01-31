@@ -25,6 +25,7 @@ repositories {
 }
 
 kotlin {
+    jvmToolchain(11)
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "15"

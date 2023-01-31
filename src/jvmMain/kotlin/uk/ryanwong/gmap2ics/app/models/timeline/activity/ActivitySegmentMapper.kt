@@ -7,22 +7,23 @@ package uk.ryanwong.gmap2ics.app.models.timeline.activity
 import uk.ryanwong.gmap2ics.app.models.ActivityType
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
 import uk.ryanwong.gmap2ics.app.models.timeline.Location
+import uk.ryanwong.gmap2ics.app.models.timeline.toDomainModel
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 
 fun uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment.toDomainModel(
     timeZoneMap: TimeZoneMapWrapper,
 ): ActivitySegment? {
-    val startLocationAppModel: Location? = Location.from(activityLocationDataModel = startLocation)
-    val endLocationAppModel: Location? = Location.from(activityLocationDataModel = endLocation)
+    val startLocationDomainModel: Location? = startLocation.toDomainModel()
+    val endLocationDomainModel: Location? = endLocation.toDomainModel()
 
-    if (startLocationAppModel == null || endLocationAppModel == null) {
+    if (startLocationDomainModel == null || endLocationDomainModel == null) {
         return null
     }
 
     val activityTypeEnum = ActivityType.parse(activityType)
     val timezone = timeZoneMap.getOverlappingTimeZone(
-        degreesLatitude = endLocationAppModel.latitudeE7 * 0.0000001,
-        degreesLongitude = endLocationAppModel.longitudeE7 * 0.0000001,
+        degreesLatitude = endLocationDomainModel.latitudeE7 * 0.0000001,
+        degreesLongitude = endLocationDomainModel.longitudeE7 * 0.0000001,
     )
 
     return ActivitySegment(
@@ -45,8 +46,8 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment.toDomainModel(
             timestamp = duration.startTimestamp,
             timezoneId = timezone?.zoneId ?: "UTC"
         ),
-        endLocation = endLocationAppModel,
-        startLocation = startLocationAppModel,
+        endLocation = endLocationDomainModel,
+        startLocation = startLocationDomainModel,
         waypointPath = waypointPath?.toDomainModel(),
         lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
         eventTimeZone = timezone
