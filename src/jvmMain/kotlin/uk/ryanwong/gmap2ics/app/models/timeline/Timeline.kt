@@ -5,7 +5,7 @@
 package uk.ryanwong.gmap2ics.app.models.timeline
 
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.toDomainModel
-import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
+import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.toDomainModel
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
 
@@ -21,9 +21,7 @@ data class Timeline(
                 timelineEntries = timelineObjects.timelineObjects?.map { timelineObject ->
                     TimelineEntry(
                         activitySegment = timelineObject.activitySegment?.toDomainModel(timeZoneMap = timeZoneMap),
-                        placeVisit = timelineObject.placeVisit?.let {
-                            PlaceVisit.from(placeVisitDataModel = it, timeZoneMap = timeZoneMap)
-                        }
+                        placeVisit = timelineObject.placeVisit?.toDomainModel(timeZoneMap = timeZoneMap)
                     )
                 } ?: emptyList()
             )

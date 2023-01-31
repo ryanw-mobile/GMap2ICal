@@ -13,7 +13,7 @@ import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
 import uk.ryanwong.gmap2ics.data.models.timeline.Duration
 import us.dustinj.timezonemap.TimeZone
 
-internal class ChildVisitTest : FreeSpec() {
+internal class ChildVisitMapperTest : FreeSpec() {
 
     private lateinit var mockTimeZoneMap: MockTimeZoneMap
 
@@ -45,8 +45,7 @@ internal class ChildVisitTest : FreeSpec() {
             val childVisitDataModel = mockChildVisit
 
             // 🟡 When
-            val childVisitAppModel =
-                ChildVisit.from(childVisitDataModel = childVisitDataModel, timeZoneMap = mockTimeZoneMap)
+            val childVisitAppModel = childVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
             // 🟢 Then
             childVisitAppModel shouldBe ChildVisit(
@@ -72,8 +71,7 @@ internal class ChildVisitTest : FreeSpec() {
             )
 
             // 🟡 When
-            val childVisitAppModel =
-                ChildVisit.from(childVisitDataModel = childVisitDataModel, timeZoneMap = mockTimeZoneMap)
+            val childVisitAppModel = childVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
             // 🟢 Then
             childVisitAppModel shouldBe null
@@ -87,8 +85,7 @@ internal class ChildVisitTest : FreeSpec() {
             )
 
             // 🟡 When
-            val childVisitAppModel =
-                ChildVisit.from(childVisitDataModel = childVisitDataModel, timeZoneMap = mockTimeZoneMap)
+            val childVisitAppModel = childVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
             // 🟢 Then
             childVisitAppModel shouldBe null
