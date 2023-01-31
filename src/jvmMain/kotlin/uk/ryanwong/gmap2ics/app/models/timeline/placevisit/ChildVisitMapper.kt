@@ -5,12 +5,13 @@
 package uk.ryanwong.gmap2ics.app.models.timeline.placevisit
 
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
-import uk.ryanwong.gmap2ics.app.models.timeline.Location
+import uk.ryanwong.gmap2ics.app.models.timeline.toDomainModel
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 
 fun uk.ryanwong.gmap2ics.data.models.timeline.ChildVisit.toDomainModel(timeZoneMap: TimeZoneMapWrapper): ChildVisit? {
     //  If a child visit does not have a valid duration start & end, we simply drop it during conversion
-    val locationDomainModel = Location.from(locationDataModel = location)
+    val locationDomainModel = location.toDomainModel()
+
     return if (duration == null || locationDomainModel == null) {
         null
     } else {

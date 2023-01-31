@@ -5,11 +5,11 @@
 package uk.ryanwong.gmap2ics.app.models.timeline.placevisit
 
 import uk.ryanwong.gmap2ics.app.models.RawTimestamp
-import uk.ryanwong.gmap2ics.app.models.timeline.Location
+import uk.ryanwong.gmap2ics.app.models.timeline.toDomainModel
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 
 fun uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisit.toDomainModel(timeZoneMap: TimeZoneMapWrapper): PlaceVisit? {
-    val locationDomainModel = Location.from(locationDataModel = location)
+    val locationDomainModel = location.toDomainModel()
 
     return locationDomainModel?.let {
         val eventTimeZone = timeZoneMap.getOverlappingTimeZone(

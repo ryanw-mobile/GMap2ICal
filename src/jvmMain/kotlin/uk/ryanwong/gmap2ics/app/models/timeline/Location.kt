@@ -4,7 +4,6 @@
 
 package uk.ryanwong.gmap2ics.app.models.timeline
 
-import uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation
 import java.text.DecimalFormat
 
 data class Location(
@@ -12,44 +11,8 @@ data class Location(
     val latitudeE7: Int,
     val longitudeE7: Int,
     val name: String? = null,
-    val address: String? = null
+    val address: String? = null,
 ) {
-    companion object {
-        fun from(locationDataModel: uk.ryanwong.gmap2ics.data.models.timeline.Location): Location? {
-            with(locationDataModel) {
-                return if (latitudeE7 == null || longitudeE7 == null) {
-                    null
-                } else {
-                    return Location(
-                        address = address,
-                        latitudeE7 = latitudeE7,
-                        longitudeE7 = longitudeE7,
-                        name = name,
-                        placeId = placeId
-                    )
-                }
-            }
-        }
-
-        // Location without LatLng is meaningless.
-        // Caller should consider dropping the entry should that happens.
-        fun from(activityLocationDataModel: ActivityLocation): Location? {
-            with(activityLocationDataModel) {
-                return if (latitudeE7 == null || longitudeE7 == null) {
-                    null
-                } else {
-                    Location(
-                        address = address,
-                        latitudeE7 = latitudeE7,
-                        longitudeE7 = longitudeE7,
-                        name = name,
-                        placeId = placeId
-                    )
-                }
-            }
-        }
-    }
-
     private val latLngFormat = DecimalFormat("###.######")
 
     fun getLatitude(): Double {
