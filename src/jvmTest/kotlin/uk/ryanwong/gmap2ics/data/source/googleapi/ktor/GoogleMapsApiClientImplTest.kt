@@ -54,16 +54,7 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
                         status = HttpStatusCode.OK,
                         payload = mockPlaceDetailsGregAve
                     )
-
-                    // 🟡 When
-                    val placeDetails = apiClient.getPlaceDetails(
-                        placeId = "some-placeId",
-                        apiKey = "some-api-key",
-                        language = "some-language"
-                    )
-
-                    // 🟢 Then
-                    placeDetails shouldBe uk.ryanwong.gmap2ics.data.models.places.PlaceDetails(
+                    val expectedPlaceDetails = uk.ryanwong.gmap2ics.data.models.places.PlaceDetails(
                         result = Result(
                             formattedAddress = "8 Greg Ave, Bollington, Macclesfield SK10 5HR, UK",
                             formattedPhoneNumber = null,
@@ -80,6 +71,16 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
                             website = null
                         )
                     )
+
+                    // 🟡 When
+                    val placeDetails = apiClient.getPlaceDetails(
+                        placeId = "some-placeId",
+                        apiKey = "some-api-key",
+                        language = "some-language"
+                    )
+
+                    // 🟢 Then
+                    placeDetails shouldBe expectedPlaceDetails
                 }
             }
 

@@ -58,15 +58,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                     url = "https://some.url/"
                 )
             )
-
-            // 🟡 When
-            val vEvent = vEventFromActivitySegmentUseCase(
-                activitySegment = activitySegment,
-                enablePlacesApiLookup = enablePlacesApiLookup
-            )
-
-            // 🟢 Then
-            vEvent shouldBe VEvent(
+            val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
                 placeId = "some-end-place-id",
                 dtStamp = "2011-11-11T11:22:22.222Z",
@@ -80,6 +72,15 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
                 lastModified = "2011-11-11T11:22:22.222Z"
             )
+
+            // 🟡 When
+            val vEvent = vEventFromActivitySegmentUseCase(
+                activitySegment = activitySegment,
+                enablePlacesApiLookup = enablePlacesApiLookup
+            )
+
+            // 🟢 Then
+            vEvent shouldBe expectedVEvent
         }
 
         "should return correct VEvent if activitySegment.eventTimeZone is null" {
@@ -99,15 +100,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                     url = "https://some.url/"
                 )
             )
-
-            // 🟡 When
-            val vEvent = vEventFromActivitySegmentUseCase(
-                activitySegment = activitySegment,
-                enablePlacesApiLookup = enablePlacesApiLookup
-            )
-
-            // 🟢 Then
-            vEvent shouldBe VEvent(
+            val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
                 placeId = "some-end-place-id",
                 dtStamp = "2011-11-11T11:22:22.222Z",
@@ -121,6 +114,15 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
                 lastModified = "2011-11-11T11:22:22.222Z"
             )
+
+            // 🟡 When
+            val vEvent = vEventFromActivitySegmentUseCase(
+                activitySegment = activitySegment,
+                enablePlacesApiLookup = enablePlacesApiLookup
+            )
+
+            // 🟢 Then
+            vEvent shouldBe expectedVEvent
         }
 
         "should return correct VEvent if enablePlacesApiLookup is false" {
@@ -138,15 +140,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                     url = "https://some.url/"
                 )
             )
-
-            // 🟡 When
-            val vEvent = vEventFromActivitySegmentUseCase(
-                activitySegment = activitySegment,
-                enablePlacesApiLookup = enablePlacesApiLookup
-            )
-
-            // 🟢 Then
-            vEvent shouldBe VEvent(
+            val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
                 placeId = "some-end-place-id",
                 dtStamp = "2011-11-11T11:22:22.222Z",
@@ -160,6 +154,15 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
                 lastModified = "2011-11-11T11:22:22.222Z"
             )
+
+            // 🟡 When
+            val vEvent = vEventFromActivitySegmentUseCase(
+                activitySegment = activitySegment,
+                enablePlacesApiLookup = enablePlacesApiLookup
+            )
+
+            // 🟢 Then
+            vEvent shouldBe expectedVEvent
         }
 
         "should still return correct VEvent if repository returns PlaceDetailsNotFoundException" {
@@ -169,15 +172,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
             val enablePlacesApiLookup = true
             mockPlaceDetailsRepository.getPlaceDetailsResponse =
                 Result.failure(exception = PlaceDetailsNotFoundException(placeId = "some-place-id"))
-
-            // 🟡 When
-            val vEvent = vEventFromActivitySegmentUseCase(
-                activitySegment = activitySegment,
-                enablePlacesApiLookup = enablePlacesApiLookup
-            )
-
-            // 🟢 Then
-            vEvent shouldBe VEvent(
+            val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
                 placeId = "some-end-place-id",
                 dtStamp = "2011-11-11T11:22:22.222Z",
@@ -191,6 +186,15 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
                 lastModified = "2011-11-11T11:22:22.222Z"
             )
+
+            // 🟡 When
+            val vEvent = vEventFromActivitySegmentUseCase(
+                activitySegment = activitySegment,
+                enablePlacesApiLookup = enablePlacesApiLookup
+            )
+
+            // 🟢 Then
+            vEvent shouldBe expectedVEvent
         }
 
         "should still return correct VEvent if repository returns GetPlaceDetailsAPIErrorException" {
@@ -200,15 +204,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
             val enablePlacesApiLookup = true
             mockPlaceDetailsRepository.getPlaceDetailsResponse =
                 Result.failure(exception = GetPlaceDetailsAPIErrorException(apiErrorMessage = "some-api-error-message"))
-
-            // 🟡 When
-            val vEvent = vEventFromActivitySegmentUseCase(
-                activitySegment = activitySegment,
-                enablePlacesApiLookup = enablePlacesApiLookup
-            )
-
-            // 🟢 Then
-            vEvent shouldBe VEvent(
+            val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
                 placeId = "some-end-place-id",
                 dtStamp = "2011-11-11T11:22:22.222Z",
@@ -222,6 +218,15 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
                 lastModified = "2011-11-11T11:22:22.222Z"
             )
+
+            // 🟡 When
+            val vEvent = vEventFromActivitySegmentUseCase(
+                activitySegment = activitySegment,
+                enablePlacesApiLookup = enablePlacesApiLookup
+            )
+
+            // 🟢 Then
+            vEvent shouldBe expectedVEvent
         }
 
         // Note: firstPlaceDetails and lastPlaceDetails are from the same list
@@ -242,6 +247,20 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                         url = "https://some.url/"
                     )
                 )
+                val expectedVEvent = VEvent(
+                    uid = "2011-11-11T11:22:22.222Z",
+                    placeId = "some-end-place-id",
+                    dtStamp = "2011-11-11T11:22:22.222Z",
+                    organizer = null,
+                    dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
+                    dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
+                    summary = "✈️ 0.1km (some-place-name ➡ some-place-name)",
+                    location = "26.33933,127.85",
+                    geo = LatLng(latitude = 26.33933, longitude = 127.85),
+                    description = "Start Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-place-id\\n\\nEnd Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-place-id\\n\\n",
+                    url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
+                    lastModified = "2011-11-11T11:22:22.222Z"
+                )
 
                 // 🟡 When
                 val vEvent = vEventFromActivitySegmentUseCase(
@@ -250,21 +269,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 )
 
                 // 🟢 Then
-                vEvent shouldBe
-                    VEvent(
-                        uid = "2011-11-11T11:22:22.222Z",
-                        placeId = "some-end-place-id",
-                        dtStamp = "2011-11-11T11:22:22.222Z",
-                        organizer = null,
-                        dtStart = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
-                        dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
-                        summary = "✈️ 0.1km (some-place-name ➡ some-place-name)",
-                        location = "26.33933,127.85",
-                        geo = LatLng(latitude = 26.33933, longitude = 127.85),
-                        description = "Start Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-place-id\\n\\nEnd Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-place-id\\n\\n",
-                        url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
-                        lastModified = "2011-11-11T11:22:22.222Z"
-                    )
+                vEvent shouldBe expectedVEvent
             }
         }
 
@@ -284,15 +289,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                         url = "https://some.url/"
                     )
                 )
-
-                // 🟡 When
-                val vEvent = vEventFromActivitySegmentUseCase(
-                    activitySegment = activitySegment,
-                    enablePlacesApiLookup = enablePlacesApiLookup
-                )
-
-                // 🟢 Then
-                vEvent shouldBe VEvent(
+                val expectedVEvent = VEvent(
                     uid = "2011-11-11T11:22:22.222Z",
                     placeId = "some-end-place-id",
                     dtStamp = "2011-11-11T11:22:22.222Z",
@@ -306,6 +303,15 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                     url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
                     lastModified = "2011-11-11T11:22:22.222Z"
                 )
+
+                // 🟡 When
+                val vEvent = vEventFromActivitySegmentUseCase(
+                    activitySegment = activitySegment,
+                    enablePlacesApiLookup = enablePlacesApiLookup
+                )
+
+                // 🟢 Then
+                vEvent shouldBe expectedVEvent
             }
         }
 
@@ -325,15 +331,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                         url = "https://some.url/"
                     )
                 )
-
-                // 🟡 When
-                val vEvent = vEventFromActivitySegmentUseCase(
-                    activitySegment = activitySegment,
-                    enablePlacesApiLookup = enablePlacesApiLookup
-                )
-
-                // 🟢 Then
-                vEvent shouldBe VEvent(
+                val expectedVEvent = VEvent(
                     uid = "2011-11-11T11:22:22.222Z",
                     placeId = null,
                     dtStamp = "2011-11-11T11:22:22.222Z",
@@ -347,6 +345,15 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                     url = "https://maps.google.com?q=26.33933,127.85",
                     lastModified = "2011-11-11T11:22:22.222Z"
                 )
+
+                // 🟡 When
+                val vEvent = vEventFromActivitySegmentUseCase(
+                    activitySegment = activitySegment,
+                    enablePlacesApiLookup = enablePlacesApiLookup
+                )
+
+                // 🟢 Then
+                vEvent shouldBe expectedVEvent
             }
         }
     }

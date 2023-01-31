@@ -16,7 +16,7 @@ import uk.ryanwong.gmap2ics.app.models.timeline.activity.WaypointPath
 import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import us.dustinj.timezonemap.TimeZone
 
-object TimelineRepositoryImplTestData {
+internal object TimelineRepositoryImplTestData {
     val mockJsonString = """{
   "timelineObjects": [{
     "activitySegment": {

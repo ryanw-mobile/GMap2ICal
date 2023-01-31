@@ -37,18 +37,13 @@ internal class ChildVisitMapperTest : FreeSpec() {
     )
 
     init {
-        "should correctly map Data Model to App Model" {
+        "should correctly map Data Model to Domain Model" {
             // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap().apply {
                 mockZoneId = "Europe/London"
             }
             val childVisitDataModel = mockChildVisit
-
-            // 🟡 When
-            val childVisitAppModel = childVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
-
-            // 🟢 Then
-            childVisitAppModel shouldBe ChildVisit(
+            val expectedDomainModel = ChildVisit(
                 durationEndTimestamp = RawTimestamp(timestamp = "2022-01-03T14:26:25Z", timezoneId = "Europe/London"),
                 durationStartTimestamp = RawTimestamp(timestamp = "2022-01-03T14:18:02Z", timezoneId = "Europe/London"),
                 lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
@@ -61,9 +56,15 @@ internal class ChildVisitMapperTest : FreeSpec() {
                 ),
                 eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
             )
+
+            // 🟡 When
+            val childVisitDomainModel = childVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+
+            // 🟢 Then
+            childVisitDomainModel shouldBe expectedDomainModel
         }
 
-        "should return null if App Model has no valid Location" {
+        "should return null if Domain Model has no valid Location" {
             // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap()
             val childVisitDataModel = mockChildVisit.copy(
@@ -71,13 +72,13 @@ internal class ChildVisitMapperTest : FreeSpec() {
             )
 
             // 🟡 When
-            val childVisitAppModel = childVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+            val childVisitDomainModel = childVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
             // 🟢 Then
-            childVisitAppModel shouldBe null
+            childVisitDomainModel shouldBe null
         }
 
-        "should return null if App Model has no valid Duration" {
+        "should return null if Domain Model has no valid Duration" {
             // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap()
             val childVisitDataModel = mockChildVisit.copy(
@@ -85,10 +86,10 @@ internal class ChildVisitMapperTest : FreeSpec() {
             )
 
             // 🟡 When
-            val childVisitAppModel = childVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+            val childVisitDomainModel = childVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
             // 🟢 Then
-            childVisitAppModel shouldBe null
+            childVisitDomainModel shouldBe null
         }
     }
 }

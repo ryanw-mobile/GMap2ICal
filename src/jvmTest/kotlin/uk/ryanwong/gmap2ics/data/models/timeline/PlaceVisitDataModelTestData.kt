@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.data.models.timeline
 
-object PlaceVisitDataModelTestData {
+internal object PlaceVisitDataModelTestData {
     val mockPlaceVisitDataModel = PlaceVisit(
         centerLatE7 = null,
         centerLngE7 = null,

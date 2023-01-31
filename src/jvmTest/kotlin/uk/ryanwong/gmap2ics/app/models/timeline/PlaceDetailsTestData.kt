@@ -8,7 +8,7 @@ import uk.ryanwong.gmap2ics.data.models.places.Geometry
 import uk.ryanwong.gmap2ics.data.models.places.Location
 import uk.ryanwong.gmap2ics.data.models.places.Result
 
-object PlaceDetailsTestData {
+internal object PlaceDetailsTestData {
     /***
      * Note: Seeing real data would help understand what kind of data we are getting from Google.
      */
