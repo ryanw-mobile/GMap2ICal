@@ -8,7 +8,7 @@ import uk.ryanwong.gmap2ics.data.models.places.Geometry
 import uk.ryanwong.gmap2ics.data.models.places.Location
 import uk.ryanwong.gmap2ics.data.models.places.Result
 
-object KtorGoogleApiDataSourceTestData {
+internal object KtorGoogleApiDataSourceTestData {
     /***
      * Data source unit tests I would prefer using real data samples.
      */

@@ -42,19 +42,7 @@ internal class VEventTest : FreeSpec() {
                     val lastPlaceDetails = mockActivityLastSegmentPlaceDetails
                     val startPlaceDetails = mockActivityStartSegmentPlaceDetails
                     val endPlaceDetails = mockActivityEndSegmentPlaceDetails
-
-                    // 🟡 When
-                    val vEvent = VEvent.from(
-                        activitySegment = activitySegment,
-                        shouldShowMiles = shouldShowMiles,
-                        firstPlaceDetails = firstPlaceDetails,
-                        lastPlaceDetails = lastPlaceDetails,
-                        startPlaceDetails = startPlaceDetails,
-                        endPlaceDetails = endPlaceDetails
-                    )
-
-                    // 🟢 Then
-                    vEvent shouldBe VEvent(
+                    val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = "some-end-location-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
@@ -68,6 +56,19 @@ internal class VEventTest : FreeSpec() {
                         url = "https://www.google.com/maps/place/?q=place_id:some-end-location-place-id",
                         lastModified = "2011-11-11T11:22:22.222Z"
                     )
+
+                    // 🟡 When
+                    val vEvent = VEvent.from(
+                        activitySegment = activitySegment,
+                        shouldShowMiles = shouldShowMiles,
+                        firstPlaceDetails = firstPlaceDetails,
+                        lastPlaceDetails = lastPlaceDetails,
+                        startPlaceDetails = startPlaceDetails,
+                        endPlaceDetails = endPlaceDetails
+                    )
+
+                    // 🟢 Then
+                    vEvent shouldBe expectedVEvent
                 }
 
                 "Should convert ActivitySegment with null endLocation.placeId to VEvent correctly" {
@@ -86,19 +87,7 @@ internal class VEventTest : FreeSpec() {
                     val lastPlaceDetails = mockActivityLastSegmentPlaceDetails
                     val startPlaceDetails = mockActivityStartSegmentPlaceDetails
                     val endPlaceDetails = mockActivityEndSegmentPlaceDetails
-
-                    // 🟡 When
-                    val vEvent = VEvent.from(
-                        activitySegment = activitySegment,
-                        shouldShowMiles = shouldShowMiles,
-                        firstPlaceDetails = firstPlaceDetails,
-                        lastPlaceDetails = lastPlaceDetails,
-                        startPlaceDetails = startPlaceDetails,
-                        endPlaceDetails = endPlaceDetails
-                    )
-
-                    // 🟢 Then
-                    vEvent shouldBe VEvent(
+                    val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = null,
                         dtStamp = "2011-11-11T11:22:22.222Z",
@@ -112,16 +101,6 @@ internal class VEventTest : FreeSpec() {
                         url = "https://maps.google.com?q=26.33933,127.85",
                         lastModified = "2011-11-11T11:22:22.222Z"
                     )
-                }
-
-                "Should convert kilometres to miles in VEvent if shouldShowMiles is true" {
-                    // 🔴 Given
-                    val activitySegment = mockActivitySegment
-                    val shouldShowMiles = true
-                    val firstPlaceDetails = mockActivityFirstSegmentPlaceDetails
-                    val lastPlaceDetails = mockActivityLastSegmentPlaceDetails
-                    val startPlaceDetails = mockActivityStartSegmentPlaceDetails
-                    val endPlaceDetails = mockActivityEndSegmentPlaceDetails
 
                     // 🟡 When
                     val vEvent = VEvent.from(
@@ -134,7 +113,18 @@ internal class VEventTest : FreeSpec() {
                     )
 
                     // 🟢 Then
-                    vEvent shouldBe VEvent(
+                    vEvent shouldBe expectedVEvent
+                }
+
+                "Should convert kilometres to miles in VEvent if shouldShowMiles is true" {
+                    // 🔴 Given
+                    val activitySegment = mockActivitySegment
+                    val shouldShowMiles = true
+                    val firstPlaceDetails = mockActivityFirstSegmentPlaceDetails
+                    val lastPlaceDetails = mockActivityLastSegmentPlaceDetails
+                    val startPlaceDetails = mockActivityStartSegmentPlaceDetails
+                    val endPlaceDetails = mockActivityEndSegmentPlaceDetails
+                    val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = "some-end-location-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
@@ -148,16 +138,6 @@ internal class VEventTest : FreeSpec() {
                         url = "https://www.google.com/maps/place/?q=place_id:some-end-location-place-id",
                         lastModified = "2011-11-11T11:22:22.222Z"
                     )
-                }
-
-                "Should convert ActivitySegment without PlaceDetails to VEvent correctly" {
-                    // 🔴 Given
-                    val activitySegment = mockActivitySegment
-                    val shouldShowMiles = false
-                    val firstPlaceDetails = null
-                    val lastPlaceDetails = null
-                    val startPlaceDetails = null
-                    val endPlaceDetails = null
 
                     // 🟡 When
                     val vEvent = VEvent.from(
@@ -170,7 +150,18 @@ internal class VEventTest : FreeSpec() {
                     )
 
                     // 🟢 Then
-                    vEvent shouldBe VEvent(
+                    vEvent shouldBe expectedVEvent
+                }
+
+                "Should convert ActivitySegment without PlaceDetails to VEvent correctly" {
+                    // 🔴 Given
+                    val activitySegment = mockActivitySegment
+                    val shouldShowMiles = false
+                    val firstPlaceDetails = null
+                    val lastPlaceDetails = null
+                    val startPlaceDetails = null
+                    val endPlaceDetails = null
+                    val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = "some-end-location-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
@@ -184,6 +175,19 @@ internal class VEventTest : FreeSpec() {
                         url = "https://www.google.com/maps/place/?q=place_id:some-end-location-place-id",
                         lastModified = "2011-11-11T11:22:22.222Z"
                     )
+
+                    // 🟡 When
+                    val vEvent = VEvent.from(
+                        activitySegment = activitySegment,
+                        shouldShowMiles = shouldShowMiles,
+                        firstPlaceDetails = firstPlaceDetails,
+                        lastPlaceDetails = lastPlaceDetails,
+                        startPlaceDetails = startPlaceDetails,
+                        endPlaceDetails = endPlaceDetails
+                    )
+
+                    // 🟢 Then
+                    vEvent shouldBe expectedVEvent
                 }
             }
 
@@ -192,12 +196,7 @@ internal class VEventTest : FreeSpec() {
                     // 🔴 Given
                     val placeVisit = mockPlaceVisit
                     val placeDetails = mockPlaceVisitPlaceDetails
-
-                    // 🟡 When
-                    val vEvent = VEvent.from(placeVisit = placeVisit, placeDetails = placeDetails)
-
-                    // 🟢 Then
-                    vEvent shouldBe VEvent(
+                    val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = "some-place-visit-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
@@ -211,18 +210,19 @@ internal class VEventTest : FreeSpec() {
                         url = "https://maps.google.com/?cid=1021876599690425051",
                         lastModified = "2011-11-11T11:22:22.222Z"
                     )
+
+                    // 🟡 When
+                    val vEvent = VEvent.from(placeVisit = placeVisit, placeDetails = placeDetails)
+
+                    // 🟢 Then
+                    vEvent shouldBe expectedVEvent
                 }
 
                 "Should convert PlaceVisit without PlaceDetails to VEvent correctly" {
                     // 🔴 Given
                     val placeVisit = mockPlaceVisit
                     val placeDetails = null
-
-                    // 🟡 When
-                    val vEvent = VEvent.from(placeVisit = placeVisit, placeDetails = placeDetails)
-
-                    // 🟢 Then
-                    vEvent shouldBe VEvent(
+                    val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = "some-place-visit-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
@@ -236,6 +236,12 @@ internal class VEventTest : FreeSpec() {
                         url = "https://www.google.com/maps/place/?q=place_id:some-place-visit-place-id",
                         lastModified = "2011-11-11T11:22:22.222Z"
                     )
+
+                    // 🟡 When
+                    val vEvent = VEvent.from(placeVisit = placeVisit, placeDetails = placeDetails)
+
+                    // 🟢 Then
+                    vEvent shouldBe expectedVEvent
                 }
             }
 
@@ -244,12 +250,7 @@ internal class VEventTest : FreeSpec() {
                     // 🔴 Given
                     val childVisit = mockChildVisit
                     val placeDetails = mockChildVisitPlaceDetails
-
-                    // 🟡 When
-                    val vEvent = VEvent.from(childVisit = childVisit, placeDetails = placeDetails)
-
-                    // 🟢 Then
-                    vEvent shouldBe VEvent(
+                    val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = "some-child-visit-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
@@ -263,18 +264,19 @@ internal class VEventTest : FreeSpec() {
                         url = "https://maps.google.com/?cid=1021876599690425051",
                         lastModified = "2011-11-11T11:22:22.222Z"
                     )
+
+                    // 🟡 When
+                    val vEvent = VEvent.from(childVisit = childVisit, placeDetails = placeDetails)
+
+                    // 🟢 Then
+                    vEvent shouldBe expectedVEvent
                 }
 
                 "Should convert ChildVisit without PlaceDetails to VEvent correctly" {
                     // 🔴 Given
                     val childVisit = mockChildVisit
                     val placeDetails = null
-
-                    // 🟡 When
-                    val vEvent = VEvent.from(childVisit = childVisit, placeDetails = placeDetails)
-
-                    // 🟢 Then
-                    vEvent shouldBe VEvent(
+                    val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = "some-child-visit-place-id",
                         dtStamp = "2011-11-11T11:22:22.222Z",
@@ -288,6 +290,12 @@ internal class VEventTest : FreeSpec() {
                         url = "https://www.google.com/maps/place/?q=place_id:some-child-visit-place-id",
                         lastModified = "2011-11-11T11:22:22.222Z"
                     )
+
+                    // 🟡 When
+                    val vEvent = VEvent.from(childVisit = childVisit, placeDetails = placeDetails)
+
+                    // 🟢 Then
+                    vEvent shouldBe expectedVEvent
                 }
             }
         }
@@ -309,12 +317,7 @@ internal class VEventTest : FreeSpec() {
                     url = "https://maps.google.com/?cid=1021876599690425051",
                     lastModified = "2011-11-11T11:22:22.222Z"
                 )
-
-                // 🟡 When
-                val iCalString = vEvent.export()
-
-                // 🟢 Then
-                iCalString shouldBe "BEGIN:VEVENT\n" +
+                val expectedICalString = "BEGIN:VEVENT\n" +
                     "TRANSP:OPAQUE\n" +
                     "DTSTART;TZID=Asia/Tokyo:20111112T051111\n" +
                     "DTEND;TZID=Asia/Tokyo:20111112T052222\n" +
@@ -332,6 +335,12 @@ internal class VEventTest : FreeSpec() {
                     "CREATED:2011-11-11T11:22:22.222Z\n" +
                     "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
                     "END:VEVENT\n"
+
+                // 🟡 When
+                val iCalString = vEvent.export()
+
+                // 🟢 Then
+                iCalString shouldBe expectedICalString
             }
         }
     }

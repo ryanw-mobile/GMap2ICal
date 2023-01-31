@@ -18,18 +18,13 @@ internal class PlaceVisitMapperTest : FreeSpec() {
     private lateinit var mockTimeZoneMap: MockTimeZoneMap
 
     init {
-        "should correctly map Data Model to App Model" {
+        "should correctly map Data Model to Domain Model" {
             // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap().apply {
                 mockZoneId = "Europe/London"
             }
             val placeVisitDataModel = mockPlaceVisitDataModel
-
-            // 🟡 When
-            val placeVisitAppModel = placeVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
-
-            // 🟢 Then
-            placeVisitAppModel shouldBe PlaceVisit(
+            val expectedDomainModel = PlaceVisit(
                 durationEndTimestamp = RawTimestamp(
                     timestamp = "2022-01-03T14:26:25Z", timezoneId = "Europe/London"
                 ),
@@ -66,9 +61,15 @@ internal class PlaceVisitMapperTest : FreeSpec() {
                 ),
                 eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
             )
+
+            // 🟡 When
+            val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+
+            // 🟢 Then
+            placeVisitDomainModel shouldBe expectedDomainModel
         }
 
-        "should still correctly map Data Model to App Model if no child visits" {
+        "should still correctly map Data Model to Domain Model if no child visits" {
             // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap().apply {
                 mockZoneId = "Europe/London"
@@ -76,12 +77,7 @@ internal class PlaceVisitMapperTest : FreeSpec() {
             val placeVisitDataModel = mockPlaceVisitDataModel.copy(
                 childVisits = null
             )
-
-            // 🟡 When
-            val placeVisitAppModel = placeVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
-
-            // 🟢 Then
-            placeVisitAppModel shouldBe PlaceVisit(
+            val expectedDomainModel = PlaceVisit(
                 durationEndTimestamp = RawTimestamp(
                     timestamp = "2022-01-03T14:26:25Z", timezoneId = "Europe/London"
                 ),
@@ -99,9 +95,15 @@ internal class PlaceVisitMapperTest : FreeSpec() {
                 childVisits = emptyList(),
                 eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
             )
+
+            // 🟡 When
+            val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+
+            // 🟢 Then
+            placeVisitDomainModel shouldBe expectedDomainModel
         }
 
-        "should return null if App Model has no valid Location" {
+        "should return null if Domain Model has no valid Location" {
             // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap()
             val placeVisitDataModel = mockPlaceVisitDataModel.copy(
@@ -109,10 +111,10 @@ internal class PlaceVisitMapperTest : FreeSpec() {
             )
 
             // 🟡 When
-            val placeVisitAppModel = placeVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+            val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
             // 🟢 Then
-            placeVisitAppModel shouldBe null
+            placeVisitDomainModel shouldBe null
         }
     }
 }

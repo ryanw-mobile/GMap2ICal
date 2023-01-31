@@ -104,17 +104,7 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                         lastModified = "2011-11-11T11:22:22.222Z"
                     )
                 )
-
-                // 🟡 When
-                val exportICalResponse = localFileRepository.exportICal(
-                    filename = "some-file-name",
-                    vEvents = vEventList
-                )
-
-                // 🟢 Then
-                exportICalResponse.isSuccess shouldBe true
-                localDataSource.fileWriterFileName shouldBe "some-file-name"
-                localDataSource.fileWriterContents shouldBe "BEGIN:VCALENDAR\n" +
+                val expectedFileContents = "BEGIN:VCALENDAR\n" +
                     "VERSION:2.0\n" +
                     "BEGIN:VEVENT\n" +
                     "TRANSP:OPAQUE\n" +
@@ -153,6 +143,17 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                     "X-APPLE-TRAVEL-ADVISORY-BEHAVIOR:AUTOMATIC\n" +
                     "END:VEVENT\n" +
                     "END:VCALENDAR\n"
+
+                // 🟡 When
+                val exportICalResponse = localFileRepository.exportICal(
+                    filename = "some-file-name",
+                    vEvents = vEventList
+                )
+
+                // 🟢 Then
+                exportICalResponse.isSuccess shouldBe true
+                localDataSource.fileWriterFileName shouldBe "some-file-name"
+                localDataSource.fileWriterContents shouldBe expectedFileContents
             }
 
             "should return Result.failure if data source return error" {

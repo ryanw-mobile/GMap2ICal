@@ -10,7 +10,7 @@ import io.kotest.matchers.shouldBe
 class LocationMapperTest : FreeSpec() {
     init {
         "from Location Data Model" - {
-            "should convert locationDataModel to Location App Model correctly" - {
+            "should convert locationDataModel to Location Domain Model correctly" - {
                 // 🔴 Given
                 val locationDataModel = uk.ryanwong.gmap2ics.data.models.timeline.Location(
                     address = "some-address",
@@ -72,7 +72,7 @@ class LocationMapperTest : FreeSpec() {
         }
 
         "from ActivityLocation Data Model" - {
-            "should convert activityLocationDataModel to Location App Model correctly" - {
+            "should convert activityLocationDataModel to Location Domain Model correctly" - {
                 // 🔴 Given
                 val activityLocationDataModel = uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation(
                     address = "some-address",
