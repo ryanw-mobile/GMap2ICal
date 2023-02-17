@@ -48,10 +48,11 @@ data class VEvent(
         ): VEvent {
             with(activitySegment) {
                 val distanceInKilometers: Double = distance / 1000.0
-                val distanceString = if (shouldShowMiles)
+                val distanceString = if (shouldShowMiles) {
                     "${mileageFormat.format(ActivitySegmentFormatter.kilometersToMiles(distanceInKilometers))}mi"
-                else
+                } else {
                     "${mileageFormat.format(distanceInKilometers)}km"
+                }
 
                 val subject = "${activityType.emoji} $distanceString ${
                 ActivitySegmentFormatter.parseActivityRouteText(

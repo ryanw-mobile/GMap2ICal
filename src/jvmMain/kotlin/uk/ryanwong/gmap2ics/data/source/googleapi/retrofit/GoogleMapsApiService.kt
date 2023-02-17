@@ -15,6 +15,8 @@ interface GoogleMapsApiService {
     suspend fun getMapsApiPlaceDetails(
         @Query("place_id") placeId: String,
         @Query("key") key: String,
-        @Nullable @Query("language") language: String? = null
+        @Nullable
+        @Query("language")
+        language: String? = null
     ): Response<PlaceDetails>
 }

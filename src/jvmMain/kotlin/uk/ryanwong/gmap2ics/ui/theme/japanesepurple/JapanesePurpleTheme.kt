@@ -11,9 +11,8 @@ import androidx.compose.runtime.Composable
 @Composable
 fun JapanesePurpleTheme(
     isSystemInDarkTheme: Boolean = false, // Compose library broken. isSystemInDarkTheme(),
-    content: @Composable() () -> Unit,
+    content: @Composable () -> Unit,
 ) {
-
     val colors = if (isSystemInDarkTheme) {
         Colors(
             primary = md_theme_dark_primary,

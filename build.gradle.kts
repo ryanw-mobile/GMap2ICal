@@ -77,9 +77,13 @@ extensions.configure<KoverMergedConfig> {
     enable()
 }
 
+configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+    disabledRules.set(setOf("max-line-length", "trailing-comma-on-declaration-site", "trailing-comma-on-call-site"))
+}
+
 kover {
     isDisabled.set(false) // true to disable instrumentation and all Kover tasks in this project
-    engine.set(kotlinx.kover.api.DefaultIntellijEngine) // change Coverage Engine
+    engine.set(kotlinx.kover.api.DefaultIntellijEngine)
     filters {
         classes {
             excludes.addAll(
@@ -95,15 +99,18 @@ kover {
     }
 
     xmlReport {
-        onCheck.set(true) // true to run koverXmlReport task during the execution of the check task (if it exists) of the current project
+        // true to run koverXmlReport task during the execution of the check task (if it exists) of the current project
+        onCheck.set(true)
     }
 
     htmlReport {
-        onCheck.set(true) // true to run koverHtmlReport task during the execution of the check task (if it exists) of the current project
+        // true to run koverHtmlReport task during the execution of the check task (if it exists) of the current project
+        onCheck.set(true)
     }
 
     verify {
-        onCheck.set(true) // true to run koverVerify task during the execution of the check task (if it exists) of the current project
+        // true to run koverVerify task during the execution of the check task (if it exists) of the current project
+        onCheck.set(true)
     }
 }
 

@@ -55,10 +55,12 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
     val mockPlaceVisitWithOneChildVisit by lazy {
         PlaceVisit(
             durationEndTimestamp = RawTimestamp(
-                timestamp = "2022-01-03T14:26:25Z", timezoneId = "Europe/London"
+                timestamp = "2022-01-03T14:26:25Z",
+                timezoneId = "Europe/London"
             ),
             durationStartTimestamp = RawTimestamp(
-                timestamp = "2022-01-03T14:18:02Z", timezoneId = "Europe/London"
+                timestamp = "2022-01-03T14:18:02Z",
+                timezoneId = "Europe/London"
             ),
             lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
             location = Location(
@@ -88,7 +90,8 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
                 placeId = "some-child-place-id",
                 latitudeE7 = 534781070,
                 longitudeE7 = -22666770,
-                name = "some-child-name", address = "some-child-address"
+                name = "some-child-name",
+                address = "some-child-address"
             ),
             eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
         )
@@ -125,7 +128,8 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
                 placeId = "some-another-child-place-id",
                 latitudeE7 = 534781070,
                 longitudeE7 = -22666770,
-                name = "some-another-child-name", address = "some-another-child-address"
+                name = "some-another-child-name",
+                address = "some-another-child-address"
             ),
             eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
         )
@@ -134,10 +138,12 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
     val mockPlaceVisitWithTwoChildVisit by lazy {
         PlaceVisit(
             durationEndTimestamp = RawTimestamp(
-                timestamp = "2022-01-03T14:26:25Z", timezoneId = "Europe/London"
+                timestamp = "2022-01-03T14:26:25Z",
+                timezoneId = "Europe/London"
             ),
             durationStartTimestamp = RawTimestamp(
-                timestamp = "2022-01-03T14:18:02Z", timezoneId = "Europe/London"
+                timestamp = "2022-01-03T14:18:02Z",
+                timezoneId = "Europe/London"
             ),
             lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
             location = Location(

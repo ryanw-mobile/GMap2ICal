@@ -79,7 +79,8 @@ object MainScreenViewModelTestData {
                     lastEditedTimestamp = "2019-07-08T08:17:27.614Z",
                     location = Location(
                         placeId = "ChIJVze90XnzImARoRp3YqEpbtU",
-                        latitudeE7 = 357719867, longitudeE7 = 1403928501,
+                        latitudeE7 = 357719867,
+                        longitudeE7 = 1403928501,
                         name = "Narita International Airport",
                         address = "日本\n〒282-0004 千葉県成田市古込１−１"
                     ),
@@ -98,7 +99,8 @@ object MainScreenViewModelTestData {
                                 placeId = "some-child-place-id",
                                 latitudeE7 = 357720867,
                                 longitudeE7 = 1403930501,
-                                name = "some-child-name", address = "some-child-address"
+                                name = "some-child-name",
+                                address = "some-child-address"
                             ),
                             eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
                         )

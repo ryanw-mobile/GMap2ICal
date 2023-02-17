@@ -12,9 +12,8 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun GregoryGreenTheme(
     isSystemInDarkTheme: Boolean = false, // Compose library broken. isSystemInDarkTheme(),
-    content: @Composable() () -> Unit,
+    content: @Composable () -> Unit,
 ) {
-
     val colors = if (isSystemInDarkTheme) {
         Colors(
             primary = Color(0xff65dbb2),

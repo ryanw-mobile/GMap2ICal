@@ -120,7 +120,6 @@ fun mainScreen(
 
         GregoryGreenTheme {
             Column(modifier = Modifier.fillMaxSize()) {
-
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()

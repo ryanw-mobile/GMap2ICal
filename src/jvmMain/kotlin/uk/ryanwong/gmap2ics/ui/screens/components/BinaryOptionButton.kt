@@ -45,7 +45,6 @@ fun BinaryOptionButton(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.semantics { role = Role.Checkbox }
     ) {
-
         val buttonBorder = if (!isChecked) BorderStroke(width = 2.dp, color = MaterialTheme.colors.primary) else null
         val buttonBackground = if (!isChecked) Color.LightGray else MaterialTheme.colors.primary
         val buttonTint = if (!isChecked) MaterialTheme.colors.primary else Color.White

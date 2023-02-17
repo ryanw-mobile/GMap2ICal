@@ -53,13 +53,15 @@ internal object TimelineTestData {
                         placeId = null
                     ),
                     waypointPath = WaypointPath(
-                        confidence = 0.9905998589035128, distanceMeters = 3838.6799403449295,
+                        confidence = 0.9905998589035128,
+                        distanceMeters = 3838.6799403449295,
                         roadSegment = listOf(
                             RoadSegment(duration = "12s", placeId = "some-road-segment-place-id-1"),
                             RoadSegment(duration = "8s", placeId = "some-road-segment-place-id-2"),
                             RoadSegment(duration = "7s", placeId = "some-road-segment-place-id-3"),
                         ),
-                        source = "INFERRED", travelMode = "DRIVE"
+                        source = "INFERRED",
+                        travelMode = "DRIVE"
                     ),
                     lastEditedTimestamp = null,
                     activityConfidence = null
@@ -118,13 +120,15 @@ internal object TimelineTestData {
                         placeId = null
                     ),
                     waypointPath = WaypointPath(
-                        confidence = 0.9996660206177816, distanceMeters = 2318.9909458116717,
+                        confidence = 0.9996660206177816,
+                        distanceMeters = 2318.9909458116717,
                         roadSegment = listOf(
                             RoadSegment(duration = "3s", placeId = "some-road-segment-place-id-1"),
                             RoadSegment(duration = "2s", placeId = "some-road-segment-place-id-2"),
                             RoadSegment(duration = "12s", placeId = "some-road-segment-place-id-3")
                         ),
-                        source = "INFERRED", travelMode = "DRIVE"
+                        source = "INFERRED",
+                        travelMode = "DRIVE"
                     ),
                     lastEditedTimestamp = null,
                     activityConfidence = null
@@ -216,10 +220,12 @@ internal object TimelineTestData {
                 activitySegment = null,
                 placeVisit = uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit(
                     durationEndTimestamp = RawTimestamp(
-                        timestamp = "2022-01-03T14:26:25Z", timezoneId = "Europe/London"
+                        timestamp = "2022-01-03T14:26:25Z",
+                        timezoneId = "Europe/London"
                     ),
                     durationStartTimestamp = RawTimestamp(
-                        timestamp = "2022-01-03T14:18:02Z", timezoneId = "Europe/London"
+                        timestamp = "2022-01-03T14:18:02Z",
+                        timezoneId = "Europe/London"
                     ),
                     lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
                     location = uk.ryanwong.gmap2ics.app.models.timeline.Location(
@@ -287,10 +293,12 @@ internal object TimelineTestData {
                 ),
                 placeVisit = uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit(
                     durationEndTimestamp = RawTimestamp(
-                        timestamp = "2022-01-03T14:51:33.608Z", timezoneId = "Europe/London"
+                        timestamp = "2022-01-03T14:51:33.608Z",
+                        timezoneId = "Europe/London"
                     ),
                     durationStartTimestamp = RawTimestamp(
-                        timestamp = "2022-01-03T14:32:08Z", timezoneId = "Europe/London"
+                        timestamp = "2022-01-03T14:32:08Z",
+                        timezoneId = "Europe/London"
                     ),
                     lastEditedTimestamp = "2022-01-05T06:56:03.277Z",
                     location = uk.ryanwong.gmap2ics.app.models.timeline.Location(

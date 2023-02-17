@@ -294,7 +294,8 @@ internal object TimelineRepositoryImplTestData {
                     lastEditedTimestamp = "2019-07-08T08:17:27.614Z",
                     location = Location(
                         placeId = "ChIJVze90XnzImARoRp3YqEpbtU",
-                        latitudeE7 = 357719867, longitudeE7 = 1403928501,
+                        latitudeE7 = 357719867,
+                        longitudeE7 = 1403928501,
                         name = "Narita International Airport",
                         address = "日本\n〒282-0004 千葉県成田市古込１−１"
                     ),

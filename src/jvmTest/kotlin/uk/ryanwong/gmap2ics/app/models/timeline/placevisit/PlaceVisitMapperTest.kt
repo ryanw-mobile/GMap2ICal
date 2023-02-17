@@ -26,10 +26,12 @@ internal class PlaceVisitMapperTest : FreeSpec() {
             val placeVisitDataModel = mockPlaceVisitDataModel
             val expectedDomainModel = PlaceVisit(
                 durationEndTimestamp = RawTimestamp(
-                    timestamp = "2022-01-03T14:26:25Z", timezoneId = "Europe/London"
+                    timestamp = "2022-01-03T14:26:25Z",
+                    timezoneId = "Europe/London"
                 ),
                 durationStartTimestamp = RawTimestamp(
-                    timestamp = "2022-01-03T14:18:02Z", timezoneId = "Europe/London"
+                    timestamp = "2022-01-03T14:18:02Z",
+                    timezoneId = "Europe/London"
                 ),
                 lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
                 location = Location(
@@ -54,7 +56,8 @@ internal class PlaceVisitMapperTest : FreeSpec() {
                             placeId = "some-child-place-id",
                             latitudeE7 = 534781070,
                             longitudeE7 = -22666770,
-                            name = "some-child-name", address = "some-child-address"
+                            name = "some-child-name",
+                            address = "some-child-address"
                         ),
                         eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
                     )
@@ -79,10 +82,12 @@ internal class PlaceVisitMapperTest : FreeSpec() {
             )
             val expectedDomainModel = PlaceVisit(
                 durationEndTimestamp = RawTimestamp(
-                    timestamp = "2022-01-03T14:26:25Z", timezoneId = "Europe/London"
+                    timestamp = "2022-01-03T14:26:25Z",
+                    timezoneId = "Europe/London"
                 ),
                 durationStartTimestamp = RawTimestamp(
-                    timestamp = "2022-01-03T14:18:02Z", timezoneId = "Europe/London"
+                    timestamp = "2022-01-03T14:18:02Z",
+                    timezoneId = "Europe/London"
                 ),
                 lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
                 location = Location(
