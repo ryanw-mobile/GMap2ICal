@@ -6,6 +6,6 @@ package uk.ryanwong.gmap2ics.app.configs
 
 class ProvideConfig {
     companion object {
-        fun getConfig() = MockConfig()
+        fun getConfig() = DefaultConfig()
     }
 }
