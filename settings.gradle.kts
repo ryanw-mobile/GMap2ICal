@@ -10,5 +10,4 @@ pluginManagement {
     }
 }
 
-enableFeaturePreview("VERSION_CATALOGS")
 rootProject.name = "GMapTimelineToICS"
