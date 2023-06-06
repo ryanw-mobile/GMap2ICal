@@ -12,7 +12,7 @@ class GetOutputFilenameUseCaseImpl : GetOutputFilenameUseCase {
         jsonPath: String,
         iCalPath: String,
         exportPlaceVisit: Boolean,
-        exportActivitySegment: Boolean
+        exportActivitySegment: Boolean,
     ): String {
         val outputFilenameSuffix = when {
             exportPlaceVisit && exportActivitySegment -> "_all"

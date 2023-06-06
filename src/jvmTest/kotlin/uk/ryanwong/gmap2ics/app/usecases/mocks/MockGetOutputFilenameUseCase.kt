@@ -13,7 +13,7 @@ class MockGetOutputFilenameUseCase : GetOutputFilenameUseCase {
         jsonPath: String,
         iCalPath: String,
         exportPlaceVisit: Boolean,
-        exportActivitySegment: Boolean
+        exportActivitySegment: Boolean,
     ): String {
         return mockUseCaseResponse ?: throw Exception("mock response unavailable")
     }

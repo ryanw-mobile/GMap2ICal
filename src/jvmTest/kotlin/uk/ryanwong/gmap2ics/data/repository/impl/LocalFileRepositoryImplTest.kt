@@ -24,7 +24,7 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
         localDataSource = MockLocalDataSource()
 
         localFileRepository = LocalFileRepositoryImpl(
-            localDataSource = localDataSource
+            localDataSource = localDataSource,
         )
     }
 
@@ -37,15 +37,15 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                     listOf(
                         "/some-absolute-path/some-file-1",
                         "/some-absolute-path/some-file-2",
-                        "/some-absolute-path/some-file-3"
-                    )
+                        "/some-absolute-path/some-file-3",
+                    ),
                 )
                 localDataSource.getFileListResponse = response
 
                 // 🟡 When
                 val fileList = localFileRepository.getFileList(
                     relativePath = "/some-absolute-path/",
-                    extension = "some-extension"
+                    extension = "some-extension",
                 )
 
                 // 🟢 Then
@@ -61,7 +61,7 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                 // 🟡 When
                 val fileList = localFileRepository.getFileList(
                     relativePath = "/some-absolute-path/",
-                    extension = "some-extension"
+                    extension = "some-extension",
                 )
 
                 // 🟢 Then
@@ -87,7 +87,7 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                         geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                         description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/",
                         url = "https://some.url/",
-                        lastModified = "2011-11-11T11:22:22.222Z"
+                        lastModified = "2011-11-11T11:22:22.222Z",
                     ),
                     VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
@@ -101,8 +101,8 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                         geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                         description = "Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id",
                         url = "https://www.google.com/maps/place/?q=place_id:some-place-id",
-                        lastModified = "2011-11-11T11:22:22.222Z"
-                    )
+                        lastModified = "2011-11-11T11:22:22.222Z",
+                    ),
                 )
                 val expectedFileContents = "BEGIN:VCALENDAR\n" +
                     "VERSION:2.0\n" +
@@ -147,7 +147,7 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                 // 🟡 When
                 val exportICalResponse = localFileRepository.exportICal(
                     filename = "some-file-name",
-                    vEvents = vEventList
+                    vEvents = vEventList,
                 )
 
                 // 🟢 Then
@@ -173,14 +173,14 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                         geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                         description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/",
                         url = "https://some.url/",
-                        lastModified = "2011-11-11T11:22:22.222Z"
-                    )
+                        lastModified = "2011-11-11T11:22:22.222Z",
+                    ),
                 )
 
                 // 🟡 When
                 val exportICalResponse = localFileRepository.exportICal(
                     filename = "some-file-name",
-                    vEvents = vEventList
+                    vEvents = vEventList,
                 )
 
                 // 🟢 Then

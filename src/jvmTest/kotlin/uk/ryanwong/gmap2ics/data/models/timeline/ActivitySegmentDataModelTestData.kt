@@ -9,23 +9,23 @@ internal object ActivitySegmentDataModelTestData {
         activities = listOf(
             uk.ryanwong.gmap2ics.data.models.timeline.Activity(
                 activityType = "IN_PASSENGER_VEHICLE",
-                probability = 99.82574267034934
+                probability = 99.82574267034934,
             ),
             uk.ryanwong.gmap2ics.data.models.timeline.Activity(
                 activityType = "WALKING",
-                probability = 0.09030052981224143
+                probability = 0.09030052981224143,
             ),
             uk.ryanwong.gmap2ics.data.models.timeline.Activity(
                 activityType = "MOTORCYCLING",
-                probability = 0.04459950826743197
-            )
+                probability = 0.04459950826743197,
+            ),
         ),
         activityType = "IN_PASSENGER_VEHICLE",
         confidence = "HIGH",
         distance = 15032,
         duration = Duration(
             endTimestamp = "2019-06-01T01:24:28Z",
-            startTimestamp = "2019-06-01T01:04:01Z"
+            startTimestamp = "2019-06-01T01:04:01Z",
         ),
         endLocation = ActivityLocation(
             address = null,
@@ -33,7 +33,7 @@ internal object ActivitySegmentDataModelTestData {
             locationConfidence = null,
             longitudeE7 = 1324226167,
             name = null,
-            placeId = null
+            placeId = null,
         ),
         startLocation = ActivityLocation(
             address = null,
@@ -41,7 +41,7 @@ internal object ActivitySegmentDataModelTestData {
             locationConfidence = null,
             longitudeE7 = 1324677422,
             name = null,
-            placeId = null
+            placeId = null,
         ),
         waypointPath = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPath(
             confidence = null,
@@ -49,12 +49,12 @@ internal object ActivitySegmentDataModelTestData {
             roadSegment = listOf(
                 RoadSegment(duration = null, placeId = "some-place-id-1"),
                 RoadSegment(duration = null, placeId = "some-place-id-2"),
-                RoadSegment(duration = null, placeId = "some-place-id-3")
+                RoadSegment(duration = null, placeId = "some-place-id-3"),
             ),
             source = "INFERRED",
-            travelMode = null
+            travelMode = null,
         ),
         lastEditedTimestamp = null,
-        activityConfidence = null
+        activityConfidence = null,
     )
 }

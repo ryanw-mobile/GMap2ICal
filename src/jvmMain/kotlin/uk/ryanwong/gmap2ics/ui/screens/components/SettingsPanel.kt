@@ -36,13 +36,13 @@ fun SettingsPanel(
     Row(
         modifier = modifier
             .padding(horizontal = 16.dp)
-            .wrapContentHeight()
+            .wrapContentHeight(),
     ) {
         Column(
             modifier = Modifier
                 .weight(weight = 0.5f, fill = true)
                 .padding(top = 8.dp, bottom = 8.dp, end = 8.dp)
-                .height(intrinsicSize = IntrinsicSize.Max)
+                .height(intrinsicSize = IntrinsicSize.Max),
         ) {
             Text(
                 text = resourceBundle.getString("file.locations"),
@@ -54,7 +54,7 @@ fun SettingsPanel(
                     .padding(top = 8.dp, start = 8.dp, end = 8.dp)
                     .background(color = Color.DarkGray)
                     .padding(horizontal = 8.dp, vertical = 4.dp),
-                style = MaterialTheme.typography.caption
+                style = MaterialTheme.typography.caption,
             )
 
             PathPickerItem(
@@ -63,7 +63,7 @@ fun SettingsPanel(
                 icon = painterResource(resourcePath = "/drawables/folder_arrow_right.xml"),
                 onClick = onChangeJsonPath,
                 resourceBundle = resourceBundle,
-                modifier = Modifier.fillMaxWidth().weight(weight = 0.5f, fill = true)
+                modifier = Modifier.fillMaxWidth().weight(weight = 0.5f, fill = true),
             )
 
             PathPickerItem(
@@ -72,7 +72,7 @@ fun SettingsPanel(
                 icon = painterResource(resourcePath = "/drawables/folder_arrow_left.xml"),
                 onClick = onChangeICalPath,
                 resourceBundle = resourceBundle,
-                modifier = Modifier.fillMaxWidth().weight(weight = 0.5f, fill = true)
+                modifier = Modifier.fillMaxWidth().weight(weight = 0.5f, fill = true),
             )
         }
 

@@ -15,7 +15,7 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.Location.toDomainModel(): Location
             latitudeE7 = latitudeE7,
             longitudeE7 = longitudeE7,
             name = name,
-            placeId = placeId
+            placeId = placeId,
         )
     }
 }
@@ -31,7 +31,7 @@ fun ActivityLocation.toDomainModel(): Location? {
             latitudeE7 = latitudeE7,
             longitudeE7 = longitudeE7,
             name = name,
-            placeId = placeId
+            placeId = placeId,
         )
     }
 }

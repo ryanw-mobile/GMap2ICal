@@ -10,6 +10,6 @@ interface GetOutputFilenameUseCase {
         jsonPath: String,
         iCalPath: String,
         exportPlaceVisit: Boolean,
-        exportActivitySegment: Boolean
+        exportActivitySegment: Boolean,
     ): String
 }

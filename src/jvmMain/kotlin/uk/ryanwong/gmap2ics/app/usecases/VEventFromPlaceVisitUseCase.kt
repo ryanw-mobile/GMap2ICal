@@ -10,6 +10,6 @@ import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 interface VEventFromPlaceVisitUseCase {
     suspend operator fun invoke(
         placeVisit: PlaceVisit,
-        enablePlacesApiLookup: Boolean
+        enablePlacesApiLookup: Boolean,
     ): VEvent
 }

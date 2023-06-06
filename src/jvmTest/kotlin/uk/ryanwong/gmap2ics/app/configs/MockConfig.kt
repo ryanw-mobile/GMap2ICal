@@ -23,11 +23,11 @@ class MockConfig : Config {
         ActivityType.IN_TRAIN,
         ActivityType.IN_TRAM,
         ActivityType.IN_FERRY,
-        ActivityType.UNKNOWN_ACTIVITY_TYPE
+        ActivityType.UNKNOWN_ACTIVITY_TYPE,
     )
 
     override val ignoredVisitedPlaceIds = listOf(
-        "PlaceIds extracted from Json"
+        "PlaceIds extracted from Json",
 //        "ChIJ85tY7jeue0gRZ9Sik4vVUnk"
     )
 

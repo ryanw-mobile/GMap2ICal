@@ -13,5 +13,5 @@ data class ActivityLocation(
     val locationConfidence: Double? = null,
     val longitudeE7: Int? = null,
     val name: String? = null,
-    val placeId: String? = null
+    val placeId: String? = null,
 )

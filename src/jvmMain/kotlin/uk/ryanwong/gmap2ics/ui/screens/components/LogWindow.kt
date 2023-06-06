@@ -60,12 +60,12 @@ fun LogWindowTabRow(
 ) {
     val buttonStateNormal = ButtonDefaults.buttonColors(
         backgroundColor = MaterialTheme.colors.background,
-        contentColor = MaterialTheme.colors.onBackground
+        contentColor = MaterialTheme.colors.onBackground,
     )
 
     val buttonStateActive = ButtonDefaults.buttonColors(
         backgroundColor = MaterialTheme.colors.primary,
-        contentColor = MaterialTheme.colors.onPrimary
+        contentColor = MaterialTheme.colors.onPrimary,
     )
 
     val bubbleStateNormalBackground = Color.LightGray
@@ -76,7 +76,7 @@ fun LogWindowTabRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
     ) {
         TextButton(
             enabled = true,
@@ -85,12 +85,12 @@ fun LogWindowTabRow(
             onClick = { logWindowUIState.onTabSelected(LogWindowTab.EXPORTED) },
             colors = if (logWindowUIState.selectedTab == LogWindowTab.EXPORTED) buttonStateActive else buttonStateNormal,
             contentPadding = PaddingValues(all = 0.dp),
-            shape = RectangleShape
+            shape = RectangleShape,
         ) {
             Text(
                 text = resourceBundle.getString("exported"),
                 style = MaterialTheme.typography.caption,
-                modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp)
+                modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp),
             )
             BubbleInteger(
                 value = logWindowUIState.exportedCount,
@@ -106,12 +106,12 @@ fun LogWindowTabRow(
             onClick = { logWindowUIState.onTabSelected(LogWindowTab.IGNORED) },
             colors = if (logWindowUIState.selectedTab == LogWindowTab.IGNORED) buttonStateActive else buttonStateNormal,
             contentPadding = PaddingValues(all = 0.dp),
-            shape = RectangleShape
+            shape = RectangleShape,
         ) {
             Text(
                 text = resourceBundle.getString("ignored"),
                 style = MaterialTheme.typography.caption,
-                modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp)
+                modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp),
             )
             BubbleInteger(
                 value = logWindowUIState.ignoredCount,
@@ -133,14 +133,14 @@ fun BubbleInteger(
         Surface(
             shape = CircleShape,
             color = backgroundColor,
-            modifier = Modifier.padding(end = 8.dp)
+            modifier = Modifier.padding(end = 8.dp),
         ) {
             Text(
                 text = value.toString(),
                 color = textColor,
                 style = MaterialTheme.typography.overline,
                 modifier = modifier.wrapContentSize()
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                    .padding(horizontal = 8.dp, vertical = 4.dp),
             )
         }
     }
@@ -153,7 +153,7 @@ private fun BubbleIntegerPreview() {
         BubbleInteger(
             value = 100,
             backgroundColor = MaterialTheme.colors.primaryVariant,
-            textColor = MaterialTheme.colors.onBackground
+            textColor = MaterialTheme.colors.onBackground,
         )
     }
 }
@@ -180,19 +180,19 @@ fun LogWindow(
                     .scrollable(
                         enabled = true,
                         orientation = Orientation.Vertical,
-                        state = scrollState
-                    )
+                        state = scrollState,
+                    ),
             ) {
                 itemsIndexed(items = logEntries) { _, uiLogEntry ->
                     Column {
                         Row(
-                            modifier = Modifier.padding(vertical = 8.dp)
+                            modifier = Modifier.padding(vertical = 8.dp),
                         ) {
                             Text(
                                 text = uiLogEntry.emoji,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier.width(width = 48.dp)
-                                    .padding(end = 8.dp)
+                                    .padding(end = 8.dp),
                             )
                             Text(
                                 text = uiLogEntry.message,
@@ -201,14 +201,14 @@ fun LogWindow(
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 8.dp)
+                                    .padding(horizontal = 8.dp),
                             )
                         }
                         Spacer(
                             modifier = Modifier.fillMaxWidth()
                                 .wrapContentHeight()
                                 .height(height = 1.dp)
-                                .background(color = Color.LightGray)
+                                .background(color = Color.LightGray),
                         )
                     }
                 }
@@ -221,11 +221,11 @@ fun LogWindow(
                 adapter = scrollbarAdapter,
                 style = LocalScrollbarStyle.current.copy(
                     unhoverColor = Color.Gray,
-                    hoverColor = MaterialTheme.colors.primary
+                    hoverColor = MaterialTheme.colors.primary,
                 ),
                 modifier = Modifier.align(Alignment.CenterEnd)
                     .padding(top = 1.dp, bottom = 1.dp, end = 17.dp)
-                    .background(color = Color.LightGray)
+                    .background(color = Color.LightGray),
             )
         }
 
@@ -245,15 +245,15 @@ private fun LogWindowPreview() {
             logEntries = listOf(
                 UILogEntry(
                     emoji = "👨🏻‍🦲",
-                    message = "some very very very very very very very very very very very very very very very very very very very very  long text"
+                    message = "some very very very very very very very very very very very very very very very very very very very very  long text",
                 ),
                 UILogEntry(
                     emoji = "👨🏻‍🦲",
-                    message = "some very very very very very very very very very very very very very very very very very very very very  long text"
-                )
+                    message = "some very very very very very very very very very very very very very very very very very very very very  long text",
+                ),
             ),
             lazyListState = rememberLazyListState(),
-            scrollState = rememberScrollState()
+            scrollState = rememberScrollState(),
         )
     }
 }

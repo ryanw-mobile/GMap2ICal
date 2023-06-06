@@ -10,6 +10,6 @@ interface GoogleMapsApiClient {
     suspend fun getPlaceDetails(
         placeId: String,
         apiKey: String,
-        language: String?
+        language: String?,
     ): PlaceDetails?
 }

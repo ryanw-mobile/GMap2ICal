@@ -31,17 +31,17 @@ class GetActivitySegmentVEventUseCaseImplTest : FreeSpec() {
         location = "some-formatted-address",
         geo = LatLng(
             latitude = ActivitySegmentAppModelTestData.someEndDegreesLatitude,
-            longitude = ActivitySegmentAppModelTestData.someEndDegreesLongitude
+            longitude = ActivitySegmentAppModelTestData.someEndDegreesLongitude,
         ),
         description = "Start Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-place-id\\n\\nEnd Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-place-id\\n\\nFirst segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\nLast segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\n",
         url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
-        lastModified = "2011-11-11T11:22:22.222Z"
+        lastModified = "2011-11-11T11:22:22.222Z",
     )
 
     private fun setupUseCase() {
         mockVEventFromActivitySegmentUseCase = MockVEventFromActivitySegmentUseCase()
         getActivitySegmentVEventUseCase = GetActivitySegmentVEventUseCaseImpl(
-            vEventFromActivitySegmentUseCase = mockVEventFromActivitySegmentUseCase
+            vEventFromActivitySegmentUseCase = mockVEventFromActivitySegmentUseCase,
         )
     }
 
@@ -59,7 +59,7 @@ class GetActivitySegmentVEventUseCaseImplTest : FreeSpec() {
                 val vEvent = getActivitySegmentVEventUseCase(
                     activitySegment = activitySegment,
                     ignoredActivityType = ignoredActivityType,
-                    enablePlacesApiLookup = enablePlacesApiLookup
+                    enablePlacesApiLookup = enablePlacesApiLookup,
                 )
 
                 // 🟢 Then
@@ -78,7 +78,7 @@ class GetActivitySegmentVEventUseCaseImplTest : FreeSpec() {
                 val vEvent = getActivitySegmentVEventUseCase(
                     activitySegment = activitySegment,
                     ignoredActivityType = ignoredActivityType,
-                    enablePlacesApiLookup = enablePlacesApiLookup
+                    enablePlacesApiLookup = enablePlacesApiLookup,
                 )
 
                 // 🟢 Then
@@ -98,7 +98,7 @@ class GetActivitySegmentVEventUseCaseImplTest : FreeSpec() {
             val vEvent = getActivitySegmentVEventUseCase(
                 activitySegment = activitySegment,
                 ignoredActivityType = ignoredActivityType,
-                enablePlacesApiLookup = enablePlacesApiLookup
+                enablePlacesApiLookup = enablePlacesApiLookup,
             )
 
             // 🟢 Then

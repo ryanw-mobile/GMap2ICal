@@ -54,7 +54,7 @@ internal class VEventTest : FreeSpec() {
                         geo = LatLng(latitude = 26.33933, longitude = 127.85),
                         description = "Start Location: some-start-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-location-place-id\\n\\nEnd Location: some-end-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-location-place-id\\n\\nFirst segment: some-first-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-first-segment-place-id\\n\\nLast segment: some-last-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-last-segment-place-id\\n\\n",
                         url = "https://www.google.com/maps/place/?q=place_id:some-end-location-place-id",
-                        lastModified = "2011-11-11T11:22:22.222Z"
+                        lastModified = "2011-11-11T11:22:22.222Z",
                     )
 
                     // 🟡 When
@@ -64,7 +64,7 @@ internal class VEventTest : FreeSpec() {
                         firstPlaceDetails = firstPlaceDetails,
                         lastPlaceDetails = lastPlaceDetails,
                         startPlaceDetails = startPlaceDetails,
-                        endPlaceDetails = endPlaceDetails
+                        endPlaceDetails = endPlaceDetails,
                     )
 
                     // 🟢 Then
@@ -79,8 +79,8 @@ internal class VEventTest : FreeSpec() {
                             latitudeE7 = 263393300,
                             longitudeE7 = 1278500000,
                             name = null,
-                            placeId = null
-                        )
+                            placeId = null,
+                        ),
                     )
                     val shouldShowMiles = false
                     val firstPlaceDetails = mockActivityFirstSegmentPlaceDetails
@@ -99,7 +99,7 @@ internal class VEventTest : FreeSpec() {
                         geo = LatLng(latitude = 26.33933, longitude = 127.85),
                         description = "Start Location: some-start-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-location-place-id\\n\\nEnd Location: some-end-segment-formatted-address\\n\\n\\nFirst segment: some-first-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-first-segment-place-id\\n\\nLast segment: some-last-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-last-segment-place-id\\n\\n",
                         url = "https://maps.google.com?q=26.33933,127.85",
-                        lastModified = "2011-11-11T11:22:22.222Z"
+                        lastModified = "2011-11-11T11:22:22.222Z",
                     )
 
                     // 🟡 When
@@ -109,7 +109,7 @@ internal class VEventTest : FreeSpec() {
                         firstPlaceDetails = firstPlaceDetails,
                         lastPlaceDetails = lastPlaceDetails,
                         startPlaceDetails = startPlaceDetails,
-                        endPlaceDetails = endPlaceDetails
+                        endPlaceDetails = endPlaceDetails,
                     )
 
                     // 🟢 Then
@@ -136,7 +136,7 @@ internal class VEventTest : FreeSpec() {
                         geo = LatLng(latitude = 26.33933, longitude = 127.85),
                         description = "Start Location: some-start-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-location-place-id\\n\\nEnd Location: some-end-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-location-place-id\\n\\nFirst segment: some-first-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-first-segment-place-id\\n\\nLast segment: some-last-segment-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-last-segment-place-id\\n\\n",
                         url = "https://www.google.com/maps/place/?q=place_id:some-end-location-place-id",
-                        lastModified = "2011-11-11T11:22:22.222Z"
+                        lastModified = "2011-11-11T11:22:22.222Z",
                     )
 
                     // 🟡 When
@@ -146,7 +146,7 @@ internal class VEventTest : FreeSpec() {
                         firstPlaceDetails = firstPlaceDetails,
                         lastPlaceDetails = lastPlaceDetails,
                         startPlaceDetails = startPlaceDetails,
-                        endPlaceDetails = endPlaceDetails
+                        endPlaceDetails = endPlaceDetails,
                     )
 
                     // 🟢 Then
@@ -173,7 +173,7 @@ internal class VEventTest : FreeSpec() {
                         geo = LatLng(latitude = 26.33933, longitude = 127.85),
                         description = "Start Location: 26.33833,127.8\\nhttps://maps.google.com?q=26.33833,127.8\\n\\nEnd Location: 26.33933,127.85\\nhttps://maps.google.com?q=26.33933,127.85\\n\\n",
                         url = "https://www.google.com/maps/place/?q=place_id:some-end-location-place-id",
-                        lastModified = "2011-11-11T11:22:22.222Z"
+                        lastModified = "2011-11-11T11:22:22.222Z",
                     )
 
                     // 🟡 When
@@ -183,7 +183,7 @@ internal class VEventTest : FreeSpec() {
                         firstPlaceDetails = firstPlaceDetails,
                         lastPlaceDetails = lastPlaceDetails,
                         startPlaceDetails = startPlaceDetails,
-                        endPlaceDetails = endPlaceDetails
+                        endPlaceDetails = endPlaceDetails,
                     )
 
                     // 🟢 Then
@@ -208,7 +208,7 @@ internal class VEventTest : FreeSpec() {
                         geo = LatLng(latitude = 26.33833, longitude = 127.8),
                         description = "Place ID:\\nsome-place-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051",
                         url = "https://maps.google.com/?cid=1021876599690425051",
-                        lastModified = "2011-11-11T11:22:22.222Z"
+                        lastModified = "2011-11-11T11:22:22.222Z",
                     )
 
                     // 🟡 When
@@ -234,7 +234,7 @@ internal class VEventTest : FreeSpec() {
                         geo = LatLng(latitude = 26.33833, longitude = 127.8),
                         description = "Place ID:\\nsome-place-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-place-visit-place-id",
                         url = "https://www.google.com/maps/place/?q=place_id:some-place-visit-place-id",
-                        lastModified = "2011-11-11T11:22:22.222Z"
+                        lastModified = "2011-11-11T11:22:22.222Z",
                     )
 
                     // 🟡 When
@@ -262,7 +262,7 @@ internal class VEventTest : FreeSpec() {
                         geo = LatLng(latitude = 26.33833, longitude = 127.8),
                         description = "Place ID:\\nsome-child-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051",
                         url = "https://maps.google.com/?cid=1021876599690425051",
-                        lastModified = "2011-11-11T11:22:22.222Z"
+                        lastModified = "2011-11-11T11:22:22.222Z",
                     )
 
                     // 🟡 When
@@ -288,7 +288,7 @@ internal class VEventTest : FreeSpec() {
                         geo = LatLng(latitude = 26.33833, longitude = 127.8),
                         description = "Place ID:\\nsome-child-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:some-child-visit-place-id",
                         url = "https://www.google.com/maps/place/?q=place_id:some-child-visit-place-id",
-                        lastModified = "2011-11-11T11:22:22.222Z"
+                        lastModified = "2011-11-11T11:22:22.222Z",
                     )
 
                     // 🟡 When
@@ -315,7 +315,7 @@ internal class VEventTest : FreeSpec() {
                     geo = LatLng(latitude = 26.33833, longitude = 127.8),
                     description = "Place ID:\\nsome-child-visit-place-id\\n\\nGoogle Maps URL:\\nhttps://maps.google.com/?cid=1021876599690425051",
                     url = "https://maps.google.com/?cid=1021876599690425051",
-                    lastModified = "2011-11-11T11:22:22.222Z"
+                    lastModified = "2011-11-11T11:22:22.222Z",
                 )
                 val expectedICalString = "BEGIN:VEVENT\n" +
                     "TRANSP:OPAQUE\n" +

@@ -14,7 +14,7 @@ class MockGetActivitySegmentVEventUseCase : GetActivitySegmentVEventUseCase {
     override suspend fun invoke(
         activitySegment: ActivitySegment,
         ignoredActivityType: List<ActivityType>,
-        enablePlacesApiLookup: Boolean
+        enablePlacesApiLookup: Boolean,
     ): VEvent? {
         return mockUseCaseResponse
     }

@@ -43,9 +43,9 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
             latitudeE7 = someLatitudeE7,
             longitudeE7 = someLongitudeE7,
             name = "some-name",
-            address = "some-address"
+            address = "some-address",
         ),
-        eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
+        eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon()),
     )
 
     private fun setupUseCase() {
@@ -68,8 +68,8 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                     types = listOf("ATM"),
-                    url = "https://some.url/"
-                )
+                    url = "https://some.url/",
+                ),
             )
             val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
@@ -83,13 +83,13 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                 description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/",
                 url = "https://some.url/",
-                lastModified = "2011-11-11T11:22:22.222Z"
+                lastModified = "2011-11-11T11:22:22.222Z",
             )
 
             // 🟡 When
             val vEvent = vEventFromChildVisitUseCase(
                 childVisit = childVisit,
-                enablePlacesApiLookup = enabledPlacesApiLookup
+                enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
             // 🟢 Then
@@ -101,8 +101,8 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
             setupUseCase()
             val childVisit = mockChildVisit.copy(
                 location = mockChildVisit.location.copy(
-                    placeId = null
-                )
+                    placeId = null,
+                ),
             )
             val enabledPlacesApiLookup = true
             mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
@@ -112,8 +112,8 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                     types = listOf("ATM"),
-                    url = "https://some.url/"
-                )
+                    url = "https://some.url/",
+                ),
             )
             val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
@@ -127,13 +127,13 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                 description = "Place ID:\\nnull\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:null",
                 url = "https://www.google.com/maps/place/?q=place_id:null",
-                lastModified = "2011-11-11T11:22:22.222Z"
+                lastModified = "2011-11-11T11:22:22.222Z",
             )
 
             // 🟡 When
             val vEvent = vEventFromChildVisitUseCase(
                 childVisit = childVisit,
-                enablePlacesApiLookup = enabledPlacesApiLookup
+                enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
             // 🟢 Then
@@ -144,7 +144,7 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
             // 🔴 Given
             setupUseCase()
             val childVisit = mockChildVisit.copy(
-                eventTimeZone = null
+                eventTimeZone = null,
             )
             val enabledPlacesApiLookup = true
             mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
@@ -154,8 +154,8 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                     types = listOf("ATM"),
-                    url = "https://some.url/"
-                )
+                    url = "https://some.url/",
+                ),
             )
             val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
@@ -169,13 +169,13 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                 description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/",
                 url = "https://some.url/",
-                lastModified = "2011-11-11T11:22:22.222Z"
+                lastModified = "2011-11-11T11:22:22.222Z",
             )
 
             // 🟡 When
             val vEvent = vEventFromChildVisitUseCase(
                 childVisit = childVisit,
-                enablePlacesApiLookup = enabledPlacesApiLookup
+                enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
             // 🟢 Then
@@ -194,8 +194,8 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                     types = listOf("ATM"),
-                    url = "https://some.url/"
-                )
+                    url = "https://some.url/",
+                ),
             )
             val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
@@ -209,13 +209,13 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                 description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://some.url/",
                 url = "https://some.url/",
-                lastModified = "2011-11-11T11:22:22.222Z"
+                lastModified = "2011-11-11T11:22:22.222Z",
             )
 
             // 🟡 When
             val vEvent = vEventFromChildVisitUseCase(
                 childVisit = childVisit,
-                enablePlacesApiLookup = enabledPlacesApiLookup
+                enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
             // 🟢 Then
@@ -241,13 +241,13 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                 description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:place-id-to-be-kept",
                 url = "https://www.google.com/maps/place/?q=place_id:place-id-to-be-kept",
-                lastModified = "2011-11-11T11:22:22.222Z"
+                lastModified = "2011-11-11T11:22:22.222Z",
             )
 
             // 🟡 When
             val vEvent = vEventFromChildVisitUseCase(
                 childVisit = childVisit,
-                enablePlacesApiLookup = enabledPlacesApiLookup
+                enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
             // 🟢 Then
@@ -273,13 +273,13 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
                 description = "Place ID:\\nplace-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:place-id-to-be-kept",
                 url = "https://www.google.com/maps/place/?q=place_id:place-id-to-be-kept",
-                lastModified = "2011-11-11T11:22:22.222Z"
+                lastModified = "2011-11-11T11:22:22.222Z",
             )
 
             // 🟡 When
             val vEvent = vEventFromChildVisitUseCase(
                 childVisit = childVisit,
-                enablePlacesApiLookup = enabledPlacesApiLookup
+                enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
             // 🟢 Then

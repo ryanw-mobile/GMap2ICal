@@ -27,11 +27,11 @@ internal class PlaceVisitMapperTest : FreeSpec() {
             val expectedDomainModel = PlaceVisit(
                 durationEndTimestamp = RawTimestamp(
                     timestamp = "2022-01-03T14:26:25Z",
-                    timezoneId = "Europe/London"
+                    timezoneId = "Europe/London",
                 ),
                 durationStartTimestamp = RawTimestamp(
                     timestamp = "2022-01-03T14:18:02Z",
-                    timezoneId = "Europe/London"
+                    timezoneId = "Europe/London",
                 ),
                 lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
                 location = Location(
@@ -39,17 +39,17 @@ internal class PlaceVisitMapperTest : FreeSpec() {
                     latitudeE7 = 534781060,
                     longitudeE7 = -22666767,
                     name = "some-name",
-                    address = "some-address"
+                    address = "some-address",
                 ),
                 childVisits = listOf(
                     ChildVisit(
                         durationEndTimestamp = RawTimestamp(
                             timestamp = "2022-01-03T14:25:00Z",
-                            timezoneId = "Europe/London"
+                            timezoneId = "Europe/London",
                         ),
                         durationStartTimestamp = RawTimestamp(
                             timestamp = "2022-01-03T14:19:00Z",
-                            timezoneId = "Europe/London"
+                            timezoneId = "Europe/London",
                         ),
                         lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
                         location = Location(
@@ -57,12 +57,12 @@ internal class PlaceVisitMapperTest : FreeSpec() {
                             latitudeE7 = 534781070,
                             longitudeE7 = -22666770,
                             name = "some-child-name",
-                            address = "some-child-address"
+                            address = "some-child-address",
                         ),
-                        eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
-                    )
+                        eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
+                    ),
                 ),
-                eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
+                eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
             )
 
             // 🟡 When
@@ -78,16 +78,16 @@ internal class PlaceVisitMapperTest : FreeSpec() {
                 mockZoneId = "Europe/London"
             }
             val placeVisitDataModel = mockPlaceVisitDataModel.copy(
-                childVisits = null
+                childVisits = null,
             )
             val expectedDomainModel = PlaceVisit(
                 durationEndTimestamp = RawTimestamp(
                     timestamp = "2022-01-03T14:26:25Z",
-                    timezoneId = "Europe/London"
+                    timezoneId = "Europe/London",
                 ),
                 durationStartTimestamp = RawTimestamp(
                     timestamp = "2022-01-03T14:18:02Z",
-                    timezoneId = "Europe/London"
+                    timezoneId = "Europe/London",
                 ),
                 lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
                 location = Location(
@@ -95,10 +95,10 @@ internal class PlaceVisitMapperTest : FreeSpec() {
                     latitudeE7 = 534781060,
                     longitudeE7 = -22666767,
                     name = "some-name",
-                    address = "some-address"
+                    address = "some-address",
                 ),
                 childVisits = emptyList(),
-                eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
+                eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
             )
 
             // 🟡 When
@@ -112,7 +112,7 @@ internal class PlaceVisitMapperTest : FreeSpec() {
             // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap()
             val placeVisitDataModel = mockPlaceVisitDataModel.copy(
-                location = uk.ryanwong.gmap2ics.data.models.timeline.Location()
+                location = uk.ryanwong.gmap2ics.data.models.timeline.Location(),
             )
 
             // 🟡 When

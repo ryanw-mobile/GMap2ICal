@@ -16,7 +16,7 @@ internal class LocationTest : FreeSpec() {
                 latitudeE7 = 343970563,
                 longitudeE7 = 1324677422,
                 name = "some-name",
-                address = "some-address"
+                address = "some-address",
             )
 
             // 🟡 When - extra variables to improve readability
@@ -42,7 +42,7 @@ internal class LocationTest : FreeSpec() {
                     latitudeE7 = 1,
                     longitudeE7 = 2,
                     name = "some-name",
-                    address = "some-address"
+                    address = "some-address",
                 )
 
                 // 🟡 When - extra variables to improve readability

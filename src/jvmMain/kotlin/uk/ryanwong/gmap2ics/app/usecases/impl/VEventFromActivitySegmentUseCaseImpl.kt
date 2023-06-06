@@ -13,12 +13,12 @@ import uk.ryanwong.gmap2ics.app.utils.timezonemap.shouldShowMiles
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 
 class VEventFromActivitySegmentUseCaseImpl(
-    private val placeDetailsRepository: PlaceDetailsRepository
+    private val placeDetailsRepository: PlaceDetailsRepository,
 ) : VEventFromActivitySegmentUseCase {
 
     override suspend operator fun invoke(
         activitySegment: ActivitySegment,
-        enablePlacesApiLookup: Boolean
+        enablePlacesApiLookup: Boolean,
     ): VEvent {
         val eventTimeZone = activitySegment.eventTimeZone
 
@@ -29,28 +29,28 @@ class VEventFromActivitySegmentUseCaseImpl(
             placeId = activitySegment.waypointPath?.roadSegmentPlaceIds?.firstOrNull(),
             placeTimeZoneId = eventTimeZone?.zoneId,
             enablePlacesApiLookup = enablePlacesApiLookup,
-            napierTag = "firstPlaceDetails"
+            napierTag = "firstPlaceDetails",
         )
 
         val lastPlaceDetails = getPlaceDetails(
             placeId = activitySegment.waypointPath?.roadSegmentPlaceIds?.lastOrNull(),
             placeTimeZoneId = eventTimeZone?.zoneId,
             enablePlacesApiLookup = enablePlacesApiLookup,
-            napierTag = "lastPlaceDetails"
+            napierTag = "lastPlaceDetails",
         )
 
         val startPlaceDetails = getPlaceDetails(
             placeId = activitySegment.startLocation.placeId,
             placeTimeZoneId = eventTimeZone?.zoneId,
             enablePlacesApiLookup = enablePlacesApiLookup,
-            napierTag = "startPlaceDetails"
+            napierTag = "startPlaceDetails",
         )
 
         val endPlaceDetails = getPlaceDetails(
             placeId = activitySegment.endLocation.placeId,
             placeTimeZoneId = eventTimeZone?.zoneId,
             enablePlacesApiLookup = enablePlacesApiLookup,
-            napierTag = "endPlaceDetails"
+            napierTag = "endPlaceDetails",
         )
 
         return VEvent.from(
@@ -59,7 +59,7 @@ class VEventFromActivitySegmentUseCaseImpl(
             firstPlaceDetails = firstPlaceDetails,
             lastPlaceDetails = lastPlaceDetails,
             startPlaceDetails = startPlaceDetails,
-            endPlaceDetails = endPlaceDetails
+            endPlaceDetails = endPlaceDetails,
         )
     }
 
@@ -67,7 +67,7 @@ class VEventFromActivitySegmentUseCaseImpl(
         placeId: String?,
         placeTimeZoneId: String?,
         enablePlacesApiLookup: Boolean,
-        napierTag: String
+        napierTag: String,
     ): PlaceDetails? {
         if (placeId == null) {
             return null
@@ -76,7 +76,7 @@ class VEventFromActivitySegmentUseCaseImpl(
         val result = placeDetailsRepository.getPlaceDetails(
             placeId = placeId,
             placeTimeZoneId = placeTimeZoneId,
-            enablePlacesApiLookup = enablePlacesApiLookup
+            enablePlacesApiLookup = enablePlacesApiLookup,
         )
 
         result.exceptionOrNull()?.let {

@@ -27,7 +27,7 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
             networkDataSource = mockGoogleApiDataSource,
             placesApiKey = "some-api-key",
             apiLanguageOverride = apiLanguageOverride,
-            dispatcher = UnconfinedTestDispatcher()
+            dispatcher = UnconfinedTestDispatcher(),
         )
     }
 
@@ -44,7 +44,7 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     val placeDetails = placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = "Asia/Tokyo",
-                        enablePlacesApiLookup = enablePlacesApiLookup
+                        enablePlacesApiLookup = enablePlacesApiLookup,
                     )
 
                     // 🟢 Then
@@ -66,16 +66,16 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                             formattedAddress = "some-formatted-address",
                             geo = LatLng(latitude = 53.6152405, longitude = -1.5639315),
                             types = listOf(
-                                "some-unknown-type"
+                                "some-unknown-type",
                             ),
-                            url = "https://maps.google.com/?cid=1021876599690425051"
-                        )
+                            url = "https://maps.google.com/?cid=1021876599690425051",
+                        ),
                     )
                     mockGoogleApiDataSource.getMapsApiPlaceDetailsResponse = apiResponse
                     placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = "Asia/Tokyo",
-                        enablePlacesApiLookup = true
+                        enablePlacesApiLookup = true,
                     )
                     mockGoogleApiDataSource.getMapsApiPlaceDetailsResponse = null
 
@@ -83,7 +83,7 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     val placeDetails = placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = "Asia/Tokyo",
-                        enablePlacesApiLookup = enablePlacesApiLookup
+                        enablePlacesApiLookup = enablePlacesApiLookup,
                     )
 
                     // 🟢 Then
@@ -94,7 +94,7 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                         formattedAddress = "some-formatted-address",
                         geo = LatLng(latitude = 53.6152405, longitude = -1.5639315),
                         types = listOf("some-unknown-type"),
-                        url = "https://maps.google.com/?cid=1021876599690425051"
+                        url = "https://maps.google.com/?cid=1021876599690425051",
                     )
                 }
             }
@@ -110,10 +110,10 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                             formattedAddress = "some-formatted-address",
                             geo = LatLng(latitude = 53.6152405, longitude = -1.5639315),
                             types = listOf(
-                                "some-unknown-type"
+                                "some-unknown-type",
                             ),
-                            url = "https://maps.google.com/?cid=1021876599690425051"
-                        )
+                            url = "https://maps.google.com/?cid=1021876599690425051",
+                        ),
                     )
                     mockGoogleApiDataSource.getMapsApiPlaceDetailsResponse = apiResponse
 
@@ -121,7 +121,7 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     val placeDetails = placeDetailsRepository.getPlaceDetails(
                         placeId = "some-place-id",
                         placeTimeZoneId = "Asia/Tokyo",
-                        enablePlacesApiLookup = true
+                        enablePlacesApiLookup = true,
                     )
 
                     // 🟢 Then
@@ -132,7 +132,7 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                         formattedAddress = "some-formatted-address",
                         geo = LatLng(latitude = 53.6152405, longitude = -1.5639315),
                         types = listOf("some-unknown-type"),
-                        url = "https://maps.google.com/?cid=1021876599690425051"
+                        url = "https://maps.google.com/?cid=1021876599690425051",
                     )
                 }
 
@@ -148,7 +148,7 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     val placeDetails = placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = "Asia/Tokyo",
-                        enablePlacesApiLookup = enablePlacesApiLookup
+                        enablePlacesApiLookup = enablePlacesApiLookup,
                     )
 
                     // 🟢 Then
@@ -162,8 +162,8 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     setupRepository(
                         apiLanguageOverride = mapOf(
                             Pair("Asia/Tokyo", "ja"),
-                            Pair("default", "some-language")
-                        )
+                            Pair("default", "some-language"),
+                        ),
                     )
                     val placeId = "some-place-id"
                     val placeTimeZoneId = "Asia/Tokyo"
@@ -173,7 +173,7 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = placeTimeZoneId,
-                        enablePlacesApiLookup = enablePlacesApiLookup
+                        enablePlacesApiLookup = enablePlacesApiLookup,
                     )
 
                     // 🟢 Then
@@ -185,8 +185,8 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     setupRepository(
                         apiLanguageOverride = mapOf(
                             Pair("Asia/Tokyo", "ja"),
-                            Pair("default", "some-language")
-                        )
+                            Pair("default", "some-language"),
+                        ),
                     )
                     val placeId = "some-place-id"
                     val placeTimeZoneId = "some-place-timezone-id"
@@ -196,7 +196,7 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = placeTimeZoneId,
-                        enablePlacesApiLookup = enablePlacesApiLookup
+                        enablePlacesApiLookup = enablePlacesApiLookup,
                     )
 
                     // 🟢 Then
@@ -206,7 +206,7 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                 "Should query data source without specifying language if apiLanguageOverride has no default language" {
                     // 🔴 Given
                     setupRepository(
-                        apiLanguageOverride = mapOf()
+                        apiLanguageOverride = mapOf(),
                     )
                     val placeId = "some-place-id"
                     val placeTimeZoneId = "some-place-timezone-id"
@@ -216,7 +216,7 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = placeTimeZoneId,
-                        enablePlacesApiLookup = enablePlacesApiLookup
+                        enablePlacesApiLookup = enablePlacesApiLookup,
                     )
 
                     // 🟢 Then

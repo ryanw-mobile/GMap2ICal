@@ -54,7 +54,7 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                         placeVisit = placeVisit,
                         ignoredVisitedPlaceIds = ignoredVisitedPlaceIds,
                         enablePlacesApiLookup = true,
-                        verboseConsoleLog = true
+                        verboseConsoleLog = true,
                     )
 
                     // Then
@@ -81,7 +81,7 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                         placeVisit = placeVisit,
                         ignoredVisitedPlaceIds = ignoredVisitedPlaceIds,
                         enablePlacesApiLookup = true,
-                        verboseConsoleLog = true
+                        verboseConsoleLog = true,
                     )
                     jobs.cancel()
 
@@ -89,8 +89,8 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                     ignoredEvents shouldBe listOf(
                         UILogEntry(
                             emoji = "🚫",
-                            message = "11/11/2011 20:11:11: Place ID some-place-id"
-                        )
+                            message = "11/11/2011 20:11:11: Place ID some-place-id",
+                        ),
                     )
                 }
             }
@@ -113,7 +113,7 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                             placeVisit = placeVisit,
                             ignoredVisitedPlaceIds = ignoredVisitedPlaceIds,
                             enablePlacesApiLookup = true,
-                            verboseConsoleLog = true
+                            verboseConsoleLog = true,
                         )
 
                         // Then
@@ -142,13 +142,13 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                             placeVisit = placeVisit,
                             ignoredVisitedPlaceIds = ignoredVisitedPlaceIds,
                             enablePlacesApiLookup = true,
-                            verboseConsoleLog = true
+                            verboseConsoleLog = true,
                         )
                         jobs.cancel()
 
                         // Then
                         exportedEvents shouldBe listOf(
-                            UILogEntry(emoji = "🗓", message = "11/11/2011 20:11:11: 🏧 some-place-name")
+                            UILogEntry(emoji = "🗓", message = "11/11/2011 20:11:11: 🏧 some-place-name"),
                         )
                     }
                 }
@@ -175,7 +175,7 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                                 placeVisit = placeVisit,
                                 ignoredVisitedPlaceIds = ignoredVisitedPlaceIds,
                                 enablePlacesApiLookup = true,
-                                verboseConsoleLog = true
+                                verboseConsoleLog = true,
                             )
 
                             // Then
@@ -201,13 +201,13 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                                 placeVisit = placeVisit,
                                 ignoredVisitedPlaceIds = ignoredVisitedPlaceIds,
                                 enablePlacesApiLookup = true,
-                                verboseConsoleLog = true
+                                verboseConsoleLog = true,
                             )
 
                             // Then
                             vEvent shouldContainExactly listOf(
                                 GetPlaceVisitVEventUseCaseImplTestData.mockVEvent,
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEventSomeChildPlaceId
+                                GetPlaceVisitVEventUseCaseImplTestData.mockVEventSomeChildPlaceId,
                             )
                         }
                     }
@@ -233,7 +233,7 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                                 placeVisit = placeVisit,
                                 ignoredVisitedPlaceIds = ignoredVisitedPlaceIds,
                                 enablePlacesApiLookup = true,
-                                verboseConsoleLog = true
+                                verboseConsoleLog = true,
                             )
                             jobs.cancel()
 
@@ -241,8 +241,8 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                             ignoredEvents shouldBe listOf(
                                 UILogEntry(
                                     emoji = "🚫",
-                                    message = "03/01/2022 14:19:00: Place ID some-child-place-id"
-                                )
+                                    message = "03/01/2022 14:19:00: Place ID some-child-place-id",
+                                ),
                             )
                         }
                     }
@@ -266,13 +266,13 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                                 placeVisit = placeVisit,
                                 ignoredVisitedPlaceIds = ignoredVisitedPlaceIds,
                                 enablePlacesApiLookup = true,
-                                verboseConsoleLog = true
+                                verboseConsoleLog = true,
                             )
 
                             // Then
                             vEvent shouldContainExactly listOf(
                                 GetPlaceVisitVEventUseCaseImplTestData.mockVEvent,
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEventSomeChildPlaceId
+                                GetPlaceVisitVEventUseCaseImplTestData.mockVEventSomeChildPlaceId,
                             )
                         }
                     }
@@ -301,14 +301,14 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                                 placeVisit = placeVisit,
                                 ignoredVisitedPlaceIds = ignoredVisitedPlaceIds,
                                 enablePlacesApiLookup = true,
-                                verboseConsoleLog = true
+                                verboseConsoleLog = true,
                             )
                             jobs.cancel()
 
                             // Then
                             exportedEvents shouldContainExactly listOf(
                                 UILogEntry(emoji = "🗓", message = "11/11/2011 20:11:11: 🏧 some-place-name"),
-                                UILogEntry(emoji = "🗓", message = "03/01/2022 14:19:00: 📍 some-child-name")
+                                UILogEntry(emoji = "🗓", message = "03/01/2022 14:19:00: 📍 some-child-name"),
                             )
                         }
                     }

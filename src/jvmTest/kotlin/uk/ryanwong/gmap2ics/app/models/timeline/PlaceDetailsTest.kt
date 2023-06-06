@@ -30,9 +30,9 @@ internal class PlaceDetailsTest : FreeSpec() {
                     "park",
                     "museum",
                     "point_of_interest",
-                    "establishment"
+                    "establishment",
                 ),
-                url = "https://maps.google.com/?cid=1021876599690425051"
+                url = "https://maps.google.com/?cid=1021876599690425051",
             )
         }
 
@@ -50,9 +50,9 @@ internal class PlaceDetailsTest : FreeSpec() {
                         "park",
                         "museum",
                         "point_of_interest",
-                        "establishment"
+                        "establishment",
                     ),
-                    url = "https://maps.google.com/?cid=1021876599690425051"
+                    url = "https://maps.google.com/?cid=1021876599690425051",
                 )
 
                 // 🟡 When
@@ -70,9 +70,9 @@ internal class PlaceDetailsTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(latitude = 53.6152405, longitude = -1.5639315),
                     types = listOf(
-                        "some-unknown-type"
+                        "some-unknown-type",
                     ),
-                    url = "https://maps.google.com/?cid=1021876599690425051"
+                    url = "https://maps.google.com/?cid=1021876599690425051",
                 )
 
                 // 🟡 When

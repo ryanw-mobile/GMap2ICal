@@ -21,7 +21,7 @@ class TimelineRepositoryImpl(
     private val localDataSource: LocalDataSource = LocalDataSourceImpl(),
     private val timeZoneMap: TimeZoneMapWrapper,
     private val kotlinJson: Json,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : TimelineRepository {
 
     override suspend fun getTimeLine(filePath: String): Result<Timeline> {

@@ -9,5 +9,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Activity(
     val activityType: String? = null,
-    val probability: Double? = null
+    val probability: Double? = null,
 )

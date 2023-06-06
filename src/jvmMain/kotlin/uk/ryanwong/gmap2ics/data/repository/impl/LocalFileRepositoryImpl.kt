@@ -11,7 +11,7 @@ import uk.ryanwong.gmap2ics.data.source.local.impl.LocalDataSourceImpl
 import java.nio.file.Paths
 
 class LocalFileRepositoryImpl(
-    private val localDataSource: LocalDataSource = LocalDataSourceImpl()
+    private val localDataSource: LocalDataSource = LocalDataSourceImpl(),
 ) : LocalFileRepository {
 
     override suspend fun getFileList(relativePath: String, extension: String): Result<List<String>> {

@@ -47,7 +47,7 @@ internal class StatusBarKtTest {
                 GregoryGreenTheme {
                     StatusBar(
                         statusMessage = statusMessage,
-                        progress = progress
+                        progress = progress,
                     )
                 }
             }
@@ -71,7 +71,7 @@ internal class StatusBarKtTest {
                 GregoryGreenTheme {
                     StatusBar(
                         statusMessage = statusMessage,
-                        progress = progress
+                        progress = progress,
                     )
                 }
             }
@@ -94,7 +94,7 @@ internal class StatusBarKtTest {
                 GregoryGreenTheme {
                     StatusBar(
                         statusMessage = statusMessage,
-                        progress = progress
+                        progress = progress,
                     )
                 }
             }

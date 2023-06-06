@@ -10,6 +10,6 @@ interface PlaceDetailsRepository {
     suspend fun getPlaceDetails(
         placeId: String,
         placeTimeZoneId: String?,
-        enablePlacesApiLookup: Boolean
+        enablePlacesApiLookup: Boolean,
     ): Result<PlaceDetails>
 }

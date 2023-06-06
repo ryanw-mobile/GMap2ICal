@@ -35,19 +35,19 @@ fun CancelActionButton(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(top = 16.dp)
+        modifier = modifier.padding(top = 16.dp),
     ) {
         Button(
             shape = RoundedCornerShape(percent = 25),
             colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.error),
             onClick = { onButtonClicked() },
-            modifier = Modifier.size(size = 64.dp)
+            modifier = Modifier.size(size = 64.dp),
         ) {
             Image(
                 painter = painterResource(resourcePath = "/drawables/close_circle_outline.xml"),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(color = Color.White),
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             )
         }
         Text(
@@ -56,7 +56,7 @@ fun CancelActionButton(
             modifier = Modifier.padding(top = 8.dp)
                 .width(IntrinsicSize.Max)
                 .wrapContentHeight(),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
         )
     }
 }

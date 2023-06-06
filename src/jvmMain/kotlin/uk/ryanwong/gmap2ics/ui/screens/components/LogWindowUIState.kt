@@ -8,10 +8,10 @@ data class LogWindowUIState(
     val exportedCount: Int,
     val ignoredCount: Int,
     val selectedTab: LogWindowTab,
-    val onTabSelected: (selectedTab: LogWindowTab) -> Unit
+    val onTabSelected: (selectedTab: LogWindowTab) -> Unit,
 )
 
 enum class LogWindowTab {
     EXPORTED,
-    IGNORED
+    IGNORED,
 }

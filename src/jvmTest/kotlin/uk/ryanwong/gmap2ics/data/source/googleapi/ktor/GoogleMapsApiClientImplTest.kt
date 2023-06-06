@@ -38,7 +38,7 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
             respond(
                 content = ByteReadChannel(payload),
                 status = status,
-                headers = headersOf(HttpHeaders.ContentType, "application/json")
+                headers = headersOf(HttpHeaders.ContentType, "application/json"),
             )
         }
         apiClient = GoogleMapsApiClientImpl(engine = mockEngine)
@@ -52,7 +52,7 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
                     // 🔴 Given
                     setupEngine(
                         status = HttpStatusCode.OK,
-                        payload = mockPlaceDetailsGregAve
+                        payload = mockPlaceDetailsGregAve,
                     )
                     val expectedPlaceDetails = uk.ryanwong.gmap2ics.data.models.places.PlaceDetails(
                         result = Result(
@@ -68,15 +68,15 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
                             userRatingsTotal = null,
                             utcOffset = 60,
                             vicinity = "Bollington",
-                            website = null
-                        )
+                            website = null,
+                        ),
                     )
 
                     // 🟡 When
                     val placeDetails = apiClient.getPlaceDetails(
                         placeId = "some-placeId",
                         apiKey = "some-api-key",
-                        language = "some-language"
+                        language = "some-language",
                     )
 
                     // 🟢 Then
@@ -94,14 +94,14 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
                                    "error_message" : "Missing the placeid or reference parameter.",
                                    "html_attributions" : [],
                                    "status" : "INVALID_REQUEST"
-                                }"""
+                                }""",
                     )
 
                     // 🟡 When
                     val placeDetails = apiClient.getPlaceDetails(
                         placeId = "some-placeId",
                         apiKey = "some-api-key",
-                        language = "some-language"
+                        language = "some-language",
                     )
 
                     // 🟢 Then

@@ -31,7 +31,7 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment.toDomainModel(
             activity.activityType?.let { activityType ->
                 Activity(
                     activityType = ActivityType.parse(activityType),
-                    rawActivityType = activityType
+                    rawActivityType = activityType,
                 )
             }
         } ?: emptyList(),
@@ -40,16 +40,16 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment.toDomainModel(
         distance = distance ?: (waypointPath?.distanceMeters)?.toInt() ?: 0,
         durationEndTimestamp = RawTimestamp(
             timestamp = duration.endTimestamp,
-            timezoneId = timezone?.zoneId ?: "UTC"
+            timezoneId = timezone?.zoneId ?: "UTC",
         ),
         durationStartTimestamp = RawTimestamp(
             timestamp = duration.startTimestamp,
-            timezoneId = timezone?.zoneId ?: "UTC"
+            timezoneId = timezone?.zoneId ?: "UTC",
         ),
         endLocation = endLocationDomainModel,
         startLocation = startLocationDomainModel,
         waypointPath = waypointPath?.toDomainModel(),
         lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
-        eventTimeZone = timezone
+        eventTimeZone = timezone,
     )
 }

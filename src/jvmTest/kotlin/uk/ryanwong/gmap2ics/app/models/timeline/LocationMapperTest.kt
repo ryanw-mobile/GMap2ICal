@@ -18,7 +18,7 @@ class LocationMapperTest : FreeSpec() {
                     longitudeE7 = 1324677422,
                     locationConfidence = 0.987654,
                     name = "some-name",
-                    placeId = "some-place-id"
+                    placeId = "some-place-id",
                 )
 
                 // 🟡 When
@@ -42,7 +42,7 @@ class LocationMapperTest : FreeSpec() {
                     longitudeE7 = 1324677422,
                     locationConfidence = 0.987654,
                     name = "some-name",
-                    placeId = "some-place-id"
+                    placeId = "some-place-id",
                 )
 
                 // 🟡 When
@@ -60,7 +60,7 @@ class LocationMapperTest : FreeSpec() {
                     longitudeE7 = null,
                     locationConfidence = 0.987654,
                     name = "some-name",
-                    placeId = "some-place-id"
+                    placeId = "some-place-id",
                 )
 
                 // 🟡 When
@@ -80,7 +80,7 @@ class LocationMapperTest : FreeSpec() {
                     longitudeE7 = 1324677422,
                     locationConfidence = 0.987654,
                     name = "some-name",
-                    placeId = "some-place-id"
+                    placeId = "some-place-id",
                 )
 
                 // 🟡 When
@@ -104,7 +104,7 @@ class LocationMapperTest : FreeSpec() {
                     longitudeE7 = 1324677422,
                     locationConfidence = 0.987654,
                     name = "some-name",
-                    placeId = "some-place-id"
+                    placeId = "some-place-id",
                 )
 
                 // 🟡 When
@@ -122,7 +122,7 @@ class LocationMapperTest : FreeSpec() {
                     longitudeE7 = null,
                     locationConfidence = 0.987654,
                     name = "some-name",
-                    placeId = "some-place-id"
+                    placeId = "some-place-id",
                 )
 
                 // 🟡 When

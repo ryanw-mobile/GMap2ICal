@@ -13,7 +13,7 @@ data class PlaceDetails(
     val formattedAddress: String,
     val geo: LatLng,
     val types: List<String>,
-    val url: String
+    val url: String,
 ) {
     companion object {
         fun from(placeDetailsResult: Result): PlaceDetails {
@@ -24,10 +24,10 @@ data class PlaceDetails(
                     formattedAddress = formattedAddress,
                     geo = LatLng(
                         latitude = geometry.location.lat,
-                        longitude = geometry.location.lng
+                        longitude = geometry.location.lng,
                     ),
                     types = types,
-                    url = url
+                    url = url,
                 )
             }
         }

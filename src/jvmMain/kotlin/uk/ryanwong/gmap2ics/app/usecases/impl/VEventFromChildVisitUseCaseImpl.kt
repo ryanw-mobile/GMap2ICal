@@ -11,19 +11,19 @@ import uk.ryanwong.gmap2ics.app.usecases.VEventFromChildVisitUseCase
 import uk.ryanwong.gmap2ics.data.repository.PlaceDetailsRepository
 
 class VEventFromChildVisitUseCaseImpl(
-    private val placeDetailsRepository: PlaceDetailsRepository
+    private val placeDetailsRepository: PlaceDetailsRepository,
 ) : VEventFromChildVisitUseCase {
 
     override suspend operator fun invoke(
         childVisit: ChildVisit,
-        enablePlacesApiLookup: Boolean
+        enablePlacesApiLookup: Boolean,
     ): VEvent {
         // If we have child visits, we export them as individual events
         val childPlaceDetails = childVisit.location.placeId?.let { placeId ->
             placeDetailsRepository.getPlaceDetails(
                 placeId = placeId,
                 placeTimeZoneId = childVisit.eventTimeZone?.zoneId,
-                enablePlacesApiLookup = enablePlacesApiLookup
+                enablePlacesApiLookup = enablePlacesApiLookup,
             ).let { result ->
                 result.exceptionOrNull()?.let {
                     Napier.e(tag = "childPlaceDetails", message = it.localizedMessage)

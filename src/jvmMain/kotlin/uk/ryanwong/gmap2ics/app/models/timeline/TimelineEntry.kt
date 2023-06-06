@@ -9,5 +9,5 @@ import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 
 data class TimelineEntry(
     val activitySegment: ActivitySegment? = null,
-    val placeVisit: PlaceVisit? = null
+    val placeVisit: PlaceVisit? = null,
 )

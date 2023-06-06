@@ -63,7 +63,7 @@ fun mainScreen(
     Window(
         onCloseRequest = onCloseRequest,
         title = resourceBundle.getString("gmap2ical.google.maps.to.ical"),
-        state = windowState
+        state = windowState,
     ) {
         val coroutineScope = rememberCoroutineScope()
         val uiState by mainScreenViewModel.mainScreenUIState.collectAsState()
@@ -86,7 +86,7 @@ fun mainScreen(
                 coroutineScope.launch {
                     val jFileChooserResult = chooseDirectorySwing(
                         dialogTitle = resourceBundle.getString("json.source.location"),
-                        currentDirectoryPath = jsonPath
+                        currentDirectoryPath = jsonPath,
                     )
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = jFileChooserResult)
                 }
@@ -96,7 +96,7 @@ fun mainScreen(
                 coroutineScope.launch {
                     val jFileChooserResult = chooseDirectorySwing(
                         dialogTitle = resourceBundle.getString("ical.output.location"),
-                        currentDirectoryPath = iCalPath
+                        currentDirectoryPath = iCalPath,
                     )
                     mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
                 }
@@ -105,7 +105,7 @@ fun mainScreen(
             is MainScreenUIState.Error -> {
                 ErrorAlertDialog(
                     text = (uiState as MainScreenUIState.Error).errMsg,
-                    onDismissRequest = { mainScreenViewModel.notifyErrorMessageDisplayed() }
+                    onDismissRequest = { mainScreenViewModel.notifyErrorMessageDisplayed() },
                 )
             }
 
@@ -125,7 +125,7 @@ fun mainScreen(
                     modifier = Modifier.fillMaxWidth()
                         .padding(top = 8.dp)
                         .padding(bottom = 16.dp)
-                        .wrapContentHeight()
+                        .wrapContentHeight(),
                 ) {
                     SettingsPanel(
                         jsonPath = jsonPath,
@@ -143,7 +143,7 @@ fun mainScreen(
                                 },
                                 onExportPlaceVisitClicked = { enabled -> mainScreenViewModel.setExportPlaceVisit(enabled) },
                                 modifier = Modifier.wrapContentSize(),
-                                resourceBundle = resourceBundle
+                                resourceBundle = resourceBundle,
                             )
                         },
                         extraOptionsGroup = {
@@ -155,16 +155,16 @@ fun mainScreen(
                                 },
                                 onVerboseLogClicked = { enabled -> mainScreenViewModel.setVerboseLogs(enabled) },
                                 modifier = Modifier.wrapContentSize(),
-                                resourceBundle = resourceBundle
+                                resourceBundle = resourceBundle,
                             )
-                        }
+                        },
                     )
 
                     if (uiState is MainScreenUIState.Processing) {
                         CancelActionButton(
                             onButtonClicked = { mainScreenViewModel.cancelExport() },
                             resourceBundle = resourceBundle,
-                            modifier = Modifier.padding(end = 16.dp)
+                            modifier = Modifier.padding(end = 16.dp),
                         )
                     } else {
                         val shouldExportButtonEnabled = (uiState == MainScreenUIState.Ready) &&
@@ -173,7 +173,7 @@ fun mainScreen(
                             enabled = shouldExportButtonEnabled,
                             onButtonClicked = { mainScreenViewModel.startExport() },
                             resourceBundle = resourceBundle,
-                            modifier = Modifier.padding(end = 16.dp)
+                            modifier = Modifier.padding(end = 16.dp),
                         )
                     }
                 }
@@ -182,7 +182,7 @@ fun mainScreen(
                     modifier = Modifier.fillMaxWidth()
                         .padding(horizontal = 16.dp)
                         .height(height = 1.dp)
-                        .background(color = Color.LightGray)
+                        .background(color = Color.LightGray),
                 )
 
                 LogWindowTabRow(
@@ -191,8 +191,8 @@ fun mainScreen(
                         exportedCount = exportedLogs.size,
                         ignoredCount = ignoredLogs.size,
                         selectedTab = selectLogWindowTab.value,
-                        onTabSelected = { selectedTab -> selectLogWindowTab.value = selectedTab }
-                    )
+                        onTabSelected = { selectedTab -> selectLogWindowTab.value = selectedTab },
+                    ),
                 )
 
                 val exportedLazyListState = rememberLazyListState()
@@ -206,7 +206,7 @@ fun mainScreen(
                             lazyListState = exportedLazyListState,
                             scrollState = exportedScrollState,
                             modifier = Modifier
-                                .weight(weight = 1.0f, fill = true)
+                                .weight(weight = 1.0f, fill = true),
                         )
 
                     LogWindowTab.IGNORED ->
@@ -215,13 +215,13 @@ fun mainScreen(
                             lazyListState = ignoredLazyListState,
                             scrollState = ignoredScrollState,
                             modifier = Modifier
-                                .weight(weight = 1.0f, fill = true)
+                                .weight(weight = 1.0f, fill = true),
                         )
                 }
 
                 StatusBar(
                     statusMessage = statusMessage,
-                    progress = progress.value
+                    progress = progress.value,
                 )
             }
         }

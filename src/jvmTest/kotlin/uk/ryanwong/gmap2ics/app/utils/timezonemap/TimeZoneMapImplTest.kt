@@ -33,7 +33,7 @@ internal class TimeZoneMapImplTest : FreeSpec() {
                 // 🟡 When
                 val timeZone = timeZoneMapImpl.getOverlappingTimeZone(
                     degreesLatitude = degreesLatitude,
-                    degreesLongitude = degreesLongitude
+                    degreesLongitude = degreesLongitude,
                 )
 
                 // 🟢 Then
@@ -49,7 +49,7 @@ internal class TimeZoneMapImplTest : FreeSpec() {
                 // 🟡 When
                 val timeZone = timeZoneMapImpl.getOverlappingTimeZone(
                     degreesLatitude = degreesLatitude,
-                    degreesLongitude = degreesLongitude
+                    degreesLongitude = degreesLongitude,
                 )
 
                 // 🟢 Then
@@ -65,7 +65,7 @@ internal class TimeZoneMapImplTest : FreeSpec() {
                 // 🟡 When
                 val timeZone = timeZoneMapImpl.getOverlappingTimeZone(
                     degreesLatitude = degreesLatitude,
-                    degreesLongitude = degreesLongitude
+                    degreesLongitude = degreesLongitude,
                 )
 
                 // 🟢 Then

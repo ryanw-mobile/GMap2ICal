@@ -26,7 +26,7 @@ fun CheckBoxItem(
     text: String,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -34,19 +34,19 @@ fun CheckBoxItem(
             .fillMaxWidth()
             .clickable(
                 enabled = true,
-                onClick = { onCheckedChange(!checked) }
+                onClick = { onCheckedChange(!checked) },
             )
-            .semantics { role = Role.Checkbox }
+            .semantics { role = Role.Checkbox },
     ) {
         Checkbox(
             checked = checked,
             enabled = true,
-            onCheckedChange = { onCheckedChange(!checked) }
+            onCheckedChange = { onCheckedChange(!checked) },
         )
         Text(
             text = text,
             style = MaterialTheme.typography.body2,
-            modifier = Modifier.padding(horizontal = 8.dp)
+            modifier = Modifier.padding(horizontal = 8.dp),
         )
     }
 }
@@ -58,7 +58,7 @@ fun CheckBoxItemPreview() {
         CheckBoxItem(
             text = "some very long text".repeat(10),
             checked = true,
-            onCheckedChange = {}
+            onCheckedChange = {},
         )
     }
 }

@@ -60,7 +60,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
         geo = LatLng(latitude = 26.33833, longitude = 127.8),
         description = "Place ID:\\nlocation-id-to-be-kept\\n\\nGoogle Maps URL:\\nhttps://www.google.com/maps/place/?q=place_id:location-id-to-be-kept",
         url = "https://www.google.com/maps/place/?q=place_id:location-id-to-be-kept",
-        lastModified = "2011-11-11T11:22:22.222Z"
+        lastModified = "2011-11-11T11:22:22.222Z",
     )
 
     // These tests don't touch VEvent (yet), so we feed in a default mock result
@@ -403,7 +403,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
                     // 🟡 When
                     val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = mockProjectBasePath + "sample-folder1/sample-folder2"
+                        absolutePath = mockProjectBasePath + "sample-folder1/sample-folder2",
                     )
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = jFileChooserResult)
 
@@ -418,7 +418,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
                     // 🟡 When
                     val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = mockProjectBasePath + "sample-folder1/sample-folder2"
+                        absolutePath = mockProjectBasePath + "sample-folder1/sample-folder2",
                     )
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = jFileChooserResult)
 
@@ -468,7 +468,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
                     // 🟡 When
                     val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = mockProjectBasePath + "sample-folder1/sample-folder2"
+                        absolutePath = mockProjectBasePath + "sample-folder1/sample-folder2",
                     )
                     mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
 
@@ -483,7 +483,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
                     // 🟡 When
                     val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = "/sample-folder3/sample-folder4"
+                        absolutePath = "/sample-folder3/sample-folder4",
                     )
                     mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
 
@@ -498,7 +498,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
                     // 🟡 When
                     val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = mockProjectBasePath + "sample-folder1/sample-folder2"
+                        absolutePath = mockProjectBasePath + "sample-folder1/sample-folder2",
                     )
                     mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
 
@@ -609,7 +609,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                     // 🟢 Then
                     val ignoredLogs = mainScreenViewModel.ignoredLogs.first()
                     ignoredLogs shouldBe listOf(
-                        UILogEntry(emoji = "🚫", message = "08/07/2019 12:00:33: Activity FLYING")
+                        UILogEntry(emoji = "🚫", message = "08/07/2019 12:00:33: Activity FLYING"),
                     )
                 }
 
@@ -630,7 +630,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                     // 🟢 Then
                     val exportedLogs = mainScreenViewModel.exportedLogs.first()
                     exportedLogs shouldBe listOf(
-                        UILogEntry(emoji = "🗓", message = "12/11/2011 05:11:11: 📍 some-summary")
+                        UILogEntry(emoji = "🗓", message = "12/11/2011 05:11:11: 📍 some-summary"),
                     )
                 }
             }

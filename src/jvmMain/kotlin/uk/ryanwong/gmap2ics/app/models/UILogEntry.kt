@@ -6,5 +6,5 @@ package uk.ryanwong.gmap2ics.app.models
 
 data class UILogEntry(
     val emoji: String,
-    val message: String
+    val message: String,
 )

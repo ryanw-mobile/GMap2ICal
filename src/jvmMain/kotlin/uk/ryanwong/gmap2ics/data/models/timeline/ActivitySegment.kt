@@ -17,5 +17,5 @@ data class ActivitySegment(
     val startLocation: ActivityLocation,
     val waypointPath: WaypointPath? = null,
     val lastEditedTimestamp: String? = null,
-    val activityConfidence: Int? = null
+    val activityConfidence: Int? = null,
 )

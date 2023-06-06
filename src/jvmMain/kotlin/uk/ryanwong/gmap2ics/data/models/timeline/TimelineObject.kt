@@ -9,5 +9,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TimelineObject(
     val activitySegment: ActivitySegment? = null,
-    val placeVisit: PlaceVisit? = null
+    val placeVisit: PlaceVisit? = null,
 )

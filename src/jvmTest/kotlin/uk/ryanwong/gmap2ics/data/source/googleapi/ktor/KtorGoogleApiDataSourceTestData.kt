@@ -26,7 +26,7 @@ internal object KtorGoogleApiDataSourceTestData {
             userRatingsTotal = null,
             utcOffset = 60,
             vicinity = "Bollington",
-            website = null
-        )
+            website = null,
+        ),
     )
 }

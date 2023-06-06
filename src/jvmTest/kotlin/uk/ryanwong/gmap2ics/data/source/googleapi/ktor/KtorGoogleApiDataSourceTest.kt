@@ -28,7 +28,7 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
         mockGoogleMapsApiClient = MockGoogleMapsApiClient()
         ktorGoogleApiDataSource = KtorGoogleApiDataSource(
             googleMapsApiClient = mockGoogleMapsApiClient,
-            dispatcher = UnconfinedTestDispatcher()
+            dispatcher = UnconfinedTestDispatcher(),
         )
     }
 
@@ -44,7 +44,7 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                 val result = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
                     placeId = "some-place-id",
                     apiKey = "some-api-key",
-                    language = "some-language"
+                    language = "some-language",
                 )
 
                 // 🟢 Then
@@ -55,7 +55,7 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                     formattedAddress = "8 Greg Ave, Bollington, Macclesfield SK10 5HR, UK",
                     geo = LatLng(latitude = 53.2945761, longitude = -2.114387),
                     types = listOf("premise"),
-                    url = "https://maps.google.com/?q=8+Greg+Ave,+Bollington,+Macclesfield+SK10+5HR,+UK&ftid=0x487a4bdcec4673e3:0x7c59fe362743d1ec"
+                    url = "https://maps.google.com/?q=8+Greg+Ave,+Bollington,+Macclesfield+SK10+5HR,+UK&ftid=0x487a4bdcec4673e3:0x7c59fe362743d1ec",
                 )
             }
 
@@ -69,7 +69,7 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                 val result = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
                     placeId = "some-place-id",
                     apiKey = "some-api-key",
-                    language = null
+                    language = null,
                 )
 
                 // 🟢 Then
@@ -80,7 +80,7 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                     formattedAddress = "8 Greg Ave, Bollington, Macclesfield SK10 5HR, UK",
                     geo = LatLng(latitude = 53.2945761, longitude = -2.114387),
                     types = listOf("premise"),
-                    url = "https://maps.google.com/?q=8+Greg+Ave,+Bollington,+Macclesfield+SK10+5HR,+UK&ftid=0x487a4bdcec4673e3:0x7c59fe362743d1ec"
+                    url = "https://maps.google.com/?q=8+Greg+Ave,+Bollington,+Macclesfield+SK10+5HR,+UK&ftid=0x487a4bdcec4673e3:0x7c59fe362743d1ec",
                 )
             }
 
@@ -94,7 +94,7 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                     ktorGoogleApiDataSource.getMapsApiPlaceDetails(
                         placeId = "some-place-id",
                         apiKey = "some-api-key",
-                        language = "some-language"
+                        language = "some-language",
                     )
                 }
 
@@ -112,7 +112,7 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                 val result = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
                     placeId = "some-place-id",
                     apiKey = "some-api-key",
-                    language = "some-language"
+                    language = "some-language",
                 )
 
                 // 🟢 Then
@@ -129,7 +129,7 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                 val result = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
                     placeId = "some-place-id",
                     apiKey = "some-api-key",
-                    language = "some-language"
+                    language = "some-language",
                 )
 
                 // 🟢 Then

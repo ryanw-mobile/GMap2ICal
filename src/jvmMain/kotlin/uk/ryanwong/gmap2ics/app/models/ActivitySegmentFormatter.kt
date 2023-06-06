@@ -12,7 +12,7 @@ object ActivitySegmentFormatter {
         startPlaceDetails: PlaceDetails?,
         endPlaceDetails: PlaceDetails?,
         startLocation: String?,
-        endLocation: String?
+        endLocation: String?,
     ): String {
         // PlaceDetails are the most reliable source
         return when {
@@ -29,7 +29,7 @@ object ActivitySegmentFormatter {
         startPlaceDetails: PlaceDetails?,
         endPlaceDetails: PlaceDetails?,
         startLocationText: String,
-        endLocationText: String
+        endLocationText: String,
     ): String {
         // Segments are less accurate than start and end locations,
         // but still have some values if the start and end locations do not have a valid placeId

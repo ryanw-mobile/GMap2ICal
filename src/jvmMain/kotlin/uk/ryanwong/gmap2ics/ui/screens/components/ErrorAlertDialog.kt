@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 fun ErrorAlertDialog(
     text: String,
     onDismissRequest: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -32,17 +32,17 @@ fun ErrorAlertDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(all = 16.dp)
+                    .padding(all = 16.dp),
             ) {
                 Button(
                     onClick = onDismissRequest,
                     shape = CircleShape,
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
                 ) {
                     Text(text = "OK")
                 }
             }
         },
-        modifier = modifier.defaultMinSize(minWidth = 320.dp)
+        modifier = modifier.defaultMinSize(minWidth = 320.dp),
     )
 }

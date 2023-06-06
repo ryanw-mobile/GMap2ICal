@@ -105,7 +105,7 @@ class MainScreenViewModel(
         coroutineJob = viewModelScope.launch {
             val fileList = localFileRepository.getFileList(
                 relativePath = _jsonPath.value,
-                extension = "json"
+                extension = "json",
             )
 
             if (fileList.isFailure) {
@@ -113,8 +113,8 @@ class MainScreenViewModel(
                     MainScreenUIState.Error(
                         errMsg = processResultFailure(
                             userFriendlyMessage = "Error getting json file list",
-                            throwable = fileList.exceptionOrNull()
-                        )
+                            throwable = fileList.exceptionOrNull(),
+                        ),
                     )
                 return@launch
             } else {
@@ -131,12 +131,12 @@ class MainScreenViewModel(
                     iCalPath = _iCalPath.value,
                     jsonPath = _jsonPath.value,
                     exportActivitySegment = _exportActivitySegment.value,
-                    exportPlaceVisit = _exportPlaceVisit.value
+                    exportPlaceVisit = _exportPlaceVisit.value,
                 )
 
                 localFileRepository.exportICal(
                     vEvents = eventList,
-                    filename = outputFileName
+                    filename = outputFileName,
                 )
                 updateStatus("iCal events saved to ${stripBasePath(outputFileName)}")
             }
@@ -165,7 +165,7 @@ class MainScreenViewModel(
                         val vEvent = getActivitySegmentVEventUseCase(
                             activitySegment = activitySegment,
                             ignoredActivityType = configFile.ignoredActivityType,
-                            enablePlacesApiLookup = _enablePlacesApiLookup.value
+                            enablePlacesApiLookup = _enablePlacesApiLookup.value,
                         )
 
                         vEvent?.let { event ->
@@ -173,14 +173,14 @@ class MainScreenViewModel(
                             appendExportedLog(
                                 uiLogEntry = UILogEntry(
                                     emoji = "\uD83D\uDDD3",
-                                    message = "${event.dtStart.toUITimestamp()}: ${event.summary}"
-                                )
+                                    message = "${event.dtStart.toUITimestamp()}: ${event.summary}",
+                                ),
                             )
                         } ?: appendIgnoredLog(
                             uiLogEntry = UILogEntry(
                                 emoji = "🚫",
-                                message = "${activitySegment.durationStartTimestamp.toUITimestamp()}: Activity ${activitySegment.activityType}"
-                            )
+                                message = "${activitySegment.durationStartTimestamp.toUITimestamp()}: Activity ${activitySegment.activityType}",
+                            ),
                         )
                     }
                 }

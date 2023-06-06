@@ -14,24 +14,24 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisit.toDomainModel(timeZoneM
     return locationDomainModel?.let {
         val eventTimeZone = timeZoneMap.getOverlappingTimeZone(
             degreesLatitude = locationDomainModel.getLatitude(),
-            degreesLongitude = locationDomainModel.getLongitude()
+            degreesLongitude = locationDomainModel.getLongitude(),
         )
 
         PlaceVisit(
             durationEndTimestamp = RawTimestamp(
                 timestamp = duration.endTimestamp,
-                timezoneId = eventTimeZone?.zoneId ?: "UTC"
+                timezoneId = eventTimeZone?.zoneId ?: "UTC",
             ),
             durationStartTimestamp = RawTimestamp(
                 timestamp = duration.startTimestamp,
-                timezoneId = eventTimeZone?.zoneId ?: "UTC"
+                timezoneId = eventTimeZone?.zoneId ?: "UTC",
             ),
             lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
             location = locationDomainModel,
             childVisits = childVisits?.mapNotNull { childVisitDataModel ->
                 childVisitDataModel.toDomainModel(timeZoneMap = timeZoneMap)
             } ?: emptyList(),
-            eventTimeZone = eventTimeZone
+            eventTimeZone = eventTimeZone,
         )
     }
 }

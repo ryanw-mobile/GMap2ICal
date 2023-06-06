@@ -14,7 +14,7 @@ class MockTimeZoneMap : TimeZoneMapWrapper {
     override fun getOverlappingTimeZone(degreesLatitude: Double, degreesLongitude: Double): TimeZone {
         return TimeZone(
             zoneId = mockZoneId ?: "Asia/Tokyo", // Needs real zone as it affects time calculation
-            region = Polygon()
+            region = Polygon(),
         )
     }
 }

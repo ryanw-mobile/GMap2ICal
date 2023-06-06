@@ -26,5 +26,5 @@ data class Result(
     @SerialName(value = "utc_offset")
     val utcOffset: Int? = null,
     val vicinity: String? = null,
-    val website: String? = null
+    val website: String? = null,
 )

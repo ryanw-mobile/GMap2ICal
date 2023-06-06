@@ -30,7 +30,7 @@ internal class TimelineRepositoryImplTest : FreeSpec() {
             localDataSource = localDataSource,
             timeZoneMap = mockTimeZoneMap,
             dispatcher = UnconfinedTestDispatcher(),
-            kotlinJson = kotlinJson
+            kotlinJson = kotlinJson,
         )
     }
 

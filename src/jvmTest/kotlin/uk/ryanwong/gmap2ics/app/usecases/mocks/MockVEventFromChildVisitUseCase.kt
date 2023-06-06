@@ -12,7 +12,7 @@ class MockVEventFromChildVisitUseCase : VEventFromChildVisitUseCase {
     var mockUseCaseResponse: VEvent? = null
     override suspend fun invoke(
         childVisit: ChildVisit,
-        enablePlacesApiLookup: Boolean
+        enablePlacesApiLookup: Boolean,
     ): VEvent? {
         return mockUseCaseResponse
     }

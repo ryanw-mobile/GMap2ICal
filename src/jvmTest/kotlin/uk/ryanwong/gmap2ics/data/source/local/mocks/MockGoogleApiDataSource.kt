@@ -14,7 +14,7 @@ class MockGoogleApiDataSource : GoogleApiDataSource {
     override suspend fun getMapsApiPlaceDetails(
         placeId: String,
         apiKey: String,
-        language: String?
+        language: String?,
     ): Result<PlaceDetails> {
         getMapsApiPlaceDetailsLanguageRequested = language
         return getMapsApiPlaceDetailsResponse ?: Result.failure(Exception("mock response unavailable"))

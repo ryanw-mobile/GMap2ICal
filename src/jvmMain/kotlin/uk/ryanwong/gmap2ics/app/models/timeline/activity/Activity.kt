@@ -8,5 +8,5 @@ import uk.ryanwong.gmap2ics.app.models.ActivityType
 
 data class Activity(
     val activityType: ActivityType,
-    val rawActivityType: String
+    val rawActivityType: String,
 )

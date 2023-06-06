@@ -108,5 +108,5 @@ enum class PlaceType(val emoji: String) {
     TRAVEL_AGENCY("🏝"),
     UNIVERSITY("🏫"),
     VETERINARY_CARE("🐶"),
-    ZOO("🦁")
+    ZOO("🦁"),
 }

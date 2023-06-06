@@ -18,5 +18,5 @@ data class PlaceVisit(
     val placeConfidence: String? = null,
     val placeVisitType: String? = null,
     val visitConfidence: Int? = null,
-    val childVisits: List<ChildVisit>? = null
+    val childVisits: List<ChildVisit>? = null,
 )

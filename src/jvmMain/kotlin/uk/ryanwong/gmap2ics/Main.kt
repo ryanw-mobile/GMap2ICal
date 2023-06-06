@@ -47,7 +47,7 @@ fun main() = application {
     val placeDetailsRepository = PlaceDetailsRepositoryImpl(
         networkDataSource = networkDataSource,
         placesApiKey = configFile.placesApiKey,
-        apiLanguageOverride = configFile.apiLanguageOverride
+        apiLanguageOverride = configFile.apiLanguageOverride,
     )
     val timeZoneMap: TimeZoneMapWrapper = TimeZoneMapImpl(timeZoneMap = TimeZoneMap.forEverywhere())
     val resourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH)
@@ -64,17 +64,17 @@ fun main() = application {
                 resourceBundle = resourceBundle,
                 timelineRepository = TimelineRepositoryImpl(
                     timeZoneMap = timeZoneMap,
-                    kotlinJson = Json { ignoreUnknownKeys = true }
+                    kotlinJson = Json { ignoreUnknownKeys = true },
                 ),
                 localFileRepository = LocalFileRepositoryImpl(),
                 getActivitySegmentVEventUseCase = GetActivitySegmentVEventUseCaseImpl(
                     vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
-                        placeDetailsRepository = placeDetailsRepository
-                    )
+                        placeDetailsRepository = placeDetailsRepository,
+                    ),
                 ),
                 getOutputFilenameUseCase = GetOutputFilenameUseCaseImpl(),
                 getPlaceVisitVEventUseCase = getPlaceVisitVEventUseCase,
-            )
+            ),
         )
     }
 }

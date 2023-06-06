@@ -34,7 +34,7 @@ data class VEvent(
     val geo: LatLng?,
     val description: String? = null,
     val url: String? = null,
-    val lastModified: String
+    val lastModified: String,
 ) {
     companion object {
         private val mileageFormat = DecimalFormat("#,###.#")
@@ -44,7 +44,7 @@ data class VEvent(
             firstPlaceDetails: PlaceDetails?,
             lastPlaceDetails: PlaceDetails?,
             startPlaceDetails: PlaceDetails?,
-            endPlaceDetails: PlaceDetails?
+            endPlaceDetails: PlaceDetails?,
         ): VEvent {
             with(activitySegment) {
                 val distanceInKilometers: Double = distance / 1000.0
@@ -59,26 +59,26 @@ data class VEvent(
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
                     startLocation = startLocation.name,
-                    endLocation = endLocation.name
+                    endLocation = endLocation.name,
                 )
                 }"
 
                 // Try to extract more meaningful information than just the miles travelled
                 val startLocationText = ActivitySegmentFormatter.getStartLocationText(
                     startLocation = startLocation,
-                    placeDetails = startPlaceDetails
+                    placeDetails = startPlaceDetails,
                 )
                 val endLocationText =
                     ActivitySegmentFormatter.getEndLocationText(
                         endLocation = endLocation,
-                        placeDetails = endPlaceDetails
+                        placeDetails = endPlaceDetails,
                     )
 
                 val description = ActivitySegmentFormatter.parseTimelineDescription(
                     startLocationText = startLocationText,
                     endLocationText = endLocationText,
                     startPlaceDetails = firstPlaceDetails,
-                    endPlaceDetails = lastPlaceDetails
+                    endPlaceDetails = lastPlaceDetails,
                 )
 
                 return VEvent(
@@ -90,14 +90,14 @@ data class VEvent(
                     summary = subject,
                     geo = LatLng(
                         latitude = endLocation.getLatitude(),
-                        longitude = endLocation.getLongitude()
+                        longitude = endLocation.getLongitude(),
                     ),
                     location = endLocation.address ?: lastPlaceDetails?.formattedAddress
                         ?: endLocation.getFormattedLatLng(),
                     url = endLocation.placeId?.let { endLocation.getGoogleMapsPlaceIdLink() }
                         ?: endLocation.getGoogleMapsLatLngLink(),
                     lastModified = lastEditedTimestamp,
-                    description = description
+                    description = description,
                 )
             }
         }
@@ -115,12 +115,12 @@ data class VEvent(
                     summary = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
                     geo = placeDetails?.geo ?: LatLng(
                         latitude = location.latitudeE7 * 0.0000001,
-                        longitude = location.longitudeE7 * 0.0000001
+                        longitude = location.longitudeE7 * 0.0000001,
                     ),
                     location = placeDetails?.formattedAddress ?: location.address?.replace('\n', ',') ?: "",
                     url = url,
                     lastModified = lastEditedTimestamp,
-                    description = "Place ID:\\n${location.placeId}\\n\\nGoogle Maps URL:\\n$url"
+                    description = "Place ID:\\n${location.placeId}\\n\\nGoogle Maps URL:\\n$url",
                 )
             }
         }
@@ -138,12 +138,12 @@ data class VEvent(
                     summary = placeDetails?.getFormattedName() ?: "\uD83D\uDCCD ${location.name}",
                     geo = placeDetails?.geo ?: LatLng(
                         latitude = location.latitudeE7 * 0.0000001,
-                        longitude = location.longitudeE7 * 0.0000001
+                        longitude = location.longitudeE7 * 0.0000001,
                     ),
                     location = placeDetails?.formattedAddress ?: location.address?.replace('\n', ',') ?: "",
                     url = url,
                     lastModified = lastEditedTimestamp,
-                    description = "Place ID:\\n${location.placeId}\\n\\nGoogle Maps URL:\\n$url"
+                    description = "Place ID:\\n${location.placeId}\\n\\nGoogle Maps URL:\\n$url",
                 )
             }
         }
@@ -164,7 +164,7 @@ data class VEvent(
                 "X-TITLE=\"${
                 xTitle.replace(oldValue = "\n", newValue = " ")
                     .replace(oldValue = ",", newValue = " ")
-                }\":geo:${geo?.getFormattedLatLng() ?: "0,0"}\n"
+                }\":geo:${geo?.getFormattedLatLng() ?: "0,0"}\n",
             )
             append("UID:$uid\n")
             append("DTSTAMP:$dtStamp\n")
@@ -173,7 +173,7 @@ data class VEvent(
                 location
                     .replace(oldValue = "\n", newValue = ", ")
                     .replace(oldValue = ",", newValue = "\\,")
-                }\n"
+                }\n",
             )
             append("SUMMARY:$summary\n")
 //            geo?.let { geo ->

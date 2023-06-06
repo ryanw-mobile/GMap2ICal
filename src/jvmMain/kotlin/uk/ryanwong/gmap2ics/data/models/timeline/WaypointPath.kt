@@ -12,5 +12,5 @@ data class WaypointPath(
     val distanceMeters: Double? = null,
     val roadSegment: List<RoadSegment>? = null,
     val source: String? = null,
-    val travelMode: String? = null
+    val travelMode: String? = null,
 )

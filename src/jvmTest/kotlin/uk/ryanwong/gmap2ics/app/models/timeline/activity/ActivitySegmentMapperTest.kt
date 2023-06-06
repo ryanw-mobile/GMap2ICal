@@ -25,10 +25,10 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
         activities = listOf(
             Activity(
                 activityType = ActivityType.IN_PASSENGER_VEHICLE,
-                rawActivityType = "IN_PASSENGER_VEHICLE"
+                rawActivityType = "IN_PASSENGER_VEHICLE",
             ),
             Activity(activityType = ActivityType.WALKING, rawActivityType = "WALKING"),
-            Activity(activityType = ActivityType.MOTORCYCLING, rawActivityType = "MOTORCYCLING")
+            Activity(activityType = ActivityType.MOTORCYCLING, rawActivityType = "MOTORCYCLING"),
         ),
         activityType = ActivityType.IN_PASSENGER_VEHICLE,
         rawActivityType = "IN_PASSENGER_VEHICLE",
@@ -36,28 +36,28 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
         durationEndTimestamp = RawTimestamp(timestamp = "2019-06-01T01:24:28Z", timezoneId = "Asia/Tokyo"),
         durationStartTimestamp = RawTimestamp(
             timestamp = "2019-06-01T01:04:01Z",
-            timezoneId = "Asia/Tokyo"
+            timezoneId = "Asia/Tokyo",
         ),
         endLocation = Location(
             placeId = null,
             latitudeE7 = 344643393,
             longitudeE7 = 1324226167,
             name = null,
-            address = null
+            address = null,
         ),
         startLocation = Location(
             placeId = null,
             latitudeE7 = 343970563,
             longitudeE7 = 1324677422,
             name = null,
-            address = null
+            address = null,
         ),
         waypointPath = WaypointPath(
             distanceMeters = 15444.856340505617,
-            roadSegmentPlaceIds = listOf("some-place-id-1", "some-place-id-2", "some-place-id-3")
+            roadSegmentPlaceIds = listOf("some-place-id-1", "some-place-id-2", "some-place-id-3"),
         ),
         lastEditedTimestamp = "2019-06-01T01:24:28Z",
-        eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
+        eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon()),
     )
 
     init {
@@ -80,7 +80,7 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
             "should still convert correctly from Data Model to Domain Model when rawActivityType is null" {
                 // 🔴 Given
                 val activitySegmentDataModel = mockActivitySegment.copy(
-                    activityType = null
+                    activityType = null,
                 )
                 mockTimeZoneMap = MockTimeZoneMap().apply {
                     mockZoneId = "Asia/Tokyo"
@@ -100,7 +100,7 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
             "should still convert correctly from Data Model to Domain Model when activities is null" {
                 // 🔴 Given
                 val activitySegmentDataModel = mockActivitySegment.copy(
-                    activities = null
+                    activities = null,
                 )
                 mockTimeZoneMap = MockTimeZoneMap().apply {
                     mockZoneId = "Asia/Tokyo"
@@ -119,7 +119,7 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
             "should still convert correctly from Data Model to Domain Model when rawActivityType is not defined in the Enums" {
                 // 🔴 Given
                 val activitySegmentDataModel = mockActivitySegment.copy(
-                    activityType = "some-strange-activity-type"
+                    activityType = "some-strange-activity-type",
                 )
                 mockTimeZoneMap = MockTimeZoneMap().apply {
                     mockZoneId = "Asia/Tokyo"
@@ -139,7 +139,7 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
             "should return null if start location is null" {
                 // 🔴 Given
                 val activitySegmentDataModel = mockActivitySegment.copy(
-                    startLocation = ActivityLocation()
+                    startLocation = ActivityLocation(),
                 )
                 mockTimeZoneMap = MockTimeZoneMap().apply {
                     mockZoneId = "Asia/Tokyo"
@@ -155,7 +155,7 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
             "should return null if end location is null" {
                 // 🔴 Given
                 val activitySegmentDataModel = mockActivitySegment.copy(
-                    endLocation = ActivityLocation()
+                    endLocation = ActivityLocation(),
                 )
                 mockTimeZoneMap = MockTimeZoneMap().apply {
                     mockZoneId = "Asia/Tokyo"

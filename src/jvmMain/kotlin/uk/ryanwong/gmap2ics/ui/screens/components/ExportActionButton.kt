@@ -32,11 +32,11 @@ fun ExportActionButton(
     enabled: Boolean,
     onButtonClicked: (Boolean) -> Unit,
     resourceBundle: ResourceBundle,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(top = 16.dp)
+        modifier = modifier.padding(top = 16.dp),
     ) {
         val buttonBackground = if (!enabled) Color.LightGray else MaterialTheme.colors.error
 
@@ -45,13 +45,13 @@ fun ExportActionButton(
             shape = RoundedCornerShape(percent = 25),
             colors = ButtonDefaults.buttonColors(backgroundColor = buttonBackground),
             onClick = { onButtonClicked(!enabled) },
-            modifier = Modifier.size(size = 64.dp)
+            modifier = Modifier.size(size = 64.dp),
         ) {
             Image(
                 painter = painterResource(resourcePath = "/drawables/file_export_outline.xml"),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(color = Color.White),
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             )
         }
         Text(
@@ -60,7 +60,7 @@ fun ExportActionButton(
             modifier = Modifier.padding(top = 8.dp)
                 .width(IntrinsicSize.Max)
                 .wrapContentHeight(),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
         )
     }
 }

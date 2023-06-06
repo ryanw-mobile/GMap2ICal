@@ -12,13 +12,13 @@ import uk.ryanwong.gmap2ics.data.source.googleapi.GoogleApiDataSource
 import kotlin.coroutines.cancellation.CancellationException
 
 class RetrofitGoogleApiDataSource(
-    private val retrofitService: GoogleMapsApiService = GoogleMapsApiClient.retrofitService
+    private val retrofitService: GoogleMapsApiService = GoogleMapsApiClient.retrofitService,
 ) : GoogleApiDataSource {
 
     override suspend fun getMapsApiPlaceDetails(
         placeId: String,
         apiKey: String,
-        language: String?
+        language: String?,
     ): Result<PlaceDetails> {
         return Result.runCatching {
             val placeDetailsResponse =

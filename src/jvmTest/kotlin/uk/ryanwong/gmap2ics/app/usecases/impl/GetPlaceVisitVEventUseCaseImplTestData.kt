@@ -28,10 +28,10 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
             location = Location(
                 placeId = "some-place-id",
                 latitudeE7 = someLatitudeE7,
-                longitudeE7 = someLongitudeE7
+                longitudeE7 = someLongitudeE7,
             ),
             childVisits = emptyList(),
-            eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon())
+            eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon()),
         )
     }
 
@@ -48,7 +48,7 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
             geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
             description = "Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://some.url/",
             url = "https://some.url/",
-            lastModified = "2011-11-11T11:22:22.222Z"
+            lastModified = "2011-11-11T11:22:22.222Z",
         )
     }
 
@@ -56,11 +56,11 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
         PlaceVisit(
             durationEndTimestamp = RawTimestamp(
                 timestamp = "2022-01-03T14:26:25Z",
-                timezoneId = "Europe/London"
+                timezoneId = "Europe/London",
             ),
             durationStartTimestamp = RawTimestamp(
                 timestamp = "2022-01-03T14:18:02Z",
-                timezoneId = "Europe/London"
+                timezoneId = "Europe/London",
             ),
             lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
             location = Location(
@@ -68,10 +68,10 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
                 latitudeE7 = 534781060,
                 longitudeE7 = -22666767,
                 name = "some-name",
-                address = "some-address"
+                address = "some-address",
             ),
             childVisits = listOf(mockChildVisitSomeChildPlaceId),
-            eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
+            eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
         )
     }
 
@@ -79,11 +79,11 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
         ChildVisit(
             durationEndTimestamp = RawTimestamp(
                 timestamp = "2022-01-03T14:25:00Z",
-                timezoneId = "Europe/London"
+                timezoneId = "Europe/London",
             ),
             durationStartTimestamp = RawTimestamp(
                 timestamp = "2022-01-03T14:19:00Z",
-                timezoneId = "Europe/London"
+                timezoneId = "Europe/London",
             ),
             lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
             location = Location(
@@ -91,9 +91,9 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
                 latitudeE7 = 534781070,
                 longitudeE7 = -22666770,
                 name = "some-child-name",
-                address = "some-child-address"
+                address = "some-child-address",
             ),
-            eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
+            eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
         )
     }
 
@@ -109,7 +109,7 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
             location = "some-child-address",
             geo = LatLng(latitude = 53.478106999999994, longitude = -2.266677),
             description = "Place ID:\nsome-child-place-id\n\nGoogle Maps URL:\nhttps://www.google.com/maps/place/?q=place_id:some-child-place-id, url=https://www.google.com/maps/place/?q=place_id:some-child-place-id",
-            lastModified = "2022-02-20T01:17:06.535Z"
+            lastModified = "2022-02-20T01:17:06.535Z",
         )
     }
 
@@ -117,11 +117,11 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
         ChildVisit(
             durationEndTimestamp = RawTimestamp(
                 timestamp = "2022-01-03T14:25:00Z",
-                timezoneId = "Europe/London"
+                timezoneId = "Europe/London",
             ),
             durationStartTimestamp = RawTimestamp(
                 timestamp = "2022-01-03T14:19:00Z",
-                timezoneId = "Europe/London"
+                timezoneId = "Europe/London",
             ),
             lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
             location = Location(
@@ -129,9 +129,9 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
                 latitudeE7 = 534781070,
                 longitudeE7 = -22666770,
                 name = "some-another-child-name",
-                address = "some-another-child-address"
+                address = "some-another-child-address",
             ),
-            eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
+            eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
         )
     }
 
@@ -139,11 +139,11 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
         PlaceVisit(
             durationEndTimestamp = RawTimestamp(
                 timestamp = "2022-01-03T14:26:25Z",
-                timezoneId = "Europe/London"
+                timezoneId = "Europe/London",
             ),
             durationStartTimestamp = RawTimestamp(
                 timestamp = "2022-01-03T14:18:02Z",
-                timezoneId = "Europe/London"
+                timezoneId = "Europe/London",
             ),
             lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
             location = Location(
@@ -151,13 +151,13 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
                 latitudeE7 = 534781060,
                 longitudeE7 = -22666767,
                 name = "some-name",
-                address = "some-address"
+                address = "some-address",
             ),
             childVisits = listOf(
                 mockChildVisitSomeOtherChildPlaceId,
-                mockChildVisitSomeChildPlaceId
+                mockChildVisitSomeChildPlaceId,
             ),
-            eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
+            eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
         )
     }
 }

@@ -32,7 +32,7 @@ class GetOutputFilenameUseCaseImplTest : FreeSpec() {
                 jsonPath = jsonPath,
                 iCalPath = iCalPath,
                 exportPlaceVisit = exportPlaceVisit,
-                exportActivitySegment = exportActivitySegment
+                exportActivitySegment = exportActivitySegment,
             )
 
             // 🟢 Then
@@ -54,7 +54,7 @@ class GetOutputFilenameUseCaseImplTest : FreeSpec() {
                 jsonPath = jsonPath,
                 iCalPath = iCalPath,
                 exportPlaceVisit = exportPlaceVisit,
-                exportActivitySegment = exportActivitySegment
+                exportActivitySegment = exportActivitySegment,
             )
 
             // 🟢 Then
@@ -76,7 +76,7 @@ class GetOutputFilenameUseCaseImplTest : FreeSpec() {
                 jsonPath = jsonPath,
                 iCalPath = iCalPath,
                 exportPlaceVisit = exportPlaceVisit,
-                exportActivitySegment = exportActivitySegment
+                exportActivitySegment = exportActivitySegment,
             )
 
             // 🟢 Then
@@ -98,7 +98,7 @@ class GetOutputFilenameUseCaseImplTest : FreeSpec() {
                 jsonPath = jsonPath,
                 iCalPath = iCalPath,
                 exportPlaceVisit = exportPlaceVisit,
-                exportActivitySegment = exportActivitySegment
+                exportActivitySegment = exportActivitySegment,
             )
 
             // 🟢 Then

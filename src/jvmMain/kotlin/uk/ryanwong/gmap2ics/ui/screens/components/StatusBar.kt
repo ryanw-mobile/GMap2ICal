@@ -35,7 +35,7 @@ fun StatusBar(
         modifier = modifier
             .fillMaxWidth()
             .height(height = 32.dp)
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Text(
             text = statusMessage,
@@ -43,7 +43,7 @@ fun StatusBar(
             textAlign = TextAlign.Left,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
-            modifier = Modifier.weight(weight = 1f, fill = true)
+            modifier = Modifier.weight(weight = 1f, fill = true),
         )
         progress?.let { progress ->
             LinearProgressIndicator(
@@ -52,7 +52,7 @@ fun StatusBar(
                     .width(120.dp)
                     .semantics {
                         contentDescription = ContentDescriptions.LINEAR_PROGRESS_INDICATOR
-                    }
+                    },
             )
         }
     }
@@ -64,7 +64,7 @@ private fun StatusBarPreview() {
     GregoryGreenTheme {
         StatusBar(
             statusMessage = "some-long-message ".repeat(10),
-            progress = 82.5f
+            progress = 82.5f,
         )
     }
 }

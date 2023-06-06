@@ -8,7 +8,7 @@ import java.text.DecimalFormat
 
 data class LatLng(
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
 ) {
     private val latLngFormat = DecimalFormat("###.######")
 

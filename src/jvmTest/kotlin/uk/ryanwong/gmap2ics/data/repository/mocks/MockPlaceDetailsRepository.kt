@@ -12,7 +12,7 @@ class MockPlaceDetailsRepository : PlaceDetailsRepository {
     override suspend fun getPlaceDetails(
         placeId: String,
         placeTimeZoneId: String?,
-        enablePlacesApiLookup: Boolean
+        enablePlacesApiLookup: Boolean,
     ): Result<PlaceDetails> {
         return getPlaceDetailsResponse ?: Result.failure(Exception("mock response unavailable"))
     }

@@ -19,8 +19,8 @@ internal object PlaceDetailsTestData {
         geometry = Geometry(
             location = Location(
                 lat = 53.6152405,
-                lng = -1.5639315
-            )
+                lng = -1.5639315,
+            ),
         ),
         icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
         name = "Yorkshire Sculpture Park",
@@ -31,6 +31,6 @@ internal object PlaceDetailsTestData {
         userRatingsTotal = 8319,
         utcOffset = 60,
         vicinity = "Wakefield",
-        website = "http://www.ysp.org.uk/"
+        website = "http://www.ysp.org.uk/",
     )
 }

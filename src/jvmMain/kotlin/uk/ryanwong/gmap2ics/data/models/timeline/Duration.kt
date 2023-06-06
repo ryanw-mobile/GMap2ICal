@@ -9,5 +9,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Duration(
     val endTimestamp: String,
-    val startTimestamp: String
+    val startTimestamp: String,
 )

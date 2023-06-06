@@ -38,20 +38,20 @@ class GetPlaceVisitVEventUseCaseImpl(
             _ignoredEvents.emit(
                 UILogEntry(
                     emoji = "🚫",
-                    message = "${placeVisit.durationStartTimestamp.toUITimestamp()}: Place ID ${placeVisit.location.placeId}"
-                )
+                    message = "${placeVisit.durationStartTimestamp.toUITimestamp()}: Place ID ${placeVisit.location.placeId}",
+                ),
             )
         } else {
             vEventFromPlaceVisitUseCase(
                 placeVisit = placeVisit,
-                enablePlacesApiLookup = enablePlacesApiLookup
+                enablePlacesApiLookup = enablePlacesApiLookup,
             ).let { vEvent ->
                 eventList.add(vEvent)
                 _exportedEvents.emit(
                     UILogEntry(
                         emoji = "\uD83D\uDDD3",
-                        message = "${vEvent.dtStart.toUITimestamp()}: ${vEvent.summary}"
-                    )
+                        message = "${vEvent.dtStart.toUITimestamp()}: ${vEvent.summary}",
+                    ),
                 )
                 printVerboseConsoleLog(verboseLogs = verboseConsoleLog, message = vEvent.toString())
             }
@@ -63,20 +63,20 @@ class GetPlaceVisitVEventUseCaseImpl(
                     _ignoredEvents.emit(
                         UILogEntry(
                             emoji = "🚫",
-                            message = "${childVisit.durationStartTimestamp.toUITimestamp()}: Place ID ${childVisit.location.placeId}"
-                        )
+                            message = "${childVisit.durationStartTimestamp.toUITimestamp()}: Place ID ${childVisit.location.placeId}",
+                        ),
                     )
                 } else {
                     vEventFromChildVisitUseCase(
                         childVisit = childVisit,
-                        enablePlacesApiLookup = enablePlacesApiLookup
+                        enablePlacesApiLookup = enablePlacesApiLookup,
                     )?.let { vEvent ->
                         eventList.add(vEvent)
                         _exportedEvents.emit(
                             UILogEntry(
                                 emoji = "\uD83D\uDDD3",
-                                message = "${vEvent.dtStart.toUITimestamp()}: ${vEvent.summary}"
-                            )
+                                message = "${vEvent.dtStart.toUITimestamp()}: ${vEvent.summary}",
+                            ),
                         )
                         printVerboseConsoleLog(verboseLogs = verboseConsoleLog, message = vEvent.toString())
                     }

@@ -40,7 +40,7 @@ fun ExportOptionsGroup(
         modifier = modifier
             .padding(8.dp)
             .border(width = 1.dp, color = Color.LightGray)
-            .width(intrinsicSize = IntrinsicSize.Min)
+            .width(intrinsicSize = IntrinsicSize.Min),
     ) {
         Text(
             text = resourceBundle.getString("export.options"),
@@ -52,26 +52,26 @@ fun ExportOptionsGroup(
                 .padding(top = 8.dp, start = 8.dp, end = 8.dp)
                 .background(color = Color.DarkGray)
                 .padding(horizontal = 8.dp, vertical = 4.dp),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
         )
 
         Row(
             modifier = Modifier
                 .width(intrinsicSize = IntrinsicSize.Max)
-                .padding(16.dp)
+                .padding(16.dp),
         ) {
             BinaryOptionButton(
                 isChecked = exportActivitySegment,
                 text = MessageFormat.format(resourceBundle.getString("activity.segments")),
                 icon = painterResource(resourcePath = "/drawables/road_variant.xml"),
                 onButtonClicked = onExportActivitySegmentClicked,
-                modifier = Modifier.padding(end = 16.dp)
+                modifier = Modifier.padding(end = 16.dp),
             )
             BinaryOptionButton(
                 isChecked = exportPlaceVisit,
                 text = MessageFormat.format(resourceBundle.getString("place.visits")),
                 icon = painterResource(resourcePath = "/drawables/map_marker_outline.xml"),
-                onButtonClicked = onExportPlaceVisitClicked
+                onButtonClicked = onExportPlaceVisitClicked,
             )
         }
     }
@@ -86,7 +86,7 @@ fun ExportOptionsGroupPreview() {
             exportActivitySegment = false,
             onExportActivitySegmentClicked = {},
             onExportPlaceVisitClicked = {},
-            resourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH)
+            resourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH),
         )
     }
 }

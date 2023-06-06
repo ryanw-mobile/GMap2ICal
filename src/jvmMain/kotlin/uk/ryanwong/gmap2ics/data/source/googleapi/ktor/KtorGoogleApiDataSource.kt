@@ -17,12 +17,12 @@ import kotlin.coroutines.cancellation.CancellationException
 
 class KtorGoogleApiDataSource(
     private val googleMapsApiClient: GoogleMapsApiClient,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : GoogleApiDataSource {
     override suspend fun getMapsApiPlaceDetails(
         placeId: String,
         apiKey: String,
-        language: String?
+        language: String?,
     ): Result<PlaceDetails> {
         return withContext(dispatcher) {
             Result.runCatching {

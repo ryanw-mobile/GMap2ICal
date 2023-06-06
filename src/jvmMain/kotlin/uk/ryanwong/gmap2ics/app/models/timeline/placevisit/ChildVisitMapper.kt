@@ -17,20 +17,20 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.ChildVisit.toDomainModel(timeZoneM
     } else {
         val eventTimeZone = timeZoneMap.getOverlappingTimeZone(
             degreesLatitude = locationDomainModel.getLatitude(),
-            degreesLongitude = locationDomainModel.getLongitude()
+            degreesLongitude = locationDomainModel.getLongitude(),
         )
         ChildVisit(
             durationEndTimestamp = RawTimestamp(
                 timestamp = duration.endTimestamp,
-                timezoneId = eventTimeZone?.zoneId ?: "UTC"
+                timezoneId = eventTimeZone?.zoneId ?: "UTC",
             ),
             durationStartTimestamp = RawTimestamp(
                 timestamp = duration.startTimestamp,
-                timezoneId = eventTimeZone?.zoneId ?: "UTC"
+                timezoneId = eventTimeZone?.zoneId ?: "UTC",
             ),
             lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
             location = locationDomainModel,
-            eventTimeZone = eventTimeZone
+            eventTimeZone = eventTimeZone,
         )
     }
 }

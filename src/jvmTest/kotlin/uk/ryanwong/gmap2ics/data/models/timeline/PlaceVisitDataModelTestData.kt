@@ -16,7 +16,7 @@ internal object PlaceVisitDataModelTestData {
             locationConfidence = 100.0,
             longitudeE7 = -22666767,
             name = "some-name",
-            placeId = "some-place-id"
+            placeId = "some-place-id",
         ),
         locationAssertionType = "WITHIN_OR_AT",
         locationConfidence = 100,
@@ -35,13 +35,13 @@ internal object PlaceVisitDataModelTestData {
                     locationConfidence = 100.0,
                     longitudeE7 = -22666770,
                     name = "some-child-name",
-                    placeId = "some-child-place-id"
+                    placeId = "some-child-place-id",
                 ),
                 locationConfidence = 100,
                 placeConfidence = "USER_CONFIRMED",
                 placeVisitType = "SINGLE_PLACE",
-                visitConfidence = 100
-            )
-        )
+                visitConfidence = 100,
+            ),
+        ),
     )
 }

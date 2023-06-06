@@ -15,7 +15,7 @@ class PlaceDetailsRepositoryImpl(
     private val networkDataSource: GoogleApiDataSource,
     private val placesApiKey: String?,
     private val apiLanguageOverride: Map<String, String>, // TODO: Move to function level when configurable through UI
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : PlaceDetailsRepository {
 
     // TODO: Can put this in local database so we lookup once and for all.
@@ -24,7 +24,7 @@ class PlaceDetailsRepositoryImpl(
     override suspend fun getPlaceDetails(
         placeId: String,
         placeTimeZoneId: String?,
-        enablePlacesApiLookup: Boolean
+        enablePlacesApiLookup: Boolean,
     ): Result<PlaceDetails> {
         return when {
             placesCache.contains(key = placeId) -> {
@@ -42,14 +42,14 @@ class PlaceDetailsRepositoryImpl(
                     placesApiKey?.let { apiKey ->
                         val language: String? = apiLanguageOverride.getOrDefault(
                             key = placeTimeZoneId,
-                            defaultValue = apiLanguageOverride.get(key = "default")
+                            defaultValue = apiLanguageOverride.get(key = "default"),
                         )
 
                         val placeResult =
                             networkDataSource.getMapsApiPlaceDetails(
                                 placeId = placeId,
                                 apiKey = apiKey,
-                                language = language
+                                language = language,
                             )
                         placeResult.getOrNull()?.let { place ->
                             placesCache[placeId] = place

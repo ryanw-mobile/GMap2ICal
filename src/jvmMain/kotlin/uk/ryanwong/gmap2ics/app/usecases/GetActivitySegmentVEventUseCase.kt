@@ -12,6 +12,6 @@ interface GetActivitySegmentVEventUseCase {
     suspend operator fun invoke(
         activitySegment: ActivitySegment,
         ignoredActivityType: List<ActivityType>,
-        enablePlacesApiLookup: Boolean
+        enablePlacesApiLookup: Boolean,
     ): VEvent?
 }

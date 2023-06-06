@@ -28,12 +28,12 @@ internal class ChildVisitMapperTest : FreeSpec() {
             locationConfidence = 100.0,
             longitudeE7 = -22666767,
             name = "some-name",
-            placeId = "some-place-id"
+            placeId = "some-place-id",
         ),
         locationConfidence = 100,
         placeConfidence = "USER_CONFIRMED",
         placeVisitType = "SINGLE_PLACE",
-        visitConfidence = 100
+        visitConfidence = 100,
     )
 
     init {
@@ -52,9 +52,9 @@ internal class ChildVisitMapperTest : FreeSpec() {
                     latitudeE7 = 534781060,
                     longitudeE7 = -22666767,
                     name = "some-name",
-                    address = "some-address"
+                    address = "some-address",
                 ),
-                eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon())
+                eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
             )
 
             // 🟡 When
@@ -68,7 +68,7 @@ internal class ChildVisitMapperTest : FreeSpec() {
             // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap()
             val childVisitDataModel = mockChildVisit.copy(
-                location = uk.ryanwong.gmap2ics.data.models.timeline.Location()
+                location = uk.ryanwong.gmap2ics.data.models.timeline.Location(),
             )
 
             // 🟡 When
@@ -82,7 +82,7 @@ internal class ChildVisitMapperTest : FreeSpec() {
             // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap()
             val childVisitDataModel = mockChildVisit.copy(
-                duration = null
+                duration = null,
             )
 
             // 🟡 When

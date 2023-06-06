@@ -43,7 +43,7 @@ fun BinaryOptionButton(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.semantics { role = Role.Checkbox }
+        modifier = modifier.semantics { role = Role.Checkbox },
     ) {
         val buttonBorder = if (!isChecked) BorderStroke(width = 2.dp, color = MaterialTheme.colors.primary) else null
         val buttonBackground = if (!isChecked) Color.LightGray else MaterialTheme.colors.primary
@@ -55,13 +55,13 @@ fun BinaryOptionButton(
             border = buttonBorder,
             colors = ButtonDefaults.buttonColors(backgroundColor = buttonBackground),
             onClick = { onButtonClicked(!isChecked) },
-            modifier = Modifier.size(size = 64.dp)
+            modifier = Modifier.size(size = 64.dp),
         ) {
             Image(
                 painter = icon,
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(color = buttonTint),
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             )
         }
         Text(
@@ -71,7 +71,7 @@ fun BinaryOptionButton(
                 .padding(top = 8.dp)
                 .width(IntrinsicSize.Max)
                 .wrapContentHeight(),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
         )
     }
 }
@@ -84,7 +84,7 @@ private fun previewBinaryOptionButtonOff() {
             isChecked = false,
             text = "Activity\nSegment",
             icon = painterResource(resourcePath = "/drawables/road_variant.xml"),
-            onButtonClicked = {}
+            onButtonClicked = {},
         )
     }
 }
@@ -97,7 +97,7 @@ private fun previewBinaryOptionButtonOn() {
             isChecked = true,
             text = "Activity\nSegment",
             icon = painterResource(resourcePath = "/drawables/road_variant.xml"),
-            onButtonClicked = {}
+            onButtonClicked = {},
         )
     }
 }

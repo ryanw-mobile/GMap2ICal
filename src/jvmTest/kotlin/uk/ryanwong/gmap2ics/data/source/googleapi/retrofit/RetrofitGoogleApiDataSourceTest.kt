@@ -49,7 +49,7 @@ class RetrofitGoogleApiDataSourceTest : FreeSpec() {
                     val placeDetails = retrofitGoogleApiDataSource.getMapsApiPlaceDetails(
                         placeId = "some-place-id",
                         apiKey = "some-api-key",
-                        language = "some-language"
+                        language = "some-language",
                     )
 
                     // 🟢 Then
@@ -61,7 +61,7 @@ class RetrofitGoogleApiDataSourceTest : FreeSpec() {
                             formattedAddress = "some-formatted-address",
                             geo = LatLng(latitude = 50.44444444444444, longitude = -2.111111111111111),
                             types = listOf("route"),
-                            url = "https://maps.google.com/?q=some+address,+Manchester+M21,+UK&ftid=0x1111111111111111:0x1111111111111111"
+                            url = "https://maps.google.com/?q=some+address,+Manchester+M21,+UK&ftid=0x1111111111111111:0x1111111111111111",
                         )
                 }
             }
@@ -78,7 +78,7 @@ class RetrofitGoogleApiDataSourceTest : FreeSpec() {
                     val placeDetails = retrofitGoogleApiDataSource.getMapsApiPlaceDetails(
                         placeId = "some-place-id",
                         apiKey = "some-api-key",
-                        language = "some-language"
+                        language = "some-language",
                     )
 
                     // 🟢 Then
@@ -99,7 +99,7 @@ class RetrofitGoogleApiDataSourceTest : FreeSpec() {
                     val placeDetails = retrofitGoogleApiDataSource.getMapsApiPlaceDetails(
                         placeId = "some-place-id",
                         apiKey = "some-api-key",
-                        language = "some-language"
+                        language = "some-language",
                     )
 
                     // 🟢 Then

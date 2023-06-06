@@ -28,7 +28,7 @@ fun GregoryGreenTheme(
             onSurface = Color(0xffe1e3e0),
             error = Color(0xffffb4ab),
             onError = Color(0xff690005),
-            isLight = false
+            isLight = false,
         )
     } else {
         Colors(
@@ -44,7 +44,7 @@ fun GregoryGreenTheme(
             onSurface = Color(0xff191c1a),
             error = Color(0xffba1a1a),
             onError = Color(0xffffffff),
-            isLight = true
+            isLight = true,
         )
     }
 
@@ -52,6 +52,6 @@ fun GregoryGreenTheme(
         colors = colors,
         typography = MaterialTheme.typography,
         shapes = MaterialTheme.shapes,
-        content = content
+        content = content,
     )
 }

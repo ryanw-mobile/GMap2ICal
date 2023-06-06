@@ -26,7 +26,7 @@ class GoogleMapsApiClientImpl(engine: HttpClientEngine) : GoogleMapsApiClient {
                     ignoreUnknownKeys = true
                     prettyPrint = true
                     isLenient = true
-                }
+                },
             )
         }
     }
@@ -34,7 +34,7 @@ class GoogleMapsApiClientImpl(engine: HttpClientEngine) : GoogleMapsApiClient {
     override suspend fun getPlaceDetails(
         placeId: String,
         apiKey: String,
-        language: String?
+        language: String?,
     ): PlaceDetails? {
         return httpClient.get(placeDetailsUrl) {
             parameter("place_id", placeId)

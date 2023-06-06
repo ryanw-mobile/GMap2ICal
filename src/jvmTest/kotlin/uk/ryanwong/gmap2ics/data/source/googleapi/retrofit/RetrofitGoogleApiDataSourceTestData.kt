@@ -29,9 +29,9 @@ object RetrofitGoogleApiDataSourceTestData {
                 userRatingsTotal = null,
                 utcOffset = 60,
                 vicinity = null,
-                website = null
-            )
-        )
+                website = null,
+            ),
+        ),
     )
 
     val retrofitApiResponseFailure: Response<PlaceDetails> =

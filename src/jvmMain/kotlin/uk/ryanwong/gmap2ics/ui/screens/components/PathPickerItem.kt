@@ -39,18 +39,18 @@ fun PathPickerItem(
     currentPath: String,
     onClick: () -> Unit,
     resourceBundle: ResourceBundle,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth(1f)
-            .padding(top = 16.dp)
+            .padding(top = 16.dp),
     ) {
         Column(
             modifier = Modifier
                 .wrapContentSize()
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = 8.dp),
         ) {
             Button(
                 enabled = true,
@@ -58,13 +58,13 @@ fun PathPickerItem(
                 colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
                 onClick = onClick,
                 contentPadding = PaddingValues(all = 4.dp),
-                modifier = Modifier.size(size = 24.dp)
+                modifier = Modifier.size(size = 24.dp),
             ) {
                 Image(
                     painter = icon,
                     contentDescription = resourceBundle.getString("change.folder"),
                     colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onPrimary),
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
         }
@@ -76,7 +76,7 @@ fun PathPickerItem(
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 modifier = Modifier.padding(horizontal = 8.dp),
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
 
             Text(
@@ -86,7 +86,7 @@ fun PathPickerItem(
                 maxLines = 2,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp)
+                    .padding(horizontal = 8.dp),
             )
         }
     }
@@ -101,7 +101,7 @@ fun PathPickerItemPreview() {
             currentPath = "some very long text ".repeat(10),
             icon = painterResource(resourcePath = "/drawables/folder_arrow_left.xml"),
             onClick = {},
-            resourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH)
+            resourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH),
         )
     }
 }

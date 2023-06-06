@@ -35,7 +35,7 @@ class RawTimestampTest : FreeSpec() {
                 val exception = shouldThrow<ZoneRulesException> {
                     RawTimestamp(
                         timestamp = timestamp,
-                        timezoneId = timezoneId
+                        timezoneId = timezoneId,
                     ).toLocalizedTimestamp()
                 }
 
@@ -51,7 +51,7 @@ class RawTimestampTest : FreeSpec() {
                 val exception = shouldThrow<java.time.format.DateTimeParseException> {
                     RawTimestamp(
                         timestamp = timestamp,
-                        timezoneId = timezoneId
+                        timezoneId = timezoneId,
                     ).toLocalizedTimestamp()
                 }
 
@@ -82,7 +82,7 @@ class RawTimestampTest : FreeSpec() {
                 val exception = shouldThrow<ZoneRulesException> {
                     RawTimestamp(
                         timestamp = timestamp,
-                        timezoneId = timezoneId
+                        timezoneId = timezoneId,
                     ).toUITimestamp()
                 }
 
@@ -98,7 +98,7 @@ class RawTimestampTest : FreeSpec() {
                 val exception = shouldThrow<java.time.format.DateTimeParseException> {
                     RawTimestamp(
                         timestamp = timestamp,
-                        timezoneId = timezoneId
+                        timezoneId = timezoneId,
                     ).toUITimestamp()
                 }
 

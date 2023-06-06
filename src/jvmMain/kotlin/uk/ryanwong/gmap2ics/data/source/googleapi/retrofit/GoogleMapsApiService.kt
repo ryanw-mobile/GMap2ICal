@@ -17,6 +17,6 @@ interface GoogleMapsApiService {
         @Query("key") key: String,
         @Nullable
         @Query("language")
-        language: String? = null
+        language: String? = null,
     ): Response<PlaceDetails>
 }

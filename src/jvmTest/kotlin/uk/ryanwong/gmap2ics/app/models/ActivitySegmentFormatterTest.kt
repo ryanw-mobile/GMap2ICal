@@ -24,10 +24,10 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(
                         latitude = 12.1234567,
-                        longitude = 123.1234567
+                        longitude = 123.1234567,
                     ),
                     types = emptyList(),
-                    url = "https://some.url/"
+                    url = "https://some.url/",
                 )
                 val endPlaceDetails = null
                 val startLocation = "some-start-location"
@@ -38,7 +38,7 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
                     startLocation = startLocation,
-                    endLocation = endLocation
+                    endLocation = endLocation,
                 )
 
                 // 🟢 Then
@@ -54,10 +54,10 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(
                         latitude = 12.1234567,
-                        longitude = 123.1234567
+                        longitude = 123.1234567,
                     ),
                     types = emptyList(),
-                    url = "https://some.url/"
+                    url = "https://some.url/",
                 )
                 val startLocation = "some-start-location"
                 val endLocation = "some-end-location"
@@ -67,7 +67,7 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
                     startLocation = startLocation,
-                    endLocation = endLocation
+                    endLocation = endLocation,
                 )
 
                 // 🟢 Then
@@ -82,10 +82,10 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(
                         latitude = 12.1234567,
-                        longitude = 123.1234567
+                        longitude = 123.1234567,
                     ),
                     types = emptyList(),
-                    url = "https://some.url/"
+                    url = "https://some.url/",
                 )
                 val endPlaceDetails = PlaceDetails(
                     placeId = "some-place-id",
@@ -93,10 +93,10 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(
                         latitude = 12.1234567,
-                        longitude = 123.1234567
+                        longitude = 123.1234567,
                     ),
                     types = emptyList(),
-                    url = "https://some.url/"
+                    url = "https://some.url/",
                 )
                 val startLocation = "some-start-location"
                 val endLocation = "some-end-location"
@@ -106,7 +106,7 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
                     startLocation = startLocation,
-                    endLocation = endLocation
+                    endLocation = endLocation,
                 )
 
                 // 🟢 Then
@@ -125,7 +125,7 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
                     startLocation = startLocation,
-                    endLocation = endLocation
+                    endLocation = endLocation,
                 )
 
                 // 🟢 Then
@@ -144,7 +144,7 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
                     startLocation = startLocation,
-                    endLocation = endLocation
+                    endLocation = endLocation,
                 )
 
                 // 🟢 Then
@@ -161,10 +161,10 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(
                         latitude = 12.1234567,
-                        longitude = 123.1234567
+                        longitude = 123.1234567,
                     ),
                     types = emptyList(),
-                    url = "https://some.url/"
+                    url = "https://some.url/",
                 )
                 val endPlaceDetails = null
                 val startLocationText = "some-start-location-text"
@@ -175,7 +175,7 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
                     startLocationText = startLocationText,
-                    endLocationText = endLocationText
+                    endLocationText = endLocationText,
                 )
 
                 // 🟢 Then
@@ -191,10 +191,10 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(
                         latitude = 12.1234567,
-                        longitude = 123.1234567
+                        longitude = 123.1234567,
                     ),
                     types = emptyList(),
-                    url = "https://some.url/"
+                    url = "https://some.url/",
                 )
                 val startLocationText = "some-start-location-text"
                 val endLocationText = "some-end-location-text"
@@ -204,7 +204,7 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
                     startLocationText = startLocationText,
-                    endLocationText = endLocationText
+                    endLocationText = endLocationText,
                 )
 
                 // 🟢 Then
@@ -219,10 +219,10 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(
                         latitude = 12.1234567,
-                        longitude = 123.1234567
+                        longitude = 123.1234567,
                     ),
                     types = emptyList(),
-                    url = "https://some.url/"
+                    url = "https://some.url/",
                 )
                 val endPlaceDetails = PlaceDetails(
                     placeId = "some-place-id",
@@ -230,10 +230,10 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(
                         latitude = 12.1234567,
-                        longitude = 123.1234567
+                        longitude = 123.1234567,
                     ),
                     types = emptyList(),
-                    url = "https://some.url/"
+                    url = "https://some.url/",
                 )
                 val startLocationText = "some-start-location-text"
                 val endLocationText = "some-end-location-text"
@@ -243,7 +243,7 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
                     startLocationText = startLocationText,
-                    endLocationText = endLocationText
+                    endLocationText = endLocationText,
                 )
 
                 // 🟢 Then
@@ -262,7 +262,7 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
                     startLocationText = startLocationText,
-                    endLocationText = endLocationText
+                    endLocationText = endLocationText,
                 )
 
                 // 🟢 Then
@@ -278,7 +278,7 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     latitudeE7 = 121234567,
                     longitudeE7 = 1231234567,
                     name = "some-start-location-name",
-                    address = "some-start-address"
+                    address = "some-start-address",
                 )
                 val placeDetails = PlaceDetails(
                     placeId = "some-place-id",
@@ -286,16 +286,16 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(
                         latitude = 12.1234567,
-                        longitude = 123.1234567
+                        longitude = 123.1234567,
                     ),
                     types = emptyList(),
-                    url = "https://some.url/"
+                    url = "https://some.url/",
                 )
 
                 // 🟡 When
                 val startLocationText = ActivitySegmentFormatter.getStartLocationText(
                     startLocation = startLocation,
-                    placeDetails = placeDetails
+                    placeDetails = placeDetails,
                 )
 
                 // 🟢 Then
@@ -309,14 +309,14 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     latitudeE7 = 121234567,
                     longitudeE7 = 1231234567,
                     name = "some-start-location-name",
-                    address = "some-start-address"
+                    address = "some-start-address",
                 )
                 val placeDetails = null
 
                 // 🟡 When
                 val startLocationText = ActivitySegmentFormatter.getStartLocationText(
                     startLocation = startLocation,
-                    placeDetails = placeDetails
+                    placeDetails = placeDetails,
                 )
 
                 // 🟢 Then
@@ -332,7 +332,7 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     latitudeE7 = 121234567,
                     longitudeE7 = 1231234567,
                     name = "some-end-location-name",
-                    address = "some-end-address"
+                    address = "some-end-address",
                 )
                 val placeDetails = PlaceDetails(
                     placeId = "some-place-id",
@@ -340,16 +340,16 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     formattedAddress = "some-formatted-address",
                     geo = LatLng(
                         latitude = 12.1234567,
-                        longitude = 123.1234567
+                        longitude = 123.1234567,
                     ),
                     types = emptyList(),
-                    url = "https://some.url/"
+                    url = "https://some.url/",
                 )
 
                 // 🟡 When
                 val endLocationText = ActivitySegmentFormatter.getEndLocationText(
                     endLocation = endLocation,
-                    placeDetails = placeDetails
+                    placeDetails = placeDetails,
                 )
 
                 // 🟢 Then
@@ -363,14 +363,14 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     latitudeE7 = 121234567,
                     longitudeE7 = 1231234567,
                     name = "some-end-location-name",
-                    address = "some-end-address"
+                    address = "some-end-address",
                 )
                 val placeDetails = null
 
                 // 🟡 When
                 val endLocationText = ActivitySegmentFormatter.getEndLocationText(
                     endLocation = endLocation,
-                    placeDetails = placeDetails
+                    placeDetails = placeDetails,
                 )
 
                 // 🟢 Then

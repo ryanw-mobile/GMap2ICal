@@ -12,7 +12,7 @@ class MockVEventFromPlaceVisitUseCase : VEventFromPlaceVisitUseCase {
     var mockUseCaseResponse: VEvent? = null
     override suspend fun invoke(
         placeVisit: PlaceVisit,
-        enablePlacesApiLookup: Boolean
+        enablePlacesApiLookup: Boolean,
     ): VEvent {
         return mockUseCaseResponse ?: throw Exception("mock response unavailable")
     }

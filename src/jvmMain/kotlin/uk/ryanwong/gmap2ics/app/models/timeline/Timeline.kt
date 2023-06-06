@@ -21,9 +21,9 @@ data class Timeline(
                 timelineEntries = timelineObjects.timelineObjects?.map { timelineObject ->
                     TimelineEntry(
                         activitySegment = timelineObject.activitySegment?.toDomainModel(timeZoneMap = timeZoneMap),
-                        placeVisit = timelineObject.placeVisit?.toDomainModel(timeZoneMap = timeZoneMap)
+                        placeVisit = timelineObject.placeVisit?.toDomainModel(timeZoneMap = timeZoneMap),
                     )
-                } ?: emptyList()
+                } ?: emptyList(),
             )
         }
     }

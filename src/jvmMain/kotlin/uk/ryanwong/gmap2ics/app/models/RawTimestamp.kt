@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter
 
 data class RawTimestamp(
     val timestamp: String,
-    val timezoneId: String
+    val timezoneId: String,
 ) {
     fun toLocalizedTimestamp(): String {
         return DateTimeFormatter

@@ -8,5 +8,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlaceDetails(
-    val result: Result? = null
+    val result: Result? = null,
 )

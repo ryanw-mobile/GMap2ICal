@@ -37,7 +37,7 @@ fun ExtraOptionsGroup(
         modifier = modifier
             .padding(8.dp)
             .border(width = 1.dp, color = Color.LightGray)
-            .width(intrinsicSize = IntrinsicSize.Min)
+            .width(intrinsicSize = IntrinsicSize.Min),
     ) {
         Text(
             text = resourceBundle.getString("advanced.settings"),
@@ -49,25 +49,25 @@ fun ExtraOptionsGroup(
                 .padding(top = 8.dp, start = 8.dp, end = 8.dp)
                 .background(color = Color.DarkGray)
                 .padding(horizontal = 8.dp, vertical = 4.dp),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
         )
         Row(
             modifier = Modifier
                 .width(intrinsicSize = IntrinsicSize.Max)
-                .padding(16.dp)
+                .padding(16.dp),
         ) {
             BinaryOptionButton(
                 isChecked = isPlaceApiEnabled,
                 text = MessageFormat.format(resourceBundle.getString("place.api.lookup")),
                 icon = painterResource(resourcePath = "/drawables/database_marker_outline.xml"),
                 onButtonClicked = onEnablePlaceApiLookupClicked,
-                modifier = Modifier.padding(end = 16.dp)
+                modifier = Modifier.padding(end = 16.dp),
             )
             BinaryOptionButton(
                 isChecked = isVerboseLogEnabled,
                 text = MessageFormat.format(resourceBundle.getString("verbose.console.log")),
                 icon = painterResource(resourcePath = "/drawables/console.xml"),
-                onButtonClicked = onVerboseLogClicked
+                onButtonClicked = onVerboseLogClicked,
             )
         }
     }

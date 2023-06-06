@@ -9,6 +9,6 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.WaypointPath.toDomainModel(): Wayp
         distanceMeters = distanceMeters ?: 0.0,
         roadSegmentPlaceIds = roadSegment?.mapNotNull { roadSegment ->
             roadSegment.placeId
-        } ?: emptyList()
+        } ?: emptyList(),
     )
 }

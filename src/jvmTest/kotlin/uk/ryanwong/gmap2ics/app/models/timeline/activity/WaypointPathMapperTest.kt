@@ -20,10 +20,10 @@ internal class WaypointPathMapperTest : FreeSpec() {
                     roadSegment = listOf(
                         RoadSegment(duration = null, placeId = "some-place-id-1"),
                         RoadSegment(duration = null, placeId = "some-place-id-2"),
-                        RoadSegment(duration = null, placeId = "some-place-id-3")
+                        RoadSegment(duration = null, placeId = "some-place-id-3"),
                     ),
                     source = "some-source",
-                    travelMode = "some-travel-mode"
+                    travelMode = "some-travel-mode",
                 )
 
                 // 🟡 When
@@ -32,7 +32,7 @@ internal class WaypointPathMapperTest : FreeSpec() {
                 // 🟢 Then
                 waypointPath shouldBe WaypointPath(
                     distanceMeters = 123.45,
-                    roadSegmentPlaceIds = listOf("some-place-id-1", "some-place-id-2", "some-place-id-3")
+                    roadSegmentPlaceIds = listOf("some-place-id-1", "some-place-id-2", "some-place-id-3"),
                 )
             }
 
@@ -44,10 +44,10 @@ internal class WaypointPathMapperTest : FreeSpec() {
                     roadSegment = listOf(
                         RoadSegment(duration = null, placeId = "some-place-id-1"),
                         RoadSegment(duration = null, placeId = "some-place-id-2"),
-                        RoadSegment(duration = null, placeId = "some-place-id-3")
+                        RoadSegment(duration = null, placeId = "some-place-id-3"),
                     ),
                     source = "some-source",
-                    travelMode = "some-travel-mode"
+                    travelMode = "some-travel-mode",
                 )
 
                 // 🟡 When
@@ -56,7 +56,7 @@ internal class WaypointPathMapperTest : FreeSpec() {
                 // 🟢 Then
                 waypointPath shouldBe WaypointPath(
                     distanceMeters = 0.0,
-                    roadSegmentPlaceIds = listOf("some-place-id-1", "some-place-id-2", "some-place-id-3")
+                    roadSegmentPlaceIds = listOf("some-place-id-1", "some-place-id-2", "some-place-id-3"),
                 )
             }
 
@@ -67,7 +67,7 @@ internal class WaypointPathMapperTest : FreeSpec() {
                     distanceMeters = 123.45,
                     roadSegment = null,
                     source = "some-source",
-                    travelMode = "some-travel-mode"
+                    travelMode = "some-travel-mode",
                 )
 
                 // 🟡 When
@@ -76,7 +76,7 @@ internal class WaypointPathMapperTest : FreeSpec() {
                 // 🟢 Then
                 waypointPath shouldBe WaypointPath(
                     distanceMeters = 123.45,
-                    roadSegmentPlaceIds = emptyList()
+                    roadSegmentPlaceIds = emptyList(),
                 )
             }
 
@@ -90,10 +90,10 @@ internal class WaypointPathMapperTest : FreeSpec() {
                         RoadSegment(duration = null, placeId = null),
                         RoadSegment(duration = null, placeId = "some-place-id-2"),
                         RoadSegment(duration = null, placeId = null),
-                        RoadSegment(duration = null, placeId = "some-place-id-3")
+                        RoadSegment(duration = null, placeId = "some-place-id-3"),
                     ),
                     source = "some-source",
-                    travelMode = "some-travel-mode"
+                    travelMode = "some-travel-mode",
                 )
 
                 // 🟡 When
@@ -102,7 +102,7 @@ internal class WaypointPathMapperTest : FreeSpec() {
                 // 🟢 Then
                 waypointPath shouldBe WaypointPath(
                     distanceMeters = 123.45,
-                    roadSegmentPlaceIds = listOf("some-place-id-1", "some-place-id-2", "some-place-id-3")
+                    roadSegmentPlaceIds = listOf("some-place-id-1", "some-place-id-2", "some-place-id-3"),
                 )
             }
         }
