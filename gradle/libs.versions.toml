@@ -15,6 +15,7 @@ compose = "1.4.0"
 kover = "0.6.1"
 mockk = "1.13.5"
 junit = "5.9.3"
+jSystemThemeDetector = "3.8"
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -46,3 +47,4 @@ kotest-runner-junit5-jvm = { group = "io.kotest", name = "kotest-runner-junit5-j
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
 junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junit" }
+themedetector = { group = "com.github.Dansoftowner", name = "jSystemThemeDetector", version.ref = "jSystemThemeDetector"}

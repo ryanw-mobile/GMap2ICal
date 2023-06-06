@@ -22,6 +22,7 @@ repositories {
     google()
     mavenCentral()
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+    maven { url = uri("https://jitpack.io") }
 }
 
 kotlin {
@@ -41,6 +42,8 @@ kotlin {
 
                 implementation(libs.timezonemap)
                 implementation(libs.napier)
+                implementation(libs.themedetector)
+
                 implementation(libs.retrofit)
                 implementation(libs.retrofit2.kotlin.coroutines.adapter)
                 implementation(libs.retrofit2.kotlinx.serialization.converter)

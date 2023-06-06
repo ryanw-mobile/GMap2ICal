@@ -17,8 +17,10 @@ visit, I would appreciate if you could take things easy when you see me doing so
 ## TL;DR - Status and Roadmap
 
 This App is fully functional.
-
 * 169 unit tests written as at 1 Jan 2023 to protect changes
+* Dark theme auto detect and switching 
+
+### TODO:
 * Unit tests for composable functions (adding, but limited assertions available)
 * Dependency Injection: Dagger 2
 * Integrate SQLite (`SQLDelight`) as preferences store, and Google Maps Place API caches
@@ -60,6 +62,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * [Retrofit2](https://square.github.io/retrofit/) - HTTP Client (Option 2)
 * [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) - For JSON parsing. Replacing Moshi
 * [Time Zone Map](https://github.com/dustin-johnson/timezonemap) - determine time zone
+* [jSystemThemeDetector](https://github.com/Dansoftowner/jSystemThemeDetector) - detect system dark theme setting
 * [Napier](https://github.com/AAkira/Napier) - Logging library for Kotlin Multiplatform
 * [JUnit 5](https://github.com/junit-team/junit5) - Tests
 * [KOTest](https://kotest.io/) - Test framework

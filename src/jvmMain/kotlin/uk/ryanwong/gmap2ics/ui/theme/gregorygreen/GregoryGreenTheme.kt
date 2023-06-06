@@ -7,13 +7,24 @@ package uk.ryanwong.gmap2ics.ui.theme.gregorygreen
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import com.jthemedetecor.OsThemeDetector
+import javax.swing.SwingUtilities
 
 @Composable
-fun GregoryGreenTheme(
-    isSystemInDarkTheme: Boolean = false, // Compose library broken. isSystemInDarkTheme(),
-    content: @Composable () -> Unit,
-) {
+fun GregoryGreenTheme(content: @Composable () -> Unit) {
+    val detector: OsThemeDetector = OsThemeDetector.getDetector()
+    var isSystemInDarkTheme by remember { mutableStateOf(detector.isDark) }
+    detector.registerListener { isDark: Boolean ->
+        SwingUtilities.invokeLater {
+            isSystemInDarkTheme = isDark
+        }
+    }
+
     val colors = if (isSystemInDarkTheme) {
         Colors(
             primary = Color(0xff65dbb2),

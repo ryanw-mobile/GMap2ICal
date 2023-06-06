@@ -29,6 +29,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
+import java.awt.Dimension
+import java.util.Locale
+import java.util.ResourceBundle.getBundle
+import javax.swing.JFileChooser
+import javax.swing.UIManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -44,13 +49,7 @@ import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowTabRow
 import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowUIState
 import uk.ryanwong.gmap2ics.ui.screens.components.SettingsPanel
 import uk.ryanwong.gmap2ics.ui.screens.components.StatusBar
-import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
-import java.awt.Dimension
-import java.util.Locale
-import java.util.ResourceBundle.getBundle
-import javax.swing.JFileChooser
-import javax.swing.UIManager
 
 @Composable
 fun mainScreen(
@@ -118,112 +117,110 @@ fun mainScreen(
             }
         }
 
-        GregoryGreenTheme {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .padding(bottom = 16.dp)
-                        .wrapContentHeight(),
-                ) {
-                    SettingsPanel(
-                        jsonPath = jsonPath,
-                        iCalPath = iCalPath,
-                        onChangeJsonPath = { mainScreenViewModel.onChangeJsonPath() },
-                        onChangeICalPath = { mainScreenViewModel.onChangeICalPath() },
-                        modifier = Modifier.weight(weight = 1.0f, fill = true),
+        Column(modifier = Modifier.fillMaxSize()) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 8.dp)
+                    .padding(bottom = 16.dp)
+                    .wrapContentHeight(),
+            ) {
+                SettingsPanel(
+                    jsonPath = jsonPath,
+                    iCalPath = iCalPath,
+                    onChangeJsonPath = { mainScreenViewModel.onChangeJsonPath() },
+                    onChangeICalPath = { mainScreenViewModel.onChangeICalPath() },
+                    modifier = Modifier.weight(weight = 1.0f, fill = true),
+                    resourceBundle = resourceBundle,
+                    exportOptionsGroup = {
+                        ExportOptionsGroup(
+                            exportPlaceVisit = exportPlaceVisit,
+                            exportActivitySegment = exportActivitySegment,
+                            onExportActivitySegmentClicked = { enabled ->
+                                mainScreenViewModel.setExportActivitySegment(enabled)
+                            },
+                            onExportPlaceVisitClicked = { enabled -> mainScreenViewModel.setExportPlaceVisit(enabled) },
+                            modifier = Modifier.wrapContentSize(),
+                            resourceBundle = resourceBundle,
+                        )
+                    },
+                    extraOptionsGroup = {
+                        ExtraOptionsGroup(
+                            isPlaceApiEnabled = enablePlacesApiLookup,
+                            isVerboseLogEnabled = verboseLogs,
+                            onEnablePlaceApiLookupClicked = { enabled ->
+                                mainScreenViewModel.setEnablePlacesApiLookup(enabled)
+                            },
+                            onVerboseLogClicked = { enabled -> mainScreenViewModel.setVerboseLogs(enabled) },
+                            modifier = Modifier.wrapContentSize(),
+                            resourceBundle = resourceBundle,
+                        )
+                    },
+                )
+
+                if (uiState is MainScreenUIState.Processing) {
+                    CancelActionButton(
+                        onButtonClicked = { mainScreenViewModel.cancelExport() },
                         resourceBundle = resourceBundle,
-                        exportOptionsGroup = {
-                            ExportOptionsGroup(
-                                exportPlaceVisit = exportPlaceVisit,
-                                exportActivitySegment = exportActivitySegment,
-                                onExportActivitySegmentClicked = { enabled ->
-                                    mainScreenViewModel.setExportActivitySegment(enabled)
-                                },
-                                onExportPlaceVisitClicked = { enabled -> mainScreenViewModel.setExportPlaceVisit(enabled) },
-                                modifier = Modifier.wrapContentSize(),
-                                resourceBundle = resourceBundle,
-                            )
-                        },
-                        extraOptionsGroup = {
-                            ExtraOptionsGroup(
-                                isPlaceApiEnabled = enablePlacesApiLookup,
-                                isVerboseLogEnabled = verboseLogs,
-                                onEnablePlaceApiLookupClicked = { enabled ->
-                                    mainScreenViewModel.setEnablePlacesApiLookup(enabled)
-                                },
-                                onVerboseLogClicked = { enabled -> mainScreenViewModel.setVerboseLogs(enabled) },
-                                modifier = Modifier.wrapContentSize(),
-                                resourceBundle = resourceBundle,
-                            )
-                        },
+                        modifier = Modifier.padding(end = 16.dp),
+                    )
+                } else {
+                    val shouldExportButtonEnabled = (uiState == MainScreenUIState.Ready) &&
+                            (exportActivitySegment || exportPlaceVisit)
+                    ExportActionButton(
+                        enabled = shouldExportButtonEnabled,
+                        onButtonClicked = { mainScreenViewModel.startExport() },
+                        resourceBundle = resourceBundle,
+                        modifier = Modifier.padding(end = 16.dp),
+                    )
+                }
+            }
+
+            Spacer(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .height(height = 1.dp)
+                    .background(color = Color.LightGray),
+            )
+
+            LogWindowTabRow(
+                resourceBundle = resourceBundle,
+                logWindowUIState = LogWindowUIState(
+                    exportedCount = exportedLogs.size,
+                    ignoredCount = ignoredLogs.size,
+                    selectedTab = selectLogWindowTab.value,
+                    onTabSelected = { selectedTab -> selectLogWindowTab.value = selectedTab },
+                ),
+            )
+
+            val exportedLazyListState = rememberLazyListState()
+            val exportedScrollState = rememberScrollState()
+            val ignoredLazyListState = rememberLazyListState()
+            val ignoredScrollState = rememberScrollState()
+            when (selectLogWindowTab.value) {
+                LogWindowTab.EXPORTED ->
+                    LogWindow(
+                        logEntries = exportedLogs,
+                        lazyListState = exportedLazyListState,
+                        scrollState = exportedScrollState,
+                        modifier = Modifier
+                            .weight(weight = 1.0f, fill = true),
                     )
 
-                    if (uiState is MainScreenUIState.Processing) {
-                        CancelActionButton(
-                            onButtonClicked = { mainScreenViewModel.cancelExport() },
-                            resourceBundle = resourceBundle,
-                            modifier = Modifier.padding(end = 16.dp),
-                        )
-                    } else {
-                        val shouldExportButtonEnabled = (uiState == MainScreenUIState.Ready) &&
-                            (exportActivitySegment || exportPlaceVisit)
-                        ExportActionButton(
-                            enabled = shouldExportButtonEnabled,
-                            onButtonClicked = { mainScreenViewModel.startExport() },
-                            resourceBundle = resourceBundle,
-                            modifier = Modifier.padding(end = 16.dp),
-                        )
-                    }
-                }
-
-                Spacer(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .height(height = 1.dp)
-                        .background(color = Color.LightGray),
-                )
-
-                LogWindowTabRow(
-                    resourceBundle = resourceBundle,
-                    logWindowUIState = LogWindowUIState(
-                        exportedCount = exportedLogs.size,
-                        ignoredCount = ignoredLogs.size,
-                        selectedTab = selectLogWindowTab.value,
-                        onTabSelected = { selectedTab -> selectLogWindowTab.value = selectedTab },
-                    ),
-                )
-
-                val exportedLazyListState = rememberLazyListState()
-                val exportedScrollState = rememberScrollState()
-                val ignoredLazyListState = rememberLazyListState()
-                val ignoredScrollState = rememberScrollState()
-                when (selectLogWindowTab.value) {
-                    LogWindowTab.EXPORTED ->
-                        LogWindow(
-                            logEntries = exportedLogs,
-                            lazyListState = exportedLazyListState,
-                            scrollState = exportedScrollState,
-                            modifier = Modifier
-                                .weight(weight = 1.0f, fill = true),
-                        )
-
-                    LogWindowTab.IGNORED ->
-                        LogWindow(
-                            logEntries = ignoredLogs,
-                            lazyListState = ignoredLazyListState,
-                            scrollState = ignoredScrollState,
-                            modifier = Modifier
-                                .weight(weight = 1.0f, fill = true),
-                        )
-                }
-
-                StatusBar(
-                    statusMessage = statusMessage,
-                    progress = progress.value,
-                )
+                LogWindowTab.IGNORED ->
+                    LogWindow(
+                        logEntries = ignoredLogs,
+                        lazyListState = ignoredLazyListState,
+                        scrollState = ignoredScrollState,
+                        modifier = Modifier
+                            .weight(weight = 1.0f, fill = true),
+                    )
             }
+
+            StatusBar(
+                statusMessage = statusMessage,
+                progress = progress.value,
+            )
         }
     }
 }

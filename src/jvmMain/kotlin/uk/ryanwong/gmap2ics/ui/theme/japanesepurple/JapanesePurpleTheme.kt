@@ -7,12 +7,23 @@ package uk.ryanwong.gmap2ics.ui.theme.japanesepurple
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import com.jthemedetecor.OsThemeDetector
+import javax.swing.SwingUtilities
 
 @Composable
-fun JapanesePurpleTheme(
-    isSystemInDarkTheme: Boolean = false, // Compose library broken. isSystemInDarkTheme(),
-    content: @Composable () -> Unit,
-) {
+fun JapanesePurpleTheme(content: @Composable () -> Unit) {
+    val detector: OsThemeDetector = OsThemeDetector.getDetector()
+    var isSystemInDarkTheme by remember { mutableStateOf(detector.isDark) }
+    detector.registerListener { isDark: Boolean ->
+        SwingUtilities.invokeLater {
+            isSystemInDarkTheme = isDark
+        }
+    }
+
     val colors = if (isSystemInDarkTheme) {
         Colors(
             primary = md_theme_dark_primary,

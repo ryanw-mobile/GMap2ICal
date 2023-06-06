@@ -8,8 +8,6 @@ import androidx.compose.ui.window.application
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.engine.cio.CIO
-import java.util.Locale
-import java.util.ResourceBundle
 import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.app.configs.ProvideConfig
 import uk.ryanwong.gmap2ics.app.usecases.impl.GetActivitySegmentVEventUseCaseImpl
@@ -30,6 +28,8 @@ import uk.ryanwong.gmap2ics.ui.screens.mainScreen
 import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import us.dustinj.timezonemap.TimeZoneMap
+import java.util.Locale
+import java.util.ResourceBundle
 
 fun main() = application {
     Napier.base(DebugAntilog())
