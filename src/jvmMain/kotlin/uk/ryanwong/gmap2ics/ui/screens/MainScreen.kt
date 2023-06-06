@@ -29,11 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
-import java.awt.Dimension
-import java.util.Locale
-import java.util.ResourceBundle.getBundle
-import javax.swing.JFileChooser
-import javax.swing.UIManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -50,6 +45,11 @@ import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowUIState
 import uk.ryanwong.gmap2ics.ui.screens.components.SettingsPanel
 import uk.ryanwong.gmap2ics.ui.screens.components.StatusBar
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
+import java.awt.Dimension
+import java.util.Locale
+import java.util.ResourceBundle.getBundle
+import javax.swing.JFileChooser
+import javax.swing.UIManager
 
 @Composable
 fun mainScreen(
@@ -166,7 +166,7 @@ fun mainScreen(
                     )
                 } else {
                     val shouldExportButtonEnabled = (uiState == MainScreenUIState.Ready) &&
-                            (exportActivitySegment || exportPlaceVisit)
+                        (exportActivitySegment || exportPlaceVisit)
                     ExportActionButton(
                         enabled = shouldExportButtonEnabled,
                         onButtonClicked = { mainScreenViewModel.startExport() },
