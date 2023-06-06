@@ -2,7 +2,6 @@
  * Copyright (c) 2022. Ryan Wong (hello@ryanwong.co.uk)
  */
 
-import kotlinx.kover.api.KoverMergedConfig
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 @Suppress("DSL_SCOPE_VIOLATION")
@@ -81,42 +80,45 @@ kotlin {
     }
 }
 
-apply(plugin = "kover")
-
-extensions.configure<KoverMergedConfig> {
-    enable()
-}
-
-kover {
-    isDisabled.set(false) // true to disable instrumentation and all Kover tasks in this project
-    engine.set(kotlinx.kover.api.DefaultIntellijEngine)
+koverReport {
+    // common filters for all reports of all variants
     filters {
-        classes {
-            excludes.addAll(
+        // exclusions for reports
+        excludes {
+            // excludes class by fully-qualified JVM class name, wildcards '*' and '?' are available
+            classes(
+                listOf(
+                    "uk.ryanwong.gmap2ics.ComposableSingletons*",
+                    "uk.ryanwong.gmap2ics.MainKt",
+                ),
+            )
+            // excludes all classes located in specified package and it subpackages, wildcards '*' and '?' are available
+            packages(
                 listOf(
                     "uk.ryanwong.gmap2ics.app.configs.*",
                     "uk.ryanwong.gmap2ics.ui.screens.*",
-                    "uk.ryanwong.gmap2ics.ComposableSingletons*",
                     "uk.ryanwong.gmap2ics.ui.theme.*",
-                    "uk.ryanwong.gmap2ics.MainKt",
                 ),
             )
         }
     }
 
-    xmlReport {
-        // true to run koverXmlReport task during the execution of the check task (if it exists) of the current project
-        onCheck.set(true)
-    }
+    // configure default reports - for Kotlin/JVM or Kotlin/MPP projects or merged android variants
+    defaults {
+        //  generate an XML report when running the `check` task
+        xml {
+            onCheck = true
+        }
 
-    htmlReport {
-        // true to run koverHtmlReport task during the execution of the check task (if it exists) of the current project
-        onCheck.set(true)
-    }
+        //  generate a HTML report when running the `check` task
+        html {
+            onCheck = true
+        }
 
-    verify {
-        // true to run koverVerify task during the execution of the check task (if it exists) of the current project
-        onCheck.set(true)
+        //  verify coverage when running the `check` task
+        verify {
+            onCheck = true
+        }
     }
 }
 
@@ -132,6 +134,7 @@ compose.desktop {
 }
 
 tasks.withType<Test>().configureEach {
+    // This is for kotest
     useJUnitPlatform()
     jvmArgs = mutableListOf("--enable-preview")
 }
