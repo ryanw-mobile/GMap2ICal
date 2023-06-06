@@ -1,16 +1,16 @@
 [versions]
-application-version = "1.0.0"
-kotlin = "1.8.10"
-kotlinx-serialization = "1.5.1"
+packageVersion = "1.0.0"
+kotlin = "1.8.20"
+kotlinxSerialization = "1.5.1"
 coroutines = "1.7.1"
 kotest = "5.6.2"
-ktor = "2.3.0"
+ktor = "2.3.1"
 timezonemap = "4.5"
 retrofit = "2.9.0"
-retrofit2-kotlin-coroutines-adapter = "0.9.2"
-retrofit2-kotlinx-serialization-converter = "1.0.0"
+retrofitKotlinCoroutinesAdapter = "0.9.2"
+retrofitKotlinxSerializationConverter = "1.0.0"
 napier = "2.6.1"
-gradle-ktlint = "11.3.2"
+gradleKtlint = "11.3.2"
 compose = "1.4.0"
 kover = "0.6.1"
 mockk = "1.13.5"
@@ -20,7 +20,7 @@ junit = "5.9.3"
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotest = { id = "io.kotest.multiplatform", version.ref = "kotest" }
-gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "gradle-ktlint" }
+gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "gradleKtlint" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 
@@ -28,14 +28,12 @@ kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 kotlinx-coroutines-core-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core-jvm", version.ref = "coroutines" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "coroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-# junit4", name = " troubleshooting may try 1.2.0-alpha01-dev620
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 compose-ui-test-junit4 = { group = "org.jetbrains.compose.ui", name = "ui-test-junit4", version.ref = "compose" }
 timezonemap = { group = "us.dustinj.timezonemap", name = "timezonemap", version.ref = "timezonemap" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-retrofit2-kotlin-coroutines-adapter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlin-coroutines-adapter", version.ref = "retrofit2-kotlin-coroutines-adapter" }
-retrofit2-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2-kotlinx-serialization-converter" }
-ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+retrofit2-kotlin-coroutines-adapter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlin-coroutines-adapter", version.ref = "retrofitKotlinCoroutinesAdapter" }
+retrofit2-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationConverter" }
 ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
