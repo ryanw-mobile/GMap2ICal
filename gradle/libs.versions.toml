@@ -14,7 +14,7 @@ gradleKtlint = "11.5.0"
 compose = "1.4.0"
 kover = "0.7.1"
 mockk = "1.13.5"
-junit = "5.9.3"
+junit = "5.10.0"
 jSystemThemeDetector = "3.8"
 
 [plugins]
