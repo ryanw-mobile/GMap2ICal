@@ -3,12 +3,19 @@
   "extends": [
     "config:base"
   ],
+  "assignAutomerge": true,
+  "assignees": [
+    "ryanwong-uk"
+  ],
+  "reviewers": [
+    "ryanwong-uk"
+  ],
   "commitMessagePrefix": "[chore] Renovate: ",
   "commitMessageExtra": "{{{currentValue}}} to {{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if isMajor}}{{prettyNewMajor}}{{else}}{{#if isSingleVersion}}{{prettyNewVersion}}{{else}}{{#if newValue}}{{{newValue}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if}}{{/if}}{{/if}}",
   "packageRules": [
     {
       "matchPackagePatterns": [
-        "org.jetbrains.compose"
+        "androidx.compose.compiler:compiler"
       ],
       "groupName": "kotlin"
     },
@@ -17,6 +24,13 @@
         "org.jetbrains.kotlin.*"
       ],
       "groupName": "kotlin"
+    },
+    {
+      "matchPackagePatterns": [
+        "com.google.devtools.ksp"
+      ],
+      "groupName": "kotlin"
     }
-  ]
+  ],
+  "automerge": true
 }
