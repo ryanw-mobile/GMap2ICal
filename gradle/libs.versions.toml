@@ -13,7 +13,7 @@ napier = "2.6.1"
 gradleKtlint = "11.5.1"
 compose = "1.5.2"
 kover = "0.7.3"
-mockk = "1.13.7"
+mockk = "1.13.8"
 junit = "5.10.0"
 jSystemThemeDetector = "3.8"
 
