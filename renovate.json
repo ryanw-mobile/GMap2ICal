@@ -3,7 +3,7 @@
   "extends": [
     "config:base"
   ],
-  "assignAutomerge": true,
+  "assignAutomerge": false,
   "assignees": [
     "ryanwong-uk"
   ],
@@ -32,5 +32,6 @@
       "groupName": "kotlin"
     }
   ],
-  "automerge": true
+  "automerge": true,
+  "platformAutomerge": true
 }
