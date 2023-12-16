@@ -40,6 +40,7 @@ fun StatusBar(
         Text(
             text = statusMessage,
             style = MaterialTheme.typography.caption,
+            color = MaterialTheme.colors.onBackground,
             textAlign = TextAlign.Left,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
