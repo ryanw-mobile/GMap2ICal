@@ -55,8 +55,8 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation("org.jetbrains.skiko:skiko-awt-runtime-$target:$version")
-                implementation(compose.desktop.macos_arm64)
-                // implementation(compose.desktop.currentOs)
+                // implementation(compose.desktop.macos_arm64)
+                implementation(compose.desktop.currentOs)
             }
         }
     }
