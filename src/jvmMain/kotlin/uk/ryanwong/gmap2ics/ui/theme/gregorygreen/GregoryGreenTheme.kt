@@ -27,18 +27,18 @@ fun GregoryGreenTheme(content: @Composable () -> Unit) {
 
     val colors = if (isSystemInDarkTheme) {
         Colors(
-            primary = Color(0xff65dbb2),
+            primary = Color(0xff006c51),
             onPrimary = Color(0xff003829),
             primaryVariant = Color(0xff00513c),
             secondary = Color(0xffb3ccc0),
             onSecondary = Color(0xff1e352c),
             secondaryVariant = Color(0xff354c42),
-            background = Color(0xff191c1a),
+            background = Color(0xff2b2d30),
             onBackground = Color(0xffe1e3e0),
             surface = Color(0xff191c1a),
             onSurface = Color(0xffe1e3e0),
-            error = Color(0xffffb4ab),
-            onError = Color(0xff690005),
+            error = Color(0xffba1a1a),
+            onError = Color(0xffffb4ab),
             isLight = false,
         )
     } else {

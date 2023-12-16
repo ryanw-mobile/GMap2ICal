@@ -77,6 +77,7 @@ fun PathPickerItem(
                 maxLines = 1,
                 modifier = Modifier.padding(horizontal = 8.dp),
                 fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colors.onBackground,
             )
 
             Text(
@@ -84,6 +85,7 @@ fun PathPickerItem(
                 style = MaterialTheme.typography.caption,
                 overflow = TextOverflow.Clip,
                 maxLines = 2,
+                color = MaterialTheme.colors.onBackground,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),

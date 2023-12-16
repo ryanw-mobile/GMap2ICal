@@ -71,7 +71,7 @@ fun LogWindowTabRow(
     val bubbleStateNormalBackground = Color.LightGray
     val bubbleStateNormalTextColor = Color.Black
     val bubbleStateActiveBackground = MaterialTheme.colors.primaryVariant
-    val bubbleStateActiveTextColor = MaterialTheme.colors.onBackground
+    val bubbleStateActiveTextColor = Color.White
 
     Row(
         modifier = modifier
@@ -175,7 +175,7 @@ fun LogWindow(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp)
-                    .background(color = Color.White)
+                    .background(color = MaterialTheme.colors.background)
                     .border(width = 1.dp, color = Color.Gray)
                     .scrollable(
                         enabled = true,
@@ -199,6 +199,7 @@ fun LogWindow(
                                 style = MaterialTheme.typography.body1,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
+                                color = MaterialTheme.colors.onBackground,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = 8.dp),
@@ -245,11 +246,11 @@ private fun LogWindowPreview() {
             logEntries = listOf(
                 UILogEntry(
                     emoji = "👨🏻‍🦲",
-                    message = "some very very very very very very very very very very very very very very very very very very very very  long text",
+                    message = "some very long text".repeat(5),
                 ),
                 UILogEntry(
                     emoji = "👨🏻‍🦲",
-                    message = "some very very very very very very very very very very very very very very very very very very very very  long text",
+                    message = "some very long text".repeat(5),
                 ),
             ),
             lazyListState = rememberLazyListState(),

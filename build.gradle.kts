@@ -49,7 +49,7 @@ kotlin {
     }
 
     val version = "0.7.70" // or any more recent version
-    val target = "${targetOs}-${targetArch}"
+    val target = "$targetOs-$targetArch"
 
     sourceSets {
         val jvmMain by getting {

@@ -61,6 +61,7 @@ fun ExportActionButton(
                 .width(IntrinsicSize.Max)
                 .wrapContentHeight(),
             style = MaterialTheme.typography.caption,
+            color = MaterialTheme.colors.onBackground,
         )
     }
 }
