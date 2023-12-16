@@ -14,10 +14,10 @@ import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
 import us.dustinj.timezonemap.TimeZone
 
 internal object GetPlaceVisitVEventUseCaseImplTestData {
-    private const val someLatitudeE7 = 263383300
-    private const val someLongitudeE7 = 1278000000
-    private const val someDegreesLatitude = 26.3383300
-    private const val someDegreesLongitude = 127.8000000
+    private const val SOME_LATITUDE_E7 = 263383300
+    private const val SOME_LONGITUDE_E7 = 1278000000
+    private const val SOME_DEGREES_LATITUDE = 26.3383300
+    private const val SOME_DEGREES_LONGITUDE = 127.8000000
 
     val mockPlaceVisit by lazy {
         PlaceVisit(
@@ -27,8 +27,8 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
             lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
             location = Location(
                 placeId = "some-place-id",
-                latitudeE7 = someLatitudeE7,
-                longitudeE7 = someLongitudeE7,
+                latitudeE7 = SOME_LATITUDE_E7,
+                longitudeE7 = SOME_LONGITUDE_E7,
             ),
             childVisits = emptyList(),
             eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon()),
@@ -45,7 +45,7 @@ internal object GetPlaceVisitVEventUseCaseImplTestData {
             dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
             summary = "\uD83C\uDFE7 some-place-name",
             location = "some-formatted-address",
-            geo = LatLng(latitude = someDegreesLatitude, longitude = someDegreesLongitude),
+            geo = LatLng(latitude = SOME_DEGREES_LATITUDE, longitude = SOME_DEGREES_LONGITUDE),
             description = "Place ID:\\nsome-place-id\\n\\nGoogle Maps URL:\\nhttps://some.url/",
             url = "https://some.url/",
             lastModified = "2011-11-11T11:22:22.222Z",

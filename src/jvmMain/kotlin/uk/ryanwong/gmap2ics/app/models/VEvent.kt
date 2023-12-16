@@ -55,12 +55,12 @@ data class VEvent(
                 }
 
                 val subject = "${activityType.emoji} $distanceString ${
-                ActivitySegmentFormatter.parseActivityRouteText(
-                    startPlaceDetails = startPlaceDetails,
-                    endPlaceDetails = endPlaceDetails,
-                    startLocation = startLocation.name,
-                    endLocation = endLocation.name,
-                )
+                    ActivitySegmentFormatter.parseActivityRouteText(
+                        startPlaceDetails = startPlaceDetails,
+                        endPlaceDetails = endPlaceDetails,
+                        startLocation = startLocation.name,
+                        endLocation = endLocation.name,
+                    )
                 }"
 
                 // Try to extract more meaningful information than just the miles travelled
@@ -162,17 +162,17 @@ data class VEvent(
             append(
                 // X-Title string has not much value. keep that simple.
                 "X-TITLE=\"${
-                xTitle.replace(oldValue = "\n", newValue = " ")
-                    .replace(oldValue = ",", newValue = " ")
+                    xTitle.replace(oldValue = "\n", newValue = " ")
+                        .replace(oldValue = ",", newValue = " ")
                 }\":geo:${geo?.getFormattedLatLng() ?: "0,0"}\n",
             )
             append("UID:$uid\n")
             append("DTSTAMP:$dtStamp\n")
             append(
                 "LOCATION:${
-                location
-                    .replace(oldValue = "\n", newValue = ", ")
-                    .replace(oldValue = ",", newValue = "\\,")
+                    location
+                        .replace(oldValue = "\n", newValue = ", ")
+                        .replace(oldValue = ",", newValue = "\\,")
                 }\n",
             )
             append("SUMMARY:$summary\n")
