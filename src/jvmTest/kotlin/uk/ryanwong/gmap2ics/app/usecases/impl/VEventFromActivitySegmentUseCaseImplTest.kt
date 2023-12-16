@@ -11,9 +11,9 @@ import uk.ryanwong.gmap2ics.app.models.VEvent
 import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.app.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData
+import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.SOME_END_DEGREES_LATITUDE
+import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.SOME_END_DEGREES_LONGITUDE
 import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.mockActivitySegment
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.someEndDegreesLatitude
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegmentAppModelTestData.someEndDegreesLongitude
 import uk.ryanwong.gmap2ics.data.repository.impl.PlaceDetailsNotFoundException
 import uk.ryanwong.gmap2ics.data.repository.mocks.MockPlaceDetailsRepository
 import uk.ryanwong.gmap2ics.data.source.googleapi.GetPlaceDetailsAPIErrorException
@@ -53,7 +53,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                     placeId = "some-place-id",
                     name = "some-place-name",
                     formattedAddress = "some-formatted-address",
-                    geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
+                    geo = LatLng(latitude = SOME_END_DEGREES_LATITUDE, longitude = SOME_END_DEGREES_LONGITUDE),
                     types = listOf("ATM"),
                     url = "https://some.url/",
                 ),
@@ -67,7 +67,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                 summary = "✈️ 0.1km (some-place-name ➡ some-place-name)",
                 location = "some-formatted-address",
-                geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
+                geo = LatLng(latitude = SOME_END_DEGREES_LATITUDE, longitude = SOME_END_DEGREES_LONGITUDE),
                 description = "Start Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-place-id\\n\\nEnd Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-place-id\\n\\nFirst segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\nLast segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\n",
                 url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
                 lastModified = "2011-11-11T11:22:22.222Z",
@@ -95,7 +95,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                     placeId = "some-place-id",
                     name = "some-place-name",
                     formattedAddress = "some-formatted-address",
-                    geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
+                    geo = LatLng(latitude = SOME_END_DEGREES_LATITUDE, longitude = SOME_END_DEGREES_LONGITUDE),
                     types = listOf("ATM"),
                     url = "https://some.url/",
                 ),
@@ -109,7 +109,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                 summary = "✈️ 0.1km (some-place-name ➡ some-place-name)",
                 location = "some-formatted-address",
-                geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
+                geo = LatLng(latitude = SOME_END_DEGREES_LATITUDE, longitude = SOME_END_DEGREES_LONGITUDE),
                 description = "Start Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-place-id\\n\\nEnd Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-place-id\\n\\nFirst segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\nLast segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\n",
                 url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
                 lastModified = "2011-11-11T11:22:22.222Z",
@@ -135,7 +135,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                     placeId = "some-place-id",
                     name = "some-place-name",
                     formattedAddress = "some-formatted-address",
-                    geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
+                    geo = LatLng(latitude = SOME_END_DEGREES_LATITUDE, longitude = SOME_END_DEGREES_LONGITUDE),
                     types = listOf("ATM"),
                     url = "https://some.url/",
                 ),
@@ -149,7 +149,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 dtEnd = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
                 summary = "✈️ 0.1km (some-place-name ➡ some-place-name)",
                 location = "some-formatted-address",
-                geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
+                geo = LatLng(latitude = SOME_END_DEGREES_LATITUDE, longitude = SOME_END_DEGREES_LONGITUDE),
                 description = "Start Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-place-id\\n\\nEnd Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-place-id\\n\\nFirst segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\nLast segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\n",
                 url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
                 lastModified = "2011-11-11T11:22:22.222Z",
@@ -242,7 +242,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                         placeId = "some-place-id",
                         name = "some-place-name",
                         formattedAddress = "some-formatted-address",
-                        geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
+                        geo = LatLng(latitude = SOME_END_DEGREES_LATITUDE, longitude = SOME_END_DEGREES_LONGITUDE),
                         types = listOf("ATM"),
                         url = "https://some.url/",
                     ),
@@ -284,7 +284,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                         placeId = "some-place-id",
                         name = "some-place-name",
                         formattedAddress = "some-formatted-address",
-                        geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
+                        geo = LatLng(latitude = SOME_END_DEGREES_LATITUDE, longitude = SOME_END_DEGREES_LONGITUDE),
                         types = listOf("ATM"),
                         url = "https://some.url/",
                     ),
@@ -326,7 +326,7 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                         placeId = "some-place-id",
                         name = "some-place-name",
                         formattedAddress = "some-formatted-address",
-                        geo = LatLng(latitude = someEndDegreesLatitude, longitude = someEndDegreesLongitude),
+                        geo = LatLng(latitude = SOME_END_DEGREES_LATITUDE, longitude = SOME_END_DEGREES_LONGITUDE),
                         types = listOf("ATM"),
                         url = "https://some.url/",
                     ),

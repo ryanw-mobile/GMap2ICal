@@ -30,8 +30,8 @@ class GetActivitySegmentVEventUseCaseImplTest : FreeSpec() {
         summary = "✈️ 0.1km (some-place-name ➡ some-place-name)",
         location = "some-formatted-address",
         geo = LatLng(
-            latitude = ActivitySegmentAppModelTestData.someEndDegreesLatitude,
-            longitude = ActivitySegmentAppModelTestData.someEndDegreesLongitude,
+            latitude = ActivitySegmentAppModelTestData.SOME_END_DEGREES_LATITUDE,
+            longitude = ActivitySegmentAppModelTestData.SOME_END_DEGREES_LONGITUDE,
         ),
         description = "Start Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-start-place-id\\n\\nEnd Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-end-place-id\\n\\nFirst segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\nLast segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\n",
         url = "https://www.google.com/maps/place/?q=place_id:some-end-place-id",
