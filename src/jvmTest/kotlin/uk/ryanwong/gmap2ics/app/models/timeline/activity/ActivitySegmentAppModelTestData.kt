@@ -11,12 +11,12 @@ import uk.ryanwong.gmap2ics.app.models.timeline.Location
 import us.dustinj.timezonemap.TimeZone
 
 internal object ActivitySegmentAppModelTestData {
-    const val someStartLatitudeE7 = 263383300
-    const val someStartLongitudeE7 = 1278000000
-    const val someEndLatitudeE7 = 263393300
-    const val someEndLongitudeE7 = 1278500000
-    const val someEndDegreesLatitude = 26.3393300
-    const val someEndDegreesLongitude = 127.8500000
+    private const val SOME_START_LATITUDE_E7 = 263383300
+    private const val SOME_START_LONGITUDE_E7 = 1278000000
+    private const val SOME_END_LATITUDE_E7 = 263393300
+    private const val SOME_END_LONGITUDE_E7 = 1278500000
+    const val SOME_END_DEGREES_LATITUDE = 26.3393300
+    const val SOME_END_DEGREES_LONGITUDE = 127.8500000
 
     val mockActivitySegment = ActivitySegment(
         activities = listOf(
@@ -31,15 +31,15 @@ internal object ActivitySegmentAppModelTestData {
         durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
         endLocation = Location(
             address = null,
-            latitudeE7 = someEndLatitudeE7,
-            longitudeE7 = someEndLongitudeE7,
+            latitudeE7 = SOME_END_LATITUDE_E7,
+            longitudeE7 = SOME_END_LONGITUDE_E7,
             name = null,
             placeId = "some-end-place-id",
         ),
         startLocation = Location(
             address = null,
-            latitudeE7 = someStartLatitudeE7,
-            longitudeE7 = someStartLongitudeE7,
+            latitudeE7 = SOME_START_LATITUDE_E7,
+            longitudeE7 = SOME_START_LONGITUDE_E7,
             name = null,
             placeId = "some-start-place-id",
         ),
@@ -68,15 +68,15 @@ internal object ActivitySegmentAppModelTestData {
         durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
         endLocation = Location(
             address = null,
-            latitudeE7 = someEndLatitudeE7,
-            longitudeE7 = someEndLongitudeE7,
+            latitudeE7 = SOME_END_LATITUDE_E7,
+            longitudeE7 = SOME_END_LONGITUDE_E7,
             name = null,
             placeId = "some-end-place-id",
         ),
         startLocation = Location(
             address = null,
-            latitudeE7 = someStartLatitudeE7,
-            longitudeE7 = someStartLongitudeE7,
+            latitudeE7 = SOME_START_LATITUDE_E7,
+            longitudeE7 = SOME_START_LONGITUDE_E7,
             name = null,
             placeId = null,
         ),
@@ -105,15 +105,15 @@ internal object ActivitySegmentAppModelTestData {
         durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
         endLocation = Location(
             address = null,
-            latitudeE7 = someEndLatitudeE7,
-            longitudeE7 = someEndLongitudeE7,
+            latitudeE7 = SOME_END_LATITUDE_E7,
+            longitudeE7 = SOME_END_LONGITUDE_E7,
             name = null,
             placeId = null,
         ),
         startLocation = Location(
             address = null,
-            latitudeE7 = someStartLatitudeE7,
-            longitudeE7 = someStartLongitudeE7,
+            latitudeE7 = SOME_START_LATITUDE_E7,
+            longitudeE7 = SOME_START_LONGITUDE_E7,
             name = null,
             placeId = "some-start-place-id",
         ),
@@ -142,15 +142,15 @@ internal object ActivitySegmentAppModelTestData {
         durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
         endLocation = Location(
             address = null,
-            latitudeE7 = someEndLatitudeE7,
-            longitudeE7 = someEndLongitudeE7,
+            latitudeE7 = SOME_END_LATITUDE_E7,
+            longitudeE7 = SOME_END_LONGITUDE_E7,
             name = null,
             placeId = "some-end-place-id",
         ),
         startLocation = Location(
             address = null,
-            latitudeE7 = someStartLatitudeE7,
-            longitudeE7 = someStartLongitudeE7,
+            latitudeE7 = SOME_START_LATITUDE_E7,
+            longitudeE7 = SOME_START_LONGITUDE_E7,
             name = null,
             placeId = "some-start-place-id",
         ),
@@ -172,15 +172,15 @@ internal object ActivitySegmentAppModelTestData {
         durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Europe/London"),
         endLocation = Location(
             address = null,
-            latitudeE7 = someEndLatitudeE7,
-            longitudeE7 = someEndLongitudeE7,
+            latitudeE7 = SOME_END_LATITUDE_E7,
+            longitudeE7 = SOME_END_LONGITUDE_E7,
             name = null,
             placeId = null,
         ),
         startLocation = Location(
             address = null,
-            latitudeE7 = someStartLatitudeE7,
-            longitudeE7 = someStartLongitudeE7,
+            latitudeE7 = SOME_START_LATITUDE_E7,
+            longitudeE7 = SOME_START_LONGITUDE_E7,
             name = null,
             placeId = null,
         ),
