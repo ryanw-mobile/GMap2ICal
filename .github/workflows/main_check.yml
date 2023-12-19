@@ -1,0 +1,35 @@
+name: Gradle Check on Main
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: gradle
+
+      - name: Copy ConfigProvider for CI
+        run: cp src/jvmTest/kotlin/uk/ryanwong/gmap2ics/app/configs/ProvideConfig.kt src/jvmMain/kotlin/uk/ryanwong/gmap2ics/app/configs/ProvideConfig.kt
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Run Gradle check
+        run: ./gradlew check --no-daemon
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
