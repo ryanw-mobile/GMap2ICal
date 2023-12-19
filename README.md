@@ -1,6 +1,6 @@
 # GMap2iCal - Google Maps Timeline to iCal
 
-[![Build Status](https://app.bitrise.io/app/0667f15b93a99b17/status.svg?token=2nCEgRSOnFG82N7YWNSPBQ&branch=main)](https://app.bitrise.io/app/0667f15b93a99b17) [![codecov](https://codecov.io/github/ryanw-mobile/GMap2ICal/graph/badge.svg?token=4NZUBRYHT0)](https://codecov.io/github/ryanw-mobile/GMap2ICal)
+![Gradle Check on Main](https://github.com/ryanw-mobile/GMap2ICal/actions/workflows/main_check.yml/badge.svg) [![codecov](https://codecov.io/github/ryanw-mobile/GMap2ICal/graph/badge.svg?token=4NZUBRYHT0)](https://codecov.io/github/ryanw-mobile/GMap2ICal)
 
 ### My first Compose for Desktop App
 
