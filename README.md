@@ -1,6 +1,8 @@
-# GMap2iCal - Google Maps Timeline to iCal
+# GMap2iCal - Google Maps Timeline to iCal ![Gradle Check on Main](https://github.com/ryanw-mobile/GMap2ICal/actions/workflows/main_check.yml/badge.svg) [![codecov](https://codecov.io/github/ryanw-mobile/GMap2ICal/graph/badge.svg?token=4NZUBRYHT0)](https://codecov.io/github/ryanw-mobile/GMap2ICal)
 
-![Gradle Check on Main](https://github.com/ryanw-mobile/GMap2ICal/actions/workflows/main_check.yml/badge.svg) [![codecov](https://codecov.io/github/ryanw-mobile/GMap2ICal/graph/badge.svg?token=4NZUBRYHT0)](https://codecov.io/github/ryanw-mobile/GMap2ICal)
+<p align="center">
+  <img src="cover.png" style="width: 100%; max-width: 1000px; height: auto;">
+</p>
 
 ### My first Compose for Desktop App
 
@@ -12,15 +14,17 @@ This is my first non-Android Kotlin project. It is within expectation that every
 I treat this as my playground that allows me to make all kinds of experiments and mistakes. While I thank you for your
 visit, I would appreciate if you could take things easy when you see me doing something crazy here. Thank you.
 
-<div style="text-align:center"><img src="screenshot-221226.png" /></div>
+<div style="text-align:center"><img src="screenshot-221226.png" style="width: 100%; max-width: 1000px; height: auto;" /></div>
 
 ## TL;DR - Status and Roadmap
 
 This App is fully functional.
+
 * 169 unit tests written as at 1 Jan 2023 to protect changes
-* Dark theme auto detect and switching 
+* Dark theme auto detect and switching
 
 ### TODO:
+
 * Unit tests for composable functions (adding, but limited assertions available)
 * Dependency Injection: Koin (as 👨🏻‍🦲likes it)
 * Integrate SQLite (`SQLDelight`) as preferences store, and Google Maps Place API caches
@@ -75,7 +79,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 
 ## How to export the Google Maps Timeline as the data set for processing
 
-<div style="text-align:center"><img src="preview.png" /></div>.
+<div style="text-align:center"><img src="preview.png" style="width: 100%; max-width: 1000px; height: auto;" /></div>.
 
 1. Go to [Google Takeout](https://takeout.google.com/)
 2. Make sure you have included **"Location History"** in your export request.
