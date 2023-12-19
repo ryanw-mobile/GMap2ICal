@@ -1,10 +1,11 @@
-# GMap2iCal - Google Maps Timeline to iCal ![Gradle Check on Main](https://github.com/ryanw-mobile/GMap2ICal/actions/workflows/main_check.yml/badge.svg) [![codecov](https://codecov.io/github/ryanw-mobile/GMap2ICal/graph/badge.svg?token=4NZUBRYHT0)](https://codecov.io/github/ryanw-mobile/GMap2ICal)
+# GMap2iCal - Google Maps Timeline to iCal <br/>![Gradle Check on Main](https://github.com/ryanw-mobile/GMap2ICal/actions/workflows/main_check.yml/badge.svg) [![codecov](https://codecov.io/github/ryanw-mobile/GMap2ICal/graph/badge.svg?token=4NZUBRYHT0)](https://codecov.io/github/ryanw-mobile/GMap2ICal)
+### My first Compose for Desktop App
 
 <p align="center">
   <img src="cover.png" style="width: 100%; max-width: 1000px; height: auto;">
 </p>
 
-### My first Compose for Desktop App
+
 
 A small utility written in Kotlin to convert Google Maps Activity Timeline to iCal (.ics) files for calendar import.
 
