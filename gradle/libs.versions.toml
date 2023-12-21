@@ -1,6 +1,6 @@
 [versions]
 packageVersion = "1.0.0"
-kotlin = "1.9.21"
+kotlin = "1.9.22"
 kotlinxSerialization = "1.6.2"
 coroutines = "1.7.3"
 kotest = "5.8.0"
