@@ -1,6 +1,6 @@
 [versions]
 packageVersion = "1.0.0"
-kotlin = "1.9.22"
+kotlin = "1.9.21"
 kotlinxSerialization = "1.6.2"
 coroutines = "1.7.3"
 kotest = "5.8.0"
@@ -47,4 +47,4 @@ kotest-runner-junit5-jvm = { group = "io.kotest", name = "kotest-runner-junit5-j
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
 junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junit" }
-themedetector = { group = "com.github.Dansoftowner", name = "jSystemThemeDetector", version.ref = "jSystemThemeDetector"}
+themedetector = { group = "com.github.Dansoftowner", name = "jSystemThemeDetector", version.ref = "jSystemThemeDetector" }
