@@ -5,6 +5,8 @@
 package uk.ryanwong.gmap2ics
 
 import androidx.compose.ui.window.application
+import dev.icerock.moko.mvvm.compose.getViewModel
+import dev.icerock.moko.mvvm.compose.viewModelFactory
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 import io.ktor.client.engine.cio.CIO
@@ -55,11 +57,10 @@ fun main() = application {
         vEventFromChildVisitUseCase = VEventFromChildVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository),
         vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = placeDetailsRepository),
     )
-
-    GregoryGreenTheme {
-        mainScreen(
-            onCloseRequest = { exitApplication() },
-            mainScreenViewModel = MainScreenViewModel(
+    val viewModel = getViewModel(
+        key = "main-screen",
+        factory = viewModelFactory {
+            MainScreenViewModel(
                 configFile = configFile,
                 resourceBundle = resourceBundle,
                 timelineRepository = TimelineRepositoryImpl(
@@ -74,7 +75,14 @@ fun main() = application {
                 ),
                 getOutputFilenameUseCase = GetOutputFilenameUseCaseImpl(),
                 getPlaceVisitVEventUseCase = getPlaceVisitVEventUseCase,
-            ),
+            )
+        },
+    )
+
+    GregoryGreenTheme {
+        mainScreen(
+            onCloseRequest = { exitApplication() },
+            mainScreenViewModel = viewModel,
         )
     }
 }

@@ -4,8 +4,8 @@
 
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
+import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,7 +35,7 @@ class MainScreenViewModel(
     private val resourceBundle: ResourceBundle,
     private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/"),
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
-) {
+) : ViewModel() {
     private var _mainScreenUIState: MutableStateFlow<MainScreenUIState> = MutableStateFlow(MainScreenUIState.Ready)
     val mainScreenUIState: StateFlow<MainScreenUIState> = _mainScreenUIState
 
@@ -67,7 +67,6 @@ class MainScreenViewModel(
     val verboseLogs: StateFlow<Boolean> = _verboseLogs
 
     private var coroutineJob: Job? = null
-    private val viewModelScope = CoroutineScope(dispatcher)
 
     init {
         // Default values, overridable from UI

@@ -25,10 +25,10 @@ repositories {
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "17"
         }
         withJava()
     }
@@ -81,6 +81,9 @@ kotlin {
                 implementation(libs.ktor.client.cio)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
+
+                api(libs.moko.mvvm.core)
+                api(libs.moko.mvvm.compose)
             }
         }
 
@@ -90,6 +93,8 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
 
+                implementation(libs.kotlin.test)
+                implementation(libs.kotlin.test.junit)
                 implementation(libs.kotlinx.coroutines.test)
                 implementation(libs.mockk)
                 implementation(libs.ktor.client.mock)
@@ -102,6 +107,8 @@ kotlin {
                 implementation(libs.kotest.runner.junit5.jvm)
                 implementation(libs.kotest.assertions.core)
                 implementation(libs.kotest.property)
+
+                implementation(libs.moko.mvvm.test)
             }
         }
     }

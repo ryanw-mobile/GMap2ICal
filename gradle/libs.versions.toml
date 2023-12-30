@@ -16,6 +16,8 @@ kover = "0.7.5"
 mockk = "1.13.8"
 junit = "5.10.1"
 jSystemThemeDetector = "3.8"
+mokoMvvm = "0.16.1"
+kotlinTest = "1.8.10"
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -30,6 +32,8 @@ kotlinx-coroutines-core-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "coroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+kotlin-test-junit =  { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlinTest" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 compose-ui-test-junit4 = { group = "org.jetbrains.compose.ui", name = "ui-test-junit4", version.ref = "compose" }
 timezonemap = { group = "us.dustinj.timezonemap", name = "timezonemap", version.ref = "timezonemap" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
@@ -48,3 +52,6 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
 junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junit" }
 themedetector = { group = "com.github.Dansoftowner", name = "jSystemThemeDetector", version.ref = "jSystemThemeDetector" }
+moko-mvvm-core = { group = "dev.icerock.moko", name = "mvvm-core", version.ref = "mokoMvvm" }
+moko-mvvm-compose = { group = "dev.icerock.moko", name = "mvvm-compose", version.ref = "mokoMvvm" }
+moko-mvvm-test = { group = "dev.icerock.moko", name = "mvvm-test", version.ref = "mokoMvvm" }
