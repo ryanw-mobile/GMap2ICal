@@ -4,11 +4,16 @@
 
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
+import dev.icerock.moko.mvvm.test.TestViewModelScope
 import io.kotest.core.spec.style.FreeSpec
+import io.kotest.core.test.TestCase
+import io.kotest.core.test.TestResult
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -74,17 +79,28 @@ internal class MainScreenViewModelTest : FreeSpec() {
         mockGetPlaceVisitVEventUseCase = MockGetPlaceVisitVEventUseCase()
         mockResourceBundle = mockk()
 
-        mainScreenViewModel = MainScreenViewModel(
-            configFile = MockConfig(),
-            timelineRepository = mockTimelineRepository,
-            localFileRepository = mockLocalFileRepository,
-            getActivitySegmentVEventUseCase = mockGetActivitySegmentVEventUseCase,
-            getOutputFilenameUseCase = mockGetOutputFilenameUseCase,
-            getPlaceVisitVEventUseCase = mockGetPlaceVisitVEventUseCase,
-            resourceBundle = mockResourceBundle,
-            projectBasePath = mockProjectBasePath,
-            dispatcher = UnconfinedTestDispatcher(),
-        )
+        mainScreenViewModel =
+            MainScreenViewModel(
+                configFile = MockConfig(),
+                timelineRepository = mockTimelineRepository,
+                localFileRepository = mockLocalFileRepository,
+                getActivitySegmentVEventUseCase = mockGetActivitySegmentVEventUseCase,
+                getOutputFilenameUseCase = mockGetOutputFilenameUseCase,
+                getPlaceVisitVEventUseCase = mockGetPlaceVisitVEventUseCase,
+                resourceBundle = mockResourceBundle,
+                projectBasePath = mockProjectBasePath,
+                dispatcher = UnconfinedTestDispatcher(),
+            )
+    }
+
+    override suspend fun beforeEach(testCase: TestCase) {
+        super.beforeEach(testCase)
+        TestViewModelScope.setupViewModelScope(CoroutineScope(Dispatchers.Unconfined))
+    }
+
+    override suspend fun afterEach(testCase: TestCase, result: TestResult) {
+        super.afterEach(testCase, result)
+        TestViewModelScope.resetViewModelScope()
     }
 
     init {
