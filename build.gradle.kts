@@ -82,8 +82,8 @@ kotlin {
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
 
-                api("dev.icerock.moko:mvvm-core:0.16.1")
-                api("dev.icerock.moko:mvvm-compose:0.16.1")
+                api(libs.moko.mvvm.core)
+                api(libs.moko.mvvm.compose)
             }
         }
 
@@ -105,6 +105,8 @@ kotlin {
                 implementation(libs.kotest.runner.junit5.jvm)
                 implementation(libs.kotest.assertions.core)
                 implementation(libs.kotest.property)
+
+                implementation(libs.moko.mvvm.test)
             }
         }
     }
