@@ -5,8 +5,6 @@
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import java.nio.file.Paths
-import java.util.ResourceBundle
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,6 +22,8 @@ import uk.ryanwong.gmap2ics.app.usecases.GetPlaceVisitVEventUseCase
 import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
 import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
+import java.nio.file.Paths
+import java.util.ResourceBundle
 
 class MainScreenViewModel(
     private val configFile: Config,
