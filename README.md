@@ -26,7 +26,7 @@ This App is fully functional.
 
 ### TODO:
 
-* Planned enhancements are now [logged as issues](./issues?q=is%3Aopen+is%3Aissue+label%3Arefactor%2Cfeature%2Cfix%2Ctest).
+* Planned enhancements are now [logged as issues](https://github.com/ryanw-mobile/GMap2ICal/issues?q=is%3Aopen+is%3Aissue+label%3Arefactor%2Cfeature%2Cfix%2Ctest).
 
 
 ## Background
