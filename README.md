@@ -88,7 +88,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
    You'll receive an email when your export is done._
 4. Unzip the data file.
 5. The JSON files under `/Location History/Semantic Location History` are the files we need.
-6. Move the JSON files to a directory, for example `./src/jvmMain/resources` of this project.
+6. Move the JSON files to a directory, for example `./composeApp/src/commonMain/resources` of this project.
 7. Update, or create yor own configuration file `uk.ryanwong.gmap2ics.app.configs.DefaultConfig` to specify the input
    and
    output paths.
