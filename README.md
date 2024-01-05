@@ -1,15 +1,13 @@
 # GMap2iCal - Google Maps Timeline to iCal <br/>![Gradle Build](https://github.com/ryanw-mobile/GMap2ICal/actions/workflows/main_build.yml/badge.svg) [![codecov](https://codecov.io/github/ryanw-mobile/GMap2ICal/graph/badge.svg?token=4NZUBRYHT0)](https://codecov.io/github/ryanw-mobile/GMap2ICal)
-### My first Compose for Desktop App
+### My first Kotlin MultiPlatform / Compose MultiPlatform (Desktop) App
 
 <p align="center">
   <img src="cover.png" style="width: 100%; max-width: 1000px; height: auto;">
 </p>
 
-
-
 A small utility written in Kotlin to convert Google Maps Activity Timeline to iCal (.ics) files for calendar import.
 
-This is not an Android App. It can be built and executed using IntelliJ IDEA on the desktop environment.
+This is a Kotlin Multiplatform App but with only the Desktop implementation. It can be built and executed using IntelliJ IDEA on the desktop environment.
 
 This is my first non-Android Kotlin project. It is within expectation that everything inside this project can be messy.
 I treat this as my playground that allows me to make all kinds of experiments and mistakes. While I thank you for your
@@ -23,6 +21,7 @@ This App is fully functional.
 
 * 169 unit tests written as at 1 Jan 2023 to protect changes
 * Dark theme auto detect and switching
+* Reapplied JetBrain's official KMP template to make the project structure up-to-date
 
 ### TODO:
 
