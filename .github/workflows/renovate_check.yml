@@ -24,7 +24,7 @@ jobs:
           cache: gradle
 
       - name: Copy ConfigProvider for CI
-        run: cp src/jvmTest/kotlin/uk/ryanwong/gmap2ics/app/configs/ProvideConfig.kt src/jvmMain/kotlin/uk/ryanwong/gmap2ics/app/configs/ProvideConfig.kt
+        run: cp composeApp/src/commonTest/kotlin/uk/ryanwong/gmap2ics/app/configs/ProvideConfig.kt composeApp/src/commonMain/kotlin/uk/ryanwong/gmap2ics/app/configs/ProvideConfig.kt
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
