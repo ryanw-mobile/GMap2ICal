@@ -26,9 +26,8 @@ This App is fully functional.
 
 ### TODO:
 
-* Unit tests for composable functions (adding, but limited assertions available)
-* Dependency Injection: Koin (as 👨🏻‍🦲likes it)
-* Integrate SQLite (`SQLDelight`) as preferences store, and Google Maps Place API caches
+* Planned enhancements are now [logged as issues](./issues?q=is%3Aopen+is%3Aissue+label%3Arefactor%2Cfeature%2Cfix%2Ctest).
+
 
 ## Background
 
