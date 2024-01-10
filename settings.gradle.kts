@@ -12,6 +12,14 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
     }
+
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "dev.icerock.moko.resources-generator") {
+                useModule("dev.icerock.moko:resources-generator:0.23.0")
+            }
+        }
+    }
 }
 
 dependencyResolutionManagement {

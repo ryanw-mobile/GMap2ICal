@@ -68,6 +68,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * [jSystemThemeDetector](https://github.com/Dansoftowner/jSystemThemeDetector) - detect system dark theme setting
 * [Napier](https://github.com/AAkira/Napier) - Logging library for Kotlin Multiplatform
 * [MoKo MVVM](https://github.com/icerockdev/moko-mvvm) - Mobile Kotlin Model-View-ViewModel architecture components
+* [MoKo Resources](https://github.com/icerockdev/moko-resources) - Mobile Kotlin resources
 * [JUnit 5](https://github.com/junit-team/junit5) - Tests
 * [KOTest](https://kotest.io/) - Test framework
 * [MockK](https://mockk.io/) - Mocking library

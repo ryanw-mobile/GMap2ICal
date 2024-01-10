@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
+import dev.icerock.gradle.MRVisibility
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -10,6 +11,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.gradle.ktlint)
     alias(libs.plugins.kotest)
+    alias(libs.plugins.moko.multiplatform.resources)
 }
 
 kotlin {
@@ -63,6 +65,8 @@ kotlin {
 
             api(libs.moko.mvvm.core)
             api(libs.moko.mvvm.compose)
+            api(libs.moko.resources)
+            api(libs.moko.resources.compose) // for compose multiplatform
         }
         desktopMain.dependencies {
             implementation("org.jetbrains.skiko:skiko-awt-runtime-$target:$version")
@@ -90,6 +94,7 @@ kotlin {
             implementation(libs.kotest.property)
 
             implementation(libs.moko.mvvm.test)
+            implementation(libs.moko.resources.test)
         }
     }
 }
@@ -104,6 +109,13 @@ compose.desktop {
             packageVersion = libs.versions.packageVersion.get()
         }
     }
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "uk.ryanwong.gmap2ics" // required
+    multiplatformResourcesClassName = "sharedres" // optional, default MR
+    // multiplatformResourcesVisibility = MRVisibility.Internal // optional, default Public
+    iosBaseLocalizationRegion = "en" // optional, default "en"
 }
 
 koverReport {

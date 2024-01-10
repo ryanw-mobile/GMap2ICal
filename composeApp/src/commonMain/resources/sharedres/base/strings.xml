@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2024. Ryan Wong (hello@ryanwebmail.com)
+  -->
+
+<resources>
+    <string name="my_string">My default localization string</string>
+</resources>
