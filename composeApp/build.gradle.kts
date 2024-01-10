@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
-import dev.icerock.gradle.MRVisibility
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
