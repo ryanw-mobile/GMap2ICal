@@ -121,9 +121,9 @@ koverReport {
             // excludes all classes located in specified package and it subpackages, wildcards '*' and '?' are available
             packages(
                 listOf(
-                    "uk.ryanwong.gmap2ics.app.configs.*",
-                    "uk.ryanwong.gmap2ics.ui.screens.*",
-                    "uk.ryanwong.gmap2ics.ui.theme.*",
+                    "uk.ryanwong.gmap2ics.app.configs",
+                    "uk.ryanwong.gmap2ics.ui.screens",
+                    "uk.ryanwong.gmap2ics.ui.theme",
                 ),
             )
         }
