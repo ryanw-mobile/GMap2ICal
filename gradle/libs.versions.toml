@@ -1,6 +1,6 @@
 [versions]
 packageVersion = "1.0.0"
-kotlin = "1.9.21"
+kotlin = "1.9.22"
 kotlinxSerialization = "1.6.2"
 coroutines = "1.7.3"
 kotest = "5.8.0"
@@ -17,7 +17,7 @@ mockk = "1.13.9"
 junit = "5.10.1"
 jSystemThemeDetector = "3.8"
 mokoMvvm = "0.16.1"
-kotlinTest = "1.8.10"
+kotlinTest = "1.9.22"
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
