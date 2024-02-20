@@ -46,7 +46,7 @@ calendars.
 By doing so, I can keep a full record for the places I have actually been, and also the rough mileages I have spent on
 the road.
 
-## Skills covered:
+## Skills covered
 
 Trying to reuse all my Android development knowledge as possible, otherwise native replacements have been applied.
 
@@ -93,3 +93,10 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
    output paths.
 8. If you have created your own configuration file, update the file path in `Main.kt`
 9. Run the project on IntelliJ IDEA
+
+### Running the app
+
+There is a plan to deprecate the configuration file automate the app build process. However, before that happened, 
+you still have to properly maintain your own configuration file to build and run the app.
+
+To start the app from command line: `./gradlew runReleaseDistributable`
