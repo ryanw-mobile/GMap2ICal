@@ -101,7 +101,7 @@ class MainScreenViewModel(
         _exportedLogs.value = emptyList()
         _ignoredLogs.value = emptyList()
 
-        coroutineJob = viewModelScope.launch {
+        coroutineJob = viewModelScope.launch(dispatcher) {
             val fileList = localFileRepository.getFileList(
                 relativePath = _jsonPath.value,
                 extension = "json",
@@ -300,7 +300,7 @@ class MainScreenViewModel(
     }
 
     private fun observeGetPlaceVisitVEventUseCaseFlows() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             launch {
                 getPlaceVisitVEventUseCase.exportedEvents.collect { uiLogEntry ->
                     appendExportedLog(uiLogEntry = uiLogEntry)
