@@ -21,21 +21,20 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import uk.ryanwong.gmap2ics.app.configs.MockConfig
-import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
-import uk.ryanwong.gmap2ics.app.models.RawTimestamp
-import uk.ryanwong.gmap2ics.app.models.UILogEntry
-import uk.ryanwong.gmap2ics.app.models.VEvent
-import uk.ryanwong.gmap2ics.app.models.timeline.LatLng
-import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetActivitySegmentVEventUseCase
-import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetOutputFilenameUseCase
-import uk.ryanwong.gmap2ics.app.usecases.mocks.MockGetPlaceVisitVEventUseCase
-import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromChildVisitUseCase
-import uk.ryanwong.gmap2ics.app.usecases.mocks.MockVEventFromPlaceVisitUseCase
-import uk.ryanwong.gmap2ics.data.repository.mocks.MockLocalFileRepository
-import uk.ryanwong.gmap2ics.data.repository.mocks.MockTimelineRepository
+import uk.ryanwong.gmap2ics.data.repositories.mocks.MockLocalFileRepository
+import uk.ryanwong.gmap2ics.data.repositories.mocks.MockTimelineRepository
+import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
+import uk.ryanwong.gmap2ics.domain.models.UILogEntry
+import uk.ryanwong.gmap2ics.domain.models.VEvent
+import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModelTestData.mockTimeLineWithActivityVisitAndChildVisit
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModelTestData.mockTimeLineWithSingleActivity
+import uk.ryanwong.gmap2ics.usecases.mocks.MockGetActivitySegmentVEventUseCase
+import uk.ryanwong.gmap2ics.usecases.mocks.MockGetOutputFilenameUseCase
+import uk.ryanwong.gmap2ics.usecases.mocks.MockGetPlaceVisitVEventUseCase
+import uk.ryanwong.gmap2ics.usecases.mocks.MockVEventFromChildVisitUseCase
+import uk.ryanwong.gmap2ics.usecases.mocks.MockVEventFromPlaceVisitUseCase
 import java.util.ResourceBundle
 
 @OptIn(ExperimentalCoroutinesApi::class)

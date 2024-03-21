@@ -18,6 +18,7 @@ junit = "5.10.2"
 jSystemThemeDetector = "3.8"
 mokoMvvm = "0.16.1"
 kotlinTest = "1.9.23"
+koin = "3.2.2"
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -32,7 +33,7 @@ kotlinx-coroutines-core-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "coroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
-kotlin-test-junit =  { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlinTest" }
+kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlinTest" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 compose-ui-test-junit4 = { group = "org.jetbrains.compose.ui", name = "ui-test-junit4", version.ref = "compose" }
 timezonemap = { group = "us.dustinj.timezonemap", name = "timezonemap", version.ref = "timezonemap" }
@@ -55,3 +56,6 @@ themedetector = { group = "com.github.Dansoftowner", name = "jSystemThemeDetecto
 moko-mvvm-core = { group = "dev.icerock.moko", name = "mvvm-core", version.ref = "mokoMvvm" }
 moko-mvvm-compose = { group = "dev.icerock.moko", name = "mvvm-compose", version.ref = "mokoMvvm" }
 moko-mvvm-test = { group = "dev.icerock.moko", name = "mvvm-test", version.ref = "mokoMvvm" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }

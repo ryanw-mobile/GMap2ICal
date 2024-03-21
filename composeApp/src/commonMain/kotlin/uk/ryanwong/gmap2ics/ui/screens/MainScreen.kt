@@ -33,7 +33,6 @@ import androidx.compose.ui.window.rememberWindowState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
 import uk.ryanwong.gmap2ics.ui.screens.components.CancelActionButton
 import uk.ryanwong.gmap2ics.ui.screens.components.ErrorAlertDialog
 import uk.ryanwong.gmap2ics.ui.screens.components.ExportActionButton
@@ -45,6 +44,7 @@ import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowTabRow
 import uk.ryanwong.gmap2ics.ui.screens.components.LogWindowUIState
 import uk.ryanwong.gmap2ics.ui.screens.components.SettingsPanel
 import uk.ryanwong.gmap2ics.ui.screens.components.StatusBar
+import uk.ryanwong.gmap2ics.ui.viewmodels.JFileChooserResult
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import java.awt.Dimension
 import java.util.Locale

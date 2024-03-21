@@ -48,7 +48,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import uk.ryanwong.gmap2ics.app.models.UILogEntry
+import uk.ryanwong.gmap2ics.domain.models.UILogEntry
 import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 import java.util.ResourceBundle
 
