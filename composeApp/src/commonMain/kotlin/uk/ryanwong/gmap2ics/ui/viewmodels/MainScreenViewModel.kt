@@ -12,15 +12,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import uk.ryanwong.gmap2ics.app.configs.Config
-import uk.ryanwong.gmap2ics.app.models.JFileChooserResult
-import uk.ryanwong.gmap2ics.app.models.UILogEntry
-import uk.ryanwong.gmap2ics.app.models.VEvent
-import uk.ryanwong.gmap2ics.app.models.timeline.Timeline
-import uk.ryanwong.gmap2ics.app.usecases.GetActivitySegmentVEventUseCase
-import uk.ryanwong.gmap2ics.app.usecases.GetOutputFilenameUseCase
-import uk.ryanwong.gmap2ics.app.usecases.GetPlaceVisitVEventUseCase
-import uk.ryanwong.gmap2ics.data.repository.LocalFileRepository
-import uk.ryanwong.gmap2ics.data.repository.TimelineRepository
+import uk.ryanwong.gmap2ics.domain.models.UILogEntry
+import uk.ryanwong.gmap2ics.domain.models.VEvent
+import uk.ryanwong.gmap2ics.domain.models.timeline.Timeline
+import uk.ryanwong.gmap2ics.domain.repositories.LocalFileRepository
+import uk.ryanwong.gmap2ics.domain.repositories.TimelineRepository
+import uk.ryanwong.gmap2ics.domain.usecases.GetActivitySegmentVEventUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.GetOutputFilenameUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.GetPlaceVisitVEventUseCase
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
 import java.nio.file.Paths
 import java.util.ResourceBundle
@@ -101,7 +100,7 @@ class MainScreenViewModel(
         _exportedLogs.value = emptyList()
         _ignoredLogs.value = emptyList()
 
-        coroutineJob = viewModelScope.launch {
+        coroutineJob = viewModelScope.launch(dispatcher) {
             val fileList = localFileRepository.getFileList(
                 relativePath = _jsonPath.value,
                 extension = "json",
@@ -300,7 +299,7 @@ class MainScreenViewModel(
     }
 
     private fun observeGetPlaceVisitVEventUseCaseFlows() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             launch {
                 getPlaceVisitVEventUseCase.exportedEvents.collect { uiLogEntry ->
                     appendExportedLog(uiLogEntry = uiLogEntry)

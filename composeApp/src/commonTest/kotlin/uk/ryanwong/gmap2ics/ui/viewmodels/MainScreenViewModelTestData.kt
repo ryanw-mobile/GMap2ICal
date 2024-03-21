@@ -5,16 +5,19 @@
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
 import com.esri.core.geometry.Polygon
-import uk.ryanwong.gmap2ics.app.models.ActivityType
-import uk.ryanwong.gmap2ics.app.models.RawTimestamp
-import uk.ryanwong.gmap2ics.app.models.timeline.Location
-import uk.ryanwong.gmap2ics.app.models.timeline.Timeline
-import uk.ryanwong.gmap2ics.app.models.timeline.TimelineEntry
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.Activity
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.ActivitySegment
-import uk.ryanwong.gmap2ics.app.models.timeline.activity.WaypointPath
-import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.ChildVisit
-import uk.ryanwong.gmap2ics.app.models.timeline.placevisit.PlaceVisit
+import uk.ryanwong.gmap2ics.domain.models.ActivityType.FLYING
+import uk.ryanwong.gmap2ics.domain.models.ActivityType.IN_BUS
+import uk.ryanwong.gmap2ics.domain.models.ActivityType.IN_PASSENGER_VEHICLE
+import uk.ryanwong.gmap2ics.domain.models.ActivityType.WALKING
+import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
+import uk.ryanwong.gmap2ics.domain.models.timeline.Location
+import uk.ryanwong.gmap2ics.domain.models.timeline.Timeline
+import uk.ryanwong.gmap2ics.domain.models.timeline.TimelineEntry
+import uk.ryanwong.gmap2ics.domain.models.timeline.activity.Activity
+import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegment
+import uk.ryanwong.gmap2ics.domain.models.timeline.activity.WaypointPath
+import uk.ryanwong.gmap2ics.domain.models.timeline.placevisit.ChildVisit
+import uk.ryanwong.gmap2ics.domain.models.timeline.placevisit.PlaceVisit
 import us.dustinj.timezonemap.TimeZone
 
 object MainScreenViewModelTestData {
@@ -25,14 +28,14 @@ object MainScreenViewModelTestData {
                 activitySegment =
                 ActivitySegment(
                     activities = listOf(
-                        Activity(activityType = ActivityType.FLYING, rawActivityType = "FLYING"),
+                        Activity(activityType = FLYING, rawActivityType = "FLYING"),
                         Activity(
-                            activityType = ActivityType.IN_PASSENGER_VEHICLE,
+                            activityType = IN_PASSENGER_VEHICLE,
                             rawActivityType = "IN_PASSENGER_VEHICLE",
                         ),
-                        Activity(activityType = ActivityType.WALKING, rawActivityType = "WALKING"),
+                        Activity(activityType = WALKING, rawActivityType = "WALKING"),
                     ),
-                    activityType = ActivityType.FLYING,
+                    activityType = FLYING,
                     rawActivityType = "FLYING",
                     distance = 0,
                     durationEndTimestamp = RawTimestamp(
@@ -112,13 +115,13 @@ object MainScreenViewModelTestData {
                 activitySegment = ActivitySegment(
                     activities = listOf(
                         Activity(
-                            activityType = ActivityType.IN_PASSENGER_VEHICLE,
+                            activityType = IN_PASSENGER_VEHICLE,
                             rawActivityType = "IN_PASSENGER_VEHICLE",
                         ),
-                        Activity(activityType = ActivityType.IN_BUS, rawActivityType = "IN_BUS"),
-                        Activity(activityType = ActivityType.WALKING, rawActivityType = "WALKING"),
+                        Activity(activityType = IN_BUS, rawActivityType = "IN_BUS"),
+                        Activity(activityType = WALKING, rawActivityType = "WALKING"),
                     ),
-                    activityType = ActivityType.IN_PASSENGER_VEHICLE,
+                    activityType = IN_PASSENGER_VEHICLE,
                     rawActivityType = "IN_PASSENGER_VEHICLE",
                     distance = 4663,
                     durationEndTimestamp = RawTimestamp(
@@ -165,14 +168,14 @@ object MainScreenViewModelTestData {
                 activitySegment =
                 ActivitySegment(
                     activities = listOf(
-                        Activity(activityType = ActivityType.FLYING, rawActivityType = "FLYING"),
+                        Activity(activityType = FLYING, rawActivityType = "FLYING"),
                         Activity(
-                            activityType = ActivityType.IN_PASSENGER_VEHICLE,
+                            activityType = IN_PASSENGER_VEHICLE,
                             rawActivityType = "IN_PASSENGER_VEHICLE",
                         ),
-                        Activity(activityType = ActivityType.WALKING, rawActivityType = "WALKING"),
+                        Activity(activityType = WALKING, rawActivityType = "WALKING"),
                     ),
-                    activityType = ActivityType.FLYING,
+                    activityType = FLYING,
                     rawActivityType = "FLYING",
                     distance = 0,
                     durationEndTimestamp = RawTimestamp(
