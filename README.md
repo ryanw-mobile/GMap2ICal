@@ -61,6 +61,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 
 ### Major libraries used
 
+* [Koin](https://github.com/InsertKoinIO/koin) - Dependency injection
 * [Ktor](https://ktor.io/) - HTTP Client (Option 1, default)
 * [Retrofit2](https://square.github.io/retrofit/) - HTTP Client (Option 2)
 * [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) - For JSON parsing. Replacing Moshi
@@ -96,7 +97,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 
 ### Running the app
 
-There is a plan to deprecate the configuration file automate the app build process. However, before that happened, 
+There is a plan to deprecate the configuration file automate the app build process. However, before that happened,
 you still have to properly maintain your own configuration file to build and run the app.
 
 To start the app from command line: `./gradlew runReleaseDistributable`
