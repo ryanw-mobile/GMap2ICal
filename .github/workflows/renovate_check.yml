@@ -1,10 +1,7 @@
-name: Renovate build check
+name: Renovate Check
 
 on:
   merge_group:
-  pull_request:
-    branches:
-      - 'renovate/**'
   push:
     branches:
       - 'renovate/**'
