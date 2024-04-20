@@ -10,7 +10,7 @@
     <string name="convert">Export</string>
     <string name="error_updating_ical_path">Error updating iCal path</string>
     <string name="error_updating_json_path">Error updating JSON path</string>
-    <string name="export_options">xport Options</string>
+    <string name="export_options">Export Options</string>
     <string name="exported">EXPORTED</string>
     <string name="file_locations">File Locations</string>
     <string name="screen_title_main">GMap2iCal - Export Google Maps Timeline to iCal</string>
