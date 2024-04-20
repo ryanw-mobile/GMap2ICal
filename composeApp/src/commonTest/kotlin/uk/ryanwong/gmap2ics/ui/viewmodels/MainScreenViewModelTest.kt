@@ -10,8 +10,6 @@ import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
-import io.mockk.every
-import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -76,7 +74,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
         mockGetActivitySegmentVEventUseCase = MockGetActivitySegmentVEventUseCase()
         mockGetOutputFilenameUseCase = MockGetOutputFilenameUseCase()
         mockGetPlaceVisitVEventUseCase = MockGetPlaceVisitVEventUseCase()
-        mockResourceBundle = mockk()
 
         mainScreenViewModel =
             MainScreenViewModel(
@@ -86,7 +83,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 getActivitySegmentVEventUseCase = mockGetActivitySegmentVEventUseCase,
                 getOutputFilenameUseCase = mockGetOutputFilenameUseCase,
                 getPlaceVisitVEventUseCase = mockGetPlaceVisitVEventUseCase,
-                resourceBundle = mockResourceBundle,
                 projectBasePath = mockProjectBasePath,
                 dispatcher = UnconfinedTestDispatcher(),
             )
@@ -144,7 +140,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
             "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
                 setupViewModel()
-                every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
                 mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
                 val initialState = mainScreenViewModel.exportPlaceVisit.first()
 
@@ -197,7 +192,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
             "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
                 setupViewModel()
-                every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
                 mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
                 val initialState = mainScreenViewModel.exportActivitySegment.first()
 
@@ -250,7 +244,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
             "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
                 setupViewModel()
-                every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
                 mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
                 val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
 
@@ -303,7 +296,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
             "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
                 setupViewModel()
-                every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
                 mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
                 val initialState = mainScreenViewModel.verboseLogs.first()
 
@@ -348,7 +340,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 "should keep mainScreenUIState unchanged" {
                     // 🔴 Given
                     setupViewModel()
-                    every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
 
                     // 🟡 When
@@ -395,7 +386,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 "should keep mainScreenUIState unchanged" {
                     // 🔴 Given
                     setupViewModel()
-                    every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
 
                     // 🟡 When
@@ -460,7 +450,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 "should set MainScreenUIState = Error with correct error message" {
                     // 🔴 Given
                     setupViewModel()
-                    every { mockResourceBundle.getString("error.updating.json.path") } returns "some-error-string"
                     mainScreenViewModel.onChangeJsonPath()
 
                     // 🟡 When
@@ -540,7 +529,6 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 "should set MainScreenUIState = Error with correct error message" {
                     // 🔴 Given
                     setupViewModel()
-                    every { mockResourceBundle.getString("error.updating.ical.path") } returns "some-error-string"
                     mainScreenViewModel.onChangeICalPath()
 
                     // 🟡 When

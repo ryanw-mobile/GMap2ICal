@@ -2,6 +2,8 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
+@file:OptIn(ExperimentalResourceApi::class)
+
 package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.foundation.Image
@@ -25,12 +27,14 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import java.util.ResourceBundle
+import gmap2ical.composeapp.generated.resources.Res
+import gmap2ical.composeapp.generated.resources.cancel
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CancelActionButton(
     onButtonClicked: () -> Unit,
-    resourceBundle: ResourceBundle,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -44,14 +48,14 @@ fun CancelActionButton(
             modifier = Modifier.size(size = 64.dp),
         ) {
             Image(
-                painter = painterResource(resourcePath = "/drawables/close_circle_outline.xml"),
+                painter = painterResource(resourcePath = "/drawable/close_circle_outline.xml"),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(color = Color.White),
                 modifier = Modifier.fillMaxSize(),
             )
         }
         Text(
-            text = resourceBundle.getString("cancel"),
+            text = stringResource(Res.string.cancel),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 8.dp)
                 .width(IntrinsicSize.Max)

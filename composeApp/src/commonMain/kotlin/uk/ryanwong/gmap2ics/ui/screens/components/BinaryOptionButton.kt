@@ -2,6 +2,8 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
+@file:OptIn(ExperimentalResourceApi::class)
+
 package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
@@ -31,6 +33,10 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import gmap2ical.composeapp.generated.resources.Res
+import gmap2ical.composeapp.generated.resources.activity_segments
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 
 @Composable
@@ -83,8 +89,8 @@ private fun previewBinaryOptionButtonOff() {
     GregoryGreenTheme {
         BinaryOptionButton(
             isChecked = false,
-            text = "Activity\nSegment",
-            icon = painterResource(resourcePath = "/drawables/road_variant.xml"),
+            text = stringResource(Res.string.activity_segments),
+            icon = painterResource(resourcePath = "/drawable/road_variant.xml"),
             onButtonClicked = {},
         )
     }
@@ -96,8 +102,8 @@ private fun previewBinaryOptionButtonOn() {
     GregoryGreenTheme {
         BinaryOptionButton(
             isChecked = true,
-            text = "Activity\nSegment",
-            icon = painterResource(resourcePath = "/drawables/road_variant.xml"),
+            text = stringResource(Res.string.activity_segments),
+            icon = painterResource(resourcePath = "/drawable/road_variant.xml"),
             onButtonClicked = {},
         )
     }

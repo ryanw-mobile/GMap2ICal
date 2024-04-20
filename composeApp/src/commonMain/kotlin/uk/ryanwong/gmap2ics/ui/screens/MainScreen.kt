@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
+@file:OptIn(ExperimentalResourceApi::class)
 
 package uk.ryanwong.gmap2ics.ui.screens
 
@@ -30,9 +31,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
+import gmap2ical.composeapp.generated.resources.Res
+import gmap2ical.composeapp.generated.resources.ical_output_location
+import gmap2ical.composeapp.generated.resources.json_source_location
+import gmap2ical.composeapp.generated.resources.screen_title_main
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import uk.ryanwong.gmap2ics.ui.screens.components.CancelActionButton
 import uk.ryanwong.gmap2ics.ui.screens.components.ErrorAlertDialog
 import uk.ryanwong.gmap2ics.ui.screens.components.ExportActionButton
@@ -47,8 +55,6 @@ import uk.ryanwong.gmap2ics.ui.screens.components.StatusBar
 import uk.ryanwong.gmap2ics.ui.viewmodels.JFileChooserResult
 import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModel
 import java.awt.Dimension
-import java.util.Locale
-import java.util.ResourceBundle.getBundle
 import javax.swing.JFileChooser
 import javax.swing.UIManager
 
@@ -57,12 +63,11 @@ fun mainScreen(
     onCloseRequest: () -> Unit,
     mainScreenViewModel: MainScreenViewModel,
 ) {
-    val resourceBundle = getBundle("resources", Locale.ENGLISH)
     val windowState = rememberWindowState(width = 800.dp, height = 560.dp)
 
     Window(
         onCloseRequest = onCloseRequest,
-        title = resourceBundle.getString("gmap2ical.google.maps.to.ical"),
+        title = stringResource(Res.string.screen_title_main),
         state = windowState,
     ) {
         val coroutineScope = rememberCoroutineScope()
@@ -85,7 +90,7 @@ fun mainScreen(
             is MainScreenUIState.ChangeJsonPath -> {
                 coroutineScope.launch {
                     val jFileChooserResult = chooseDirectorySwing(
-                        dialogTitle = resourceBundle.getString("json.source.location"),
+                        dialogTitle = getString(Res.string.json_source_location),
                         currentDirectoryPath = jsonPath,
                     )
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = jFileChooserResult)
@@ -95,7 +100,7 @@ fun mainScreen(
             is MainScreenUIState.ChangeICalPath -> {
                 coroutineScope.launch {
                     val jFileChooserResult = chooseDirectorySwing(
-                        dialogTitle = resourceBundle.getString("ical.output.location"),
+                        dialogTitle = getString(Res.string.ical_output_location),
                         currentDirectoryPath = iCalPath,
                     )
                     mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
@@ -135,7 +140,6 @@ fun mainScreen(
                     onChangeJsonPath = { mainScreenViewModel.onChangeJsonPath() },
                     onChangeICalPath = { mainScreenViewModel.onChangeICalPath() },
                     modifier = Modifier.weight(weight = 1.0f, fill = true),
-                    resourceBundle = resourceBundle,
                     exportOptionsGroup = {
                         ExportOptionsGroup(
                             exportPlaceVisit = exportPlaceVisit,
@@ -145,7 +149,6 @@ fun mainScreen(
                             },
                             onExportPlaceVisitClicked = { enabled -> mainScreenViewModel.setExportPlaceVisit(enabled) },
                             modifier = Modifier.wrapContentSize(),
-                            resourceBundle = resourceBundle,
                         )
                     },
                     extraOptionsGroup = {
@@ -157,7 +160,6 @@ fun mainScreen(
                             },
                             onVerboseLogClicked = { enabled -> mainScreenViewModel.setVerboseLogs(enabled) },
                             modifier = Modifier.wrapContentSize(),
-                            resourceBundle = resourceBundle,
                         )
                     },
                 )
@@ -165,7 +167,6 @@ fun mainScreen(
                 if (uiState is MainScreenUIState.Processing) {
                     CancelActionButton(
                         onButtonClicked = { mainScreenViewModel.cancelExport() },
-                        resourceBundle = resourceBundle,
                         modifier = Modifier.padding(end = 16.dp),
                     )
                 } else {
@@ -174,7 +175,6 @@ fun mainScreen(
                     ExportActionButton(
                         enabled = shouldExportButtonEnabled,
                         onButtonClicked = { mainScreenViewModel.startExport() },
-                        resourceBundle = resourceBundle,
                         modifier = Modifier.padding(end = 16.dp),
                     )
                 }
@@ -188,7 +188,6 @@ fun mainScreen(
             )
 
             LogWindowTabRow(
-                resourceBundle = resourceBundle,
                 logWindowUIState = LogWindowUIState(
                     exportedCount = exportedLogs.size,
                     ignoredCount = ignoredLogs.size,

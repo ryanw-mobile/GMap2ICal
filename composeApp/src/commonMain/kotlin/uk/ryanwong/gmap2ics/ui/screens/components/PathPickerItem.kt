@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
+@file:OptIn(ExperimentalResourceApi::class)
 
 package uk.ryanwong.gmap2ics.ui.screens.components
 
@@ -28,9 +29,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import gmap2ical.composeapp.generated.resources.Res
+import gmap2ical.composeapp.generated.resources.change_folder
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
-import java.util.Locale
-import java.util.ResourceBundle
 
 @Composable
 fun PathPickerItem(
@@ -38,7 +41,6 @@ fun PathPickerItem(
     icon: Painter,
     currentPath: String,
     onClick: () -> Unit,
-    resourceBundle: ResourceBundle,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -62,7 +64,7 @@ fun PathPickerItem(
             ) {
                 Image(
                     painter = icon,
-                    contentDescription = resourceBundle.getString("change.folder"),
+                    contentDescription = stringResource(Res.string.change_folder),
                     colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onPrimary),
                     modifier = Modifier.fillMaxSize(),
                 )
@@ -101,9 +103,8 @@ fun PathPickerItemPreview() {
         PathPickerItem(
             title = "some very long text ".repeat(10),
             currentPath = "some very long text ".repeat(10),
-            icon = painterResource(resourcePath = "/drawables/folder_arrow_left.xml"),
+            icon = painterResource(resourcePath = "/drawable/folder_arrow_left.xml"),
             onClick = {},
-            resourceBundle = ResourceBundle.getBundle("resources", Locale.ENGLISH),
         )
     }
 }

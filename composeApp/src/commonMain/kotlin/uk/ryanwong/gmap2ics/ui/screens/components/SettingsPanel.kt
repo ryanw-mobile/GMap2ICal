@@ -2,6 +2,8 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
+@file:OptIn(ExperimentalResourceApi::class)
+
 package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.foundation.background
@@ -20,7 +22,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import java.util.ResourceBundle
+import gmap2ical.composeapp.generated.resources.Res
+import gmap2ical.composeapp.generated.resources.file_locations
+import gmap2ical.composeapp.generated.resources.ical_path
+import gmap2ical.composeapp.generated.resources.json_path
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SettingsPanel(
@@ -29,7 +36,6 @@ fun SettingsPanel(
     iCalPath: String,
     onChangeJsonPath: () -> Unit,
     onChangeICalPath: () -> Unit,
-    resourceBundle: ResourceBundle,
     exportOptionsGroup: @Composable () -> Unit,
     extraOptionsGroup: @Composable () -> Unit,
 ) {
@@ -45,7 +51,7 @@ fun SettingsPanel(
                 .height(intrinsicSize = IntrinsicSize.Max),
         ) {
             Text(
-                text = resourceBundle.getString("file.locations"),
+                text = stringResource(Res.string.file_locations),
                 textAlign = TextAlign.Center,
                 color = Color.White,
                 modifier = Modifier
@@ -58,20 +64,18 @@ fun SettingsPanel(
             )
 
             PathPickerItem(
-                title = resourceBundle.getString("json.path"),
+                title = stringResource(Res.string.json_path),
                 currentPath = jsonPath,
-                icon = painterResource(resourcePath = "/drawables/folder_arrow_right.xml"),
+                icon = painterResource(resourcePath = "/drawable/folder_arrow_right.xml"),
                 onClick = onChangeJsonPath,
-                resourceBundle = resourceBundle,
                 modifier = Modifier.fillMaxWidth().weight(weight = 0.5f, fill = true),
             )
 
             PathPickerItem(
-                title = resourceBundle.getString("ical.path"),
+                title = stringResource(Res.string.ical_path),
                 currentPath = iCalPath,
-                icon = painterResource(resourcePath = "/drawables/folder_arrow_left.xml"),
+                icon = painterResource(resourcePath = "/drawable/folder_arrow_left.xml"),
                 onClick = onChangeICalPath,
-                resourceBundle = resourceBundle,
                 modifier = Modifier.fillMaxWidth().weight(weight = 0.5f, fill = true),
             )
         }

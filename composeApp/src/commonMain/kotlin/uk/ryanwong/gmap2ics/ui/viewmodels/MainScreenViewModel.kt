@@ -5,12 +5,17 @@
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import gmap2ical.composeapp.generated.resources.Res
+import gmap2ical.composeapp.generated.resources.error_updating_ical_path
+import gmap2ical.composeapp.generated.resources.error_updating_json_path
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.getString
 import uk.ryanwong.gmap2ics.app.configs.Config
 import uk.ryanwong.gmap2ics.domain.models.UILogEntry
 import uk.ryanwong.gmap2ics.domain.models.VEvent
@@ -22,8 +27,8 @@ import uk.ryanwong.gmap2ics.domain.usecases.GetOutputFilenameUseCase
 import uk.ryanwong.gmap2ics.domain.usecases.GetPlaceVisitVEventUseCase
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
 import java.nio.file.Paths
-import java.util.ResourceBundle
 
+@OptIn(ExperimentalResourceApi::class)
 class MainScreenViewModel(
     private val configFile: Config,
     private val timelineRepository: TimelineRepository,
@@ -31,7 +36,6 @@ class MainScreenViewModel(
     private val getOutputFilenameUseCase: GetOutputFilenameUseCase,
     private val getActivitySegmentVEventUseCase: GetActivitySegmentVEventUseCase,
     private val getPlaceVisitVEventUseCase: GetPlaceVisitVEventUseCase,
-    private val resourceBundle: ResourceBundle,
     private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/"),
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) : ViewModel() {
@@ -242,30 +246,34 @@ class MainScreenViewModel(
     }
 
     fun updateJsonPath(jFileChooserResult: JFileChooserResult) {
-        when (jFileChooserResult) {
-            is JFileChooserResult.AbsolutePath -> {
-                _jsonPath.value = stripBasePath(jFileChooserResult.absolutePath)
-                _mainScreenUIState.value = MainScreenUIState.Ready
-            }
+        viewModelScope.launch(dispatcher) {
+            when (jFileChooserResult) {
+                is JFileChooserResult.AbsolutePath -> {
+                    _jsonPath.value = stripBasePath(jFileChooserResult.absolutePath)
+                    _mainScreenUIState.value = MainScreenUIState.Ready
+                }
 
-            is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
-            else ->
-                _mainScreenUIState.value =
-                    MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.json.path"))
+                is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
+                else ->
+                    _mainScreenUIState.value =
+                        MainScreenUIState.Error(errMsg = getString(Res.string.error_updating_json_path))
+            }
         }
     }
 
     fun updateICalPath(jFileChooserResult: JFileChooserResult) {
-        when (jFileChooserResult) {
-            is JFileChooserResult.AbsolutePath -> {
-                _iCalPath.value = stripBasePath(jFileChooserResult.absolutePath)
-                _mainScreenUIState.value = MainScreenUIState.Ready
-            }
+        viewModelScope.launch(dispatcher) {
+            when (jFileChooserResult) {
+                is JFileChooserResult.AbsolutePath -> {
+                    _iCalPath.value = stripBasePath(jFileChooserResult.absolutePath)
+                    _mainScreenUIState.value = MainScreenUIState.Ready
+                }
 
-            is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
-            else ->
-                _mainScreenUIState.value =
-                    MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.ical.path"))
+                is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
+                else ->
+                    _mainScreenUIState.value =
+                        MainScreenUIState.Error(errMsg = getString(Res.string.error_updating_ical_path))
+            }
         }
     }
 

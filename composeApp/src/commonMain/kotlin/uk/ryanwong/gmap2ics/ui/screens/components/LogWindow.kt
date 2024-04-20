@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
+@file:OptIn(ExperimentalResourceApi::class)
 
 package uk.ryanwong.gmap2ics.ui.screens.components
 
@@ -48,14 +49,17 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import gmap2ical.composeapp.generated.resources.Res
+import gmap2ical.composeapp.generated.resources.exported
+import gmap2ical.composeapp.generated.resources.ignored
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import uk.ryanwong.gmap2ics.domain.models.UILogEntry
 import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
-import java.util.ResourceBundle
 
 @Composable
 fun LogWindowTabRow(
     logWindowUIState: LogWindowUIState,
-    resourceBundle: ResourceBundle,
     modifier: Modifier = Modifier,
 ) {
     val buttonStateNormal = ButtonDefaults.buttonColors(
@@ -88,7 +92,7 @@ fun LogWindowTabRow(
             shape = RectangleShape,
         ) {
             Text(
-                text = resourceBundle.getString("exported"),
+                text = stringResource(Res.string.exported),
                 style = MaterialTheme.typography.caption,
                 modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp),
             )
@@ -109,7 +113,7 @@ fun LogWindowTabRow(
             shape = RectangleShape,
         ) {
             Text(
-                text = resourceBundle.getString("ignored"),
+                text = stringResource(Res.string.ignored),
                 style = MaterialTheme.typography.caption,
                 modifier = Modifier.wrapContentSize().padding(horizontal = 8.dp),
             )

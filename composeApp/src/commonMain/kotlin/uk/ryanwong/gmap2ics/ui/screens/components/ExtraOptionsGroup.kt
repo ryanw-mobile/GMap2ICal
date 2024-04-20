@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
+@file:OptIn(ExperimentalResourceApi::class)
 
 package uk.ryanwong.gmap2ics.ui.screens.components
 
@@ -21,8 +22,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import gmap2ical.composeapp.generated.resources.Res
+import gmap2ical.composeapp.generated.resources.advanced_settings
+import gmap2ical.composeapp.generated.resources.place_api_lookup
+import gmap2ical.composeapp.generated.resources.verbose_console_log
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import java.text.MessageFormat
-import java.util.ResourceBundle
 
 @Composable
 fun ExtraOptionsGroup(
@@ -31,7 +37,6 @@ fun ExtraOptionsGroup(
     onEnablePlaceApiLookupClicked: (Boolean) -> Unit,
     onVerboseLogClicked: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    resourceBundle: ResourceBundle,
 ) {
     Column(
         modifier = modifier
@@ -40,7 +45,7 @@ fun ExtraOptionsGroup(
             .width(intrinsicSize = IntrinsicSize.Min),
     ) {
         Text(
-            text = resourceBundle.getString("advanced.settings"),
+            text = stringResource(Res.string.advanced_settings),
             textAlign = TextAlign.Center,
             color = Color.White,
             modifier = Modifier
@@ -58,15 +63,15 @@ fun ExtraOptionsGroup(
         ) {
             BinaryOptionButton(
                 isChecked = isPlaceApiEnabled,
-                text = MessageFormat.format(resourceBundle.getString("place.api.lookup")),
-                icon = painterResource(resourcePath = "/drawables/database_marker_outline.xml"),
+                text = MessageFormat.format(stringResource(Res.string.place_api_lookup)),
+                icon = painterResource(resourcePath = "/drawable/database_marker_outline.xml"),
                 onButtonClicked = onEnablePlaceApiLookupClicked,
                 modifier = Modifier.padding(end = 16.dp),
             )
             BinaryOptionButton(
                 isChecked = isVerboseLogEnabled,
-                text = MessageFormat.format(resourceBundle.getString("verbose.console.log")),
-                icon = painterResource(resourcePath = "/drawables/console.xml"),
+                text = MessageFormat.format(stringResource(Res.string.verbose_console_log)),
+                icon = painterResource(resourcePath = "/drawable/console.xml"),
                 onButtonClicked = onVerboseLogClicked,
             )
         }

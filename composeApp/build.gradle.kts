@@ -43,6 +43,8 @@ kotlin {
         val desktopMain by getting
 
         commonMain.dependencies {
+            implementation(compose.components.resources)
+
             implementation(compose.desktop.currentOs)
 
             implementation(libs.timezonemap)
