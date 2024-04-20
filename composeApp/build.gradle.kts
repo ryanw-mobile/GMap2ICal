@@ -36,8 +36,8 @@ kotlin {
         else -> error("Unsupported arch: $osArch")
     }
 
-    val version = "0.7.70" // or any more recent version
-    val target = "$targetOs-$targetArch"
+    val skikoVersion = "0.7.70" // or any more recent version
+    val skikoTarget = "$targetOs-$targetArch"
 
     sourceSets {
         val desktopMain by getting
@@ -71,7 +71,7 @@ kotlin {
             api(libs.moko.mvvm.compose)
         }
         desktopMain.dependencies {
-            implementation("org.jetbrains.skiko:skiko-awt-runtime-$target:$version")
+            implementation("org.jetbrains.skiko:skiko-awt-runtime-$skikoTarget:$skikoVersion")
             // implementation(compose.desktop.macos_arm64)
             implementation(compose.desktop.currentOs)
         }
