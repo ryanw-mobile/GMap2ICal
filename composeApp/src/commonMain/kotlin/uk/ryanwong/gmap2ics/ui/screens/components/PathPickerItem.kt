@@ -25,13 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import gmap2ical.composeapp.generated.resources.Res
 import gmap2ical.composeapp.generated.resources.change_folder
+import gmap2ical.composeapp.generated.resources.folder_arrow_left
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 
@@ -103,7 +104,7 @@ fun PathPickerItemPreview() {
         PathPickerItem(
             title = "some very long text ".repeat(10),
             currentPath = "some very long text ".repeat(10),
-            icon = painterResource(resourcePath = "/drawable/folder_arrow_left.xml"),
+            icon = painterResource(Res.drawable.folder_arrow_left),
             onClick = {},
         )
     }

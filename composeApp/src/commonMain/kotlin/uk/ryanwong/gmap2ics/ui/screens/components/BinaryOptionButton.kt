@@ -27,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -35,7 +34,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import gmap2ical.composeapp.generated.resources.Res
 import gmap2ical.composeapp.generated.resources.activity_segments
+import gmap2ical.composeapp.generated.resources.road_variant
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 
@@ -90,7 +91,7 @@ private fun previewBinaryOptionButtonOff() {
         BinaryOptionButton(
             isChecked = false,
             text = stringResource(Res.string.activity_segments),
-            icon = painterResource(resourcePath = "/drawable/road_variant.xml"),
+            icon = painterResource(Res.drawable.road_variant),
             onButtonClicked = {},
         )
     }
@@ -103,7 +104,7 @@ private fun previewBinaryOptionButtonOn() {
         BinaryOptionButton(
             isChecked = true,
             text = stringResource(Res.string.activity_segments),
-            icon = painterResource(resourcePath = "/drawable/road_variant.xml"),
+            icon = painterResource(Res.drawable.road_variant),
             onButtonClicked = {},
         )
     }

@@ -22,4 +22,5 @@
     <string name="place_api_lookup">Place API\nLookup</string>
     <string name="place_visits">Place\nVisits</string>
     <string name="verbose_console_log">Verbose\nConsole Log</string>
+    <string name="content_description_linear_progress_indicator">Progress indicator</string>
 </resources>

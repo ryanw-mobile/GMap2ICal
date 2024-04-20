@@ -21,9 +21,13 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import uk.ryanwong.gmap2ics.ui.screens.ContentDescriptions
+import gmap2ical.composeapp.generated.resources.Res
+import gmap2ical.composeapp.generated.resources.content_description_linear_progress_indicator
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun StatusBar(
     statusMessage: String,
@@ -47,12 +51,13 @@ fun StatusBar(
             modifier = Modifier.weight(weight = 1f, fill = true),
         )
         progress?.let { progress ->
+            val semanticsDescription = stringResource(Res.string.content_description_linear_progress_indicator)
             LinearProgressIndicator(
                 progress = progress,
                 modifier = Modifier
                     .width(120.dp)
                     .semantics {
-                        contentDescription = ContentDescriptions.LINEAR_PROGRESS_INDICATOR
+                        contentDescription = semanticsDescription
                     },
             )
         }

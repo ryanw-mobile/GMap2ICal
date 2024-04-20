@@ -1,9 +1,6 @@
 /*
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
-
-@file:OptIn(ExperimentalResourceApi::class)
-
 package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.foundation.layout.Column
@@ -23,6 +20,7 @@ import gmap2ical.composeapp.generated.resources.ok
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun ErrorAlertDialog(
     text: String,

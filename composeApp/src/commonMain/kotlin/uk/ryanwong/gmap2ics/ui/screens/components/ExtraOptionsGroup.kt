@@ -1,8 +1,6 @@
 /*
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
-@file:OptIn(ExperimentalResourceApi::class)
-
 package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.foundation.background
@@ -19,17 +17,20 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import gmap2ical.composeapp.generated.resources.Res
 import gmap2ical.composeapp.generated.resources.advanced_settings
+import gmap2ical.composeapp.generated.resources.console
+import gmap2ical.composeapp.generated.resources.database_marker_outline
 import gmap2ical.composeapp.generated.resources.place_api_lookup
 import gmap2ical.composeapp.generated.resources.verbose_console_log
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import java.text.MessageFormat
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun ExtraOptionsGroup(
     isPlaceApiEnabled: Boolean,
@@ -64,14 +65,14 @@ fun ExtraOptionsGroup(
             BinaryOptionButton(
                 isChecked = isPlaceApiEnabled,
                 text = MessageFormat.format(stringResource(Res.string.place_api_lookup)),
-                icon = painterResource(resourcePath = "/drawable/database_marker_outline.xml"),
+                icon = painterResource(Res.drawable.database_marker_outline),
                 onButtonClicked = onEnablePlaceApiLookupClicked,
                 modifier = Modifier.padding(end = 16.dp),
             )
             BinaryOptionButton(
                 isChecked = isVerboseLogEnabled,
                 text = MessageFormat.format(stringResource(Res.string.verbose_console_log)),
-                icon = painterResource(resourcePath = "/drawable/console.xml"),
+                icon = painterResource(Res.drawable.console),
                 onButtonClicked = onVerboseLogClicked,
             )
         }

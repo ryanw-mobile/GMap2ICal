@@ -23,12 +23,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import gmap2ical.composeapp.generated.resources.Res
 import gmap2ical.composeapp.generated.resources.convert
+import gmap2ical.composeapp.generated.resources.file_export_outline
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -51,7 +52,7 @@ fun ExportActionButton(
             modifier = Modifier.size(size = 64.dp),
         ) {
             Image(
-                painter = painterResource(resourcePath = "/drawable/file_export_outline.xml"),
+                painter = painterResource(Res.drawable.file_export_outline),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(color = Color.White),
                 modifier = Modifier.fillMaxSize(),

@@ -20,14 +20,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import gmap2ical.composeapp.generated.resources.Res
 import gmap2ical.composeapp.generated.resources.activity_segments
 import gmap2ical.composeapp.generated.resources.export_options
+import gmap2ical.composeapp.generated.resources.map_marker_outline
 import gmap2ical.composeapp.generated.resources.place_visits
+import gmap2ical.composeapp.generated.resources.road_variant
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 import java.text.MessageFormat
@@ -67,14 +69,14 @@ fun ExportOptionsGroup(
             BinaryOptionButton(
                 isChecked = exportActivitySegment,
                 text = MessageFormat.format(stringResource(Res.string.activity_segments)),
-                icon = painterResource(resourcePath = "/drawable/road_variant.xml"),
+                icon = painterResource(Res.drawable.road_variant),
                 onButtonClicked = onExportActivitySegmentClicked,
                 modifier = Modifier.padding(end = 16.dp),
             )
             BinaryOptionButton(
                 isChecked = exportPlaceVisit,
                 text = MessageFormat.format(stringResource(Res.string.place_visits)),
-                icon = painterResource(resourcePath = "/drawable/map_marker_outline.xml"),
+                icon = painterResource(Res.drawable.map_marker_outline),
                 onButtonClicked = onExportPlaceVisitClicked,
             )
         }

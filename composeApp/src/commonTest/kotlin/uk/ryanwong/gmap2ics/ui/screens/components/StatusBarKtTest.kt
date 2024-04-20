@@ -6,17 +6,19 @@ package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import gmap2ical.composeapp.generated.resources.Res
+import gmap2ical.composeapp.generated.resources.content_description_linear_progress_indicator
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.getString
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import uk.ryanwong.gmap2ics.ui.screens.ContentDescriptions
 import uk.ryanwong.gmap2ics.ui.theme.gregorygreen.GregoryGreenTheme
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalResourceApi::class)
 internal class StatusBarKtTest {
 
     /***
@@ -38,70 +40,67 @@ internal class StatusBarKtTest {
     @Test
     fun `Should not display LinearProgressIndicator if progress is null`() {
         scope.runTest {
-            // 🔴 Given
-            val statusMessage = "some-status-message"
-            val progress = null
+            with(compose) {
+                val statusMessage = "some-status-message"
+                val progress = null
 
-            // 🟡 When
-            compose.setContent {
-                GregoryGreenTheme {
-                    StatusBar(
-                        statusMessage = statusMessage,
-                        progress = progress,
-                    )
+                setContent {
+                    GregoryGreenTheme {
+                        StatusBar(
+                            statusMessage = statusMessage,
+                            progress = progress,
+                        )
+                    }
                 }
-            }
-            compose.awaitIdle()
+                awaitIdle()
 
-            // 🟢 Then
-            compose.onNodeWithContentDescription(label = ContentDescriptions.LINEAR_PROGRESS_INDICATOR)
-                .assertDoesNotExist()
+                onNodeWithContentDescription(label = getString(Res.string.content_description_linear_progress_indicator))
+                    .assertDoesNotExist()
+            }
         }
     }
 
     @Test
     fun `Should display LinearProgressIndicator if progress is 0`() {
         scope.runTest {
-            // 🔴 Given
-            val statusMessage = "some-status-message"
-            val progress = 0f
+            with(compose) {
+                val statusMessage = "some-status-message"
+                val progress = 0f
 
-            // 🟡 When
-            compose.setContent {
-                GregoryGreenTheme {
-                    StatusBar(
-                        statusMessage = statusMessage,
-                        progress = progress,
-                    )
+                setContent {
+                    GregoryGreenTheme {
+                        StatusBar(
+                            statusMessage = statusMessage,
+                            progress = progress,
+                        )
+                    }
                 }
-            }
-            compose.awaitIdle()
+                awaitIdle()
 
-            // 🟢 Then
-            compose.onNodeWithContentDescription(label = ContentDescriptions.LINEAR_PROGRESS_INDICATOR).assertExists()
+                onNodeWithContentDescription(label = getString(Res.string.content_description_linear_progress_indicator)).assertExists()
+            }
         }
     }
 
     @Test
     fun `Should display LinearProgressIndicator if progress is greater than 0`() {
         scope.runTest {
-            // 🔴 Given
-            val statusMessage = "some-status-message"
-            val progress = 8.25f
+            with(compose) {
+                val statusMessage = "some-status-message"
+                val progress = 8.25f
 
-            // 🟡 When
-            compose.setContent {
-                GregoryGreenTheme {
-                    StatusBar(
-                        statusMessage = statusMessage,
-                        progress = progress,
-                    )
+                setContent {
+                    GregoryGreenTheme {
+                        StatusBar(
+                            statusMessage = statusMessage,
+                            progress = progress,
+                        )
+                    }
                 }
-            }
-            compose.awaitIdle()
+                awaitIdle()
 
-            // 🟢 Then
-            compose.onNodeWithContentDescription(label = ContentDescriptions.LINEAR_PROGRESS_INDICATOR).assertExists()
+                onNodeWithContentDescription(label = getString(Res.string.content_description_linear_progress_indicator)).assertExists()
+            }
         }
     }
 }
