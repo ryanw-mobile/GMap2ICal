@@ -41,6 +41,7 @@ kotlin {
 
     sourceSets {
         val desktopMain by getting
+        val desktopTest by getting
 
         commonMain.dependencies {
             implementation(compose.components.resources)
@@ -84,7 +85,6 @@ kotlin {
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.mockk)
             implementation(libs.ktor.client.mock)
-            implementation(libs.compose.ui.test.junit4)
 
             implementation(libs.junit.jupiter)
             implementation(libs.junit.vintage.engine)
@@ -94,6 +94,10 @@ kotlin {
             implementation(libs.kotest.assertions.core)
 
             implementation(libs.moko.mvvm.test)
+        }
+        desktopTest.dependencies {
+            implementation(compose.desktop.uiTestJUnit4)
+            implementation(compose.desktop.currentOs)
         }
     }
 }

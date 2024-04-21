@@ -121,12 +121,14 @@ internal class MainScreenViewModelTest : FreeSpec() {
             }
 
             "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
-                mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
-                val initialState = mainScreenViewModel.exportPlaceVisit.first()
+                runTest {
+                    mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+                    val initialState = mainScreenViewModel.exportPlaceVisit.first()
 
-                mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
+                    mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
 
-                mainScreenViewModel.exportPlaceVisit.first() shouldBe initialState
+                    mainScreenViewModel.exportPlaceVisit.first() shouldBe initialState
+                }
             }
         }
 
