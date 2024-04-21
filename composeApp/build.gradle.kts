@@ -96,7 +96,7 @@ kotlin {
             implementation(libs.moko.mvvm.test)
 
             implementation(compose.desktop.uiTestJUnit4)
-            implementation(compose.desktop.currentOs)
+            // implementation(compose.desktop.currentOs)
         }
     }
 }
