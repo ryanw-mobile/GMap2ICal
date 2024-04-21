@@ -9,14 +9,14 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.GetPlaceDetailsAPIErrorException
 import uk.ryanwong.gmap2ics.data.repositories.PlaceDetailsNotFoundException
-import uk.ryanwong.gmap2ics.data.repositories.mocks.MockPlaceDetailsRepository
+import uk.ryanwong.gmap2ics.data.repositories.fakes.FakePlaceDetailsRepository
 import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.domain.models.timeline.Location
 import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.models.timeline.placevisit.PlaceVisit
-import uk.ryanwong.gmap2ics.usecases.VEventFromPlaceVisitUseCaseImpl
+import uk.ryanwong.gmap2ics.domain.usecases.VEventFromPlaceVisitUseCaseImpl
 import us.dustinj.timezonemap.TimeZone
 
 internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
@@ -30,7 +30,7 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
      */
 
     private lateinit var vEventFromPlaceVisitUseCase: VEventFromPlaceVisitUseCaseImpl
-    private lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
+    private lateinit var fakePlaceDetailsRepository: FakePlaceDetailsRepository
 
     // Taking a balance between using numerical values for testing and showing these carries no special meanings.
     private val someLatitudeE7 = 263383300
@@ -38,7 +38,7 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
     private val someDegreesLatitude = 26.3383300
     private val someDegreesLongitude = 127.8000000
 
-    private val mockPlaceVisit = PlaceVisit(
+    private val placeVisit = PlaceVisit(
         // meaningless values just to match the format
         durationEndTimestamp = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
         durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
@@ -52,20 +52,16 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
         eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon()),
     )
 
-    private fun setupUseCase() {
-        mockPlaceDetailsRepository = MockPlaceDetailsRepository()
-
-        vEventFromPlaceVisitUseCase =
-            VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = mockPlaceDetailsRepository)
-    }
-
     init {
+        beforeTest {
+            fakePlaceDetailsRepository = FakePlaceDetailsRepository()
+            vEventFromPlaceVisitUseCase = VEventFromPlaceVisitUseCaseImpl(placeDetailsRepository = fakePlaceDetailsRepository)
+        }
+
         "should return correct VEvent if repository returns place details" {
-            // 🔴 Given
-            setupUseCase()
-            val placeVisit = mockPlaceVisit
+            val placeVisit = placeVisit
             val enabledPlacesApiLookup = true
-            mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+            fakePlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
                 PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-place-name",
@@ -90,27 +86,22 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromPlaceVisitUseCase(
                 placeVisit = placeVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should return correct VEvent if placeVisit.location.placeId is null" {
-            // Note: This is less-than-ideal case and not likely to happen, but we still have to return something to followup manually
-            // 🔴 Given
-            setupUseCase()
-            val placeVisit = mockPlaceVisit.copy(
-                location = mockPlaceVisit.location.copy(
+            val placeVisit = placeVisit.copy(
+                location = placeVisit.location.copy(
                     placeId = null,
                 ),
             )
             val enabledPlacesApiLookup = true
-            mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+            fakePlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
                 PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-place-name",
@@ -135,24 +126,20 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromPlaceVisitUseCase(
                 placeVisit = placeVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should return correct VEvent if placeVisit.eventTimeZone is null" {
-            // 🔴 Given
-            setupUseCase()
-            val placeVisit = mockPlaceVisit.copy(
+            val placeVisit = placeVisit.copy(
                 eventTimeZone = null,
             )
             val enabledPlacesApiLookup = true
-            mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+            fakePlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
                 PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-place-name",
@@ -177,22 +164,18 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromPlaceVisitUseCase(
                 placeVisit = placeVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should return correct VEvent if enabledPlacesApiLookup is false" {
-            // 🔴 Given
-            setupUseCase()
-            val placeVisit = mockPlaceVisit
+            val placeVisit = placeVisit
             val enabledPlacesApiLookup = false
-            mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+            fakePlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
                 PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-place-name",
@@ -217,22 +200,18 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromPlaceVisitUseCase(
                 placeVisit = placeVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should still return correct VEvent if repository returns PlaceDetailsNotFoundException" {
-            // 🔴 Given
-            setupUseCase()
-            val placeVisit = mockPlaceVisit
+            val placeVisit = placeVisit
             val enabledPlacesApiLookup = true
-            mockPlaceDetailsRepository.getPlaceDetailsResponse =
+            fakePlaceDetailsRepository.getPlaceDetailsResponse =
                 Result.failure(exception = PlaceDetailsNotFoundException(placeId = "some-place-id"))
             val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
@@ -249,22 +228,18 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromPlaceVisitUseCase(
                 placeVisit = placeVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should still return correct VEvent if repository returns GetPlaceDetailsAPIErrorException" {
-            // 🔴 Given
-            setupUseCase()
-            val placeVisit = mockPlaceVisit
+            val placeVisit = placeVisit
             val enabledPlacesApiLookup = true
-            mockPlaceDetailsRepository.getPlaceDetailsResponse =
+            fakePlaceDetailsRepository.getPlaceDetailsResponse =
                 Result.failure(exception = GetPlaceDetailsAPIErrorException(apiErrorMessage = "some-api-error-message"))
             val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
@@ -281,13 +256,11 @@ internal class VEventFromPlaceVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromPlaceVisitUseCase(
                 placeVisit = placeVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
     }

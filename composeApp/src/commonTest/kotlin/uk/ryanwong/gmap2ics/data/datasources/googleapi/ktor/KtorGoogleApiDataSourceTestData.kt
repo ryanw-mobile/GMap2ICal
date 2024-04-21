@@ -12,7 +12,7 @@ internal object KtorGoogleApiDataSourceTestData {
     /***
      * Data source unit tests I would prefer using real data samples.
      */
-    val mockPlaceDetailsDataModel = uk.ryanwong.gmap2ics.data.models.places.PlaceDetails(
+    val placeDetailsDataModel = uk.ryanwong.gmap2ics.data.models.places.PlaceDetails(
         result = Result(
             formattedAddress = "8 Greg Ave, Bollington, Macclesfield SK10 5HR, UK",
             formattedPhoneNumber = null,

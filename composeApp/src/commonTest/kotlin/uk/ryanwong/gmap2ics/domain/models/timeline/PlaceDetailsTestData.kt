@@ -13,7 +13,7 @@ internal object PlaceDetailsTestData {
      * Note: Seeing real data would help understand what kind of data we are getting from Google.
      */
 
-    val mockPlaceDetailsResult = Result(
+    val placeDetailsResult = Result(
         formattedAddress = "Wakefield WF4 4LG, UK",
         formattedPhoneNumber = "01924 832631",
         geometry = Geometry(

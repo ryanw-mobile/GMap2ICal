@@ -11,19 +11,20 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import uk.ryanwong.gmap2ics.app.configs.Config
 import uk.ryanwong.gmap2ics.domain.models.UILogEntry
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.domain.models.timeline.Timeline
 import uk.ryanwong.gmap2ics.domain.repositories.LocalFileRepository
 import uk.ryanwong.gmap2ics.domain.repositories.TimelineRepository
-import uk.ryanwong.gmap2ics.domain.usecases.GetActivitySegmentVEventUseCase
-import uk.ryanwong.gmap2ics.domain.usecases.GetOutputFilenameUseCase
-import uk.ryanwong.gmap2ics.domain.usecases.GetPlaceVisitVEventUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetActivitySegmentVEventUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetOutputFilenameUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetPlaceVisitVEventUseCase
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
 import java.nio.file.Paths
-import java.util.ResourceBundle
 
+@OptIn(ExperimentalResourceApi::class)
 class MainScreenViewModel(
     private val configFile: Config,
     private val timelineRepository: TimelineRepository,
@@ -31,7 +32,6 @@ class MainScreenViewModel(
     private val getOutputFilenameUseCase: GetOutputFilenameUseCase,
     private val getActivitySegmentVEventUseCase: GetActivitySegmentVEventUseCase,
     private val getPlaceVisitVEventUseCase: GetPlaceVisitVEventUseCase,
-    private val resourceBundle: ResourceBundle,
     private val projectBasePath: String = Paths.get("").toAbsolutePath().toString().plus("/"),
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) : ViewModel() {
@@ -250,8 +250,7 @@ class MainScreenViewModel(
 
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
             else ->
-                _mainScreenUIState.value =
-                    MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.json.path"))
+                _mainScreenUIState.value = MainScreenUIState.Error(errMsg = "Error updating JSON path")
         }
     }
 
@@ -263,9 +262,7 @@ class MainScreenViewModel(
             }
 
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
-            else ->
-                _mainScreenUIState.value =
-                    MainScreenUIState.Error(errMsg = resourceBundle.getString("error.updating.ical.path"))
+            else -> _mainScreenUIState.value = MainScreenUIState.Error(errMsg = "Error updating iCal path")
         }
     }
 

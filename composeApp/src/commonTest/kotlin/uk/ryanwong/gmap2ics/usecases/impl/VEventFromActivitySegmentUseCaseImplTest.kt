@@ -8,7 +8,7 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.GetPlaceDetailsAPIErrorException
 import uk.ryanwong.gmap2ics.data.repositories.PlaceDetailsNotFoundException
-import uk.ryanwong.gmap2ics.data.repositories.mocks.MockPlaceDetailsRepository
+import uk.ryanwong.gmap2ics.data.repositories.fakes.FakePlaceDetailsRepository
 import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng
@@ -16,8 +16,8 @@ import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegmentAppModelTestData
 import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegmentAppModelTestData.SOME_END_DEGREES_LATITUDE
 import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegmentAppModelTestData.SOME_END_DEGREES_LONGITUDE
-import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegmentAppModelTestData.mockActivitySegment
-import uk.ryanwong.gmap2ics.usecases.VEventFromActivitySegmentUseCaseImpl
+import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegmentAppModelTestData.activitySegment
+import uk.ryanwong.gmap2ics.domain.usecases.VEventFromActivitySegmentUseCaseImpl
 
 internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
 
@@ -33,23 +33,20 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
      */
 
     private lateinit var vEventFromActivitySegmentUseCase: VEventFromActivitySegmentUseCaseImpl
-    private lateinit var mockPlaceDetailsRepository: MockPlaceDetailsRepository
-
-    private fun setupUseCase() {
-        mockPlaceDetailsRepository = MockPlaceDetailsRepository()
-
-        vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
-            placeDetailsRepository = mockPlaceDetailsRepository,
-        )
-    }
+    private lateinit var fakePlaceDetailsRepository: FakePlaceDetailsRepository
 
     init {
+        beforeTest {
+            fakePlaceDetailsRepository = FakePlaceDetailsRepository()
+            vEventFromActivitySegmentUseCase = VEventFromActivitySegmentUseCaseImpl(
+                placeDetailsRepository = fakePlaceDetailsRepository,
+            )
+        }
+
         "should return correct VEvent if repository returns place details" {
-            // 🔴 Given
-            setupUseCase()
-            val activitySegment = mockActivitySegment
+            val activitySegment = activitySegment
             val enablePlacesApiLookup = true
-            mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+            fakePlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
                 PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-place-name",
@@ -74,24 +71,20 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromActivitySegmentUseCase(
                 activitySegment = activitySegment,
                 enablePlacesApiLookup = enablePlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should return correct VEvent if activitySegment.eventTimeZone is null" {
-            // 🔴 Given
-            setupUseCase()
-            val activitySegment = mockActivitySegment.copy(
+            val activitySegment = activitySegment.copy(
                 eventTimeZone = null,
             )
             val enablePlacesApiLookup = true
-            mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+            fakePlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
                 PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-place-name",
@@ -116,22 +109,18 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromActivitySegmentUseCase(
                 activitySegment = activitySegment,
                 enablePlacesApiLookup = enablePlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should return correct VEvent if enablePlacesApiLookup is false" {
-            // 🔴 Given
-            setupUseCase()
-            val activitySegment = mockActivitySegment
+            val activitySegment = activitySegment
             val enablePlacesApiLookup = false
-            mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+            fakePlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
                 PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-place-name",
@@ -156,22 +145,18 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromActivitySegmentUseCase(
                 activitySegment = activitySegment,
                 enablePlacesApiLookup = enablePlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should still return correct VEvent if repository returns PlaceDetailsNotFoundException" {
-            // 🔴 Given
-            setupUseCase()
-            val activitySegment = mockActivitySegment
+            val activitySegment = activitySegment
             val enablePlacesApiLookup = true
-            mockPlaceDetailsRepository.getPlaceDetailsResponse =
+            fakePlaceDetailsRepository.getPlaceDetailsResponse =
                 Result.failure(exception = PlaceDetailsNotFoundException(placeId = "some-place-id"))
             val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
@@ -188,22 +173,18 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromActivitySegmentUseCase(
                 activitySegment = activitySegment,
                 enablePlacesApiLookup = enablePlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should still return correct VEvent if repository returns GetPlaceDetailsAPIErrorException" {
-            // 🔴 Given
-            setupUseCase()
-            val activitySegment = mockActivitySegment
+            val activitySegment = activitySegment
             val enablePlacesApiLookup = true
-            mockPlaceDetailsRepository.getPlaceDetailsResponse =
+            fakePlaceDetailsRepository.getPlaceDetailsResponse =
                 Result.failure(exception = GetPlaceDetailsAPIErrorException(apiErrorMessage = "some-api-error-message"))
             val expectedVEvent = VEvent(
                 uid = "2011-11-11T11:22:22.222Z",
@@ -220,13 +201,11 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromActivitySegmentUseCase(
                 activitySegment = activitySegment,
                 enablePlacesApiLookup = enablePlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
@@ -234,11 +213,9 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
         // Which means if we have an non-empty WayPoint list, both should exist
         "firstPlaceDetails and lastPlaceDetails" - {
             "should return correct VEvent if WayPoint is null" {
-                // 🔴 Given
-                setupUseCase()
-                val activitySegment = ActivitySegmentAppModelTestData.mockActivitySegmentNoWayPoint
+                val activitySegment = ActivitySegmentAppModelTestData.activitySegmentNoWayPoint
                 val enablePlacesApiLookup = true
-                mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+                fakePlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
                     PlaceDetails(
                         placeId = "some-place-id",
                         name = "some-place-name",
@@ -263,24 +240,20 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                     lastModified = "2011-11-11T11:22:22.222Z",
                 )
 
-                // 🟡 When
                 val vEvent = vEventFromActivitySegmentUseCase(
                     activitySegment = activitySegment,
                     enablePlacesApiLookup = enablePlacesApiLookup,
                 )
 
-                // 🟢 Then
                 vEvent shouldBe expectedVEvent
             }
         }
 
         "startPlaceDetails" - {
             "should return correct VEvent if PlaceId is null" {
-                // 🔴 Given
-                setupUseCase()
-                val activitySegment = ActivitySegmentAppModelTestData.mockActivitySegmentNoStartLocationPlaceId
+                val activitySegment = ActivitySegmentAppModelTestData.activitySegmentNoStartLocationPlaceId
                 val enablePlacesApiLookup = true
-                mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+                fakePlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
                     PlaceDetails(
                         placeId = "some-place-id",
                         name = "some-place-name",
@@ -305,24 +278,20 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                     lastModified = "2011-11-11T11:22:22.222Z",
                 )
 
-                // 🟡 When
                 val vEvent = vEventFromActivitySegmentUseCase(
                     activitySegment = activitySegment,
                     enablePlacesApiLookup = enablePlacesApiLookup,
                 )
 
-                // 🟢 Then
                 vEvent shouldBe expectedVEvent
             }
         }
 
         "endPlaceDetails" - {
             "should return correct VEvent if PlaceId is null" {
-                // 🔴 Given
-                setupUseCase()
-                val activitySegment = ActivitySegmentAppModelTestData.mockActivitySegmentNoEndLocationPlaceId
+                val activitySegment = ActivitySegmentAppModelTestData.activitySegmentNoEndLocationPlaceId
                 val enablePlacesApiLookup = true
-                mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
+                fakePlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
                     PlaceDetails(
                         placeId = "some-place-id",
                         name = "some-place-name",
@@ -347,13 +316,11 @@ internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
                     lastModified = "2011-11-11T11:22:22.222Z",
                 )
 
-                // 🟡 When
                 val vEvent = vEventFromActivitySegmentUseCase(
                     activitySegment = activitySegment,
                     enablePlacesApiLookup = enablePlacesApiLookup,
                 )
 
-                // 🟢 Then
                 vEvent shouldBe expectedVEvent
             }
         }

@@ -36,13 +36,15 @@ kotlin {
         else -> error("Unsupported arch: $osArch")
     }
 
-    val version = "0.7.70" // or any more recent version
-    val target = "$targetOs-$targetArch"
+    val skikoVersion = "0.7.70" // or any more recent version
+    val skikoTarget = "$targetOs-$targetArch"
 
     sourceSets {
         val desktopMain by getting
 
         commonMain.dependencies {
+            implementation(compose.components.resources)
+
             implementation(compose.desktop.currentOs)
 
             implementation(libs.timezonemap)
@@ -63,13 +65,12 @@ kotlin {
 
             implementation(libs.koin.core)
             implementation(libs.koin.test)
-            implementation(libs.koin.android)
 
             api(libs.moko.mvvm.core)
             api(libs.moko.mvvm.compose)
         }
         desktopMain.dependencies {
-            implementation("org.jetbrains.skiko:skiko-awt-runtime-$target:$version")
+            implementation("org.jetbrains.skiko:skiko-awt-runtime-$skikoTarget:$skikoVersion")
             // implementation(compose.desktop.macos_arm64)
             implementation(compose.desktop.currentOs)
         }
@@ -91,10 +92,17 @@ kotlin {
             implementation(libs.kotest.framework.engine)
             implementation(libs.kotest.runner.junit5.jvm)
             implementation(libs.kotest.assertions.core)
-            implementation(libs.kotest.property)
 
             implementation(libs.moko.mvvm.test)
         }
+    }
+}
+
+ktlint {
+    enableExperimentalRules.set(true)
+    filter {
+        // exclude("**/generated/**")
+        exclude { projectDir.toURI().relativize(it.file.toURI()).path.contains("/generated/") }
     }
 }
 

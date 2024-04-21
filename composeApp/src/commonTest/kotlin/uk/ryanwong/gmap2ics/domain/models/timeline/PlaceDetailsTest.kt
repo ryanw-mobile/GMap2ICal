@@ -6,19 +6,14 @@ package uk.ryanwong.gmap2ics.domain.models.timeline
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetailsTestData.mockPlaceDetailsResult
+import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetailsTestData.placeDetailsResult
 
 internal class PlaceDetailsTest : FreeSpec() {
 
     init {
         "should convert correctly from data.models.places.Result to PLaceDetails" {
-            // 🔴 Given
-            val placeDetailsResult = mockPlaceDetailsResult
-
-            // 🟡 When
+            val placeDetailsResult = placeDetailsResult
             val placeDetails = PlaceDetails.from(placeDetailsResult = placeDetailsResult)
-
-            // 🟢 Then
             placeDetails shouldBe PlaceDetails(
                 placeId = "ChIJOX4_ortjeUgR2_LUcFpvLg4",
                 name = "Yorkshire Sculpture Park",
@@ -38,7 +33,6 @@ internal class PlaceDetailsTest : FreeSpec() {
 
         "getFormattedName" - {
             "should format the name with a correct emoji if PlaceType is known" {
-                // 🔴 Given
                 val placeDetails = PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-name",
@@ -54,16 +48,11 @@ internal class PlaceDetailsTest : FreeSpec() {
                     ),
                     url = "https://maps.google.com/?cid=1021876599690425051",
                 )
-
-                // 🟡 When
                 val formattedName = placeDetails.getFormattedName()
-
-                // 🟢 Then
                 formattedName shouldBe "\uD83D\uDDBC some-name"
             }
 
             "should format the name with a default emoji for unknown PlaceType" {
-                // 🔴 Given
                 val placeDetails = PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-name",
@@ -74,11 +63,7 @@ internal class PlaceDetailsTest : FreeSpec() {
                     ),
                     url = "https://maps.google.com/?cid=1021876599690425051",
                 )
-
-                // 🟡 When
                 val formattedName = placeDetails.getFormattedName()
-
-                // 🟢 Then
                 formattedName shouldBe "\uD83D\uDCCD some-name"
             }
         }

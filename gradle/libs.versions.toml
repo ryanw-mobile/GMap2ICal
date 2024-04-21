@@ -11,7 +11,7 @@ retrofitKotlinCoroutinesAdapter = "0.9.2"
 retrofitKotlinxSerializationConverter = "1.0.0"
 napier = "2.7.1"
 gradleKtlint = "12.1.0"
-compose = "1.6.2"
+compose = "1.6.10-beta01"
 kover = "0.7.6"
 mockk = "1.13.10"
 junit = "5.10.2"
@@ -46,7 +46,6 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
 napier = { group = "io.github.aakira", name = "napier", version.ref = "napier" }
 kotest-framework-engine = { group = "io.kotest", name = "kotest-framework-engine", version.ref = "kotest" }
-kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
 kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 kotest-runner-junit5-jvm = { group = "io.kotest", name = "kotest-runner-junit5-jvm", version.ref = "kotest" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }

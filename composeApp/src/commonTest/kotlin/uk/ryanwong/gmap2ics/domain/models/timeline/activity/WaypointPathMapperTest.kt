@@ -13,7 +13,6 @@ internal class WaypointPathMapperTest : FreeSpec() {
     init {
         "toDomainModel()" - {
             "should correctly map Data Model to Domain Model" {
-                // 🔴 Given
                 val waypointPathDataModel = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPath(
                     confidence = 98.7,
                     distanceMeters = 123.45,
@@ -26,10 +25,8 @@ internal class WaypointPathMapperTest : FreeSpec() {
                     travelMode = "some-travel-mode",
                 )
 
-                // 🟡 When
                 val waypointPath = waypointPathDataModel.toDomainModel()
 
-                // 🟢 Then
                 waypointPath shouldBe WaypointPath(
                     distanceMeters = 123.45,
                     roadSegmentPlaceIds = listOf("some-place-id-1", "some-place-id-2", "some-place-id-3"),
@@ -37,7 +34,6 @@ internal class WaypointPathMapperTest : FreeSpec() {
             }
 
             "should still correctly map Data Model to Domain Model when distanceMeters is null" {
-                // 🔴 Given
                 val waypointPathDataModel = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPath(
                     confidence = 98.7,
                     distanceMeters = null,
@@ -50,10 +46,8 @@ internal class WaypointPathMapperTest : FreeSpec() {
                     travelMode = "some-travel-mode",
                 )
 
-                // 🟡 When
                 val waypointPath = waypointPathDataModel.toDomainModel()
 
-                // 🟢 Then
                 waypointPath shouldBe WaypointPath(
                     distanceMeters = 0.0,
                     roadSegmentPlaceIds = listOf("some-place-id-1", "some-place-id-2", "some-place-id-3"),
@@ -61,7 +55,6 @@ internal class WaypointPathMapperTest : FreeSpec() {
             }
 
             "should still correctly map Data Model to Domain Model when roadSegment is null" {
-                // 🔴 Given
                 val waypointPathDataModel = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPath(
                     confidence = 98.7,
                     distanceMeters = 123.45,
@@ -70,10 +63,8 @@ internal class WaypointPathMapperTest : FreeSpec() {
                     travelMode = "some-travel-mode",
                 )
 
-                // 🟡 When
                 val waypointPath = waypointPathDataModel.toDomainModel()
 
-                // 🟢 Then
                 waypointPath shouldBe WaypointPath(
                     distanceMeters = 123.45,
                     roadSegmentPlaceIds = emptyList(),
@@ -81,7 +72,6 @@ internal class WaypointPathMapperTest : FreeSpec() {
             }
 
             "should still correctly map Data Model to Domain Model when roadSegment contains some invalid entries" {
-                // 🔴 Given
                 val waypointPathDataModel = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPath(
                     confidence = 98.7,
                     distanceMeters = 123.45,
@@ -96,10 +86,8 @@ internal class WaypointPathMapperTest : FreeSpec() {
                     travelMode = "some-travel-mode",
                 )
 
-                // 🟡 When
                 val waypointPath = waypointPathDataModel.toDomainModel()
 
-                // 🟢 Then
                 waypointPath shouldBe WaypointPath(
                     distanceMeters = 123.45,
                     roadSegmentPlaceIds = listOf("some-place-id-1", "some-place-id-2", "some-place-id-3"),

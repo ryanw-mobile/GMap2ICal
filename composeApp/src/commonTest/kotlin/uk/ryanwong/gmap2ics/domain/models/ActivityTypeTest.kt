@@ -12,7 +12,6 @@ internal class ActivityTypeTest : FreeSpec() {
     init {
         "parse()" - {
             "should convert correctly from known ActivityType strings to the Enums" {
-                // 🔴 Given
                 val knownActivityTypes = mapOf(
                     "BOATING" to ActivityType.BOATING,
                     "CYCLING" to ActivityType.CYCLING,
@@ -36,33 +35,21 @@ internal class ActivityTypeTest : FreeSpec() {
                 )
 
                 knownActivityTypes.forEach { knownActivityType ->
-                    // 🟡 When
                     val activityTypeEnum = ActivityType.parse(activityType = knownActivityType.key)
 
-                    // 🟢 Then
                     activityTypeEnum shouldBe knownActivityType.value
                 }
             }
 
             "should return ActivityType.UNKNOWN_ACTIVITY_TYPE for unknown strings" {
-                // 🔴 Given
                 val unknownActivityString = "some-unknown-activity-type"
-
-                // 🟡 When
                 val activityTypeEnum = ActivityType.parse(activityType = unknownActivityString)
-
-                // 🟢 Then
                 activityTypeEnum shouldBe ActivityType.UNKNOWN_ACTIVITY_TYPE
             }
 
             "should return ActivityType.UNKNOWN_ACTIVITY_TYPE for null input" {
-                // 🔴 Given
                 val unknownActivityString = null
-
-                // 🟡 When
                 val activityTypeEnum = ActivityType.parse(activityType = unknownActivityString)
-
-                // 🟢 Then
                 activityTypeEnum shouldBe ActivityType.UNKNOWN_ACTIVITY_TYPE
             }
         }

@@ -1,0 +1,24 @@
+<!--
+         Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
+-->
+<resources>
+    <string name="activity_segments">"Activity\nSegments</string>
+    <string name="advanced_settings">Advanced Settings</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="change_folder">Change folder</string>
+    <string name="convert">Export</string>
+    <string name="export_options">Export Options</string>
+    <string name="exported">EXPORTED</string>
+    <string name="file_locations">File Locations</string>
+    <string name="screen_title_main">GMap2iCal - Export Google Maps Timeline to iCal</string>
+    <string name="ical_output_location">Save iCal to</string>
+    <string name="ical_path">EXPORT iCAL TO</string>
+    <string name="ignored">IGNORED</string>
+    <string name="json_path">READ JSON TIMELINE FROM</string>
+    <string name="json_source_location">Read JSON source from</string>
+    <string name="place_api_lookup">Place API\nLookup</string>
+    <string name="place_visits">Place\nVisits</string>
+    <string name="verbose_console_log">Verbose\nConsole Log</string>
+    <string name="content_description_linear_progress_indicator">Progress indicator</string>
+</resources>

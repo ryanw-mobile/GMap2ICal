@@ -10,7 +10,6 @@ import io.kotest.matchers.shouldBe
 internal class LocationTest : FreeSpec() {
     init {
         "should return correct formatted values" {
-            // 🔴 Given
             val location = Location(
                 placeId = "some-place-id",
                 latitudeE7 = 343970563,
@@ -19,14 +18,13 @@ internal class LocationTest : FreeSpec() {
                 address = "some-address",
             )
 
-            // 🟡 When - extra variables to improve readability
+            // extra variables to improve readability
             val latitude = location.getLatitude()
             val longitude = location.getLongitude()
             val formattedLatLng = location.getFormattedLatLng()
             val googleMapsLatLngLink = location.getGoogleMapsLatLngLink()
             val googleMapsPlaceIdLink = location.getGoogleMapsPlaceIdLink()
 
-            // 🟢 Then
             latitude shouldBe 34.3970563
             longitude shouldBe 132.4677422
             formattedLatLng shouldBe "34.397056,132.467742"
@@ -36,7 +34,6 @@ internal class LocationTest : FreeSpec() {
 
         "getGoogleMapsPlaceIdLink" - {
             "Should return empty string if placeId is null" {
-                // 🔴 Given
                 val location = Location(
                     placeId = null,
                     latitudeE7 = 1,
@@ -45,10 +42,9 @@ internal class LocationTest : FreeSpec() {
                     address = "some-address",
                 )
 
-                // 🟡 When - extra variables to improve readability
+                // extra variables to improve readability
                 val googleMapsPlaceIdLink = location.getGoogleMapsPlaceIdLink()
 
-                // 🟢 Then
                 googleMapsPlaceIdLink shouldBe ""
             }
         }

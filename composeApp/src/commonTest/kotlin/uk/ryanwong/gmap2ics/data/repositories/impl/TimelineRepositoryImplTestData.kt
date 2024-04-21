@@ -20,7 +20,7 @@ import uk.ryanwong.gmap2ics.domain.models.timeline.placevisit.PlaceVisit
 import us.dustinj.timezonemap.TimeZone
 
 internal object TimelineRepositoryImplTestData {
-    val mockJsonString = """{
+    const val JSON_STRING = """{
   "timelineObjects": [{
     "activitySegment": {
       "startLocation": {
@@ -237,7 +237,7 @@ internal object TimelineRepositoryImplTestData {
   }]
 }"""
 
-    val mockTimeLineFromJsonString = Timeline(
+    val timeLineFromJsonString = Timeline(
         timelineEntries = listOf(
             TimelineEntry(
                 activitySegment =

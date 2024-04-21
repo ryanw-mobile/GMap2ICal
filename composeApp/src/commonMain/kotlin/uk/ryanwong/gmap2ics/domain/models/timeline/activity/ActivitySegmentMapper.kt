@@ -4,11 +4,11 @@
 
 package uk.ryanwong.gmap2ics.domain.models.timeline.activity
 
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import uk.ryanwong.gmap2ics.domain.models.ActivityType
 import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import uk.ryanwong.gmap2ics.domain.models.timeline.Location
 import uk.ryanwong.gmap2ics.domain.models.timeline.toDomainModel
+import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapWrapper
 
 fun uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment.toDomainModel(
     timeZoneMap: TimeZoneMapWrapper,

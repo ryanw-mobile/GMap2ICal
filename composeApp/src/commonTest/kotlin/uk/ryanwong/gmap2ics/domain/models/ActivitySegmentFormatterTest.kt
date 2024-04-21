@@ -17,7 +17,6 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
     init {
         "parseActivityRouteText" - {
             "should format string using startPlaceDetails if it is not null and endPlaceDetails is null" {
-                // 🔴 Given
                 val startPlaceDetails = PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-start-name",
@@ -33,7 +32,6 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                 val startLocation = "some-start-location"
                 val endLocation = "some-end-location"
 
-                // 🟡 When
                 val routeText = ActivitySegmentFormatter.parseActivityRouteText(
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
@@ -41,12 +39,10 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     endLocation = endLocation,
                 )
 
-                // 🟢 Then
                 routeText shouldBe "(some-start-name ➡ null)"
             }
 
             "should format string using endPlaceDetails if it is not null and startPlaceDetails is null" {
-                // 🔴 Given
                 val startPlaceDetails = null
                 val endPlaceDetails = PlaceDetails(
                     placeId = "some-place-id",
@@ -62,7 +58,6 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                 val startLocation = "some-start-location"
                 val endLocation = "some-end-location"
 
-                // 🟡 When
                 val routeText = ActivitySegmentFormatter.parseActivityRouteText(
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
@@ -70,12 +65,10 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     endLocation = endLocation,
                 )
 
-                // 🟢 Then
                 routeText shouldBe "(null ➡ some-end-name)"
             }
 
             "should format string using startPlaceDetails and endPlaceDetails if both are not null" {
-                // 🔴 Given
                 val startPlaceDetails = PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-start-name",
@@ -101,7 +94,6 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                 val startLocation = "some-start-location"
                 val endLocation = "some-end-location"
 
-                // 🟡 When
                 val routeText = ActivitySegmentFormatter.parseActivityRouteText(
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
@@ -109,18 +101,15 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     endLocation = endLocation,
                 )
 
-                // 🟢 Then
                 routeText shouldBe "(some-start-name ➡ some-end-name)"
             }
 
             "should format string using startLocation and endLocation if both PlaceDetails are null" {
-                // 🔴 Given
                 val startPlaceDetails = null
                 val endPlaceDetails = null
                 val startLocation = "some-start-location"
                 val endLocation = "some-end-location"
 
-                // 🟡 When
                 val routeText = ActivitySegmentFormatter.parseActivityRouteText(
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
@@ -128,18 +117,15 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     endLocation = endLocation,
                 )
 
-                // 🟢 Then
                 routeText shouldBe "(some-start-location ➡ some-end-location)"
             }
 
             "should return an empty string if all arguments are null" {
-                // 🔴 Given
                 val startPlaceDetails = null
                 val endPlaceDetails = null
                 val startLocation = null
                 val endLocation = null
 
-                // 🟡 When
                 val routeText = ActivitySegmentFormatter.parseActivityRouteText(
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
@@ -147,14 +133,12 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     endLocation = endLocation,
                 )
 
-                // 🟢 Then
                 routeText shouldBe ""
             }
         }
 
         "parseTimelineDescription" - {
             "should format string using startPlaceDetails if it is not null" {
-                // 🔴 Given
                 val startPlaceDetails = PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-start-name",
@@ -170,7 +154,6 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                 val startLocationText = "some-start-location-text"
                 val endLocationText = "some-end-location-text"
 
-                // 🟡 When
                 val timelineDescription = ActivitySegmentFormatter.parseTimelineDescription(
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
@@ -178,12 +161,10 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     endLocationText = endLocationText,
                 )
 
-                // 🟢 Then
                 timelineDescription shouldBe "some-start-location-textsome-end-location-textFirst segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\n"
             }
 
             "should format string using endPlaceDetails if it is not null" {
-                // 🔴 Given
                 val startPlaceDetails = null
                 val endPlaceDetails = PlaceDetails(
                     placeId = "some-place-id",
@@ -199,7 +180,6 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                 val startLocationText = "some-start-location-text"
                 val endLocationText = "some-end-location-text"
 
-                // 🟡 When
                 val timelineDescription = ActivitySegmentFormatter.parseTimelineDescription(
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
@@ -207,12 +187,10 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     endLocationText = endLocationText,
                 )
 
-                // 🟢 Then
                 timelineDescription shouldBe "some-start-location-textsome-end-location-textLast segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\n"
             }
 
             "should format string using startPlaceDetails and endPlaceDetails if both are not null" {
-                // 🔴 Given
                 val startPlaceDetails = PlaceDetails(
                     placeId = "some-place-id",
                     name = "some-start-name",
@@ -238,7 +216,6 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                 val startLocationText = "some-start-location-text"
                 val endLocationText = "some-end-location-text"
 
-                // 🟡 When
                 val timelineDescription = ActivitySegmentFormatter.parseTimelineDescription(
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
@@ -246,18 +223,15 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     endLocationText = endLocationText,
                 )
 
-                // 🟢 Then
                 timelineDescription shouldBe "some-start-location-textsome-end-location-textFirst segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\nLast segment: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\n"
             }
 
             "should format string using startLocation and endLocation if both PlaceDetails are null" {
-                // 🔴 Given
                 val startPlaceDetails = null
                 val endPlaceDetails = null
                 val startLocationText = "some-start-location-text"
                 val endLocationText = "some-end-location-text"
 
-                // 🟡 When
                 val timelineDescription = ActivitySegmentFormatter.parseTimelineDescription(
                     startPlaceDetails = startPlaceDetails,
                     endPlaceDetails = endPlaceDetails,
@@ -265,14 +239,12 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     endLocationText = endLocationText,
                 )
 
-                // 🟢 Then
                 timelineDescription shouldBe "some-start-location-textsome-end-location-text"
             }
         }
 
         "getStartLocationText" - {
             "should format string using placeDetails if it is not null" {
-                // 🔴 Given
                 val startLocation = Location(
                     placeId = "some-place-id",
                     latitudeE7 = 121234567,
@@ -292,18 +264,15 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     url = "https://some.url/",
                 )
 
-                // 🟡 When
                 val startLocationText = ActivitySegmentFormatter.getStartLocationText(
                     startLocation = startLocation,
                     placeDetails = placeDetails,
                 )
 
-                // 🟢 Then
                 startLocationText shouldBe "Start Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\n"
             }
 
             "should format string using startLocation if placeDetails is null" {
-                // 🔴 Given
                 val startLocation = Location(
                     placeId = "some-place-id",
                     latitudeE7 = 121234567,
@@ -313,20 +282,17 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                 )
                 val placeDetails = null
 
-                // 🟡 When
                 val startLocationText = ActivitySegmentFormatter.getStartLocationText(
                     startLocation = startLocation,
                     placeDetails = placeDetails,
                 )
 
-                // 🟢 Then
                 startLocationText shouldBe "Start Location: 12.123457,123.123457\\nhttps://maps.google.com?q=12.123457,123.123457\\n\\n"
             }
         }
 
         "getEndLocationText" - {
             "should format string using placeDetails if it is not null" {
-                // 🔴 Given
                 val endLocation = Location(
                     placeId = "some-place-id",
                     latitudeE7 = 121234567,
@@ -346,18 +312,15 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                     url = "https://some.url/",
                 )
 
-                // 🟡 When
                 val endLocationText = ActivitySegmentFormatter.getEndLocationText(
                     endLocation = endLocation,
                     placeDetails = placeDetails,
                 )
 
-                // 🟢 Then
                 endLocationText shouldBe "End Location: some-formatted-address\\nhttps://www.google.com/maps/place/?q=place_id:some-place-id\\n\\n"
             }
 
             "should format string using endLocation if placeDetails is null" {
-                // 🔴 Given
                 val endLocation = Location(
                     placeId = "some-place-id",
                     latitudeE7 = 121234567,
@@ -367,26 +330,19 @@ internal class ActivitySegmentFormatterTest : FreeSpec() {
                 )
                 val placeDetails = null
 
-                // 🟡 When
                 val endLocationText = ActivitySegmentFormatter.getEndLocationText(
                     endLocation = endLocation,
                     placeDetails = placeDetails,
                 )
 
-                // 🟢 Then
                 endLocationText shouldBe "End Location: 12.123457,123.123457\\nhttps://maps.google.com?q=12.123457,123.123457\\n\\n"
             }
         }
 
         "kilometersToMiles" - {
             "should return correct miles" {
-                // 🔴 Given
                 val meters = 3000.0
-
-                // 🟡 When
                 val miles = ActivitySegmentFormatter.kilometersToMiles(meters = meters)
-
-                // 🟢 Then
                 miles shouldBe 1863.0
             }
         }

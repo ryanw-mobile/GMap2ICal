@@ -16,7 +16,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
-import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.GoogleMapsApiClientImplTestData.mockPlaceDetailsGregAve
+import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.GoogleMapsApiClientImplTestData.PLACE_DETAILS_GREG_AVE
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.impl.GoogleMapsApiClientImpl
 import uk.ryanwong.gmap2ics.data.models.places.Geometry
 import uk.ryanwong.gmap2ics.data.models.places.Location
@@ -27,11 +27,6 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
 
     private lateinit var apiClient: GoogleMapsApiClientImpl
     private lateinit var scope: TestScope
-
-    private fun setupDispatcher() {
-        val dispatcher = StandardTestDispatcher()
-        scope = TestScope(dispatcher)
-    }
 
     private fun setupEngine(status: HttpStatusCode, payload: String) {
         val mockEngine = MockEngine { _ ->
@@ -45,14 +40,17 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
     }
 
     init {
+        beforeTest {
+            val dispatcher = StandardTestDispatcher()
+            scope = TestScope(dispatcher)
+        }
+
         "getPlaceDetails" - {
             "should return PlaceDetails correctly if API request is successful" {
-                setupDispatcher()
                 scope.runTest {
-                    // 🔴 Given
                     setupEngine(
                         status = HttpStatusCode.OK,
-                        payload = mockPlaceDetailsGregAve,
+                        payload = PLACE_DETAILS_GREG_AVE,
                     )
                     val expectedPlaceDetails = uk.ryanwong.gmap2ics.data.models.places.PlaceDetails(
                         result = Result(
@@ -72,22 +70,18 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
                         ),
                     )
 
-                    // 🟡 When
                     val placeDetails = apiClient.getPlaceDetails(
                         placeId = "some-placeId",
                         apiKey = "some-api-key",
                         language = "some-language",
                     )
 
-                    // 🟢 Then
                     placeDetails shouldBe expectedPlaceDetails
                 }
             }
 
             "should return null if API request returns error message" {
-                setupDispatcher()
                 scope.runTest {
-                    // 🔴 Given
                     setupEngine(
                         status = HttpStatusCode.OK,
                         payload = """{
@@ -97,14 +91,12 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
                                 }""",
                     )
 
-                    // 🟡 When
                     val placeDetails = apiClient.getPlaceDetails(
                         placeId = "some-placeId",
                         apiKey = "some-api-key",
                         language = "some-language",
                     )
 
-                    // 🟢 Then
                     placeDetails?.result shouldBe null
                 }
             }

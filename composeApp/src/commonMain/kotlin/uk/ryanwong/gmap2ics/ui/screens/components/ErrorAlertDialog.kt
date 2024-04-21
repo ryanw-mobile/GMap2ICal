@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
-
 package uk.ryanwong.gmap2ics.ui.screens.components
 
 import androidx.compose.foundation.layout.Column
@@ -11,14 +10,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import gmap2ical.composeapp.generated.resources.Res
+import gmap2ical.composeapp.generated.resources.ok
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun ErrorAlertDialog(
     text: String,
@@ -39,7 +41,7 @@ fun ErrorAlertDialog(
                     shape = CircleShape,
                     modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
                 ) {
-                    Text(text = "OK")
+                    Text(text = stringResource(Res.string.ok))
                 }
             }
         },

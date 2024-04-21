@@ -22,7 +22,7 @@ import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import us.dustinj.timezonemap.TimeZone
 
 internal object TimelineTestData {
-    val mockTimelineObjects = TimelineObjects(
+    val timelineObjects = TimelineObjects(
         timelineObjects = listOf(
             TimelineObject(
                 activitySegment = ActivitySegment(
@@ -162,7 +162,7 @@ internal object TimelineTestData {
         ),
     )
 
-    val mockTimeline = Timeline(
+    val timeline = Timeline(
         timelineEntries = listOf(
             TimelineEntry(
                 activitySegment = uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegment(

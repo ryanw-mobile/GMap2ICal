@@ -5,17 +5,17 @@
 package uk.ryanwong.gmap2ics.data.models.timeline
 
 internal object ActivitySegmentDataModelTestData {
-    val mockActivitySegment = ActivitySegment(
+    val activitySegment = ActivitySegment(
         activities = listOf(
-            uk.ryanwong.gmap2ics.data.models.timeline.Activity(
+            Activity(
                 activityType = "IN_PASSENGER_VEHICLE",
                 probability = 99.82574267034934,
             ),
-            uk.ryanwong.gmap2ics.data.models.timeline.Activity(
+            Activity(
                 activityType = "WALKING",
                 probability = 0.09030052981224143,
             ),
-            uk.ryanwong.gmap2ics.data.models.timeline.Activity(
+            Activity(
                 activityType = "MOTORCYCLING",
                 probability = 0.04459950826743197,
             ),
@@ -43,7 +43,7 @@ internal object ActivitySegmentDataModelTestData {
             name = null,
             placeId = null,
         ),
-        waypointPath = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPath(
+        waypointPath = WaypointPath(
             confidence = null,
             distanceMeters = 15444.856340505617,
             roadSegment = listOf(

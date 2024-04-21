@@ -5,8 +5,8 @@
 package uk.ryanwong.gmap2ics.di
 
 import org.koin.dsl.module
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapImpl
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
+import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapImpl
+import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZoneMap
 
 val appModule = module {

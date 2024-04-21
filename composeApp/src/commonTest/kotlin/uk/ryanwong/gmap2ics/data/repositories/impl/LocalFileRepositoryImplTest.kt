@@ -6,7 +6,7 @@ package uk.ryanwong.gmap2ics.data.repositories.impl
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.data.datasources.local.mocks.MockLocalDataSource
+import uk.ryanwong.gmap2ics.data.datasources.local.fakes.FakeLocalDataSource
 import uk.ryanwong.gmap2ics.data.repositories.LocalFileRepositoryImpl
 import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import uk.ryanwong.gmap2ics.domain.models.VEvent
@@ -19,21 +19,16 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
     private val someDegreesLongitude = 127.8000000
 
     private lateinit var localFileRepository: LocalFileRepositoryImpl
-    private lateinit var localDataSource: MockLocalDataSource
-
-    private fun setupRepository() {
-        localDataSource = MockLocalDataSource()
-
-        localFileRepository = LocalFileRepositoryImpl(
-            localDataSource = localDataSource,
-        )
-    }
+    private lateinit var localDataSource: FakeLocalDataSource
 
     init {
+        beforeTest {
+            localDataSource = FakeLocalDataSource()
+            localFileRepository = LocalFileRepositoryImpl(localDataSource = localDataSource)
+        }
+
         "getFileList" - {
             "Should return a list of filenames if datasource request success" {
-                // 🔴 Given
-                setupRepository()
                 val response = Result.success(
                     listOf(
                         "/some-absolute-path/some-file-1",
@@ -43,37 +38,29 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                 )
                 localDataSource.getFileListResponse = response
 
-                // 🟡 When
                 val fileList = localFileRepository.getFileList(
                     relativePath = "/some-absolute-path/",
                     extension = "some-extension",
                 )
 
-                // 🟢 Then
                 fileList shouldBe response
             }
 
             "Should return failure if datasource returns error" {
-                // 🔴 Given
-                setupRepository()
                 val response: Result<List<String>> = Result.failure(Exception("some-data-source-exception"))
                 localDataSource.getFileListResponse = response
 
-                // 🟡 When
                 val fileList = localFileRepository.getFileList(
                     relativePath = "/some-absolute-path/",
                     extension = "some-extension",
                 )
 
-                // 🟢 Then
                 fileList shouldBe response
             }
         }
 
         "exportICal" - {
             "should export iCal with correct filename and contents" {
-                // 🔴 Given
-                setupRepository()
                 localDataSource.fileWriterResponse = Result.success(Unit)
                 val vEventList = listOf(
                     VEvent(
@@ -145,21 +132,17 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                     "END:VEVENT\n" +
                     "END:VCALENDAR\n"
 
-                // 🟡 When
                 val exportICalResponse = localFileRepository.exportICal(
                     filename = "some-file-name",
                     vEvents = vEventList,
                 )
 
-                // 🟢 Then
                 exportICalResponse.isSuccess shouldBe true
                 localDataSource.fileWriterFileName shouldBe "some-file-name"
                 localDataSource.fileWriterContents shouldBe expectedFileContents
             }
 
             "should return Result.failure if data source return error" {
-                // 🔴 Given
-                setupRepository()
                 localDataSource.fileWriterResponse = Result.failure(exception = IOException())
                 val vEventList = listOf(
                     VEvent(
@@ -178,13 +161,11 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
                     ),
                 )
 
-                // 🟡 When
                 val exportICalResponse = localFileRepository.exportICal(
                     filename = "some-file-name",
                     vEvents = vEventList,
                 )
 
-                // 🟢 Then
                 exportICalResponse.isFailure shouldBe true
             }
         }
