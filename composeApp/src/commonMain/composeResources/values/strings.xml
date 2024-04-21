@@ -8,8 +8,6 @@
     <string name="cancel">Cancel</string>
     <string name="change_folder">Change folder</string>
     <string name="convert">Export</string>
-    <string name="error_updating_ical_path">Error updating iCal path</string>
-    <string name="error_updating_json_path">Error updating JSON path</string>
     <string name="export_options">Export Options</string>
     <string name="exported">EXPORTED</string>
     <string name="file_locations">File Locations</string>

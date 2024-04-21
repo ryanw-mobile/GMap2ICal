@@ -5,9 +5,6 @@
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import gmap2ical.composeapp.generated.resources.Res
-import gmap2ical.composeapp.generated.resources.error_updating_ical_path
-import gmap2ical.composeapp.generated.resources.error_updating_json_path
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -15,7 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.getString
 import uk.ryanwong.gmap2ics.app.configs.Config
 import uk.ryanwong.gmap2ics.domain.models.UILogEntry
 import uk.ryanwong.gmap2ics.domain.models.VEvent
@@ -246,34 +242,27 @@ class MainScreenViewModel(
     }
 
     fun updateJsonPath(jFileChooserResult: JFileChooserResult) {
-        viewModelScope.launch(dispatcher) {
-            when (jFileChooserResult) {
-                is JFileChooserResult.AbsolutePath -> {
-                    _jsonPath.value = stripBasePath(jFileChooserResult.absolutePath)
-                    _mainScreenUIState.value = MainScreenUIState.Ready
-                }
-
-                is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
-                else ->
-                    _mainScreenUIState.value =
-                        MainScreenUIState.Error(errMsg = getString(Res.string.error_updating_json_path))
+        when (jFileChooserResult) {
+            is JFileChooserResult.AbsolutePath -> {
+                _jsonPath.value = stripBasePath(jFileChooserResult.absolutePath)
+                _mainScreenUIState.value = MainScreenUIState.Ready
             }
+
+            is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
+            else ->
+                _mainScreenUIState.value = MainScreenUIState.Error(errMsg = "Error updating JSON path")
         }
     }
 
     fun updateICalPath(jFileChooserResult: JFileChooserResult) {
-        viewModelScope.launch(dispatcher) {
-            when (jFileChooserResult) {
-                is JFileChooserResult.AbsolutePath -> {
-                    _iCalPath.value = stripBasePath(jFileChooserResult.absolutePath)
-                    _mainScreenUIState.value = MainScreenUIState.Ready
-                }
-
-                is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
-                else ->
-                    _mainScreenUIState.value =
-                        MainScreenUIState.Error(errMsg = getString(Res.string.error_updating_ical_path))
+        when (jFileChooserResult) {
+            is JFileChooserResult.AbsolutePath -> {
+                _iCalPath.value = stripBasePath(jFileChooserResult.absolutePath)
+                _mainScreenUIState.value = MainScreenUIState.Ready
             }
+
+            is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
+            else -> _mainScreenUIState.value = MainScreenUIState.Error(errMsg = "Error updating iCal path")
         }
     }
 

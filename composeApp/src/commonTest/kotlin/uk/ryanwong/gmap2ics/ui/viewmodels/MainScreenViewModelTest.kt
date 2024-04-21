@@ -5,9 +5,6 @@
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
 import dev.icerock.moko.mvvm.test.TestViewModelScope
-import gmap2ical.composeapp.generated.resources.Res
-import gmap2ical.composeapp.generated.resources.error_updating_ical_path
-import gmap2ical.composeapp.generated.resources.error_updating_json_path
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
@@ -20,7 +17,6 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.getString
 import uk.ryanwong.gmap2ics.app.configs.SampleConfig
 import uk.ryanwong.gmap2ics.data.repositories.fakes.FakeLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repositories.fakes.FakeTimelineRepository
@@ -258,7 +254,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
             "When mainScreenUIState is Error" - {
                 "should keep mainScreenUIState unchanged" {
-                    val errorMessage = getString(Res.string.error_updating_json_path)
+                    val errorMessage = "Error updating JSON path"
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
 
                     mainScreenViewModel.onChangeJsonPath()
@@ -289,7 +285,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
             "When mainScreenUIState is Error" - {
                 "should keep mainScreenUIState unchanged" {
-                    val errorMessage = getString(Res.string.error_updating_json_path)
+                    val errorMessage = "Error updating JSON path"
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
 
                     mainScreenViewModel.onChangeICalPath()
@@ -336,7 +332,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
             "When JFileChooserResult is Error" - {
                 "should set MainScreenUIState = Error with correct error message" {
-                    val errorMessage = getString(Res.string.error_updating_json_path)
+                    val errorMessage = "Error updating JSON path"
                     mainScreenViewModel.onChangeJsonPath()
 
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
@@ -394,7 +390,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
             "When JFileChooserResult is Error" - {
                 "should set MainScreenUIState = Error with correct error message" {
-                    val errorMessage = getString(Res.string.error_updating_ical_path)
+                    val errorMessage = "Error updating iCal path"
                     mainScreenViewModel.onChangeICalPath()
 
                     mainScreenViewModel.updateICalPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
