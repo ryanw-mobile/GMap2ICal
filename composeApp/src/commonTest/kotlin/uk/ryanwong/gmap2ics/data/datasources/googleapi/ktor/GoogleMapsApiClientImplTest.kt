@@ -16,7 +16,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
-import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.GoogleMapsApiClientImplTestData.mockPlaceDetailsGregAve
+import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.GoogleMapsApiClientImplTestData.PLACE_DETAILS_GREG_AVE
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.impl.GoogleMapsApiClientImpl
 import uk.ryanwong.gmap2ics.data.models.places.Geometry
 import uk.ryanwong.gmap2ics.data.models.places.Location
@@ -50,7 +50,7 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
                 scope.runTest {
                     setupEngine(
                         status = HttpStatusCode.OK,
-                        payload = mockPlaceDetailsGregAve,
+                        payload = PLACE_DETAILS_GREG_AVE,
                     )
                     val expectedPlaceDetails = uk.ryanwong.gmap2ics.data.models.places.PlaceDetails(
                         result = Result(

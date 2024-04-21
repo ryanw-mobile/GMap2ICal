@@ -22,7 +22,7 @@ import us.dustinj.timezonemap.TimeZone
 
 object MainScreenViewModelTestData {
 
-    val mockTimeLineWithActivityVisitAndChildVisit = Timeline(
+    val timeLineWithActivityVisitAndChildVisit = Timeline(
         timelineEntries = listOf(
             TimelineEntry(
                 activitySegment =
@@ -162,7 +162,7 @@ object MainScreenViewModelTestData {
         ),
     )
 
-    val mockTimeLineWithSingleActivity = Timeline(
+    val timeLineWithSingleActivity = Timeline(
         timelineEntries = listOf(
             TimelineEntry(
                 activitySegment =

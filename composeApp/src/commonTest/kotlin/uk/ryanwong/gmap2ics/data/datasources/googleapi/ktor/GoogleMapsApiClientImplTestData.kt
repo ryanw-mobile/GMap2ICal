@@ -6,7 +6,7 @@ package uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor
 
 internal object GoogleMapsApiClientImplTestData {
 
-    val mockPlaceDetailsGregAve = """{
+    const val PLACE_DETAILS_GREG_AVE = """{
    "html_attributions" : [],
    "result" : {
       "address_components" : [

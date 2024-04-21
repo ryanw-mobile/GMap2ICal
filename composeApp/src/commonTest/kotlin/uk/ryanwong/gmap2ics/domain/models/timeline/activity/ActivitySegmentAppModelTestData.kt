@@ -21,7 +21,7 @@ internal object ActivitySegmentAppModelTestData {
     const val SOME_END_DEGREES_LATITUDE = 26.3393300
     const val SOME_END_DEGREES_LONGITUDE = 127.8500000
 
-    val mockActivitySegment = ActivitySegment(
+    val activitySegment = ActivitySegment(
         activities = listOf(
             Activity(activityType = WALKING, rawActivityType = "WALKING"),
             Activity(activityType = IN_PASSENGER_VEHICLE, rawActivityType = "IN_PASSENGER_VEHICLE"),
@@ -58,7 +58,7 @@ internal object ActivitySegmentAppModelTestData {
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
     )
 
-    val mockActivitySegmentNoStartLocationPlaceId = ActivitySegment(
+    val activitySegmentNoStartLocationPlaceId = ActivitySegment(
         activities = listOf(
             Activity(activityType = WALKING, rawActivityType = "WALKING"),
             Activity(activityType = IN_PASSENGER_VEHICLE, rawActivityType = "IN_PASSENGER_VEHICLE"),
@@ -95,7 +95,7 @@ internal object ActivitySegmentAppModelTestData {
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
     )
 
-    val mockActivitySegmentNoEndLocationPlaceId = ActivitySegment(
+    val activitySegmentNoEndLocationPlaceId = ActivitySegment(
         activities = listOf(
             Activity(activityType = WALKING, rawActivityType = "WALKING"),
             Activity(activityType = IN_PASSENGER_VEHICLE, rawActivityType = "IN_PASSENGER_VEHICLE"),
@@ -132,7 +132,7 @@ internal object ActivitySegmentAppModelTestData {
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
     )
 
-    val mockActivitySegmentNoWayPoint = ActivitySegment(
+    val activitySegmentNoWayPoint = ActivitySegment(
         activities = listOf(
             Activity(activityType = WALKING, rawActivityType = "WALKING"),
             Activity(activityType = IN_PASSENGER_VEHICLE, rawActivityType = "IN_PASSENGER_VEHICLE"),
@@ -162,7 +162,7 @@ internal object ActivitySegmentAppModelTestData {
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
     )
 
-    val mockActivitySegmentUKNoWaypoint = ActivitySegment(
+    val activitySegmentUKNoWaypoint = ActivitySegment(
         activities = listOf(
             Activity(activityType = WALKING, rawActivityType = "WALKING"),
             Activity(activityType = IN_PASSENGER_VEHICLE, rawActivityType = "IN_PASSENGER_VEHICLE"),

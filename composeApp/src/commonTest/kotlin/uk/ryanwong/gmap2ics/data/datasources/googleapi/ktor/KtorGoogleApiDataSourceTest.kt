@@ -11,8 +11,8 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.GetPlaceDetailsAPIErrorException
-import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.KtorGoogleApiDataSourceTestData.mockPlaceDetailsDataModel
-import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.mocks.MockGoogleMapsApiClient
+import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.KtorGoogleApiDataSourceTestData.placeDetailsDataModel
+import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.fakes.FakeGoogleMapsApiClient
 import uk.ryanwong.gmap2ics.data.repositories.PlaceDetailsNotFoundException
 import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetails
@@ -22,21 +22,21 @@ import java.io.IOException
 internal class KtorGoogleApiDataSourceTest : FreeSpec() {
 
     private lateinit var ktorGoogleApiDataSource: KtorGoogleApiDataSource
-    private lateinit var mockGoogleMapsApiClient: MockGoogleMapsApiClient
+    private lateinit var fakeGoogleMapsApiClient: FakeGoogleMapsApiClient
 
     init {
         beforeTest {
-            mockGoogleMapsApiClient = MockGoogleMapsApiClient()
+            fakeGoogleMapsApiClient = FakeGoogleMapsApiClient()
             ktorGoogleApiDataSource = KtorGoogleApiDataSource(
-                googleMapsApiClient = mockGoogleMapsApiClient,
+                googleMapsApiClient = fakeGoogleMapsApiClient,
                 dispatcher = UnconfinedTestDispatcher(),
             )
         }
 
         "getMapsApiPlaceDetails" - {
             "Should return correct PlaceDetails App Model if data source return Data Model properly" {
-                val placeDetailsDataModel = mockPlaceDetailsDataModel
-                mockGoogleMapsApiClient.getPlaceDetailsResponse = placeDetailsDataModel
+                val placeDetailsDataModel = placeDetailsDataModel
+                fakeGoogleMapsApiClient.getPlaceDetailsResponse = placeDetailsDataModel
 
                 val result = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
                     placeId = "some-place-id",
@@ -56,8 +56,8 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
             }
 
             "Should return correct PlaceDetails App Model when language is null" {
-                val placeDetailsDataModel = mockPlaceDetailsDataModel
-                mockGoogleMapsApiClient.getPlaceDetailsResponse = placeDetailsDataModel
+                val placeDetailsDataModel = placeDetailsDataModel
+                fakeGoogleMapsApiClient.getPlaceDetailsResponse = placeDetailsDataModel
 
                 val result = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
                     placeId = "some-place-id",
@@ -77,7 +77,7 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
             }
 
             "Should rethrow the exception if data source throws CancellationException" {
-                mockGoogleMapsApiClient.getPlaceDetailsException = CancellationException()
+                fakeGoogleMapsApiClient.getPlaceDetailsException = CancellationException()
 
                 val exception = shouldThrow<CancellationException> {
                     ktorGoogleApiDataSource.getMapsApiPlaceDetails(
@@ -91,8 +91,8 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
             }
 
             "Should return Failure.PlaceDetailsNotFoundException if data source returns null" {
-                mockGoogleMapsApiClient.getPlaceDetailsException = null
-                mockGoogleMapsApiClient.getPlaceDetailsResponse = null
+                fakeGoogleMapsApiClient.getPlaceDetailsException = null
+                fakeGoogleMapsApiClient.getPlaceDetailsResponse = null
 
                 val result = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
                     placeId = "some-place-id",
@@ -105,7 +105,7 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
             }
 
             "Should return Failure.GetPlaceDetailsAPIErrorException if data source throws other exceptions" {
-                mockGoogleMapsApiClient.getPlaceDetailsException = IOException("some-exception-message")
+                fakeGoogleMapsApiClient.getPlaceDetailsException = IOException("some-exception-message")
 
                 val result = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
                     placeId = "some-place-id",

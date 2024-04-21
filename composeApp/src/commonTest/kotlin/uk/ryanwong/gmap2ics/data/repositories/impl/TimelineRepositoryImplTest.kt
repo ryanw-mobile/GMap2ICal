@@ -9,28 +9,28 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.serialization.json.Json
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
-import uk.ryanwong.gmap2ics.data.datasources.local.mocks.MockLocalDataSource
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.fakes.FakeTimeZoneMap
+import uk.ryanwong.gmap2ics.data.datasources.local.fakes.FakeLocalDataSource
 import uk.ryanwong.gmap2ics.data.repositories.TimelineRepositoryImpl
-import uk.ryanwong.gmap2ics.data.repositories.impl.TimelineRepositoryImplTestData.mockJsonString
-import uk.ryanwong.gmap2ics.data.repositories.impl.TimelineRepositoryImplTestData.mockTimeLineFromJsonString
+import uk.ryanwong.gmap2ics.data.repositories.impl.TimelineRepositoryImplTestData.JSON_STRING
+import uk.ryanwong.gmap2ics.data.repositories.impl.TimelineRepositoryImplTestData.timeLineFromJsonString
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class TimelineRepositoryImplTest : FreeSpec() {
 
     private lateinit var timelineRepository: TimelineRepositoryImpl
-    private lateinit var localDataSource: MockLocalDataSource
-    private lateinit var mockTimeZoneMap: MockTimeZoneMap
+    private lateinit var localDataSource: FakeLocalDataSource
+    private lateinit var fakeTimeZoneMap: FakeTimeZoneMap
     private val kotlinJson = Json { ignoreUnknownKeys = true }
 
     init {
         beforeTest {
-            localDataSource = MockLocalDataSource()
-            mockTimeZoneMap = MockTimeZoneMap()
+            localDataSource = FakeLocalDataSource()
+            fakeTimeZoneMap = FakeTimeZoneMap()
 
             timelineRepository = TimelineRepositoryImpl(
                 localDataSource = localDataSource,
-                timeZoneMap = mockTimeZoneMap,
+                timeZoneMap = fakeTimeZoneMap,
                 dispatcher = UnconfinedTestDispatcher(),
                 kotlinJson = kotlinJson,
             )
@@ -38,19 +38,19 @@ internal class TimelineRepositoryImplTest : FreeSpec() {
 
         "getTimeLine" - {
             "Should return correct TimeLine object if the localDataSource returns valid JSON String" {
-                localDataSource.getJsonStringResponse = mockJsonString
-                mockTimeZoneMap.mockZoneId = "Asia/Tokyo"
+                localDataSource.getJsonStringResponse = JSON_STRING
+                fakeTimeZoneMap.zoneId = "Asia/Tokyo"
 
                 val timeLine = timelineRepository.getTimeLine(filePath = "/some-absolute-path/")
 
                 timeLine.isSuccess shouldBe true
-                timeLine.getOrNull() shouldBe mockTimeLineFromJsonString
+                timeLine.getOrNull() shouldBe timeLineFromJsonString
             }
 
             "Should return Result.Failure if the localDataSource returns invalid JSON String" {
                 // Alternatively can Mock json.decodeFromString and throw an exception
                 localDataSource.getJsonStringResponse = "some-invalid-json-string"
-                mockTimeZoneMap.mockZoneId = "Asia/Tokyo"
+                fakeTimeZoneMap.zoneId = "Asia/Tokyo"
 
                 val timeLine = timelineRepository.getTimeLine(filePath = "/some-absolute-path/")
 

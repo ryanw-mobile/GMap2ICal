@@ -2,12 +2,12 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
-package uk.ryanwong.gmap2ics.data.datasources.local.mocks
+package uk.ryanwong.gmap2ics.data.datasources.local.fakes
 
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.GoogleApiDataSource
 import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetails
 
-class MockGoogleApiDataSource : GoogleApiDataSource {
+class FakeGoogleApiDataSource : GoogleApiDataSource {
     var getMapsApiPlaceDetailsResponse: Result<PlaceDetails>? = null
     var getMapsApiPlaceDetailsLanguageRequested: String? = null
 
@@ -17,6 +17,6 @@ class MockGoogleApiDataSource : GoogleApiDataSource {
         language: String?,
     ): Result<PlaceDetails> {
         getMapsApiPlaceDetailsLanguageRequested = language
-        return getMapsApiPlaceDetailsResponse ?: Result.failure(Exception("mock response unavailable"))
+        return getMapsApiPlaceDetailsResponse ?: Result.failure(Exception("response not defined"))
     }
 }

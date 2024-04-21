@@ -6,15 +6,15 @@ package uk.ryanwong.gmap2ics.domain.models
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.domain.models.VEventTestData.mockActivityEndSegmentPlaceDetails
-import uk.ryanwong.gmap2ics.domain.models.VEventTestData.mockActivityFirstSegmentPlaceDetails
-import uk.ryanwong.gmap2ics.domain.models.VEventTestData.mockActivityLastSegmentPlaceDetails
-import uk.ryanwong.gmap2ics.domain.models.VEventTestData.mockActivitySegment
-import uk.ryanwong.gmap2ics.domain.models.VEventTestData.mockActivityStartSegmentPlaceDetails
-import uk.ryanwong.gmap2ics.domain.models.VEventTestData.mockChildVisit
-import uk.ryanwong.gmap2ics.domain.models.VEventTestData.mockChildVisitPlaceDetails
-import uk.ryanwong.gmap2ics.domain.models.VEventTestData.mockPlaceVisit
-import uk.ryanwong.gmap2ics.domain.models.VEventTestData.mockPlaceVisitPlaceDetails
+import uk.ryanwong.gmap2ics.domain.models.VEventTestData.activityEndSegmentPlaceDetails
+import uk.ryanwong.gmap2ics.domain.models.VEventTestData.activityFirstSegmentPlaceDetails
+import uk.ryanwong.gmap2ics.domain.models.VEventTestData.activityLastSegmentPlaceDetails
+import uk.ryanwong.gmap2ics.domain.models.VEventTestData.activitySegment
+import uk.ryanwong.gmap2ics.domain.models.VEventTestData.activityStartSegmentPlaceDetails
+import uk.ryanwong.gmap2ics.domain.models.VEventTestData.childVisit
+import uk.ryanwong.gmap2ics.domain.models.VEventTestData.childVisitPlaceDetails
+import uk.ryanwong.gmap2ics.domain.models.VEventTestData.placeVisit
+import uk.ryanwong.gmap2ics.domain.models.VEventTestData.placeVisitPlaceDetails
 import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.domain.models.timeline.Location
 
@@ -35,12 +35,12 @@ internal class VEventTest : FreeSpec() {
         "from" - {
             "ActivitySegment" - {
                 "Should convert ActivitySegment with PlaceDetails to VEvent correctly" {
-                    val activitySegment = mockActivitySegment
+                    val activitySegment = activitySegment
                     val shouldShowMiles = false
-                    val firstPlaceDetails = mockActivityFirstSegmentPlaceDetails
-                    val lastPlaceDetails = mockActivityLastSegmentPlaceDetails
-                    val startPlaceDetails = mockActivityStartSegmentPlaceDetails
-                    val endPlaceDetails = mockActivityEndSegmentPlaceDetails
+                    val firstPlaceDetails = activityFirstSegmentPlaceDetails
+                    val lastPlaceDetails = activityLastSegmentPlaceDetails
+                    val startPlaceDetails = activityStartSegmentPlaceDetails
+                    val endPlaceDetails = activityEndSegmentPlaceDetails
                     val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = "some-end-location-place-id",
@@ -69,7 +69,7 @@ internal class VEventTest : FreeSpec() {
                 }
 
                 "Should convert ActivitySegment with null endLocation.placeId to VEvent correctly" {
-                    val activitySegment = mockActivitySegment.copy(
+                    val activitySegment = activitySegment.copy(
                         endLocation = Location(
                             address = null,
                             latitudeE7 = 263393300,
@@ -79,10 +79,10 @@ internal class VEventTest : FreeSpec() {
                         ),
                     )
                     val shouldShowMiles = false
-                    val firstPlaceDetails = mockActivityFirstSegmentPlaceDetails
-                    val lastPlaceDetails = mockActivityLastSegmentPlaceDetails
-                    val startPlaceDetails = mockActivityStartSegmentPlaceDetails
-                    val endPlaceDetails = mockActivityEndSegmentPlaceDetails
+                    val firstPlaceDetails = activityFirstSegmentPlaceDetails
+                    val lastPlaceDetails = activityLastSegmentPlaceDetails
+                    val startPlaceDetails = activityStartSegmentPlaceDetails
+                    val endPlaceDetails = activityEndSegmentPlaceDetails
                     val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = null,
@@ -111,12 +111,12 @@ internal class VEventTest : FreeSpec() {
                 }
 
                 "Should convert kilometres to miles in VEvent if shouldShowMiles is true" {
-                    val activitySegment = mockActivitySegment
+                    val activitySegment = activitySegment
                     val shouldShowMiles = true
-                    val firstPlaceDetails = mockActivityFirstSegmentPlaceDetails
-                    val lastPlaceDetails = mockActivityLastSegmentPlaceDetails
-                    val startPlaceDetails = mockActivityStartSegmentPlaceDetails
-                    val endPlaceDetails = mockActivityEndSegmentPlaceDetails
+                    val firstPlaceDetails = activityFirstSegmentPlaceDetails
+                    val lastPlaceDetails = activityLastSegmentPlaceDetails
+                    val startPlaceDetails = activityStartSegmentPlaceDetails
+                    val endPlaceDetails = activityEndSegmentPlaceDetails
                     val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = "some-end-location-place-id",
@@ -145,7 +145,7 @@ internal class VEventTest : FreeSpec() {
                 }
 
                 "Should convert ActivitySegment without PlaceDetails to VEvent correctly" {
-                    val activitySegment = mockActivitySegment
+                    val activitySegment = activitySegment
                     val shouldShowMiles = false
                     val firstPlaceDetails = null
                     val lastPlaceDetails = null
@@ -181,8 +181,8 @@ internal class VEventTest : FreeSpec() {
 
             "PlaceVisit" - {
                 "Should convert PlaceVisit with PlaceDetails to VEvent correctly" {
-                    val placeVisit = mockPlaceVisit
-                    val placeDetails = mockPlaceVisitPlaceDetails
+                    val placeVisit = placeVisit
+                    val placeDetails = placeVisitPlaceDetails
                     val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = "some-place-visit-place-id",
@@ -204,7 +204,7 @@ internal class VEventTest : FreeSpec() {
                 }
 
                 "Should convert PlaceVisit without PlaceDetails to VEvent correctly" {
-                    val placeVisit = mockPlaceVisit
+                    val placeVisit = placeVisit
                     val placeDetails = null
                     val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
@@ -229,8 +229,8 @@ internal class VEventTest : FreeSpec() {
 
             "ChildVisit" - {
                 "Should convert ChildVisit with PlaceDetails to VEvent correctly" {
-                    val childVisit = mockChildVisit
-                    val placeDetails = mockChildVisitPlaceDetails
+                    val childVisit = childVisit
+                    val placeDetails = childVisitPlaceDetails
                     val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",
                         placeId = "some-child-visit-place-id",
@@ -252,7 +252,7 @@ internal class VEventTest : FreeSpec() {
                 }
 
                 "Should convert ChildVisit without PlaceDetails to VEvent correctly" {
-                    val childVisit = mockChildVisit
+                    val childVisit = childVisit
                     val placeDetails = null
                     val expectedVEvent = VEvent(
                         uid = "2011-11-11T11:22:22.222Z",

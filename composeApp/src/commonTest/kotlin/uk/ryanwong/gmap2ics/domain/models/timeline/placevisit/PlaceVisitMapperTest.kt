@@ -7,22 +7,22 @@ package uk.ryanwong.gmap2ics.domain.models.timeline.placevisit
 import com.esri.core.geometry.Polygon
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
-import uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisitDataModelTestData.mockPlaceVisitDataModel
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.fakes.FakeTimeZoneMap
+import uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisitDataModelTestData.placeVisitDataModel
 import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import uk.ryanwong.gmap2ics.domain.models.timeline.Location
 import us.dustinj.timezonemap.TimeZone
 
 internal class PlaceVisitMapperTest : FreeSpec() {
 
-    private lateinit var mockTimeZoneMap: MockTimeZoneMap
+    private lateinit var fakeTimeZoneMap: FakeTimeZoneMap
 
     init {
         "should correctly map Data Model to Domain Model" {
-            mockTimeZoneMap = MockTimeZoneMap().apply {
-                mockZoneId = "Europe/London"
+            fakeTimeZoneMap = FakeTimeZoneMap().apply {
+                zoneId = "Europe/London"
             }
-            val placeVisitDataModel = mockPlaceVisitDataModel
+            val placeVisitDataModel = placeVisitDataModel
             val expectedDomainModel = PlaceVisit(
                 durationEndTimestamp = RawTimestamp(
                     timestamp = "2022-01-03T14:26:25Z",
@@ -64,16 +64,16 @@ internal class PlaceVisitMapperTest : FreeSpec() {
                 eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
             )
 
-            val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+            val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)
 
             placeVisitDomainModel shouldBe expectedDomainModel
         }
 
         "should still correctly map Data Model to Domain Model if no child visits" {
-            mockTimeZoneMap = MockTimeZoneMap().apply {
-                mockZoneId = "Europe/London"
+            fakeTimeZoneMap = FakeTimeZoneMap().apply {
+                zoneId = "Europe/London"
             }
-            val placeVisitDataModel = mockPlaceVisitDataModel.copy(
+            val placeVisitDataModel = placeVisitDataModel.copy(
                 childVisits = null,
             )
             val expectedDomainModel = PlaceVisit(
@@ -97,18 +97,18 @@ internal class PlaceVisitMapperTest : FreeSpec() {
                 eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
             )
 
-            val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+            val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)
 
             placeVisitDomainModel shouldBe expectedDomainModel
         }
 
         "should return null if Domain Model has no valid Location" {
-            mockTimeZoneMap = MockTimeZoneMap()
-            val placeVisitDataModel = mockPlaceVisitDataModel.copy(
+            fakeTimeZoneMap = FakeTimeZoneMap()
+            val placeVisitDataModel = placeVisitDataModel.copy(
                 location = uk.ryanwong.gmap2ics.data.models.timeline.Location(),
             )
 
-            val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+            val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)
 
             placeVisitDomainModel shouldBe null
         }

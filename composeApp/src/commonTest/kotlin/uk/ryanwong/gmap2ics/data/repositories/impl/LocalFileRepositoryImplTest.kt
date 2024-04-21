@@ -6,7 +6,7 @@ package uk.ryanwong.gmap2ics.data.repositories.impl
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.data.datasources.local.mocks.MockLocalDataSource
+import uk.ryanwong.gmap2ics.data.datasources.local.fakes.FakeLocalDataSource
 import uk.ryanwong.gmap2ics.data.repositories.LocalFileRepositoryImpl
 import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import uk.ryanwong.gmap2ics.domain.models.VEvent
@@ -19,11 +19,11 @@ internal class LocalFileRepositoryImplTest : FreeSpec() {
     private val someDegreesLongitude = 127.8000000
 
     private lateinit var localFileRepository: LocalFileRepositoryImpl
-    private lateinit var localDataSource: MockLocalDataSource
+    private lateinit var localDataSource: FakeLocalDataSource
 
     init {
         beforeTest {
-            localDataSource = MockLocalDataSource()
+            localDataSource = FakeLocalDataSource()
             localFileRepository = LocalFileRepositoryImpl(localDataSource = localDataSource)
         }
 

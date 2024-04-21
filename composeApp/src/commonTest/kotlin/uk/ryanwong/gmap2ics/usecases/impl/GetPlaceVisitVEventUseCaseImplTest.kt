@@ -15,15 +15,15 @@ import kotlinx.coroutines.test.runTest
 import uk.ryanwong.gmap2ics.domain.models.UILogEntry
 import uk.ryanwong.gmap2ics.domain.usecases.GetPlaceVisitVEventUseCase
 import uk.ryanwong.gmap2ics.usecases.GetPlaceVisitVEventUseCaseImpl
-import uk.ryanwong.gmap2ics.usecases.mocks.MockVEventFromChildVisitUseCase
-import uk.ryanwong.gmap2ics.usecases.mocks.MockVEventFromPlaceVisitUseCase
+import uk.ryanwong.gmap2ics.usecases.fakes.FakeVEventFromChildVisitUseCase
+import uk.ryanwong.gmap2ics.usecases.fakes.FakeVEventFromPlaceVisitUseCase
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
 
     private lateinit var getPlaceVisitVEventUseCase: GetPlaceVisitVEventUseCase
-    private lateinit var mockVEventFromChildVisitUseCase: MockVEventFromChildVisitUseCase
-    private lateinit var mockVEventFromPlaceVisitUseCase: MockVEventFromPlaceVisitUseCase
+    private lateinit var fakeVEventFromChildVisitUseCase: FakeVEventFromChildVisitUseCase
+    private lateinit var fakeVEventFromPlaceVisitUseCase: FakeVEventFromPlaceVisitUseCase
     private lateinit var scope: TestScope
     private fun setupDispatcher() {
         val dispatcher = UnconfinedTestDispatcher()
@@ -31,12 +31,12 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
     }
 
     private fun setupUseCase() {
-        mockVEventFromChildVisitUseCase = MockVEventFromChildVisitUseCase()
-        mockVEventFromPlaceVisitUseCase = MockVEventFromPlaceVisitUseCase()
+        fakeVEventFromChildVisitUseCase = FakeVEventFromChildVisitUseCase()
+        fakeVEventFromPlaceVisitUseCase = FakeVEventFromPlaceVisitUseCase()
 
         getPlaceVisitVEventUseCase = GetPlaceVisitVEventUseCaseImpl(
-            vEventFromChildVisitUseCase = mockVEventFromChildVisitUseCase,
-            vEventFromPlaceVisitUseCase = mockVEventFromPlaceVisitUseCase,
+            vEventFromChildVisitUseCase = fakeVEventFromChildVisitUseCase,
+            vEventFromPlaceVisitUseCase = fakeVEventFromPlaceVisitUseCase,
         )
     }
 
@@ -47,7 +47,7 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                 scope.runTest {
                     // Given
                     setupUseCase()
-                    val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.mockPlaceVisit
+                    val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.placeVisit
                     val ignoredVisitedPlaceIds = listOf("some-place-id")
 
                     // When
@@ -68,7 +68,7 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                 scope.runTest {
                     // Given
                     setupUseCase()
-                    val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.mockPlaceVisit
+                    val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.placeVisit
                     val ignoredVisitedPlaceIds = listOf("some-place-id")
                     val ignoredEvents = mutableListOf<UILogEntry>()
                     val jobs = launch {
@@ -104,10 +104,10 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                     scope.runTest {
                         // Given
                         setupUseCase()
-                        val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.mockPlaceVisit
+                        val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.placeVisit
                         val ignoredVisitedPlaceIds = listOf("some-other-place-id")
-                        mockVEventFromPlaceVisitUseCase.mockUseCaseResponse =
-                            GetPlaceVisitVEventUseCaseImplTestData.mockVEvent
+                        fakeVEventFromPlaceVisitUseCase.useCaseResponse =
+                            GetPlaceVisitVEventUseCaseImplTestData.vEvent
 
                         // When
                         val vEvent = getPlaceVisitVEventUseCase(
@@ -118,7 +118,7 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                         )
 
                         // Then
-                        vEvent shouldBe listOf(GetPlaceVisitVEventUseCaseImplTestData.mockVEvent)
+                        vEvent shouldBe listOf(GetPlaceVisitVEventUseCaseImplTestData.vEvent)
                     }
                 }
 
@@ -127,10 +127,10 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                     scope.runTest {
                         // Given
                         setupUseCase()
-                        val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.mockPlaceVisit
+                        val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.placeVisit
                         val ignoredVisitedPlaceIds = listOf("some-other-place-id")
-                        mockVEventFromPlaceVisitUseCase.mockUseCaseResponse =
-                            GetPlaceVisitVEventUseCaseImplTestData.mockVEvent
+                        fakeVEventFromPlaceVisitUseCase.useCaseResponse =
+                            GetPlaceVisitVEventUseCaseImplTestData.vEvent
                         val exportedEvents = mutableListOf<UILogEntry>()
                         val jobs = launch {
                             getPlaceVisitVEventUseCase.exportedEvents.collect {
@@ -163,13 +163,13 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                         scope.runTest {
                             // Given
                             setupUseCase()
-                            val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.mockPlaceVisitWithOneChildVisit
+                            val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.placeVisitWithOneChildVisit
                             val ignoredVisitedPlaceIds = listOf("some-child-place-id")
-                            mockVEventFromPlaceVisitUseCase.mockUseCaseResponse =
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEvent
+                            fakeVEventFromPlaceVisitUseCase.useCaseResponse =
+                                GetPlaceVisitVEventUseCaseImplTestData.vEvent
                             // Still have to mock this response to make sure it has not been called
-                            mockVEventFromChildVisitUseCase.mockUseCaseResponse =
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEventSomeChildPlaceId
+                            fakeVEventFromChildVisitUseCase.useCaseResponse =
+                                GetPlaceVisitVEventUseCaseImplTestData.vEventSomeChildPlaceId
 
                             // When
                             val vEvent = getPlaceVisitVEventUseCase(
@@ -180,7 +180,7 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                             )
 
                             // Then
-                            vEvent shouldBe listOf(GetPlaceVisitVEventUseCaseImplTestData.mockVEvent)
+                            vEvent shouldBe listOf(GetPlaceVisitVEventUseCaseImplTestData.vEvent)
                         }
                     }
 
@@ -189,13 +189,11 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                         scope.runTest {
                             // Given
                             setupUseCase()
-                            val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.mockPlaceVisitWithTwoChildVisit
+                            val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.placeVisitWithTwoChildVisit
                             val ignoredVisitedPlaceIds = listOf("some-another-child-place-id")
-                            mockVEventFromPlaceVisitUseCase.mockUseCaseResponse =
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEvent
-                            // Still have to mock this response to make sure it has not been called
-                            mockVEventFromChildVisitUseCase.mockUseCaseResponse =
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEventSomeChildPlaceId
+                            fakeVEventFromPlaceVisitUseCase.useCaseResponse = GetPlaceVisitVEventUseCaseImplTestData.vEvent
+                            // Still have to fake this response to make sure it has not been called
+                            fakeVEventFromChildVisitUseCase.useCaseResponse = GetPlaceVisitVEventUseCaseImplTestData.vEventSomeChildPlaceId
 
                             // When
                             val vEvent = getPlaceVisitVEventUseCase(
@@ -207,8 +205,8 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
 
                             // Then
                             vEvent shouldContainExactly listOf(
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEvent,
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEventSomeChildPlaceId,
+                                GetPlaceVisitVEventUseCaseImplTestData.vEvent,
+                                GetPlaceVisitVEventUseCaseImplTestData.vEventSomeChildPlaceId,
                             )
                         }
                     }
@@ -218,10 +216,10 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                         scope.runTest {
                             // Given
                             setupUseCase()
-                            val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.mockPlaceVisitWithOneChildVisit
+                            val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.placeVisitWithOneChildVisit
                             val ignoredVisitedPlaceIds = listOf("some-child-place-id")
-                            mockVEventFromPlaceVisitUseCase.mockUseCaseResponse =
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEvent
+                            fakeVEventFromPlaceVisitUseCase.useCaseResponse =
+                                GetPlaceVisitVEventUseCaseImplTestData.vEvent
                             val ignoredEvents = mutableListOf<UILogEntry>()
                             val jobs = launch {
                                 getPlaceVisitVEventUseCase.ignoredEvents.collect {
@@ -255,12 +253,12 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                         scope.runTest {
                             // Given
                             setupUseCase()
-                            val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.mockPlaceVisitWithOneChildVisit
+                            val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.placeVisitWithOneChildVisit
                             val ignoredVisitedPlaceIds = listOf("some-other-child-place-id")
-                            mockVEventFromPlaceVisitUseCase.mockUseCaseResponse =
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEvent
-                            mockVEventFromChildVisitUseCase.mockUseCaseResponse =
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEventSomeChildPlaceId
+                            fakeVEventFromPlaceVisitUseCase.useCaseResponse =
+                                GetPlaceVisitVEventUseCaseImplTestData.vEvent
+                            fakeVEventFromChildVisitUseCase.useCaseResponse =
+                                GetPlaceVisitVEventUseCaseImplTestData.vEventSomeChildPlaceId
 
                             // When
                             val vEvent = getPlaceVisitVEventUseCase(
@@ -272,8 +270,8 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
 
                             // Then
                             vEvent shouldContainExactly listOf(
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEvent,
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEventSomeChildPlaceId,
+                                GetPlaceVisitVEventUseCaseImplTestData.vEvent,
+                                GetPlaceVisitVEventUseCaseImplTestData.vEventSomeChildPlaceId,
                             )
                         }
                     }
@@ -283,12 +281,12 @@ internal class GetPlaceVisitVEventUseCaseImplTest : FreeSpec() {
                         scope.runTest {
                             // Given
                             setupUseCase()
-                            val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.mockPlaceVisitWithOneChildVisit
+                            val placeVisit = GetPlaceVisitVEventUseCaseImplTestData.placeVisitWithOneChildVisit
                             val ignoredVisitedPlaceIds = listOf("some-other-child-place-id")
-                            mockVEventFromPlaceVisitUseCase.mockUseCaseResponse =
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEvent
-                            mockVEventFromChildVisitUseCase.mockUseCaseResponse =
-                                GetPlaceVisitVEventUseCaseImplTestData.mockVEventSomeChildPlaceId
+                            fakeVEventFromPlaceVisitUseCase.useCaseResponse =
+                                GetPlaceVisitVEventUseCaseImplTestData.vEvent
+                            fakeVEventFromChildVisitUseCase.useCaseResponse =
+                                GetPlaceVisitVEventUseCaseImplTestData.vEventSomeChildPlaceId
 
                             val exportedEvents = mutableListOf<UILogEntry>()
                             val jobs = launch {

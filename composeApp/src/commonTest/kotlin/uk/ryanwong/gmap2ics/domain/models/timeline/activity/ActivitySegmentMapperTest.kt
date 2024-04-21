@@ -7,9 +7,9 @@ package uk.ryanwong.gmap2ics.domain.models.timeline.activity
 import com.esri.core.geometry.Polygon
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.fakes.FakeTimeZoneMap
 import uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation
-import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegmentDataModelTestData.mockActivitySegment
+import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegmentDataModelTestData.activitySegment
 import uk.ryanwong.gmap2ics.domain.models.ActivityType
 import uk.ryanwong.gmap2ics.domain.models.ActivityType.IN_PASSENGER_VEHICLE
 import uk.ryanwong.gmap2ics.domain.models.ActivityType.MOTORCYCLING
@@ -20,11 +20,11 @@ import us.dustinj.timezonemap.TimeZone
 
 internal class ActivitySegmentMapperTest : FreeSpec() {
 
-    private lateinit var mockTimeZoneMap: MockTimeZoneMap
+    private lateinit var fakeTimeZoneMap: FakeTimeZoneMap
 
     // Standard domain model as the baseline
     // Tests only have to modify the necessary properties to highlight test focus
-    private val mockActivitySegmentDomainModel = ActivitySegment(
+    private val activitySegmentDomainModel = ActivitySegment(
         activities = listOf(
             Activity(
                 activityType = IN_PASSENGER_VEHICLE,
@@ -66,89 +66,89 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
     init {
         "toDomainModel()" - {
             "should convert correctly from ActivitySegment Data Model to Domain Model" {
-                val activitySegmentDataModel = mockActivitySegment
-                mockTimeZoneMap = MockTimeZoneMap().apply {
-                    mockZoneId = "Asia/Tokyo"
+                val activitySegmentDataModel = activitySegment
+                fakeTimeZoneMap = FakeTimeZoneMap().apply {
+                    zoneId = "Asia/Tokyo"
                 }
-                val expectedDomainModel = mockActivitySegmentDomainModel
+                val expectedDomainModel = activitySegmentDomainModel
 
-                val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+                val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)
 
                 activitySegmentDomainModel shouldBe expectedDomainModel
             }
 
             "should still convert correctly from Data Model to Domain Model when rawActivityType is null" {
-                val activitySegmentDataModel = mockActivitySegment.copy(
+                val activitySegmentDataModel = activitySegment.copy(
                     activityType = null,
                 )
-                mockTimeZoneMap = MockTimeZoneMap().apply {
-                    mockZoneId = "Asia/Tokyo"
+                fakeTimeZoneMap = FakeTimeZoneMap().apply {
+                    zoneId = "Asia/Tokyo"
                 }
-                val expectedDomainModel = mockActivitySegmentDomainModel.copy(
+                val expectedDomainModel = activitySegmentDomainModel.copy(
                     activityType = ActivityType.UNKNOWN_ACTIVITY_TYPE,
                     rawActivityType = null,
                 )
 
-                val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+                val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)
 
                 activitySegmentDomainModel shouldBe expectedDomainModel
             }
 
             "should still convert correctly from Data Model to Domain Model when activities is null" {
-                val activitySegmentDataModel = mockActivitySegment.copy(
+                val activitySegmentDataModel = activitySegment.copy(
                     activities = null,
                 )
-                mockTimeZoneMap = MockTimeZoneMap().apply {
-                    mockZoneId = "Asia/Tokyo"
+                fakeTimeZoneMap = FakeTimeZoneMap().apply {
+                    zoneId = "Asia/Tokyo"
                 }
-                val expectedDomainModel = mockActivitySegmentDomainModel.copy(
+                val expectedDomainModel = activitySegmentDomainModel.copy(
                     activities = emptyList(),
                 )
 
-                val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+                val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)
 
                 activitySegmentDomainModel shouldBe expectedDomainModel
             }
 
             "should still convert correctly from Data Model to Domain Model when rawActivityType is not defined in the Enums" {
-                val activitySegmentDataModel = mockActivitySegment.copy(
+                val activitySegmentDataModel = activitySegment.copy(
                     activityType = "some-strange-activity-type",
                 )
-                mockTimeZoneMap = MockTimeZoneMap().apply {
-                    mockZoneId = "Asia/Tokyo"
+                fakeTimeZoneMap = FakeTimeZoneMap().apply {
+                    zoneId = "Asia/Tokyo"
                 }
-                val expectedDomainModel = mockActivitySegmentDomainModel.copy(
+                val expectedDomainModel = activitySegmentDomainModel.copy(
                     activityType = ActivityType.UNKNOWN_ACTIVITY_TYPE,
                     rawActivityType = "some-strange-activity-type",
                 )
 
-                val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+                val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)
 
                 activitySegmentDomainModel shouldBe expectedDomainModel
             }
 
             "should return null if start location is null" {
-                val activitySegmentDataModel = mockActivitySegment.copy(
+                val activitySegmentDataModel = activitySegment.copy(
                     startLocation = ActivityLocation(),
                 )
-                mockTimeZoneMap = MockTimeZoneMap().apply {
-                    mockZoneId = "Asia/Tokyo"
+                fakeTimeZoneMap = FakeTimeZoneMap().apply {
+                    zoneId = "Asia/Tokyo"
                 }
 
-                val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+                val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)
 
                 activitySegmentDomainModel shouldBe null
             }
 
             "should return null if end location is null" {
-                val activitySegmentDataModel = mockActivitySegment.copy(
+                val activitySegmentDataModel = activitySegment.copy(
                     endLocation = ActivityLocation(),
                 )
-                mockTimeZoneMap = MockTimeZoneMap().apply {
-                    mockZoneId = "Asia/Tokyo"
+                fakeTimeZoneMap = FakeTimeZoneMap().apply {
+                    zoneId = "Asia/Tokyo"
                 }
 
-                val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
+                val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)
 
                 activitySegmentDomainModel shouldBe null
             }

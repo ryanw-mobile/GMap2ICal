@@ -14,14 +14,14 @@ import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegmentAppModelTestData
 import uk.ryanwong.gmap2ics.domain.usecases.GetActivitySegmentVEventUseCase
 import uk.ryanwong.gmap2ics.usecases.GetActivitySegmentVEventUseCaseImpl
-import uk.ryanwong.gmap2ics.usecases.mocks.MockVEventFromActivitySegmentUseCase
+import uk.ryanwong.gmap2ics.usecases.fakes.FakeVEventFromActivitySegmentUseCase
 
 class GetActivitySegmentVEventUseCaseImplTest : FreeSpec() {
 
     private lateinit var getActivitySegmentVEventUseCase: GetActivitySegmentVEventUseCase
-    private lateinit var mockVEventFromActivitySegmentUseCase: MockVEventFromActivitySegmentUseCase
+    private lateinit var fakeVEventFromActivitySegmentUseCase: FakeVEventFromActivitySegmentUseCase
 
-    private val mockVEvent = VEvent(
+    private val vEvent = VEvent(
         uid = "2011-11-11T11:22:22.222Z",
         placeId = "some-end-place-id",
         dtStamp = "2011-11-11T11:22:22.222Z",
@@ -41,18 +41,18 @@ class GetActivitySegmentVEventUseCaseImplTest : FreeSpec() {
 
     init {
         beforeTest {
-            mockVEventFromActivitySegmentUseCase = MockVEventFromActivitySegmentUseCase()
+            fakeVEventFromActivitySegmentUseCase = FakeVEventFromActivitySegmentUseCase()
             getActivitySegmentVEventUseCase = GetActivitySegmentVEventUseCaseImpl(
-                vEventFromActivitySegmentUseCase = mockVEventFromActivitySegmentUseCase,
+                vEventFromActivitySegmentUseCase = fakeVEventFromActivitySegmentUseCase,
             )
         }
 
         "Should return VEvent correctly if ActivitySegment supplied is not in the ignoredActivityType" - {
             "When enablePlaceApiLookup is true" {
-                val activitySegment = VEventTestData.mockActivitySegment // Conversion is mocked so doesn't matter
+                val activitySegment = VEventTestData.activitySegment // Conversion is faked so doesn't matter
                 val ignoredActivityType = listOf(ActivityType.STILL)
                 val enablePlacesApiLookup = true
-                mockVEventFromActivitySegmentUseCase.mockUseCaseResponse = mockVEvent
+                fakeVEventFromActivitySegmentUseCase.useCaseResponse = vEvent
 
                 val vEvent = getActivitySegmentVEventUseCase(
                     activitySegment = activitySegment,
@@ -60,14 +60,14 @@ class GetActivitySegmentVEventUseCaseImplTest : FreeSpec() {
                     enablePlacesApiLookup = enablePlacesApiLookup,
                 )
 
-                vEvent shouldBe mockVEvent
+                vEvent shouldBe this@GetActivitySegmentVEventUseCaseImplTest.vEvent
             }
 
             "When enablePlaceApiLookup is false" {
-                val activitySegment = VEventTestData.mockActivitySegment
+                val activitySegment = VEventTestData.activitySegment
                 val ignoredActivityType = listOf(ActivityType.STILL)
                 val enablePlacesApiLookup = false
-                mockVEventFromActivitySegmentUseCase.mockUseCaseResponse = mockVEvent
+                fakeVEventFromActivitySegmentUseCase.useCaseResponse = vEvent
 
                 val vEvent = getActivitySegmentVEventUseCase(
                     activitySegment = activitySegment,
@@ -75,15 +75,15 @@ class GetActivitySegmentVEventUseCaseImplTest : FreeSpec() {
                     enablePlacesApiLookup = enablePlacesApiLookup,
                 )
 
-                vEvent shouldBe mockVEvent
+                vEvent shouldBe this@GetActivitySegmentVEventUseCaseImplTest.vEvent
             }
         }
 
         "Should return null if ActivitySegment supplied is in the ignoredActivityType" {
-            val activitySegment = VEventTestData.mockActivitySegment // ActivityType inside matters
+            val activitySegment = VEventTestData.activitySegment // ActivityType inside matters
             val ignoredActivityType = listOf(ActivityType.IN_VEHICLE)
             val enablePlacesApiLookup = true
-            mockVEventFromActivitySegmentUseCase.mockUseCaseResponse = mockVEvent
+            fakeVEventFromActivitySegmentUseCase.useCaseResponse = vEvent
 
             val vEvent = getActivitySegmentVEventUseCase(
                 activitySegment = activitySegment,

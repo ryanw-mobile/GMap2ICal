@@ -21,37 +21,37 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.getString
-import uk.ryanwong.gmap2ics.app.configs.MockConfig
-import uk.ryanwong.gmap2ics.data.repositories.mocks.MockLocalFileRepository
-import uk.ryanwong.gmap2ics.data.repositories.mocks.MockTimelineRepository
+import uk.ryanwong.gmap2ics.app.configs.SampleConfig
+import uk.ryanwong.gmap2ics.data.repositories.fakes.FakeLocalFileRepository
+import uk.ryanwong.gmap2ics.data.repositories.fakes.FakeTimelineRepository
 import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import uk.ryanwong.gmap2ics.domain.models.UILogEntry
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
-import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModelTestData.mockTimeLineWithActivityVisitAndChildVisit
-import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModelTestData.mockTimeLineWithSingleActivity
-import uk.ryanwong.gmap2ics.usecases.mocks.MockGetActivitySegmentVEventUseCase
-import uk.ryanwong.gmap2ics.usecases.mocks.MockGetOutputFilenameUseCase
-import uk.ryanwong.gmap2ics.usecases.mocks.MockGetPlaceVisitVEventUseCase
-import uk.ryanwong.gmap2ics.usecases.mocks.MockVEventFromChildVisitUseCase
-import uk.ryanwong.gmap2ics.usecases.mocks.MockVEventFromPlaceVisitUseCase
+import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModelTestData.timeLineWithActivityVisitAndChildVisit
+import uk.ryanwong.gmap2ics.ui.viewmodels.MainScreenViewModelTestData.timeLineWithSingleActivity
+import uk.ryanwong.gmap2ics.usecases.fakes.FakeGetActivitySegmentVEventUseCase
+import uk.ryanwong.gmap2ics.usecases.fakes.FakeGetOutputFilenameUseCase
+import uk.ryanwong.gmap2ics.usecases.fakes.FakeGetPlaceVisitVEventUseCase
+import uk.ryanwong.gmap2ics.usecases.fakes.FakeVEventFromChildVisitUseCase
+import uk.ryanwong.gmap2ics.usecases.fakes.FakeVEventFromPlaceVisitUseCase
 
 @OptIn(ExperimentalCoroutinesApi::class, ExperimentalResourceApi::class)
 internal class MainScreenViewModelTest : FreeSpec() {
 
     private lateinit var mainScreenViewModel: MainScreenViewModel
-    private lateinit var mockTimelineRepository: MockTimelineRepository
-    private lateinit var mockLocalFileRepository: MockLocalFileRepository
-    private lateinit var mockVEventFromPlaceVisitUseCase: MockVEventFromPlaceVisitUseCase
-    private lateinit var mockVEventFromChildVisitUseCase: MockVEventFromChildVisitUseCase
-    private lateinit var mockGetActivitySegmentVEventUseCase: MockGetActivitySegmentVEventUseCase
-    private lateinit var mockGetOutputFilenameUseCase: MockGetOutputFilenameUseCase
-    private lateinit var mockGetPlaceVisitVEventUseCase: MockGetPlaceVisitVEventUseCase
+    private lateinit var fakeTimelineRepository: FakeTimelineRepository
+    private lateinit var fakeLocalFileRepository: FakeLocalFileRepository
+    private lateinit var fakeVEventFromPlaceVisitUseCase: FakeVEventFromPlaceVisitUseCase
+    private lateinit var fakeVEventFromChildVisitUseCase: FakeVEventFromChildVisitUseCase
+    private lateinit var fakeGetActivitySegmentVEventUseCase: FakeGetActivitySegmentVEventUseCase
+    private lateinit var fakeGetOutputFilenameUseCase: FakeGetOutputFilenameUseCase
+    private lateinit var fakeGetPlaceVisitVEventUseCase: FakeGetPlaceVisitVEventUseCase
 
-    private val mockProjectBasePath = "/default-base-path/default-sub-folder/"
+    private val fakeProjectBasePath = "/default-base-path/default-sub-folder/"
 
-    private val mockDefaultVEvent = VEvent(
+    private val sampleDefaultVEvent = VEvent(
         uid = "2011-11-11T11:22:22.222Z",
         placeId = "location-id-to-be-kept",
         dtStamp = "2011-11-11T11:22:22.222Z",
@@ -70,23 +70,23 @@ internal class MainScreenViewModelTest : FreeSpec() {
         beforeTest {
             TestViewModelScope.setupViewModelScope(CoroutineScope(Dispatchers.Unconfined))
 
-            mockTimelineRepository = MockTimelineRepository()
-            mockLocalFileRepository = MockLocalFileRepository()
-            mockVEventFromPlaceVisitUseCase = MockVEventFromPlaceVisitUseCase()
-            mockVEventFromChildVisitUseCase = MockVEventFromChildVisitUseCase()
-            mockGetActivitySegmentVEventUseCase = MockGetActivitySegmentVEventUseCase()
-            mockGetOutputFilenameUseCase = MockGetOutputFilenameUseCase()
-            mockGetPlaceVisitVEventUseCase = MockGetPlaceVisitVEventUseCase()
+            fakeTimelineRepository = FakeTimelineRepository()
+            fakeLocalFileRepository = FakeLocalFileRepository()
+            fakeVEventFromPlaceVisitUseCase = FakeVEventFromPlaceVisitUseCase()
+            fakeVEventFromChildVisitUseCase = FakeVEventFromChildVisitUseCase()
+            fakeGetActivitySegmentVEventUseCase = FakeGetActivitySegmentVEventUseCase()
+            fakeGetOutputFilenameUseCase = FakeGetOutputFilenameUseCase()
+            fakeGetPlaceVisitVEventUseCase = FakeGetPlaceVisitVEventUseCase()
 
             mainScreenViewModel =
                 MainScreenViewModel(
-                    configFile = MockConfig(),
-                    timelineRepository = mockTimelineRepository,
-                    localFileRepository = mockLocalFileRepository,
-                    getActivitySegmentVEventUseCase = mockGetActivitySegmentVEventUseCase,
-                    getOutputFilenameUseCase = mockGetOutputFilenameUseCase,
-                    getPlaceVisitVEventUseCase = mockGetPlaceVisitVEventUseCase,
-                    projectBasePath = mockProjectBasePath,
+                    configFile = SampleConfig(),
+                    timelineRepository = fakeTimelineRepository,
+                    localFileRepository = fakeLocalFileRepository,
+                    getActivitySegmentVEventUseCase = fakeGetActivitySegmentVEventUseCase,
+                    getOutputFilenameUseCase = fakeGetOutputFilenameUseCase,
+                    getPlaceVisitVEventUseCase = fakeGetPlaceVisitVEventUseCase,
+                    projectBasePath = fakeProjectBasePath,
                     dispatcher = UnconfinedTestDispatcher(),
                 )
         }
@@ -305,7 +305,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                     mainScreenViewModel.onChangeJsonPath()
 
                     val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = mockProjectBasePath + "sample-folder1/sample-folder2",
+                        absolutePath = fakeProjectBasePath + "sample-folder1/sample-folder2",
                     )
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = jFileChooserResult)
 
@@ -316,7 +316,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                     mainScreenViewModel.onChangeJsonPath()
 
                     val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = mockProjectBasePath + "sample-folder1/sample-folder2",
+                        absolutePath = fakeProjectBasePath + "sample-folder1/sample-folder2",
                     )
                     mainScreenViewModel.updateJsonPath(jFileChooserResult = jFileChooserResult)
 
@@ -352,7 +352,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                     mainScreenViewModel.onChangeICalPath()
 
                     val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = mockProjectBasePath + "sample-folder1/sample-folder2",
+                        absolutePath = fakeProjectBasePath + "sample-folder1/sample-folder2",
                     )
                     mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
 
@@ -374,7 +374,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                     mainScreenViewModel.onChangeICalPath()
 
                     val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = mockProjectBasePath + "sample-folder1/sample-folder2",
+                        absolutePath = fakeProjectBasePath + "sample-folder1/sample-folder2",
                     )
                     mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
 
@@ -417,13 +417,13 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
         "startExport" - {
             "Should set MainScreenUIState = Ready after running" {
-                mockLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
-                mockGetOutputFilenameUseCase.mockUseCaseResponse = "/some-path/some-file-1.ics"
-                mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineWithActivityVisitAndChildVisit)
-                mockVEventFromPlaceVisitUseCase.mockUseCaseResponse = mockDefaultVEvent
-                mockGetActivitySegmentVEventUseCase.mockUseCaseResponse = mockDefaultVEvent
-                mockVEventFromChildVisitUseCase.mockUseCaseResponse = mockDefaultVEvent
-                mockGetPlaceVisitVEventUseCase.mockUseCaseResponse = listOf(mockDefaultVEvent)
+                fakeLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
+                fakeGetOutputFilenameUseCase.useCaseResponse = "/some-path/some-file-1.ics"
+                fakeTimelineRepository.getTimeLineResponse = Result.success(timeLineWithActivityVisitAndChildVisit)
+                fakeVEventFromPlaceVisitUseCase.useCaseResponse = sampleDefaultVEvent
+                fakeGetActivitySegmentVEventUseCase.useCaseResponse = sampleDefaultVEvent
+                fakeVEventFromChildVisitUseCase.useCaseResponse = sampleDefaultVEvent
+                fakeGetPlaceVisitVEventUseCase.useCaseResponse = listOf(sampleDefaultVEvent)
 
                 mainScreenViewModel.startExport()
 
@@ -432,8 +432,8 @@ internal class MainScreenViewModelTest : FreeSpec() {
             }
 
             "Should set MainScreenUIState = Error if localFileRepository.getFileList returns error" {
-                mockGetPlaceVisitVEventUseCase.mockUseCaseResponse = listOf(mockDefaultVEvent)
-                mockLocalFileRepository.getFileListResponse =
+                fakeGetPlaceVisitVEventUseCase.useCaseResponse = listOf(sampleDefaultVEvent)
+                fakeLocalFileRepository.getFileListResponse =
                     Result.failure(exception = Exception("some-exception-message"))
 
                 mainScreenViewModel.startExport()
@@ -446,13 +446,13 @@ internal class MainScreenViewModelTest : FreeSpec() {
 
             "getActivitySegmentVEventUseCase" - {
                 "Should append Ignore Log if getActivitySegmentVEventUseCase returns null" {
-                    mockLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
-                    mockGetOutputFilenameUseCase.mockUseCaseResponse = "/some-path/some-file-1.ics"
-                    mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineWithSingleActivity)
-                    mockVEventFromPlaceVisitUseCase.mockUseCaseResponse = mockDefaultVEvent
-                    mockGetActivitySegmentVEventUseCase.mockUseCaseResponse = null
-                    mockVEventFromChildVisitUseCase.mockUseCaseResponse = mockDefaultVEvent
-                    mockGetPlaceVisitVEventUseCase.mockUseCaseResponse = listOf(mockDefaultVEvent)
+                    fakeLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
+                    fakeGetOutputFilenameUseCase.useCaseResponse = "/some-path/some-file-1.ics"
+                    fakeTimelineRepository.getTimeLineResponse = Result.success(timeLineWithSingleActivity)
+                    fakeVEventFromPlaceVisitUseCase.useCaseResponse = sampleDefaultVEvent
+                    fakeGetActivitySegmentVEventUseCase.useCaseResponse = null
+                    fakeVEventFromChildVisitUseCase.useCaseResponse = sampleDefaultVEvent
+                    fakeGetPlaceVisitVEventUseCase.useCaseResponse = listOf(sampleDefaultVEvent)
 
                     mainScreenViewModel.startExport()
 
@@ -463,13 +463,13 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 }
 
                 "Should append Exported Log if getActivitySegmentVEventUseCase returns VEvent" {
-                    mockLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
-                    mockGetOutputFilenameUseCase.mockUseCaseResponse = "/some-path/some-file-1.ics"
-                    mockTimelineRepository.getTimeLineResponse = Result.success(mockTimeLineWithSingleActivity)
-                    mockVEventFromPlaceVisitUseCase.mockUseCaseResponse = null
-                    mockGetActivitySegmentVEventUseCase.mockUseCaseResponse = mockDefaultVEvent
-                    mockVEventFromChildVisitUseCase.mockUseCaseResponse = null
-                    mockGetPlaceVisitVEventUseCase.mockUseCaseResponse = null
+                    fakeLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
+                    fakeGetOutputFilenameUseCase.useCaseResponse = "/some-path/some-file-1.ics"
+                    fakeTimelineRepository.getTimeLineResponse = Result.success(timeLineWithSingleActivity)
+                    fakeVEventFromPlaceVisitUseCase.useCaseResponse = null
+                    fakeGetActivitySegmentVEventUseCase.useCaseResponse = sampleDefaultVEvent
+                    fakeVEventFromChildVisitUseCase.useCaseResponse = null
+                    fakeGetPlaceVisitVEventUseCase.useCaseResponse = null
 
                     mainScreenViewModel.startExport()
 
@@ -486,7 +486,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 TestScope(StandardTestDispatcher()).runTest {
                     val uiLogEntry = UILogEntry(emoji = "🚫", message = "08/07/2019 12:00:33: Activity FLYING")
 
-                    mockGetPlaceVisitVEventUseCase.emitIgnoredEvent(uiLogEntry = uiLogEntry)
+                    fakeGetPlaceVisitVEventUseCase.emitIgnoredEvent(uiLogEntry = uiLogEntry)
 
                     val ignoredLogs = mainScreenViewModel.ignoredLogs.first()
                     ignoredLogs shouldBe listOf(uiLogEntry)
@@ -497,7 +497,7 @@ internal class MainScreenViewModelTest : FreeSpec() {
                 TestScope(StandardTestDispatcher()).runTest {
                     val uiLogEntry = UILogEntry(emoji = "🗓", message = "12/11/2011 05:11:11: 📍 some-summary")
 
-                    mockGetPlaceVisitVEventUseCase.emitExportedEvent(uiLogEntry = uiLogEntry)
+                    fakeGetPlaceVisitVEventUseCase.emitExportedEvent(uiLogEntry = uiLogEntry)
 
                     val exportedLogs = mainScreenViewModel.exportedLogs.first()
                     exportedLogs shouldBe listOf(uiLogEntry)

@@ -6,13 +6,13 @@ package uk.ryanwong.gmap2ics.domain.models.timeline
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetailsTestData.mockPlaceDetailsResult
+import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetailsTestData.placeDetailsResult
 
 internal class PlaceDetailsTest : FreeSpec() {
 
     init {
         "should convert correctly from data.models.places.Result to PLaceDetails" {
-            val placeDetailsResult = mockPlaceDetailsResult
+            val placeDetailsResult = placeDetailsResult
             val placeDetails = PlaceDetails.from(placeDetailsResult = placeDetailsResult)
             placeDetails shouldBe PlaceDetails(
                 placeId = "ChIJOX4_ortjeUgR2_LUcFpvLg4",

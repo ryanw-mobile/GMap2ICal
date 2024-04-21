@@ -6,34 +6,33 @@ package uk.ryanwong.gmap2ics.domain.models.timeline
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.mocks.MockTimeZoneMap
+import uk.ryanwong.gmap2ics.app.utils.timezonemap.fakes.FakeTimeZoneMap
 import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
-import uk.ryanwong.gmap2ics.domain.models.timeline.TimelineTestData.mockTimeline
-import uk.ryanwong.gmap2ics.domain.models.timeline.TimelineTestData.mockTimelineObjects
+import uk.ryanwong.gmap2ics.domain.models.timeline.TimelineTestData.timelineObjects
 
 internal class TimelineTest : FreeSpec() {
 
-    private lateinit var mockTimeZoneMap: MockTimeZoneMap
+    private lateinit var fakeTimeZoneMap: FakeTimeZoneMap
 
     init {
         "should return correct Timeline" {
-            mockTimeZoneMap = MockTimeZoneMap().apply {
-                mockZoneId = "Europe/London"
+            fakeTimeZoneMap = FakeTimeZoneMap().apply {
+                zoneId = "Europe/London"
             }
-            val timelineObjects = mockTimelineObjects
+            val timelineObjects = timelineObjects
 
-            val timeline = Timeline.from(timelineObjects = timelineObjects, timeZoneMap = mockTimeZoneMap)
+            val timeline = Timeline.from(timelineObjects = timelineObjects, timeZoneMap = fakeTimeZoneMap)
 
-            timeline shouldBe mockTimeline
+            timeline shouldBe TimelineTestData.timeline
         }
 
         "should still return Timeline with empty list if timelineObjects is null" {
-            mockTimeZoneMap = MockTimeZoneMap().apply {
-                mockZoneId = "Europe/London"
+            fakeTimeZoneMap = FakeTimeZoneMap().apply {
+                zoneId = "Europe/London"
             }
             val timelineObjects = TimelineObjects(timelineObjects = null)
 
-            val timeline = Timeline.from(timelineObjects = timelineObjects, timeZoneMap = mockTimeZoneMap)
+            val timeline = Timeline.from(timelineObjects = timelineObjects, timeZoneMap = fakeTimeZoneMap)
 
             timeline shouldBe Timeline(timelineEntries = emptyList())
         }

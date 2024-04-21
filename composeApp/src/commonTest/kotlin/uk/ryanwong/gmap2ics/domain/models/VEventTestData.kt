@@ -20,7 +20,7 @@ import uk.ryanwong.gmap2ics.domain.models.timeline.placevisit.PlaceVisit
 import us.dustinj.timezonemap.TimeZone
 
 internal object VEventTestData {
-    val mockActivitySegment = ActivitySegment(
+    val activitySegment = ActivitySegment(
         activities = listOf(
             Activity(activityType = WALKING, rawActivityType = "WALKING"),
             Activity(activityType = IN_PASSENGER_VEHICLE, rawActivityType = "IN_PASSENGER_VEHICLE"),
@@ -53,7 +53,7 @@ internal object VEventTestData {
         eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon()),
     )
 
-    val mockActivityFirstSegmentPlaceDetails = PlaceDetails(
+    val activityFirstSegmentPlaceDetails = PlaceDetails(
         placeId = "some-first-segment-place-id",
         name = "some-first-segment-name",
         formattedAddress = "some-first-segment-formatted-address",
@@ -63,7 +63,7 @@ internal object VEventTestData {
         ),
         url = "https://maps.google.com/?cid=1021876599690425051",
     )
-    val mockActivityLastSegmentPlaceDetails = PlaceDetails(
+    val activityLastSegmentPlaceDetails = PlaceDetails(
         placeId = "some-last-segment-place-id",
         name = "some-last-segment-name",
         formattedAddress = "some-last-segment-formatted-address",
@@ -73,7 +73,7 @@ internal object VEventTestData {
         ),
         url = "https://maps.google.com/?cid=1021876599690425051",
     )
-    val mockActivityStartSegmentPlaceDetails = PlaceDetails(
+    val activityStartSegmentPlaceDetails = PlaceDetails(
         placeId = "some-start-segment-place-id",
         name = "some-start-segment-name",
         formattedAddress = "some-start-segment-formatted-address",
@@ -83,7 +83,7 @@ internal object VEventTestData {
         ),
         url = "https://maps.google.com/?cid=1021876599690425051",
     )
-    val mockActivityEndSegmentPlaceDetails = PlaceDetails(
+    val activityEndSegmentPlaceDetails = PlaceDetails(
         placeId = "some-end-segment-place-id",
         name = "some-end-segment-name",
         formattedAddress = "some-end-segment-formatted-address",
@@ -93,7 +93,7 @@ internal object VEventTestData {
         ),
         url = "https://maps.google.com/?cid=1021876599690425051",
     )
-    val mockChildVisit = ChildVisit(
+    val childVisit = ChildVisit(
         durationEndTimestamp = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
         durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
@@ -107,7 +107,7 @@ internal object VEventTestData {
         eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon()),
     )
 
-    val mockChildVisitPlaceDetails = PlaceDetails(
+    val childVisitPlaceDetails = PlaceDetails(
         placeId = "some-child-visit-place-id",
         name = "some-place-details-name",
         formattedAddress = "some-place-details-formatted-address",
@@ -118,7 +118,7 @@ internal object VEventTestData {
         url = "https://maps.google.com/?cid=1021876599690425051",
     )
 
-    val mockPlaceVisit = PlaceVisit(
+    val placeVisit = PlaceVisit(
         durationEndTimestamp = RawTimestamp(timestamp = "2011-11-11T11:22:22.222Z", timezoneId = "Asia/Tokyo"),
         durationStartTimestamp = RawTimestamp(timestamp = "2011-11-11T11:11:11.111Z", timezoneId = "Asia/Tokyo"),
         lastEditedTimestamp = "2011-11-11T11:22:22.222Z",
@@ -133,7 +133,7 @@ internal object VEventTestData {
         eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon()),
     )
 
-    val mockPlaceVisitPlaceDetails = PlaceDetails(
+    val placeVisitPlaceDetails = PlaceDetails(
         placeId = "some-place-visit-place-id",
         name = "some-place-details-name",
         formattedAddress = "some-place-details-formatted-address",
