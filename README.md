@@ -70,9 +70,9 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * [Napier](https://github.com/AAkira/Napier) - Logging library for Kotlin Multiplatform
 * [MoKo MVVM](https://github.com/icerockdev/moko-mvvm) - Mobile Kotlin Model-View-ViewModel architecture components
 * [JUnit 5](https://github.com/junit-team/junit5) - Tests
-* [KOTest](https://kotest.io/) - Test framework
+* [KOTest](https://kotest.io/) - Test runner and assertion library
 * [MockK](https://mockk.io/) - Mocking library
-* [Bitrise](https://app.bitrise.io/) - CI
+* [Github Actions](https://github.com/features/actions) - CI
 * [Kover](https://github.com/Kotlin/kotlinx-kover) - code coverage
 * [codecov](https://codecov.io/) - code coverage
 * [Ktlint Gradle](https://github.com/jlleitschuh/ktlint-gradle) - ktlint plugin to check and apply code autoformat
