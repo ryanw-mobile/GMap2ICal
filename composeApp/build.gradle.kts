@@ -94,8 +94,7 @@ kotlin {
             implementation(libs.kotest.assertions.core)
 
             implementation(libs.moko.mvvm.test)
-        }
-        desktopTest.dependencies {
+
             implementation(compose.desktop.uiTestJUnit4)
             implementation(compose.desktop.currentOs)
         }
