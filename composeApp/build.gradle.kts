@@ -92,10 +92,17 @@ kotlin {
             implementation(libs.kotest.framework.engine)
             implementation(libs.kotest.runner.junit5.jvm)
             implementation(libs.kotest.assertions.core)
-            implementation(libs.kotest.property)
 
             implementation(libs.moko.mvvm.test)
         }
+    }
+}
+
+ktlint {
+    enableExperimentalRules.set(true)
+    filter {
+        // exclude("**/generated/**")
+        exclude { projectDir.toURI().relativize(it.file.toURI()).path.contains("/generated/") }
     }
 }
 

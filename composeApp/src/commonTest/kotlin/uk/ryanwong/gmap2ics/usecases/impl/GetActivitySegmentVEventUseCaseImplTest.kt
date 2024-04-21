@@ -39,70 +39,58 @@ class GetActivitySegmentVEventUseCaseImplTest : FreeSpec() {
         lastModified = "2011-11-11T11:22:22.222Z",
     )
 
-    private fun setupUseCase() {
-        mockVEventFromActivitySegmentUseCase = MockVEventFromActivitySegmentUseCase()
-        getActivitySegmentVEventUseCase = GetActivitySegmentVEventUseCaseImpl(
-            vEventFromActivitySegmentUseCase = mockVEventFromActivitySegmentUseCase,
-        )
-    }
-
     init {
+        beforeTest {
+            mockVEventFromActivitySegmentUseCase = MockVEventFromActivitySegmentUseCase()
+            getActivitySegmentVEventUseCase = GetActivitySegmentVEventUseCaseImpl(
+                vEventFromActivitySegmentUseCase = mockVEventFromActivitySegmentUseCase,
+            )
+        }
+
         "Should return VEvent correctly if ActivitySegment supplied is not in the ignoredActivityType" - {
             "When enablePlaceApiLookup is true" {
-                // 🔴 Given
-                setupUseCase()
                 val activitySegment = VEventTestData.mockActivitySegment // Conversion is mocked so doesn't matter
                 val ignoredActivityType = listOf(ActivityType.STILL)
                 val enablePlacesApiLookup = true
                 mockVEventFromActivitySegmentUseCase.mockUseCaseResponse = mockVEvent
 
-                // 🟡 When
                 val vEvent = getActivitySegmentVEventUseCase(
                     activitySegment = activitySegment,
                     ignoredActivityType = ignoredActivityType,
                     enablePlacesApiLookup = enablePlacesApiLookup,
                 )
 
-                // 🟢 Then
                 vEvent shouldBe mockVEvent
             }
 
             "When enablePlaceApiLookup is false" {
-                // 🔴 Given
-                setupUseCase()
                 val activitySegment = VEventTestData.mockActivitySegment
                 val ignoredActivityType = listOf(ActivityType.STILL)
                 val enablePlacesApiLookup = false
                 mockVEventFromActivitySegmentUseCase.mockUseCaseResponse = mockVEvent
 
-                // 🟡 When
                 val vEvent = getActivitySegmentVEventUseCase(
                     activitySegment = activitySegment,
                     ignoredActivityType = ignoredActivityType,
                     enablePlacesApiLookup = enablePlacesApiLookup,
                 )
 
-                // 🟢 Then
                 vEvent shouldBe mockVEvent
             }
         }
 
         "Should return null if ActivitySegment supplied is in the ignoredActivityType" {
-            // 🔴 Given
-            setupUseCase()
             val activitySegment = VEventTestData.mockActivitySegment // ActivityType inside matters
             val ignoredActivityType = listOf(ActivityType.IN_VEHICLE)
             val enablePlacesApiLookup = true
             mockVEventFromActivitySegmentUseCase.mockUseCaseResponse = mockVEvent
 
-            // 🟡 When
             val vEvent = getActivitySegmentVEventUseCase(
                 activitySegment = activitySegment,
                 ignoredActivityType = ignoredActivityType,
                 enablePlacesApiLookup = enablePlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe null
         }
     }

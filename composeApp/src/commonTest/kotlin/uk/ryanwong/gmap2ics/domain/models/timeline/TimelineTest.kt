@@ -17,30 +17,24 @@ internal class TimelineTest : FreeSpec() {
 
     init {
         "should return correct Timeline" {
-            // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap().apply {
                 mockZoneId = "Europe/London"
             }
             val timelineObjects = mockTimelineObjects
 
-            // 🟡 When
             val timeline = Timeline.from(timelineObjects = timelineObjects, timeZoneMap = mockTimeZoneMap)
 
-            // 🟢 Then
             timeline shouldBe mockTimeline
         }
 
         "should still return Timeline with empty list if timelineObjects is null" {
-            // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap().apply {
                 mockZoneId = "Europe/London"
             }
             val timelineObjects = TimelineObjects(timelineObjects = null)
 
-            // 🟡 When
             val timeline = Timeline.from(timelineObjects = timelineObjects, timeZoneMap = mockTimeZoneMap)
 
-            // 🟢 Then
             timeline shouldBe Timeline(timelineEntries = emptyList())
         }
     }

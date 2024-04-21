@@ -28,11 +28,6 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
     private lateinit var apiClient: GoogleMapsApiClientImpl
     private lateinit var scope: TestScope
 
-    private fun setupDispatcher() {
-        val dispatcher = StandardTestDispatcher()
-        scope = TestScope(dispatcher)
-    }
-
     private fun setupEngine(status: HttpStatusCode, payload: String) {
         val mockEngine = MockEngine { _ ->
             respond(
@@ -45,11 +40,14 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
     }
 
     init {
+        beforeTest {
+            val dispatcher = StandardTestDispatcher()
+            scope = TestScope(dispatcher)
+        }
+
         "getPlaceDetails" - {
             "should return PlaceDetails correctly if API request is successful" {
-                setupDispatcher()
                 scope.runTest {
-                    // 🔴 Given
                     setupEngine(
                         status = HttpStatusCode.OK,
                         payload = mockPlaceDetailsGregAve,
@@ -72,22 +70,18 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
                         ),
                     )
 
-                    // 🟡 When
                     val placeDetails = apiClient.getPlaceDetails(
                         placeId = "some-placeId",
                         apiKey = "some-api-key",
                         language = "some-language",
                     )
 
-                    // 🟢 Then
                     placeDetails shouldBe expectedPlaceDetails
                 }
             }
 
             "should return null if API request returns error message" {
-                setupDispatcher()
                 scope.runTest {
-                    // 🔴 Given
                     setupEngine(
                         status = HttpStatusCode.OK,
                         payload = """{
@@ -97,14 +91,12 @@ internal class GoogleMapsApiClientImplTest : FreeSpec() {
                                 }""",
                     )
 
-                    // 🟡 When
                     val placeDetails = apiClient.getPlaceDetails(
                         placeId = "some-placeId",
                         apiKey = "some-api-key",
                         language = "some-language",
                     )
 
-                    // 🟢 Then
                     placeDetails?.result shouldBe null
                 }
             }

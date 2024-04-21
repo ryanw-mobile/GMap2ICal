@@ -66,22 +66,18 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
     init {
         "toDomainModel()" - {
             "should convert correctly from ActivitySegment Data Model to Domain Model" {
-                // 🔴 Given
                 val activitySegmentDataModel = mockActivitySegment
                 mockTimeZoneMap = MockTimeZoneMap().apply {
                     mockZoneId = "Asia/Tokyo"
                 }
                 val expectedDomainModel = mockActivitySegmentDomainModel
 
-                // 🟡 When
                 val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
-                // 🟢 Then
                 activitySegmentDomainModel shouldBe expectedDomainModel
             }
 
             "should still convert correctly from Data Model to Domain Model when rawActivityType is null" {
-                // 🔴 Given
                 val activitySegmentDataModel = mockActivitySegment.copy(
                     activityType = null,
                 )
@@ -93,15 +89,12 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
                     rawActivityType = null,
                 )
 
-                // 🟡 When
                 val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
-                // 🟢 Then
                 activitySegmentDomainModel shouldBe expectedDomainModel
             }
 
             "should still convert correctly from Data Model to Domain Model when activities is null" {
-                // 🔴 Given
                 val activitySegmentDataModel = mockActivitySegment.copy(
                     activities = null,
                 )
@@ -112,15 +105,12 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
                     activities = emptyList(),
                 )
 
-                // 🟡 When
                 val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
-                // 🟢 Then
                 activitySegmentDomainModel shouldBe expectedDomainModel
             }
 
             "should still convert correctly from Data Model to Domain Model when rawActivityType is not defined in the Enums" {
-                // 🔴 Given
                 val activitySegmentDataModel = mockActivitySegment.copy(
                     activityType = "some-strange-activity-type",
                 )
@@ -132,15 +122,12 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
                     rawActivityType = "some-strange-activity-type",
                 )
 
-                // 🟡 When
                 val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
-                // 🟢 Then
                 activitySegmentDomainModel shouldBe expectedDomainModel
             }
 
             "should return null if start location is null" {
-                // 🔴 Given
                 val activitySegmentDataModel = mockActivitySegment.copy(
                     startLocation = ActivityLocation(),
                 )
@@ -148,15 +135,12 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
                     mockZoneId = "Asia/Tokyo"
                 }
 
-                // 🟡 When
                 val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
-                // 🟢 Then
                 activitySegmentDomainModel shouldBe null
             }
 
             "should return null if end location is null" {
-                // 🔴 Given
                 val activitySegmentDataModel = mockActivitySegment.copy(
                     endLocation = ActivityLocation(),
                 )
@@ -164,10 +148,8 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
                     mockZoneId = "Asia/Tokyo"
                 }
 
-                // 🟡 When
                 val activitySegmentDomainModel = activitySegmentDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
-                // 🟢 Then
                 activitySegmentDomainModel shouldBe null
             }
         }

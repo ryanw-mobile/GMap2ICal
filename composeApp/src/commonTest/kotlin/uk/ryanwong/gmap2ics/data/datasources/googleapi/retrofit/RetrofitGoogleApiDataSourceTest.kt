@@ -28,31 +28,27 @@ class RetrofitGoogleApiDataSourceTest : FreeSpec() {
     private lateinit var retrofitService: GoogleMapsApiService
     private lateinit var scope: TestScope
 
-    private fun setupDataSource() {
-        val dispatcher = StandardTestDispatcher()
-        scope = TestScope(dispatcher)
-        retrofitService = mockk()
-        retrofitGoogleApiDataSource = RetrofitGoogleApiDataSource(retrofitService = retrofitService)
-    }
-
     init {
+        beforeTest {
+            val dispatcher = StandardTestDispatcher()
+            scope = TestScope(dispatcher)
+            retrofitService = mockk()
+            retrofitGoogleApiDataSource = RetrofitGoogleApiDataSource(retrofitService = retrofitService)
+        }
+
         "getMapsApiPlaceDetails" - {
             "Should return correct PlaceDetail if API request was successful" {
-                setupDataSource()
                 scope.runTest {
-                    // 🔴 Given
                     coEvery {
                         retrofitService.getMapsApiPlaceDetails(any(), any(), any())
                     } returns retrofitApiResponseSuccess
 
-                    // 🟡 When
                     val placeDetails = retrofitGoogleApiDataSource.getMapsApiPlaceDetails(
                         placeId = "some-place-id",
                         apiKey = "some-api-key",
                         language = "some-language",
                     )
 
-                    // 🟢 Then
                     placeDetails.isSuccess shouldBe true
                     placeDetails.getOrNull() shouldBe
                         PlaceDetails(
@@ -67,42 +63,34 @@ class RetrofitGoogleApiDataSourceTest : FreeSpec() {
             }
 
             "Should throw GetPlaceDetailsAPIErrorException if API request failed" {
-                setupDataSource()
                 scope.runTest {
-                    // 🔴 Given
                     coEvery {
                         retrofitService.getMapsApiPlaceDetails(any(), any(), any())
                     } returns retrofitApiResponseFailure
 
-                    // 🟡 When
                     val placeDetails = retrofitGoogleApiDataSource.getMapsApiPlaceDetails(
                         placeId = "some-place-id",
                         apiKey = "some-api-key",
                         language = "some-language",
                     )
 
-                    // 🟢 Then
                     placeDetails.isFailure shouldBe true
                     placeDetails.exceptionOrNull() shouldBe GetPlaceDetailsAPIErrorException("Response.error()")
                 }
             }
 
             "Should throw PlaceDetailsNotFoundException if API returns no result" {
-                setupDataSource()
                 scope.runTest {
-                    // 🔴 Given
                     coEvery {
                         retrofitService.getMapsApiPlaceDetails(any(), any(), any())
                     } returns Response.success(200, uk.ryanwong.gmap2ics.data.models.places.PlaceDetails())
 
-                    // 🟡 When
                     val placeDetails = retrofitGoogleApiDataSource.getMapsApiPlaceDetails(
                         placeId = "some-place-id",
                         apiKey = "some-api-key",
                         language = "some-language",
                     )
 
-                    // 🟢 Then
                     placeDetails.isFailure shouldBe true
                     placeDetails.exceptionOrNull() shouldBe PlaceDetailsNotFoundException(placeId = "some-place-id")
                 }

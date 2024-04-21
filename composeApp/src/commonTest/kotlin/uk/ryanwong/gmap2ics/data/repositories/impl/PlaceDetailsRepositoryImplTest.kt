@@ -37,25 +37,21 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
         "getPlaceDetails" - {
             "enablePlacesApiLookup is false" - {
                 "Should return PlaceDetailsNotFoundException if placeId is not cached" {
-                    // 🔴 Given
                     setupRepository()
                     val placeId = "some-place-id"
                     val enablePlacesApiLookup = false
 
-                    // 🟡 When
                     val placeDetails = placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = "Asia/Tokyo",
                         enablePlacesApiLookup = enablePlacesApiLookup,
                     )
 
-                    // 🟢 Then
                     placeDetails.isFailure shouldBe true
                     placeDetails.exceptionOrNull() should beInstanceOf<PlaceDetailsNotFoundException>()
                 }
 
                 "Should return cached PlaceDetails if it is in the cache" {
-                    // 🔴 Given
                     setupRepository()
                     val placeId = "some-place-id"
                     val enablePlacesApiLookup = false
@@ -81,14 +77,12 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     )
                     mockGoogleApiDataSource.getMapsApiPlaceDetailsResponse = null
 
-                    // 🟡 When
                     val placeDetails = placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = "Asia/Tokyo",
                         enablePlacesApiLookup = enablePlacesApiLookup,
                     )
 
-                    // 🟢 Then
                     placeDetails.isSuccess shouldBe true
                     placeDetails.getOrNull() shouldBe PlaceDetails(
                         placeId = "some-place-id",
@@ -103,7 +97,6 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
 
             "enablePlacesApiLookup is true" - {
                 "Should return correct PlaceDetails if data source returns something" {
-                    // 🔴 Given
                     setupRepository()
                     val apiResponse = Result.success(
                         PlaceDetails(
@@ -119,14 +112,12 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     )
                     mockGoogleApiDataSource.getMapsApiPlaceDetailsResponse = apiResponse
 
-                    // 🟡 When
                     val placeDetails = placeDetailsRepository.getPlaceDetails(
                         placeId = "some-place-id",
                         placeTimeZoneId = "Asia/Tokyo",
                         enablePlacesApiLookup = true,
                     )
 
-                    // 🟢 Then
                     placeDetails.isSuccess shouldBe true
                     placeDetails.getOrNull() shouldBe PlaceDetails(
                         placeId = "some-place-id",
@@ -139,28 +130,24 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                 }
 
                 "Should return PlaceDetailsNotFoundException if data source returns not found and placeId is not cached" {
-                    // 🔴 Given
                     setupRepository()
                     val placeId = "some-place-id"
                     val enablePlacesApiLookup = true
                     mockGoogleApiDataSource.getMapsApiPlaceDetailsResponse =
                         Result.failure(exception = PlaceDetailsNotFoundException(placeId = placeId))
 
-                    // 🟡 When
                     val placeDetails = placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = "Asia/Tokyo",
                         enablePlacesApiLookup = enablePlacesApiLookup,
                     )
 
-                    // 🟢 Then
                     placeDetails.isFailure shouldBe true
                     placeDetails.exceptionOrNull() should beInstanceOf<PlaceDetailsNotFoundException>()
                     placeDetails.exceptionOrNull()!!.message shouldBe "⛔️ placeId some-place-id not found"
                 }
 
                 "Should query data source by overriding language code if it is defined in apiLanguageOverride" {
-                    // 🔴 Given
                     setupRepository(
                         apiLanguageOverride = mapOf(
                             Pair("Asia/Tokyo", "ja"),
@@ -171,19 +158,16 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     val placeTimeZoneId = "Asia/Tokyo"
                     val enablePlacesApiLookup = true
 
-                    // 🟡 When
                     placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = placeTimeZoneId,
                         enablePlacesApiLookup = enablePlacesApiLookup,
                     )
 
-                    // 🟢 Then
                     mockGoogleApiDataSource.getMapsApiPlaceDetailsLanguageRequested shouldBe "ja"
                 }
 
                 "Should query data source using default language code if it is defined in apiLanguageOverride" {
-                    // 🔴 Given
                     setupRepository(
                         apiLanguageOverride = mapOf(
                             Pair("Asia/Tokyo", "ja"),
@@ -194,19 +178,16 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     val placeTimeZoneId = "some-place-timezone-id"
                     val enablePlacesApiLookup = true
 
-                    // 🟡 When
                     placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = placeTimeZoneId,
                         enablePlacesApiLookup = enablePlacesApiLookup,
                     )
 
-                    // 🟢 Then
                     mockGoogleApiDataSource.getMapsApiPlaceDetailsLanguageRequested shouldBe "some-language"
                 }
 
                 "Should query data source without specifying language if apiLanguageOverride has no default language" {
-                    // 🔴 Given
                     setupRepository(
                         apiLanguageOverride = mapOf(),
                     )
@@ -214,14 +195,12 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     val placeTimeZoneId = "some-place-timezone-id"
                     val enablePlacesApiLookup = true
 
-                    // 🟡 When
                     placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
                         placeTimeZoneId = placeTimeZoneId,
                         enablePlacesApiLookup = enablePlacesApiLookup,
                     )
 
-                    // 🟢 Then
                     mockGoogleApiDataSource.getMapsApiPlaceDetailsLanguageRequested shouldBe null
                 }
             }

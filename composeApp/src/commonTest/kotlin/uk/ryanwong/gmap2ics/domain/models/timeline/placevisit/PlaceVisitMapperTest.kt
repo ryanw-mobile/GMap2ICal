@@ -19,7 +19,6 @@ internal class PlaceVisitMapperTest : FreeSpec() {
 
     init {
         "should correctly map Data Model to Domain Model" {
-            // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap().apply {
                 mockZoneId = "Europe/London"
             }
@@ -65,15 +64,12 @@ internal class PlaceVisitMapperTest : FreeSpec() {
                 eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
             )
 
-            // 🟡 When
             val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
-            // 🟢 Then
             placeVisitDomainModel shouldBe expectedDomainModel
         }
 
         "should still correctly map Data Model to Domain Model if no child visits" {
-            // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap().apply {
                 mockZoneId = "Europe/London"
             }
@@ -101,24 +97,19 @@ internal class PlaceVisitMapperTest : FreeSpec() {
                 eventTimeZone = TimeZone(zoneId = "Europe/London", region = Polygon()),
             )
 
-            // 🟡 When
             val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
-            // 🟢 Then
             placeVisitDomainModel shouldBe expectedDomainModel
         }
 
         "should return null if Domain Model has no valid Location" {
-            // 🔴 Given
             mockTimeZoneMap = MockTimeZoneMap()
             val placeVisitDataModel = mockPlaceVisitDataModel.copy(
                 location = uk.ryanwong.gmap2ics.data.models.timeline.Location(),
             )
 
-            // 🟡 When
             val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = mockTimeZoneMap)
 
-            // 🟢 Then
             placeVisitDomainModel shouldBe null
         }
     }

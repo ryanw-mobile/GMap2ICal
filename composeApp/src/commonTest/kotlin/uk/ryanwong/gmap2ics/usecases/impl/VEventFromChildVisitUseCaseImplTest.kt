@@ -49,17 +49,13 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
         eventTimeZone = TimeZone(zoneId = "Asia/Tokyo", region = Polygon()),
     )
 
-    private fun setupUseCase() {
-        mockPlaceDetailsRepository = MockPlaceDetailsRepository()
-
-        vEventFromChildVisitUseCase =
-            VEventFromChildVisitUseCaseImpl(placeDetailsRepository = mockPlaceDetailsRepository)
-    }
-
     init {
+        beforeTest {
+            mockPlaceDetailsRepository = MockPlaceDetailsRepository()
+            vEventFromChildVisitUseCase = VEventFromChildVisitUseCaseImpl(placeDetailsRepository = mockPlaceDetailsRepository)
+        }
+
         "should return correct VEvent if repository returns place details" {
-            // 🔴 Given
-            setupUseCase()
             val childVisit = mockChildVisit
             val enabledPlacesApiLookup = true
             mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
@@ -87,19 +83,15 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromChildVisitUseCase(
                 childVisit = childVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should return correct VEvent if childVisit.location.placeId is null" {
-            // 🔴 Given
-            setupUseCase()
             val childVisit = mockChildVisit.copy(
                 location = mockChildVisit.location.copy(
                     placeId = null,
@@ -131,19 +123,15 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromChildVisitUseCase(
                 childVisit = childVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should return correct VEvent if childVisit.eventTimeZone is null" {
-            // 🔴 Given
-            setupUseCase()
             val childVisit = mockChildVisit.copy(
                 eventTimeZone = null,
             )
@@ -173,19 +161,15 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromChildVisitUseCase(
                 childVisit = childVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should return correct VEvent if enabledPlacesApiLookup is false" {
-            // 🔴 Given
-            setupUseCase()
             val childVisit = mockChildVisit
             val enabledPlacesApiLookup = false
             mockPlaceDetailsRepository.getPlaceDetailsResponse = Result.success(
@@ -213,19 +197,15 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromChildVisitUseCase(
                 childVisit = childVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should still return correct VEvent if repository returns PlaceDetailsNotFoundException" {
-            // 🔴 Given
-            setupUseCase()
             val childVisit = mockChildVisit
             val enabledPlacesApiLookup = true
             mockPlaceDetailsRepository.getPlaceDetailsResponse =
@@ -245,19 +225,15 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromChildVisitUseCase(
                 childVisit = childVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
 
         "should still return correct VEvent if repository returns GetPlaceDetailsAPIErrorException" {
-            // 🔴 Given
-            setupUseCase()
             val childVisit = mockChildVisit
             val enabledPlacesApiLookup = true
             mockPlaceDetailsRepository.getPlaceDetailsResponse =
@@ -277,13 +253,11 @@ internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {
                 lastModified = "2011-11-11T11:22:22.222Z",
             )
 
-            // 🟡 When
             val vEvent = vEventFromChildVisitUseCase(
                 childVisit = childVisit,
                 enablePlacesApiLookup = enabledPlacesApiLookup,
             )
 
-            // 🟢 Then
             vEvent shouldBe expectedVEvent
         }
     }
