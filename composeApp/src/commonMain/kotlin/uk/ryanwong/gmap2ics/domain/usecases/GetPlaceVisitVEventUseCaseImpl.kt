@@ -2,7 +2,7 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
-package uk.ryanwong.gmap2ics.usecases
+package uk.ryanwong.gmap2ics.domain.usecases
 
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.SharedFlow
 import uk.ryanwong.gmap2ics.domain.models.UILogEntry
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.domain.models.timeline.placevisit.PlaceVisit
-import uk.ryanwong.gmap2ics.domain.usecases.GetPlaceVisitVEventUseCase
-import uk.ryanwong.gmap2ics.domain.usecases.VEventFromChildVisitUseCase
-import uk.ryanwong.gmap2ics.domain.usecases.VEventFromPlaceVisitUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetPlaceVisitVEventUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.VEventFromChildVisitUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.VEventFromPlaceVisitUseCase
 
 class GetPlaceVisitVEventUseCaseImpl(
     private val vEventFromChildVisitUseCase: VEventFromChildVisitUseCase,

@@ -6,7 +6,7 @@ package uk.ryanwong.gmap2ics.usecases.fakes
 
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.domain.models.timeline.placevisit.ChildVisit
-import uk.ryanwong.gmap2ics.domain.usecases.VEventFromChildVisitUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.VEventFromChildVisitUseCase
 
 class FakeVEventFromChildVisitUseCase : VEventFromChildVisitUseCase {
     var useCaseResponse: VEvent? = null

@@ -16,7 +16,7 @@ import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.domain.models.timeline.Location
 import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.models.timeline.placevisit.ChildVisit
-import uk.ryanwong.gmap2ics.usecases.VEventFromChildVisitUseCaseImpl
+import uk.ryanwong.gmap2ics.domain.usecases.VEventFromChildVisitUseCaseImpl
 import us.dustinj.timezonemap.TimeZone
 
 internal class VEventFromChildVisitUseCaseImplTest : FreeSpec() {

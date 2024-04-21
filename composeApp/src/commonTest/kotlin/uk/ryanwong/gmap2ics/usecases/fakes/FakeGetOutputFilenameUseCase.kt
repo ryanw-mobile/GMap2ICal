@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.usecases.fakes
 
-import uk.ryanwong.gmap2ics.domain.usecases.GetOutputFilenameUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetOutputFilenameUseCase
 
 class FakeGetOutputFilenameUseCase : GetOutputFilenameUseCase {
     var useCaseResponse: String? = null

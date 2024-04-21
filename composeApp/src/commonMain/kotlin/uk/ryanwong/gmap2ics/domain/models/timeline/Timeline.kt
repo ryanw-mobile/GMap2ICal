@@ -4,10 +4,10 @@
 
 package uk.ryanwong.gmap2ics.domain.models.timeline
 
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
 import uk.ryanwong.gmap2ics.domain.models.timeline.activity.toDomainModel
 import uk.ryanwong.gmap2ics.domain.models.timeline.placevisit.toDomainModel
+import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapWrapper
 
 data class Timeline(
     val timelineEntries: List<TimelineEntry>,

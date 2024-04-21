@@ -22,9 +22,9 @@ import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.domain.models.timeline.Timeline
 import uk.ryanwong.gmap2ics.domain.repositories.LocalFileRepository
 import uk.ryanwong.gmap2ics.domain.repositories.TimelineRepository
-import uk.ryanwong.gmap2ics.domain.usecases.GetActivitySegmentVEventUseCase
-import uk.ryanwong.gmap2ics.domain.usecases.GetOutputFilenameUseCase
-import uk.ryanwong.gmap2ics.domain.usecases.GetPlaceVisitVEventUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetActivitySegmentVEventUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetOutputFilenameUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetPlaceVisitVEventUseCase
 import uk.ryanwong.gmap2ics.ui.screens.MainScreenUIState
 import java.nio.file.Paths
 

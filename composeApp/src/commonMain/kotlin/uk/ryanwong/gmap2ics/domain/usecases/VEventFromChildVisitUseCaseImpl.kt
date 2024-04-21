@@ -2,13 +2,13 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
-package uk.ryanwong.gmap2ics.usecases
+package uk.ryanwong.gmap2ics.domain.usecases
 
 import io.github.aakira.napier.Napier
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.domain.models.timeline.placevisit.ChildVisit
 import uk.ryanwong.gmap2ics.domain.repositories.PlaceDetailsRepository
-import uk.ryanwong.gmap2ics.domain.usecases.VEventFromChildVisitUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.VEventFromChildVisitUseCase
 
 class VEventFromChildVisitUseCaseImpl(
     private val placeDetailsRepository: PlaceDetailsRepository,

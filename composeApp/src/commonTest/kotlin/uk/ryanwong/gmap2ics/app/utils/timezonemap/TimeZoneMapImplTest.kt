@@ -6,6 +6,7 @@ package uk.ryanwong.gmap2ics.app.utils.timezonemap
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapImpl
 import us.dustinj.timezonemap.TimeZoneMap
 
 internal class TimeZoneMapImplTest : FreeSpec() {

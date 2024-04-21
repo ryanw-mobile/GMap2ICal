@@ -17,7 +17,7 @@ import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegmentAppMo
 import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegmentAppModelTestData.SOME_END_DEGREES_LATITUDE
 import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegmentAppModelTestData.SOME_END_DEGREES_LONGITUDE
 import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegmentAppModelTestData.activitySegment
-import uk.ryanwong.gmap2ics.usecases.VEventFromActivitySegmentUseCaseImpl
+import uk.ryanwong.gmap2ics.domain.usecases.VEventFromActivitySegmentUseCaseImpl
 
 internal class VEventFromActivitySegmentUseCaseImplTest : FreeSpec() {
 

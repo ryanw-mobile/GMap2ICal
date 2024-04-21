@@ -2,9 +2,9 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
-package uk.ryanwong.gmap2ics.usecases
+package uk.ryanwong.gmap2ics.domain.usecases
 
-import uk.ryanwong.gmap2ics.domain.usecases.GetOutputFilenameUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetOutputFilenameUseCase
 
 class GetOutputFilenameUseCaseImpl : GetOutputFilenameUseCase {
     override fun invoke(

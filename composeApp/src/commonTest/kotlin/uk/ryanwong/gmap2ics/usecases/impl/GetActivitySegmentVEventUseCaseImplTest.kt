@@ -12,8 +12,8 @@ import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.domain.models.VEventTestData
 import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegmentAppModelTestData
-import uk.ryanwong.gmap2ics.domain.usecases.GetActivitySegmentVEventUseCase
-import uk.ryanwong.gmap2ics.usecases.GetActivitySegmentVEventUseCaseImpl
+import uk.ryanwong.gmap2ics.domain.usecases.GetActivitySegmentVEventUseCaseImpl
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetActivitySegmentVEventUseCase
 import uk.ryanwong.gmap2ics.usecases.fakes.FakeVEventFromActivitySegmentUseCase
 
 class GetActivitySegmentVEventUseCaseImplTest : FreeSpec() {

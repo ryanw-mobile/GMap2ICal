@@ -13,8 +13,8 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import uk.ryanwong.gmap2ics.domain.models.UILogEntry
-import uk.ryanwong.gmap2ics.domain.usecases.GetPlaceVisitVEventUseCase
-import uk.ryanwong.gmap2ics.usecases.GetPlaceVisitVEventUseCaseImpl
+import uk.ryanwong.gmap2ics.domain.usecases.GetPlaceVisitVEventUseCaseImpl
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetPlaceVisitVEventUseCase
 import uk.ryanwong.gmap2ics.usecases.fakes.FakeVEventFromChildVisitUseCase
 import uk.ryanwong.gmap2ics.usecases.fakes.FakeVEventFromPlaceVisitUseCase
 

@@ -2,7 +2,7 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
-package uk.ryanwong.gmap2ics.app.utils.timezonemap
+package uk.ryanwong.gmap2ics.domain.utils.timezonemap
 
 import us.dustinj.timezonemap.TimeZone
 

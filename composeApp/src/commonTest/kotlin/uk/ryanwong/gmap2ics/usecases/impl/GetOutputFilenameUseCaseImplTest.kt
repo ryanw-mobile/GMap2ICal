@@ -6,8 +6,8 @@ package uk.ryanwong.gmap2ics.usecases.impl
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import uk.ryanwong.gmap2ics.domain.usecases.GetOutputFilenameUseCase
-import uk.ryanwong.gmap2ics.usecases.GetOutputFilenameUseCaseImpl
+import uk.ryanwong.gmap2ics.domain.usecases.GetOutputFilenameUseCaseImpl
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetOutputFilenameUseCase
 
 class GetOutputFilenameUseCaseImplTest : FreeSpec() {
 

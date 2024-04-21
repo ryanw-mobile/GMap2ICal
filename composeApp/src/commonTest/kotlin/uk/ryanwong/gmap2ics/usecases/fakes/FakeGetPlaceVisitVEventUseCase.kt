@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import uk.ryanwong.gmap2ics.domain.models.UILogEntry
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.domain.models.timeline.placevisit.PlaceVisit
-import uk.ryanwong.gmap2ics.domain.usecases.GetPlaceVisitVEventUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetPlaceVisitVEventUseCase
 
 class FakeGetPlaceVisitVEventUseCase : GetPlaceVisitVEventUseCase {
 

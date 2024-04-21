@@ -4,9 +4,9 @@
 
 package uk.ryanwong.gmap2ics.domain.models.timeline.placevisit
 
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
 import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import uk.ryanwong.gmap2ics.domain.models.timeline.toDomainModel
+import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapWrapper
 
 fun uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisit.toDomainModel(timeZoneMap: TimeZoneMapWrapper): PlaceVisit? {
     val locationDomainModel = location.toDomainModel()

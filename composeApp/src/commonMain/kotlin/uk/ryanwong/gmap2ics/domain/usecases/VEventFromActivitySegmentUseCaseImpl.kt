@@ -2,15 +2,15 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
-package uk.ryanwong.gmap2ics.usecases
+package uk.ryanwong.gmap2ics.domain.usecases
 
 import io.github.aakira.napier.Napier
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.shouldShowMiles
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.models.timeline.activity.ActivitySegment
 import uk.ryanwong.gmap2ics.domain.repositories.PlaceDetailsRepository
-import uk.ryanwong.gmap2ics.domain.usecases.VEventFromActivitySegmentUseCase
+import uk.ryanwong.gmap2ics.domain.usecases.interfaces.VEventFromActivitySegmentUseCase
+import uk.ryanwong.gmap2ics.domain.utils.timezonemap.shouldShowMiles
 
 class VEventFromActivitySegmentUseCaseImpl(
     private val placeDetailsRepository: PlaceDetailsRepository,

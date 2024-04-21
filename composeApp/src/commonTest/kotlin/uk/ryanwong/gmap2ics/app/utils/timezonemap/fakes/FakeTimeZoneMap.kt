@@ -5,7 +5,7 @@
 package uk.ryanwong.gmap2ics.app.utils.timezonemap.fakes
 
 import com.esri.core.geometry.Polygon
-import uk.ryanwong.gmap2ics.app.utils.timezonemap.TimeZoneMapWrapper
+import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
 
 class FakeTimeZoneMap : TimeZoneMapWrapper {
