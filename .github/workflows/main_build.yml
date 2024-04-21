@@ -30,8 +30,6 @@ jobs:
 
       - name: Gradle build
         run: ./gradlew build koverXmlReport --no-daemon
-        env:
-          JAVA_TOOL_OPTIONS: -Djava.awt.headless=false
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
