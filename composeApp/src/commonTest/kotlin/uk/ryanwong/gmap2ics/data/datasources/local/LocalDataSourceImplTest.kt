@@ -2,7 +2,7 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
-package uk.ryanwong.gmap2ics.data.datasources.local.impl
+package uk.ryanwong.gmap2ics.data.datasources.local
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
@@ -12,16 +12,14 @@ import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldEndWith
 import io.kotest.matchers.types.beInstanceOf
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.runTest
-import uk.ryanwong.gmap2ics.data.datasources.local.LocalDataSource
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileWriter
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
+import uk.ryanwong.gmap2ics.data.datasources.local.interfaces.LocalDataSource
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class LocalDataSourceImplTest : FreeSpec() {
 
     private lateinit var scope: TestScope

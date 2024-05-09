@@ -2,7 +2,7 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
-package uk.ryanwong.gmap2ics.data.repositories.impl
+package uk.ryanwong.gmap2ics.data.repositories
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.should
@@ -15,8 +15,6 @@ import uk.ryanwong.gmap2ics.data.models.places.GeometryDto
 import uk.ryanwong.gmap2ics.data.models.places.LocationDto
 import uk.ryanwong.gmap2ics.data.models.places.PlaceDetailsDto
 import uk.ryanwong.gmap2ics.data.models.places.ResultDto
-import uk.ryanwong.gmap2ics.data.repositories.PlaceDetailsNotFoundException
-import uk.ryanwong.gmap2ics.data.repositories.PlaceDetailsRepositoryImpl
 import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.repositories.PlaceDetailsRepository

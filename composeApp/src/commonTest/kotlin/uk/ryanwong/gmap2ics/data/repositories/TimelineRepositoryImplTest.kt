@@ -2,7 +2,7 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
-package uk.ryanwong.gmap2ics.data.repositories.impl
+package uk.ryanwong.gmap2ics.data.repositories
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
@@ -11,9 +11,8 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.fakes.FakeTimeZoneMap
 import uk.ryanwong.gmap2ics.data.datasources.local.fakes.FakeLocalDataSource
-import uk.ryanwong.gmap2ics.data.repositories.TimelineRepositoryImpl
-import uk.ryanwong.gmap2ics.data.repositories.impl.TimelineRepositoryImplTestData.JSON_STRING
-import uk.ryanwong.gmap2ics.data.repositories.impl.TimelineRepositoryImplTestData.timeLineFromJsonString
+import uk.ryanwong.gmap2ics.data.repositories.TimelineRepositoryImplTestData.JSON_STRING
+import uk.ryanwong.gmap2ics.data.repositories.TimelineRepositoryImplTestData.timeLineFromJsonString
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class TimelineRepositoryImplTest : FreeSpec() {

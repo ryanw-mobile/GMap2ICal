@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.data.datasources.local.fakes
 
-import uk.ryanwong.gmap2ics.data.datasources.local.LocalDataSource
+import uk.ryanwong.gmap2ics.data.datasources.local.interfaces.LocalDataSource
 
 class FakeLocalDataSource : LocalDataSource {
     var getFileListResponse: Result<List<String>>? = null

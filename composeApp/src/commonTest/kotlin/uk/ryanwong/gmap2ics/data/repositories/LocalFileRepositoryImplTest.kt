@@ -2,12 +2,11 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
-package uk.ryanwong.gmap2ics.data.repositories.impl
+package uk.ryanwong.gmap2ics.data.repositories
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.data.datasources.local.fakes.FakeLocalDataSource
-import uk.ryanwong.gmap2ics.data.repositories.LocalFileRepositoryImpl
 import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import uk.ryanwong.gmap2ics.domain.models.VEvent
 import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng

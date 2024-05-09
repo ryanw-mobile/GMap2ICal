@@ -2,7 +2,7 @@
  * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
  */
 
-package uk.ryanwong.gmap2ics.data.repositories.impl
+package uk.ryanwong.gmap2ics.data.repositories
 
 import com.esri.core.geometry.Polygon
 import uk.ryanwong.gmap2ics.domain.models.ActivityType.FLYING

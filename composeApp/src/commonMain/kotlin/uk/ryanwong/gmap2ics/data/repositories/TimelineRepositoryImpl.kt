@@ -8,8 +8,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import uk.ryanwong.gmap2ics.data.datasources.local.LocalDataSource
-import uk.ryanwong.gmap2ics.data.datasources.local.impl.LocalDataSourceImpl
+import uk.ryanwong.gmap2ics.data.datasources.local.interfaces.LocalDataSource
+import uk.ryanwong.gmap2ics.data.datasources.local.LocalDataSourceImpl
 import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjectsDto
 import uk.ryanwong.gmap2ics.domain.models.timeline.Timeline
