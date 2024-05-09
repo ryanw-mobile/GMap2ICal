@@ -7,6 +7,7 @@ package uk.ryanwong.gmap2ics.data.datasources.googleapi
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.http.HttpHeaders
@@ -18,6 +19,7 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.KtorGoogleApiDataSourceTestData.PLACE_DETAILS_GREG_AVE_DTO
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.KtorGoogleApiDataSourceTestData.PLACE_DETAILS_GREG_AVE_JSON
+import uk.ryanwong.gmap2ics.data.repositories.PlaceDetailsNotFoundException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class KtorGoogleApiDataSourceTest : FreeSpec() {
@@ -71,33 +73,32 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                                 }""",
                     )
 
-                    val exception = shouldThrow<GetPlaceDetailsAPIErrorException> {
+                    val exception = shouldThrow<PlaceDetailsNotFoundException> {
                         ktorGoogleApiDataSource.getMapsApiPlaceDetails(
                             placeId = "some-place-id",
                             apiKey = "some-api-key",
                             language = "some-language",
                         )
                     }
-                    exception.message shouldBe "some-exception-message"
+                    exception.message shouldBe "⛔\uFE0F placeId some-place-id not found"
                 }
             }
 
-            "Should return Failure.GetPlaceDetailsAPIErrorException if API request throws an exception" {
+            "Should throw NoTransformationFoundException if API request throws an exception" {
                 runTest {
                     setupDataSource(
                         status = HttpStatusCode.InternalServerError,
                         contentType = "text/plain",
-                        payload = """Internal Server Error""",
+                        payload = "Internal Server Error",
                     )
 
-                    val exception = shouldThrow<GetPlaceDetailsAPIErrorException> {
+                    shouldThrow<NoTransformationFoundException> {
                         ktorGoogleApiDataSource.getMapsApiPlaceDetails(
                             placeId = "some-place-id",
                             apiKey = "some-api-key",
                             language = "some-language",
                         )
                     }
-                    exception.message shouldBe "some-exception-message"
                 }
             }
         }

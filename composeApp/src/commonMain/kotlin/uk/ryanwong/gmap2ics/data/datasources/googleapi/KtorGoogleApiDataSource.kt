@@ -50,7 +50,9 @@ class KtorGoogleApiDataSource(
                 parameter("language", language)
             }.body()
 
-            response ?: throw PlaceDetailsNotFoundException(placeId = placeId)
+            response?.result?.let {
+                response
+            } ?: throw PlaceDetailsNotFoundException(placeId = placeId)
         }
     }
 }
