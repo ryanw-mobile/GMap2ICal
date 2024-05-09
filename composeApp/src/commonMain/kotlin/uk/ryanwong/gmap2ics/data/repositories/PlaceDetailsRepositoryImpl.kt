@@ -7,7 +7,7 @@ package uk.ryanwong.gmap2ics.data.repositories
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import uk.ryanwong.gmap2ics.data.datasources.googleapi.GoogleApiDataSource
+import uk.ryanwong.gmap2ics.data.datasources.googleapi.interfaces.GoogleApiDataSource
 import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.repositories.PlaceDetailsRepository
 

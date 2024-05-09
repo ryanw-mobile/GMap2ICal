@@ -6,13 +6,10 @@ package uk.ryanwong.gmap2ics.di
 
 import io.ktor.client.engine.cio.CIO
 import org.koin.dsl.module
-import uk.ryanwong.gmap2ics.data.datasources.googleapi.GoogleApiDataSource
-import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.GoogleMapsApiClient
-import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.KtorGoogleApiDataSource
-import uk.ryanwong.gmap2ics.data.datasources.googleapi.ktor.impl.GoogleMapsApiClientImpl
+import uk.ryanwong.gmap2ics.data.datasources.googleapi.KtorGoogleApiDataSource
+import uk.ryanwong.gmap2ics.data.datasources.googleapi.interfaces.GoogleApiDataSource
 
 val networkModule = module {
     single { CIO.create() }
-    single<GoogleMapsApiClient> { GoogleMapsApiClientImpl(engine = get()) }
-    single<GoogleApiDataSource> { KtorGoogleApiDataSource(googleMapsApiClient = get()) }
+    single<GoogleApiDataSource> { KtorGoogleApiDataSource(engine = get()) }
 }
