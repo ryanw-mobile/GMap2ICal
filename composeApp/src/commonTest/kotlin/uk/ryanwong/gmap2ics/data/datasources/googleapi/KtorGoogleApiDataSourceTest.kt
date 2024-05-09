@@ -4,6 +4,7 @@
 
 package uk.ryanwong.gmap2ics.data.datasources.googleapi
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.ktor.client.engine.mock.MockEngine
@@ -54,10 +55,7 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                         language = "some-language",
                     )
 
-                    with(placeDetails) {
-                        isSuccess shouldBe true
-                        getOrNull() shouldBe expectedPlaceDetails
-                    }
+                    placeDetails shouldBe expectedPlaceDetails
                 }
             }
 
@@ -73,16 +71,14 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                                 }""",
                     )
 
-                    val placeDetails = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
-                        placeId = "some-place-id",
-                        apiKey = "some-api-key",
-                        language = "some-language",
-                    )
-
-                    with(placeDetails) {
-                        isFailure shouldBe true
-                        exceptionOrNull() shouldBe GetPlaceDetailsAPIErrorException("some-exception-message")
+                    val exception = shouldThrow<GetPlaceDetailsAPIErrorException> {
+                        ktorGoogleApiDataSource.getMapsApiPlaceDetails(
+                            placeId = "some-place-id",
+                            apiKey = "some-api-key",
+                            language = "some-language",
+                        )
                     }
+                    exception.message shouldBe "some-exception-message"
                 }
             }
 
@@ -94,14 +90,14 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                         payload = """Internal Server Error""",
                     )
 
-                    val result = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
-                        placeId = "some-place-id",
-                        apiKey = "some-api-key",
-                        language = "some-language",
-                    )
-
-                    result.isFailure shouldBe true
-                    result.exceptionOrNull() shouldBe GetPlaceDetailsAPIErrorException("some-exception-message")
+                    val exception = shouldThrow<GetPlaceDetailsAPIErrorException> {
+                        ktorGoogleApiDataSource.getMapsApiPlaceDetails(
+                            placeId = "some-place-id",
+                            apiKey = "some-api-key",
+                            language = "some-language",
+                        )
+                    }
+                    exception.message shouldBe "some-exception-message"
                 }
             }
         }

@@ -6,6 +6,7 @@ package uk.ryanwong.gmap2ics.domain.models.timeline
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import uk.ryanwong.gmap2ics.data.repositories.mapper.toPlaceDetails
 import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetailsTestData.placeDetailsResultDto
 
 internal class PlaceDetailsTest : FreeSpec() {
@@ -13,7 +14,7 @@ internal class PlaceDetailsTest : FreeSpec() {
     init {
         "should convert correctly from data.models.places.Result to PLaceDetails" {
             val placeDetailsResult = placeDetailsResultDto
-            val placeDetails = PlaceDetails.from(placeDetailsResultDto = placeDetailsResult)
+            val placeDetails = placeDetailsResult.toPlaceDetails()
             placeDetails shouldBe PlaceDetails(
                 placeId = "ChIJOX4_ortjeUgR2_LUcFpvLg4",
                 name = "Yorkshire Sculpture Park",
