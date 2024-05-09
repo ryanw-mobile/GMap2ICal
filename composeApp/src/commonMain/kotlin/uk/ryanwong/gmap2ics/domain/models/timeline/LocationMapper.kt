@@ -4,9 +4,9 @@
 
 package uk.ryanwong.gmap2ics.domain.models.timeline
 
-import uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation
+import uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocationDto
 
-fun uk.ryanwong.gmap2ics.data.models.timeline.Location.toDomainModel(): Location? {
+fun uk.ryanwong.gmap2ics.data.models.timeline.LocationDto.toDomainModel(): Location? {
     return if (latitudeE7 == null || longitudeE7 == null) {
         null
     } else {
@@ -22,7 +22,7 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.Location.toDomainModel(): Location
 
 // Location without LatLng is meaningless.
 // Caller should consider dropping the entry should that happens.
-fun ActivityLocation.toDomainModel(): Location? {
+fun ActivityLocationDto.toDomainModel(): Location? {
     return if (latitudeE7 == null || longitudeE7 == null) {
         null
     } else {

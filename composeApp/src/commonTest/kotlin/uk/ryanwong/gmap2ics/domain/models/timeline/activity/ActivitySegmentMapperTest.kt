@@ -8,8 +8,8 @@ import com.esri.core.geometry.Polygon
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.fakes.FakeTimeZoneMap
-import uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation
-import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegmentDataModelTestData.activitySegment
+import uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocationDto
+import uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegmentDtoTestData.activitySegmentDto
 import uk.ryanwong.gmap2ics.domain.models.ActivityType
 import uk.ryanwong.gmap2ics.domain.models.ActivityType.IN_PASSENGER_VEHICLE
 import uk.ryanwong.gmap2ics.domain.models.ActivityType.MOTORCYCLING
@@ -66,7 +66,7 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
     init {
         "toDomainModel()" - {
             "should convert correctly from ActivitySegment Data Model to Domain Model" {
-                val activitySegmentDataModel = activitySegment
+                val activitySegmentDataModel = activitySegmentDto
                 fakeTimeZoneMap = FakeTimeZoneMap().apply {
                     zoneId = "Asia/Tokyo"
                 }
@@ -78,7 +78,7 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
             }
 
             "should still convert correctly from Data Model to Domain Model when rawActivityType is null" {
-                val activitySegmentDataModel = activitySegment.copy(
+                val activitySegmentDataModel = activitySegmentDto.copy(
                     activityType = null,
                 )
                 fakeTimeZoneMap = FakeTimeZoneMap().apply {
@@ -95,7 +95,7 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
             }
 
             "should still convert correctly from Data Model to Domain Model when activities is null" {
-                val activitySegmentDataModel = activitySegment.copy(
+                val activitySegmentDataModel = activitySegmentDto.copy(
                     activities = null,
                 )
                 fakeTimeZoneMap = FakeTimeZoneMap().apply {
@@ -111,7 +111,7 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
             }
 
             "should still convert correctly from Data Model to Domain Model when rawActivityType is not defined in the Enums" {
-                val activitySegmentDataModel = activitySegment.copy(
+                val activitySegmentDataModel = activitySegmentDto.copy(
                     activityType = "some-strange-activity-type",
                 )
                 fakeTimeZoneMap = FakeTimeZoneMap().apply {
@@ -128,8 +128,8 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
             }
 
             "should return null if start location is null" {
-                val activitySegmentDataModel = activitySegment.copy(
-                    startLocation = ActivityLocation(),
+                val activitySegmentDataModel = activitySegmentDto.copy(
+                    startLocation = ActivityLocationDto(),
                 )
                 fakeTimeZoneMap = FakeTimeZoneMap().apply {
                     zoneId = "Asia/Tokyo"
@@ -141,8 +141,8 @@ internal class ActivitySegmentMapperTest : FreeSpec() {
             }
 
             "should return null if end location is null" {
-                val activitySegmentDataModel = activitySegment.copy(
-                    endLocation = ActivityLocation(),
+                val activitySegmentDataModel = activitySegmentDto.copy(
+                    endLocation = ActivityLocationDto(),
                 )
                 fakeTimeZoneMap = FakeTimeZoneMap().apply {
                     zoneId = "Asia/Tokyo"

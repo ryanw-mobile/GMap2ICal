@@ -6,9 +6,6 @@ coroutines = "1.8.0"
 kotest = "5.8.1"
 ktor = "2.3.11"
 timezonemap = "4.5"
-retrofit = "2.11.0"
-retrofitKotlinCoroutinesAdapter = "0.9.2"
-retrofitKotlinxSerializationConverter = "1.0.0"
 napier = "2.7.1"
 gradleKtlint = "12.1.1"
 compose = "1.6.10-beta01"
@@ -37,9 +34,6 @@ kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit"
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 compose-ui-test-junit4 = { group = "org.jetbrains.compose.ui", name = "ui-test-junit4", version.ref = "compose" }
 timezonemap = { group = "us.dustinj.timezonemap", name = "timezonemap", version.ref = "timezonemap" }
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-retrofit2-kotlin-coroutines-adapter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlin-coroutines-adapter", version.ref = "retrofitKotlinCoroutinesAdapter" }
-retrofit2-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationConverter" }
 ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
@@ -57,4 +51,3 @@ moko-mvvm-compose = { group = "dev.icerock.moko", name = "mvvm-compose", version
 moko-mvvm-test = { group = "dev.icerock.moko", name = "mvvm-test", version.ref = "mokoMvvm" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }

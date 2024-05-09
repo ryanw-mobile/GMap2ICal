@@ -10,7 +10,7 @@ import uk.ryanwong.gmap2ics.domain.models.timeline.Location
 import uk.ryanwong.gmap2ics.domain.models.timeline.toDomainModel
 import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapWrapper
 
-fun uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment.toDomainModel(
+fun uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegmentDto.toDomainModel(
     timeZoneMap: TimeZoneMapWrapper,
 ): ActivitySegment? {
     val startLocationDomainModel: Location? = startLocation.toDomainModel()

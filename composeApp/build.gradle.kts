@@ -51,10 +51,6 @@ kotlin {
             implementation(libs.napier)
             implementation(libs.themedetector)
 
-            implementation(libs.retrofit)
-            implementation(libs.retrofit2.kotlin.coroutines.adapter)
-            implementation(libs.retrofit2.kotlinx.serialization.converter)
-
             implementation(libs.kotlinx.coroutines.core.jvm)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.kotlinx.serialization.json)
@@ -133,6 +129,8 @@ koverReport {
             // excludes all classes located in specified package and it subpackages, wildcards '*' and '?' are available
             packages(
                 listOf(
+                    "gmap2ical.composeapp.generated.resources*",
+                    "uk.ryanwong.gmap2ics.di*",
                     "uk.ryanwong.gmap2ics.app.configs",
                     "uk.ryanwong.gmap2ics.ui.screens",
                     "uk.ryanwong.gmap2ics.ui.theme",
@@ -143,12 +141,10 @@ koverReport {
 
     // configure default reports - for Kotlin/JVM or Kotlin/MPP projects or merged android variants
     defaults {
-        //  generate an XML report when running the `check` task
+        //  generate an report when running the `check` task
         xml {
             onCheck = true
         }
-
-        //  generate a HTML report when running the `check` task
         html {
             onCheck = true
         }

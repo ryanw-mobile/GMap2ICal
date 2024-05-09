@@ -4,19 +4,20 @@
 
 package uk.ryanwong.gmap2ics.data.datasources.local.fakes
 
-import uk.ryanwong.gmap2ics.data.datasources.googleapi.GoogleApiDataSource
-import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetails
+import uk.ryanwong.gmap2ics.data.datasources.googleapi.interfaces.GoogleApiDataSource
+import uk.ryanwong.gmap2ics.data.models.places.PlaceDetailsDto
 
 class FakeGoogleApiDataSource : GoogleApiDataSource {
-    var getMapsApiPlaceDetailsResponse: Result<PlaceDetails>? = null
+    var fakeException: Throwable? = null
+    var getMapsApiPlaceDetailsResponse: PlaceDetailsDto? = null
     var getMapsApiPlaceDetailsLanguageRequested: String? = null
 
     override suspend fun getMapsApiPlaceDetails(
         placeId: String,
         apiKey: String,
         language: String?,
-    ): Result<PlaceDetails> {
+    ): PlaceDetailsDto {
         getMapsApiPlaceDetailsLanguageRequested = language
-        return getMapsApiPlaceDetailsResponse ?: Result.failure(Exception("response not defined"))
+        return fakeException?.let { throw it } ?: getMapsApiPlaceDetailsResponse ?: throw Exception("response not defined")
     }
 }
