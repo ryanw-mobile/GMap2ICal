@@ -12,10 +12,10 @@ data class ActivitySegmentDto(
     val activityType: String? = null,
     val confidence: String? = null,
     val distance: Int? = null,
-    val durationDto: DurationDto,
+    val duration: DurationDto,
     val endLocation: ActivityLocationDto,
     val startLocation: ActivityLocationDto,
-    val waypointPathDto: WaypointPathDto? = null,
+    val waypointPath: WaypointPathDto? = null,
     val lastEditedTimestamp: String? = null,
     val activityConfidence: Int? = null,
 )

@@ -8,6 +8,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TimelineObjectDto(
-    val activitySegmentDto: ActivitySegmentDto? = null,
-    val placeVisitDto: PlaceVisitDto? = null,
+    val activitySegment: ActivitySegmentDto? = null,
+    val placeVisit: PlaceVisitDto? = null,
 )

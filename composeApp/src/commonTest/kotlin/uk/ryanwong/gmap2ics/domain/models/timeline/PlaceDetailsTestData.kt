@@ -16,8 +16,8 @@ internal object PlaceDetailsTestData {
     val placeDetailsResultDto = ResultDto(
         formattedAddress = "Wakefield WF4 4LG, UK",
         formattedPhoneNumber = "01924 832631",
-        geometryDto = GeometryDto(
-            locationDto = LocationDto(
+        geometry = GeometryDto(
+            location = LocationDto(
                 lat = 53.6152405,
                 lng = -1.5639315,
             ),

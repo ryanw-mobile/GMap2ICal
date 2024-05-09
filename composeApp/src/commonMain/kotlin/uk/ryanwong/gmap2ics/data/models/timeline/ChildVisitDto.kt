@@ -10,9 +10,9 @@ import kotlinx.serialization.Serializable
 data class ChildVisitDto(
     val centerLatE7: Int? = null,
     val centerLngE7: Int? = null,
-    val durationDto: DurationDto? = null,
+    val duration: DurationDto? = null,
     val lastEditedTimestamp: String? = null,
-    val locationDto: LocationDto,
+    val location: LocationDto,
     val locationConfidence: Int? = null,
     val placeConfidence: String? = null,
     val placeVisitType: String? = null,

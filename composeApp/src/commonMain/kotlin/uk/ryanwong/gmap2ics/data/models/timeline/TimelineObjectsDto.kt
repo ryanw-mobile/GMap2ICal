@@ -8,5 +8,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TimelineObjectsDto(
-    val timelineObjectDtos: List<TimelineObjectDto>? = null,
+    val timelineObjects: List<TimelineObjectDto>? = null,
 )

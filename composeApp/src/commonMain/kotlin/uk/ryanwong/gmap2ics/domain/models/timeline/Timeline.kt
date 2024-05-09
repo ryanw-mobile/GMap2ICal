@@ -18,10 +18,10 @@ data class Timeline(
             timeZoneMap: TimeZoneMapWrapper,
         ): Timeline {
             return Timeline(
-                timelineEntries = timelineObjectsDto.timelineObjectDtos?.map { timelineObject ->
+                timelineEntries = timelineObjectsDto.timelineObjects?.map { timelineObject ->
                     TimelineEntry(
-                        activitySegment = timelineObject.activitySegmentDto?.toDomainModel(timeZoneMap = timeZoneMap),
-                        placeVisit = timelineObject.placeVisitDto?.toDomainModel(timeZoneMap = timeZoneMap),
+                        activitySegment = timelineObject.activitySegment?.toDomainModel(timeZoneMap = timeZoneMap),
+                        placeVisit = timelineObject.placeVisit?.toDomainModel(timeZoneMap = timeZoneMap),
                     )
                 } ?: emptyList(),
             )

@@ -23,7 +23,7 @@ internal object ActivitySegmentDtoTestData {
         activityType = "IN_PASSENGER_VEHICLE",
         confidence = "HIGH",
         distance = 15032,
-        durationDto = DurationDto(
+        duration = DurationDto(
             endTimestamp = "2019-06-01T01:24:28Z",
             startTimestamp = "2019-06-01T01:04:01Z",
         ),
@@ -43,10 +43,10 @@ internal object ActivitySegmentDtoTestData {
             name = null,
             placeId = null,
         ),
-        waypointPathDto = WaypointPathDto(
+        waypointPath = WaypointPathDto(
             confidence = null,
             distanceMeters = 15444.856340505617,
-            roadSegmentDto = listOf(
+            roadSegment = listOf(
                 RoadSegmentDto(duration = null, placeId = "some-place-id-1"),
                 RoadSegmentDto(duration = null, placeId = "some-place-id-2"),
                 RoadSegmentDto(duration = null, placeId = "some-place-id-3"),

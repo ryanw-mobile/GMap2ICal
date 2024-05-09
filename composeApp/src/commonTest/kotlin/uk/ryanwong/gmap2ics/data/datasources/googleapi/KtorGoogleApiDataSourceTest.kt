@@ -15,7 +15,7 @@ import io.ktor.utils.io.ByteReadChannel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import uk.ryanwong.gmap2ics.data.datasources.googleapi.KtorGoogleApiDataSourceTestData.PLACE_DETAILS_GREG_AVE_DOMAIN_MODEL
+import uk.ryanwong.gmap2ics.data.datasources.googleapi.KtorGoogleApiDataSourceTestData.PLACE_DETAILS_GREG_AVE_DTO
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.KtorGoogleApiDataSourceTestData.PLACE_DETAILS_GREG_AVE_JSON
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -46,7 +46,7 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
                         contentType = "application/json",
                         payload = PLACE_DETAILS_GREG_AVE_JSON,
                     )
-                    val expectedPlaceDetails = PLACE_DETAILS_GREG_AVE_DOMAIN_MODEL
+                    val expectedPlaceDetails = PLACE_DETAILS_GREG_AVE_DTO
 
                     val placeDetails = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
                         placeId = "some-place-id",

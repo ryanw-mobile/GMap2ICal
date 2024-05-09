@@ -8,5 +8,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GeometryDto(
-    val locationDto: LocationDto,
+    val location: LocationDto,
 )

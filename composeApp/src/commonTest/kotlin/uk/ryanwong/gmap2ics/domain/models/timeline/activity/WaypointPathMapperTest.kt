@@ -16,7 +16,7 @@ internal class WaypointPathMapperTest : FreeSpec() {
                 val waypointPathDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPathDto(
                     confidence = 98.7,
                     distanceMeters = 123.45,
-                    roadSegmentDto = listOf(
+                    roadSegment = listOf(
                         RoadSegmentDto(duration = null, placeId = "some-place-id-1"),
                         RoadSegmentDto(duration = null, placeId = "some-place-id-2"),
                         RoadSegmentDto(duration = null, placeId = "some-place-id-3"),
@@ -37,7 +37,7 @@ internal class WaypointPathMapperTest : FreeSpec() {
                 val waypointPathDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPathDto(
                     confidence = 98.7,
                     distanceMeters = null,
-                    roadSegmentDto = listOf(
+                    roadSegment = listOf(
                         RoadSegmentDto(duration = null, placeId = "some-place-id-1"),
                         RoadSegmentDto(duration = null, placeId = "some-place-id-2"),
                         RoadSegmentDto(duration = null, placeId = "some-place-id-3"),
@@ -58,7 +58,7 @@ internal class WaypointPathMapperTest : FreeSpec() {
                 val waypointPathDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPathDto(
                     confidence = 98.7,
                     distanceMeters = 123.45,
-                    roadSegmentDto = null,
+                    roadSegment = null,
                     source = "some-source",
                     travelMode = "some-travel-mode",
                 )
@@ -75,7 +75,7 @@ internal class WaypointPathMapperTest : FreeSpec() {
                 val waypointPathDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPathDto(
                     confidence = 98.7,
                     distanceMeters = 123.45,
-                    roadSegmentDto = listOf(
+                    roadSegment = listOf(
                         RoadSegmentDto(duration = null, placeId = "some-place-id-1"),
                         RoadSegmentDto(duration = null, placeId = null),
                         RoadSegmentDto(duration = null, placeId = "some-place-id-2"),

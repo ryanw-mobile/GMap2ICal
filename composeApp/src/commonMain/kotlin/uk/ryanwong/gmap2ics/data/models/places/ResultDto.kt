@@ -13,7 +13,7 @@ data class ResultDto(
     val formattedAddress: String,
     @SerialName(value = "formatted_phone_number")
     val formattedPhoneNumber: String? = null,
-    val geometryDto: GeometryDto,
+    val geometry: GeometryDto,
     val icon: String? = null,
     val name: String,
     @SerialName(value = "place_id")

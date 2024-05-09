@@ -23,8 +23,8 @@ data class PlaceDetails(
                     name = name,
                     formattedAddress = formattedAddress,
                     geo = LatLng(
-                        latitude = geometryDto.locationDto.lat,
-                        longitude = geometryDto.locationDto.lng,
+                        latitude = geometry.location.lat,
+                        longitude = geometry.location.lng,
                     ),
                     types = types,
                     url = url,

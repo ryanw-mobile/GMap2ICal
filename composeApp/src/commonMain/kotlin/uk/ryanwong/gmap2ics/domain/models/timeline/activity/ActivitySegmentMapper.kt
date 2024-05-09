@@ -37,19 +37,19 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegmentDto.toDomainModel(
         } ?: emptyList(),
         activityType = activityTypeEnum,
         rawActivityType = activityType,
-        distance = distance ?: (waypointPathDto?.distanceMeters)?.toInt() ?: 0,
+        distance = distance ?: (waypointPath?.distanceMeters)?.toInt() ?: 0,
         durationEndTimestamp = RawTimestamp(
-            timestamp = durationDto.endTimestamp,
+            timestamp = duration.endTimestamp,
             timezoneId = timezone?.zoneId ?: "UTC",
         ),
         durationStartTimestamp = RawTimestamp(
-            timestamp = durationDto.startTimestamp,
+            timestamp = duration.startTimestamp,
             timezoneId = timezone?.zoneId ?: "UTC",
         ),
         endLocation = endLocationDomainModel,
         startLocation = startLocationDomainModel,
-        waypointPath = waypointPathDto?.toDomainModel(),
-        lastEditedTimestamp = lastEditedTimestamp ?: durationDto.endTimestamp,
+        waypointPath = waypointPath?.toDomainModel(),
+        lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
         eventTimeZone = timezone,
     )
 }

@@ -8,9 +8,9 @@ internal object PlaceVisitDtoTestData {
     val placeVisitDto = PlaceVisitDto(
         centerLatE7 = null,
         centerLngE7 = null,
-        durationDto = DurationDto(endTimestamp = "2022-01-03T14:26:25Z", startTimestamp = "2022-01-03T14:18:02Z"),
+        duration = DurationDto(endTimestamp = "2022-01-03T14:26:25Z", startTimestamp = "2022-01-03T14:18:02Z"),
         lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
-        locationDto = LocationDto(
+        location = LocationDto(
             address = "some-address",
             latitudeE7 = 534781060,
             locationConfidence = 100.0,
@@ -23,13 +23,13 @@ internal object PlaceVisitDtoTestData {
         placeConfidence = "USER_CONFIRMED",
         placeVisitType = "SINGLE_PLACE",
         visitConfidence = 100,
-        childVisitDtos = listOf(
+        childVisits = listOf(
             ChildVisitDto(
                 centerLatE7 = null,
                 centerLngE7 = null,
-                durationDto = DurationDto(endTimestamp = "2022-01-03T14:25:00Z", startTimestamp = "2022-01-03T14:19:00Z"),
+                duration = DurationDto(endTimestamp = "2022-01-03T14:25:00Z", startTimestamp = "2022-01-03T14:19:00Z"),
                 lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
-                locationDto = LocationDto(
+                location = LocationDto(
                     address = "some-child-address",
                     latitudeE7 = 534781070,
                     locationConfidence = 100.0,

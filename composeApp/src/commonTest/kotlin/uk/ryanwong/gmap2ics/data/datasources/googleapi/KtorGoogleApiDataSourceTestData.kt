@@ -6,7 +6,8 @@ package uk.ryanwong.gmap2ics.data.datasources.googleapi
 
 import uk.ryanwong.gmap2ics.data.models.places.GeometryDto
 import uk.ryanwong.gmap2ics.data.models.places.LocationDto
-import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetails
+import uk.ryanwong.gmap2ics.data.models.places.PlaceDetailsDto
+import uk.ryanwong.gmap2ics.data.models.places.ResultDto
 
 internal object KtorGoogleApiDataSourceTestData {
 
@@ -87,19 +88,21 @@ internal object KtorGoogleApiDataSourceTestData {
    "status" : "OK"
 }"""
 
-    val PLACE_DETAILS_GREG_AVE_DOMAIN_MODEL = PlaceDetails(
-        formattedAddress = "8 Greg Ave, Bollington, Macclesfield SK10 5HR, UK",
-        formattedPhoneNumber = null,
-        geometry = GeometryDto(locationDto = LocationDto(lat = 53.2945761, lng = -2.114387)),
-        icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
-        name = "8 Greg Ave",
-        placeId = "ChIJ43NG7NxLekgR7NFDJzb-WXw",
-        reference = "ChIJ43NG7NxLekgR7NFDJzb-WXw",
-        types = listOf("premise"),
-        url = "https://maps.google.com/?q=8+Greg+Ave,+Bollington,+Macclesfield+SK10+5HR,+UK&ftid=0x487a4bdcec4673e3:0x7c59fe362743d1ec",
-        userRatingsTotal = null,
-        utcOffset = 60,
-        vicinity = "Bollington",
-        website = null,
+    val PLACE_DETAILS_GREG_AVE_DTO = PlaceDetailsDto(
+        ResultDto(
+            formattedAddress = "8 Greg Ave, Bollington, Macclesfield SK10 5HR, UK",
+            formattedPhoneNumber = null,
+            geometry = GeometryDto(location = LocationDto(lat = 53.2945761, lng = -2.114387)),
+            icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
+            name = "8 Greg Ave",
+            placeId = "ChIJ43NG7NxLekgR7NFDJzb-WXw",
+            reference = "ChIJ43NG7NxLekgR7NFDJzb-WXw",
+            types = listOf("premise"),
+            url = "https://maps.google.com/?q=8+Greg+Ave,+Bollington,+Macclesfield+SK10+5HR,+UK&ftid=0x487a4bdcec4673e3:0x7c59fe362743d1ec",
+            userRatingsTotal = null,
+            utcOffset = 60,
+            vicinity = "Bollington",
+            website = null,
+        ),
     )
 }

@@ -30,7 +30,7 @@ internal class TimelineTest : FreeSpec() {
             fakeTimeZoneMap = FakeTimeZoneMap().apply {
                 zoneId = "Europe/London"
             }
-            val timelineObjectsDto = TimelineObjectsDto(timelineObjectDtos = null)
+            val timelineObjectsDto = TimelineObjectsDto(timelineObjects = null)
 
             val timeline = Timeline.from(timelineObjectsDto = timelineObjectsDto, timeZoneMap = fakeTimeZoneMap)
 

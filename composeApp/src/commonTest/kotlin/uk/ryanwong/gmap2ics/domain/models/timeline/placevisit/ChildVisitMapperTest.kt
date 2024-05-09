@@ -20,9 +20,9 @@ internal class ChildVisitMapperTest : FreeSpec() {
     private val childVisitDto = uk.ryanwong.gmap2ics.data.models.timeline.ChildVisitDto(
         centerLatE7 = null,
         centerLngE7 = null,
-        durationDto = DurationDto(endTimestamp = "2022-01-03T14:26:25Z", startTimestamp = "2022-01-03T14:18:02Z"),
+        duration = DurationDto(endTimestamp = "2022-01-03T14:26:25Z", startTimestamp = "2022-01-03T14:18:02Z"),
         lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
-        locationDto = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(
+        location = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(
             address = "some-address",
             latitudeE7 = 534781060,
             locationConfidence = 100.0,
@@ -64,7 +64,7 @@ internal class ChildVisitMapperTest : FreeSpec() {
         "should return null if Domain Model has no valid Location" {
             fakeTimeZoneMap = FakeTimeZoneMap()
             val childVisitDataModel = childVisitDto.copy(
-                locationDto = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(),
+                location = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(),
             )
 
             val childVisitDomainModel = childVisitDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)
@@ -75,7 +75,7 @@ internal class ChildVisitMapperTest : FreeSpec() {
         "should return null if Domain Model has no valid Duration" {
             fakeTimeZoneMap = FakeTimeZoneMap()
             val childVisitDataModel = childVisitDto.copy(
-                durationDto = null,
+                duration = null,
             )
 
             val childVisitDomainModel = childVisitDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)

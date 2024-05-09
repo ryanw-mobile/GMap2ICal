@@ -74,7 +74,7 @@ internal class PlaceVisitMapperTest : FreeSpec() {
                 zoneId = "Europe/London"
             }
             val placeVisitDataModel = placeVisitDto.copy(
-                childVisitDtos = null,
+                childVisits = null,
             )
             val expectedDomainModel = PlaceVisit(
                 durationEndTimestamp = RawTimestamp(
@@ -105,7 +105,7 @@ internal class PlaceVisitMapperTest : FreeSpec() {
         "should return null if Domain Model has no valid Location" {
             fakeTimeZoneMap = FakeTimeZoneMap()
             val placeVisitDataModel = placeVisitDto.copy(
-                locationDto = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(),
+                location = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(),
             )
 
             val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)

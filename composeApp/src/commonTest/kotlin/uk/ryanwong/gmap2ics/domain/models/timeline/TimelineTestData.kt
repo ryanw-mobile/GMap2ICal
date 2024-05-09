@@ -23,9 +23,9 @@ import us.dustinj.timezonemap.TimeZone
 
 internal object TimelineTestData {
     val timelineObjectsDto = TimelineObjectsDto(
-        timelineObjectDtos = listOf(
+        timelineObjects = listOf(
             TimelineObjectDto(
-                activitySegmentDto = ActivitySegmentDto(
+                activitySegment = ActivitySegmentDto(
                     activities = listOf(
                         ActivityDto(activityType = "IN_PASSENGER_VEHICLE", probability = 84.83055830001831),
                         ActivityDto(activityType = "STILL", probability = 11.161107569932938),
@@ -34,7 +34,7 @@ internal object TimelineTestData {
                     activityType = "IN_PASSENGER_VEHICLE",
                     confidence = "HIGH",
                     distance = 2373,
-                    durationDto = DurationDto(
+                    duration = DurationDto(
                         endTimestamp = "2022-01-03T14:18:02Z",
                         startTimestamp = "2022-01-03T14:04:35.990Z",
                     ),
@@ -54,10 +54,10 @@ internal object TimelineTestData {
                         name = null,
                         placeId = null,
                     ),
-                    waypointPathDto = WaypointPathDto(
+                    waypointPath = WaypointPathDto(
                         confidence = 0.9905998589035128,
                         distanceMeters = 3838.6799403449295,
-                        roadSegmentDto = listOf(
+                        roadSegment = listOf(
                             RoadSegmentDto(duration = "12s", placeId = "some-road-segment-place-id-1"),
                             RoadSegmentDto(duration = "8s", placeId = "some-road-segment-place-id-2"),
                             RoadSegmentDto(duration = "7s", placeId = "some-road-segment-place-id-3"),
@@ -68,16 +68,16 @@ internal object TimelineTestData {
                     lastEditedTimestamp = null,
                     activityConfidence = null,
                 ),
-                placeVisitDto = null,
+                placeVisit = null,
             ),
             TimelineObjectDto(
-                activitySegmentDto = null,
-                placeVisitDto = PlaceVisitDto(
+                activitySegment = null,
+                placeVisit = PlaceVisitDto(
                     centerLatE7 = null,
                     centerLngE7 = null,
-                    durationDto = DurationDto(endTimestamp = "2022-01-03T14:26:25Z", startTimestamp = "2022-01-03T14:18:02Z"),
+                    duration = DurationDto(endTimestamp = "2022-01-03T14:26:25Z", startTimestamp = "2022-01-03T14:18:02Z"),
                     lastEditedTimestamp = "2022-02-20T01:17:06.535Z",
-                    locationDto = LocationDto(
+                    location = LocationDto(
                         address = "some-place-visit-location-address",
                         latitudeE7 = 534781060,
                         locationConfidence = 100.0,
@@ -90,12 +90,12 @@ internal object TimelineTestData {
                     placeConfidence = "USER_CONFIRMED",
                     placeVisitType = "SINGLE_PLACE",
                     visitConfidence = 100,
-                    childVisitDtos = null,
+                    childVisits = null,
                 ),
             ),
 
             TimelineObjectDto(
-                activitySegmentDto = ActivitySegmentDto(
+                activitySegment = ActivitySegmentDto(
                     activities = listOf(
                         ActivityDto(activityType = "IN_PASSENGER_VEHICLE", probability = 96.32002711296082),
                         ActivityDto(activityType = "WALKING", probability = 2.1393459290266037),
@@ -104,7 +104,7 @@ internal object TimelineTestData {
                     activityType = "IN_PASSENGER_VEHICLE",
                     confidence = "HIGH",
                     distance = 2183,
-                    durationDto = DurationDto(endTimestamp = "2022-01-03T14:32:08Z", startTimestamp = "2022-01-03T14:26:25Z"),
+                    duration = DurationDto(endTimestamp = "2022-01-03T14:32:08Z", startTimestamp = "2022-01-03T14:26:25Z"),
                     endLocation = ActivityLocationDto(
                         address = null,
                         latitudeE7 = 534723150,
@@ -121,10 +121,10 @@ internal object TimelineTestData {
                         name = null,
                         placeId = null,
                     ),
-                    waypointPathDto = WaypointPathDto(
+                    waypointPath = WaypointPathDto(
                         confidence = 0.9996660206177816,
                         distanceMeters = 2318.9909458116717,
-                        roadSegmentDto = listOf(
+                        roadSegment = listOf(
                             RoadSegmentDto(duration = "3s", placeId = "some-road-segment-place-id-1"),
                             RoadSegmentDto(duration = "2s", placeId = "some-road-segment-place-id-2"),
                             RoadSegmentDto(duration = "12s", placeId = "some-road-segment-place-id-3"),
@@ -135,15 +135,15 @@ internal object TimelineTestData {
                     lastEditedTimestamp = null,
                     activityConfidence = null,
                 ),
-                placeVisitDto = PlaceVisitDto(
+                placeVisit = PlaceVisitDto(
                     centerLatE7 = null,
                     centerLngE7 = null,
-                    durationDto = DurationDto(
+                    duration = DurationDto(
                         endTimestamp = "2022-01-03T14:51:33.608Z",
                         startTimestamp = "2022-01-03T14:32:08Z",
                     ),
                     lastEditedTimestamp = "2022-01-05T06:56:03.277Z",
-                    locationDto = LocationDto(
+                    location = LocationDto(
                         address = "some-place-visit-location-address",
                         latitudeE7 = 534730563,
                         locationConfidence = 100.0,
@@ -156,7 +156,7 @@ internal object TimelineTestData {
                     placeConfidence = "USER_CONFIRMED",
                     placeVisitType = "SINGLE_PLACE",
                     visitConfidence = 100,
-                    childVisitDtos = null,
+                    childVisits = null,
                 ),
             ),
         ),

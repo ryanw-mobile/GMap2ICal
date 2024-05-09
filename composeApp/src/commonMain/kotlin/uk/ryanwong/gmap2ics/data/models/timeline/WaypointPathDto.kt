@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 data class WaypointPathDto(
     val confidence: Double? = null,
     val distanceMeters: Double? = null,
-    val roadSegmentDto: List<RoadSegmentDto>? = null,
+    val roadSegment: List<RoadSegmentDto>? = null,
     val source: String? = null,
     val travelMode: String? = null,
 )
