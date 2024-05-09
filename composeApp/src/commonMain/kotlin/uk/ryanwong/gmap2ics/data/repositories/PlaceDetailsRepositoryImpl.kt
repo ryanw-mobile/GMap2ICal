@@ -8,8 +8,11 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.interfaces.GoogleApiDataSource
+import uk.ryanwong.gmap2ics.data.except
+import uk.ryanwong.gmap2ics.data.repositories.mapper.toPlaceDetails
 import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.repositories.PlaceDetailsRepository
+import kotlin.coroutines.cancellation.CancellationException
 
 class PlaceDetailsRepositoryImpl(
     private val networkDataSource: GoogleApiDataSource,
@@ -35,27 +38,33 @@ class PlaceDetailsRepositoryImpl(
                 Result.failure(PlaceDetailsNotFoundException(placeId = placeId))
             }
 
+            placesApiKey == null -> {
+                Result.failure(PlaceDetailsNotFoundException(placeId = placeId))
+            }
+
             else -> {
                 withContext(dispatcher) {
                     // Do API lookup and cache the results
                     // If user does not supply an API Key means we always return null
-                    placesApiKey?.let { apiKey ->
+                    runCatching {
                         val language: String? = apiLanguageOverride.getOrDefault(
                             key = placeTimeZoneId,
                             defaultValue = apiLanguageOverride.get(key = "default"),
                         )
 
-                        val placeResult =
-                            networkDataSource.getMapsApiPlaceDetails(
-                                placeId = placeId,
-                                apiKey = apiKey,
-                                language = language,
-                            )
-                        placeResult.getOrNull()?.let { place ->
-                            placesCache[placeId] = place
-                        }
-                        placeResult
-                    } ?: Result.failure(PlaceDetailsNotFoundException(placeId = placeId))
+                        val placeDetailsDto = networkDataSource.getMapsApiPlaceDetails(
+                            placeId = placeId,
+                            apiKey = placesApiKey,
+                            language = language,
+                        )
+
+                        val placeDetails = placeDetailsDto.result?.toPlaceDetails()
+
+                        placeDetails?.let {
+                            placesCache[placeId] = it
+                            it
+                        } ?: throw PlaceDetailsNotFoundException(placeId = placeId)
+                    }.except<CancellationException, _>()
                 }
             }
         }

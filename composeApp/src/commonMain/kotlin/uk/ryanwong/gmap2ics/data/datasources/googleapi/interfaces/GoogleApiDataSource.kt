@@ -11,5 +11,5 @@ interface GoogleApiDataSource {
         placeId: String,
         apiKey: String,
         language: String?,
-    ): Result<PlaceDetailsDto>
+    ): PlaceDetailsDto
 }

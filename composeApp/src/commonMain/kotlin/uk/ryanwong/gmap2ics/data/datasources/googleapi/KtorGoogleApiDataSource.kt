@@ -16,10 +16,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.interfaces.GoogleApiDataSource
-import uk.ryanwong.gmap2ics.data.except
 import uk.ryanwong.gmap2ics.data.models.places.PlaceDetailsDto
 import uk.ryanwong.gmap2ics.data.repositories.PlaceDetailsNotFoundException
-import kotlin.coroutines.cancellation.CancellationException
 
 class KtorGoogleApiDataSource(
     engine: HttpClientEngine,
@@ -44,17 +42,15 @@ class KtorGoogleApiDataSource(
         placeId: String,
         apiKey: String,
         language: String?,
-    ): Result<PlaceDetailsDto> {
+    ): PlaceDetailsDto {
         return withContext(dispatcher) {
-            runCatching {
-                val response: PlaceDetailsDto? = httpClient.get(placeDetailsUrl) {
-                    parameter("place_id", placeId)
-                    parameter("key", apiKey)
-                    parameter("language", language)
-                }.body()
+            val response: PlaceDetailsDto? = httpClient.get(placeDetailsUrl) {
+                parameter("place_id", placeId)
+                parameter("key", apiKey)
+                parameter("language", language)
+            }.body()
 
-                response ?: throw PlaceDetailsNotFoundException(placeId = placeId)
-            }.except<CancellationException, _>()
+            response ?: throw PlaceDetailsNotFoundException(placeId = placeId)
         }
     }
 }
