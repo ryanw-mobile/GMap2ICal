@@ -51,10 +51,6 @@ kotlin {
             implementation(libs.napier)
             implementation(libs.themedetector)
 
-            implementation(libs.retrofit)
-            implementation(libs.retrofit2.kotlin.coroutines.adapter)
-            implementation(libs.retrofit2.kotlinx.serialization.converter)
-
             implementation(libs.kotlinx.coroutines.core.jvm)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.kotlinx.serialization.json)
