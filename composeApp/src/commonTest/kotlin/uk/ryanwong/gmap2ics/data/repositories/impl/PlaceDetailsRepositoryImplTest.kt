@@ -11,6 +11,10 @@ import io.kotest.matchers.types.beInstanceOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import uk.ryanwong.gmap2ics.data.datasources.local.fakes.FakeGoogleApiDataSource
+import uk.ryanwong.gmap2ics.data.models.places.GeometryDto
+import uk.ryanwong.gmap2ics.data.models.places.LocationDto
+import uk.ryanwong.gmap2ics.data.models.places.PlaceDetailsDto
+import uk.ryanwong.gmap2ics.data.models.places.ResultDto
 import uk.ryanwong.gmap2ics.data.repositories.PlaceDetailsNotFoundException
 import uk.ryanwong.gmap2ics.data.repositories.PlaceDetailsRepositoryImpl
 import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng
@@ -57,12 +61,12 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     val enablePlacesApiLookup = false
 
                     // cache the PlaceDetails first
-                    val apiResponse = Result.success(
-                        PlaceDetails(
+                    val apiResponse = PlaceDetailsDto(
+                        ResultDto(
                             placeId = "some-place-id",
                             name = "some-name",
                             formattedAddress = "some-formatted-address",
-                            geo = LatLng(latitude = 53.6152405, longitude = -1.5639315),
+                            geometry = GeometryDto(LocationDto(lat = 53.6152405, lng = -1.5639315)),
                             types = listOf(
                                 "some-unknown-type",
                             ),
@@ -98,12 +102,12 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
             "enablePlacesApiLookup is true" - {
                 "Should return correct PlaceDetails if data source returns something" {
                     setupRepository()
-                    val apiResponse = Result.success(
-                        PlaceDetails(
+                    val apiResponse = PlaceDetailsDto(
+                        ResultDto(
                             placeId = "some-place-id",
                             name = "some-name",
                             formattedAddress = "some-formatted-address",
-                            geo = LatLng(latitude = 53.6152405, longitude = -1.5639315),
+                            geometry = GeometryDto(LocationDto(lat = 53.6152405, lng = -1.5639315)),
                             types = listOf(
                                 "some-unknown-type",
                             ),
@@ -133,8 +137,7 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
                     setupRepository()
                     val placeId = "some-place-id"
                     val enablePlacesApiLookup = true
-                    fakeGoogleApiDataSource.getMapsApiPlaceDetailsResponse =
-                        Result.failure(exception = PlaceDetailsNotFoundException(placeId = placeId))
+                    fakeGoogleApiDataSource.fakeException = PlaceDetailsNotFoundException(placeId = placeId)
 
                     val placeDetails = placeDetailsRepository.getPlaceDetails(
                         placeId = placeId,
