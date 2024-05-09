@@ -139,12 +139,10 @@ koverReport {
 
     // configure default reports - for Kotlin/JVM or Kotlin/MPP projects or merged android variants
     defaults {
-        //  generate an XML report when running the `check` task
+        //  generate an report when running the `check` task
         xml {
             onCheck = true
         }
-
-        //  generate a HTML report when running the `check` task
         html {
             onCheck = true
         }
