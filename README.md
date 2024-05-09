@@ -62,8 +62,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 ### Major libraries used
 
 * [Koin](https://github.com/InsertKoinIO/koin) - Dependency injection
-* [Ktor](https://ktor.io/) - HTTP Client (Option 1, default)
-* [Retrofit2](https://square.github.io/retrofit/) - HTTP Client (Option 2)
+* [Ktor](https://ktor.io/) - HTTP Client
 * [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) - For JSON parsing. Replacing Moshi
 * [Time Zone Map](https://github.com/dustin-johnson/timezonemap) - determine time zone
 * [jSystemThemeDetector](https://github.com/Dansoftowner/jSystemThemeDetector) - detect system dark theme setting
