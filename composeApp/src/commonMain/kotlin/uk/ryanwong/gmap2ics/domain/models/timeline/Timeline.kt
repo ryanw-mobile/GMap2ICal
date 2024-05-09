@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.domain.models.timeline
 
-import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
+import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjectsDto
 import uk.ryanwong.gmap2ics.domain.models.timeline.activity.toDomainModel
 import uk.ryanwong.gmap2ics.domain.models.timeline.placevisit.toDomainModel
 import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapWrapper
@@ -14,14 +14,14 @@ data class Timeline(
 ) {
     companion object {
         fun from(
-            timelineObjects: TimelineObjects,
+            timelineObjectsDto: TimelineObjectsDto,
             timeZoneMap: TimeZoneMapWrapper,
         ): Timeline {
             return Timeline(
-                timelineEntries = timelineObjects.timelineObjects?.map { timelineObject ->
+                timelineEntries = timelineObjectsDto.timelineObjectDtos?.map { timelineObject ->
                     TimelineEntry(
-                        activitySegment = timelineObject.activitySegment?.toDomainModel(timeZoneMap = timeZoneMap),
-                        placeVisit = timelineObject.placeVisit?.toDomainModel(timeZoneMap = timeZoneMap),
+                        activitySegment = timelineObject.activitySegmentDto?.toDomainModel(timeZoneMap = timeZoneMap),
+                        placeVisit = timelineObject.placeVisitDto?.toDomainModel(timeZoneMap = timeZoneMap),
                     )
                 } ?: emptyList(),
             )

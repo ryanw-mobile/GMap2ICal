@@ -7,10 +7,10 @@ package uk.ryanwong.gmap2ics.data.models.timeline
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class WaypointPath(
+data class WaypointPathDto(
     val confidence: Double? = null,
     val distanceMeters: Double? = null,
-    val roadSegment: List<RoadSegment>? = null,
+    val roadSegmentDto: List<RoadSegmentDto>? = null,
     val source: String? = null,
     val travelMode: String? = null,
 )

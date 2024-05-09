@@ -8,8 +8,8 @@ import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import uk.ryanwong.gmap2ics.domain.models.timeline.toDomainModel
 import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapWrapper
 
-fun uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisit.toDomainModel(timeZoneMap: TimeZoneMapWrapper): PlaceVisit? {
-    val locationDomainModel = location.toDomainModel()
+fun uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisitDto.toDomainModel(timeZoneMap: TimeZoneMapWrapper): PlaceVisit? {
+    val locationDomainModel = locationDto.toDomainModel()
 
     return locationDomainModel?.let {
         val eventTimeZone = timeZoneMap.getOverlappingTimeZone(
@@ -19,16 +19,16 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisit.toDomainModel(timeZoneM
 
         PlaceVisit(
             durationEndTimestamp = RawTimestamp(
-                timestamp = duration.endTimestamp,
+                timestamp = durationDto.endTimestamp,
                 timezoneId = eventTimeZone?.zoneId ?: "UTC",
             ),
             durationStartTimestamp = RawTimestamp(
-                timestamp = duration.startTimestamp,
+                timestamp = durationDto.startTimestamp,
                 timezoneId = eventTimeZone?.zoneId ?: "UTC",
             ),
-            lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
+            lastEditedTimestamp = lastEditedTimestamp ?: durationDto.endTimestamp,
             location = locationDomainModel,
-            childVisits = childVisits?.mapNotNull { childVisitDataModel ->
+            childVisits = childVisitDtos?.mapNotNull { childVisitDataModel ->
                 childVisitDataModel.toDomainModel(timeZoneMap = timeZoneMap)
             } ?: emptyList(),
             eventTimeZone = eventTimeZone,

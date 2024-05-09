@@ -10,7 +10,7 @@ import uk.ryanwong.gmap2ics.domain.models.timeline.Location
 import uk.ryanwong.gmap2ics.domain.models.timeline.toDomainModel
 import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapWrapper
 
-fun uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment.toDomainModel(
+fun uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegmentDto.toDomainModel(
     timeZoneMap: TimeZoneMapWrapper,
 ): ActivitySegment? {
     val startLocationDomainModel: Location? = startLocation.toDomainModel()
@@ -37,19 +37,19 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.ActivitySegment.toDomainModel(
         } ?: emptyList(),
         activityType = activityTypeEnum,
         rawActivityType = activityType,
-        distance = distance ?: (waypointPath?.distanceMeters)?.toInt() ?: 0,
+        distance = distance ?: (waypointPathDto?.distanceMeters)?.toInt() ?: 0,
         durationEndTimestamp = RawTimestamp(
-            timestamp = duration.endTimestamp,
+            timestamp = durationDto.endTimestamp,
             timezoneId = timezone?.zoneId ?: "UTC",
         ),
         durationStartTimestamp = RawTimestamp(
-            timestamp = duration.startTimestamp,
+            timestamp = durationDto.startTimestamp,
             timezoneId = timezone?.zoneId ?: "UTC",
         ),
         endLocation = endLocationDomainModel,
         startLocation = startLocationDomainModel,
-        waypointPath = waypointPath?.toDomainModel(),
-        lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
+        waypointPath = waypointPathDto?.toDomainModel(),
+        lastEditedTimestamp = lastEditedTimestamp ?: durationDto.endTimestamp,
         eventTimeZone = timezone,
     )
 }

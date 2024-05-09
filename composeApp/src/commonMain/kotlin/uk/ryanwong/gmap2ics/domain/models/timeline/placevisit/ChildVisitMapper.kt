@@ -8,11 +8,11 @@ import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import uk.ryanwong.gmap2ics.domain.models.timeline.toDomainModel
 import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapWrapper
 
-fun uk.ryanwong.gmap2ics.data.models.timeline.ChildVisit.toDomainModel(timeZoneMap: TimeZoneMapWrapper): ChildVisit? {
+fun uk.ryanwong.gmap2ics.data.models.timeline.ChildVisitDto.toDomainModel(timeZoneMap: TimeZoneMapWrapper): ChildVisit? {
     //  If a child visit does not have a valid duration start & end, we simply drop it during conversion
-    val locationDomainModel = location.toDomainModel()
+    val locationDomainModel = locationDto.toDomainModel()
 
-    return if (duration == null || locationDomainModel == null) {
+    return if (durationDto == null || locationDomainModel == null) {
         null
     } else {
         val eventTimeZone = timeZoneMap.getOverlappingTimeZone(
@@ -21,14 +21,14 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.ChildVisit.toDomainModel(timeZoneM
         )
         ChildVisit(
             durationEndTimestamp = RawTimestamp(
-                timestamp = duration.endTimestamp,
+                timestamp = durationDto.endTimestamp,
                 timezoneId = eventTimeZone?.zoneId ?: "UTC",
             ),
             durationStartTimestamp = RawTimestamp(
-                timestamp = duration.startTimestamp,
+                timestamp = durationDto.startTimestamp,
                 timezoneId = eventTimeZone?.zoneId ?: "UTC",
             ),
-            lastEditedTimestamp = lastEditedTimestamp ?: duration.endTimestamp,
+            lastEditedTimestamp = lastEditedTimestamp ?: durationDto.endTimestamp,
             location = locationDomainModel,
             eventTimeZone = eventTimeZone,
         )

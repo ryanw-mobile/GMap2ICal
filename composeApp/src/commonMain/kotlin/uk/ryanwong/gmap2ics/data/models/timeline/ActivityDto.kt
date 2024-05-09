@@ -7,7 +7,7 @@ package uk.ryanwong.gmap2ics.data.models.timeline
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Activity(
+data class ActivityDto(
     val activityType: String? = null,
     val probability: Double? = null,
 )

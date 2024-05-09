@@ -4,20 +4,20 @@
 
 package uk.ryanwong.gmap2ics.domain.models.timeline
 
-import uk.ryanwong.gmap2ics.data.models.places.Geometry
-import uk.ryanwong.gmap2ics.data.models.places.Location
-import uk.ryanwong.gmap2ics.data.models.places.Result
+import uk.ryanwong.gmap2ics.data.models.places.GeometryDto
+import uk.ryanwong.gmap2ics.data.models.places.LocationDto
+import uk.ryanwong.gmap2ics.data.models.places.ResultDto
 
 internal object PlaceDetailsTestData {
     /***
      * Note: Seeing real data would help understand what kind of data we are getting from Google.
      */
 
-    val placeDetailsResult = Result(
+    val placeDetailsResultDto = ResultDto(
         formattedAddress = "Wakefield WF4 4LG, UK",
         formattedPhoneNumber = "01924 832631",
-        geometry = Geometry(
-            location = Location(
+        geometryDto = GeometryDto(
+            locationDto = LocationDto(
                 lat = 53.6152405,
                 lng = -1.5639315,
             ),

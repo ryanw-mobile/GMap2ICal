@@ -11,7 +11,7 @@ class LocationMapperTest : FreeSpec() {
     init {
         "from Location Data Model" - {
             "should convert locationDataModel to Location Domain Model correctly" - {
-                val locationDataModel = uk.ryanwong.gmap2ics.data.models.timeline.Location(
+                val locationDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(
                     address = "some-address",
                     latitudeE7 = 343970563,
                     longitudeE7 = 1324677422,
@@ -20,7 +20,7 @@ class LocationMapperTest : FreeSpec() {
                     placeId = "some-place-id",
                 )
 
-                val locationDomainModel = locationDataModel.toDomainModel()
+                val locationDomainModel = locationDtoDataModel.toDomainModel()
 
                 locationDomainModel shouldBe Location(
                     placeId = "some-place-id",
@@ -32,7 +32,7 @@ class LocationMapperTest : FreeSpec() {
             }
 
             "should return null if locationDataModel does not contain latitudeE7" {
-                val locationDataModel = uk.ryanwong.gmap2ics.data.models.timeline.Location(
+                val locationDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(
                     address = "some-address",
                     latitudeE7 = null,
                     longitudeE7 = 1324677422,
@@ -41,13 +41,13 @@ class LocationMapperTest : FreeSpec() {
                     placeId = "some-place-id",
                 )
 
-                val locationDomainModel = locationDataModel.toDomainModel()
+                val locationDomainModel = locationDtoDataModel.toDomainModel()
 
                 locationDomainModel shouldBe null
             }
 
             "should return null if locationDataModel does not contain longitudeE7" {
-                val locationDataModel = uk.ryanwong.gmap2ics.data.models.timeline.Location(
+                val locationDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(
                     address = "some-address",
                     latitudeE7 = 343970563,
                     longitudeE7 = null,
@@ -56,7 +56,7 @@ class LocationMapperTest : FreeSpec() {
                     placeId = "some-place-id",
                 )
 
-                val locationDomainModel = locationDataModel.toDomainModel()
+                val locationDomainModel = locationDtoDataModel.toDomainModel()
 
                 locationDomainModel shouldBe null
             }
@@ -64,7 +64,7 @@ class LocationMapperTest : FreeSpec() {
 
         "from ActivityLocation Data Model" - {
             "should convert activityLocationDataModel to Location Domain Model correctly" - {
-                val activityLocationDataModel = uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation(
+                val activityLocationDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocationDto(
                     address = "some-address",
                     latitudeE7 = 343970563,
                     longitudeE7 = 1324677422,
@@ -73,7 +73,7 @@ class LocationMapperTest : FreeSpec() {
                     placeId = "some-place-id",
                 )
 
-                val locationDomainModel = activityLocationDataModel.toDomainModel()
+                val locationDomainModel = activityLocationDtoDataModel.toDomainModel()
 
                 locationDomainModel shouldBe Location(
                     placeId = "some-place-id",
@@ -85,7 +85,7 @@ class LocationMapperTest : FreeSpec() {
             }
 
             "should return null if activityLocationDataModel does not contain latitudeE7" {
-                val activityLocationDataModel = uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation(
+                val activityLocationDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocationDto(
                     address = "some-address",
                     latitudeE7 = null,
                     longitudeE7 = 1324677422,
@@ -94,13 +94,13 @@ class LocationMapperTest : FreeSpec() {
                     placeId = "some-place-id",
                 )
 
-                val locationDomainModel = activityLocationDataModel.toDomainModel()
+                val locationDomainModel = activityLocationDtoDataModel.toDomainModel()
 
                 locationDomainModel shouldBe null
             }
 
             "should return null if activityLocationDataModel does not contain longitudeE7" {
-                val activityLocationDataModel = uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocation(
+                val activityLocationDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocationDto(
                     address = "some-address",
                     latitudeE7 = 343970563,
                     longitudeE7 = null,
@@ -109,7 +109,7 @@ class LocationMapperTest : FreeSpec() {
                     placeId = "some-place-id",
                 )
 
-                val locationDomainModel = activityLocationDataModel.toDomainModel()
+                val locationDomainModel = activityLocationDtoDataModel.toDomainModel()
 
                 locationDomainModel shouldBe null
             }

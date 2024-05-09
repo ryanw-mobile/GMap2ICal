@@ -4,18 +4,18 @@
 
 package uk.ryanwong.gmap2ics.data.models.timeline
 
-internal object ActivitySegmentDataModelTestData {
-    val activitySegment = ActivitySegment(
+internal object ActivitySegmentDtoTestData {
+    val activitySegmentDto = ActivitySegmentDto(
         activities = listOf(
-            Activity(
+            ActivityDto(
                 activityType = "IN_PASSENGER_VEHICLE",
                 probability = 99.82574267034934,
             ),
-            Activity(
+            ActivityDto(
                 activityType = "WALKING",
                 probability = 0.09030052981224143,
             ),
-            Activity(
+            ActivityDto(
                 activityType = "MOTORCYCLING",
                 probability = 0.04459950826743197,
             ),
@@ -23,11 +23,11 @@ internal object ActivitySegmentDataModelTestData {
         activityType = "IN_PASSENGER_VEHICLE",
         confidence = "HIGH",
         distance = 15032,
-        duration = Duration(
+        durationDto = DurationDto(
             endTimestamp = "2019-06-01T01:24:28Z",
             startTimestamp = "2019-06-01T01:04:01Z",
         ),
-        endLocation = ActivityLocation(
+        endLocation = ActivityLocationDto(
             address = null,
             latitudeE7 = 344643393,
             locationConfidence = null,
@@ -35,7 +35,7 @@ internal object ActivitySegmentDataModelTestData {
             name = null,
             placeId = null,
         ),
-        startLocation = ActivityLocation(
+        startLocation = ActivityLocationDto(
             address = null,
             latitudeE7 = 343970563,
             locationConfidence = null,
@@ -43,13 +43,13 @@ internal object ActivitySegmentDataModelTestData {
             name = null,
             placeId = null,
         ),
-        waypointPath = WaypointPath(
+        waypointPathDto = WaypointPathDto(
             confidence = null,
             distanceMeters = 15444.856340505617,
-            roadSegment = listOf(
-                RoadSegment(duration = null, placeId = "some-place-id-1"),
-                RoadSegment(duration = null, placeId = "some-place-id-2"),
-                RoadSegment(duration = null, placeId = "some-place-id-3"),
+            roadSegmentDto = listOf(
+                RoadSegmentDto(duration = null, placeId = "some-place-id-1"),
+                RoadSegmentDto(duration = null, placeId = "some-place-id-2"),
+                RoadSegmentDto(duration = null, placeId = "some-place-id-3"),
             ),
             source = "INFERRED",
             travelMode = null,

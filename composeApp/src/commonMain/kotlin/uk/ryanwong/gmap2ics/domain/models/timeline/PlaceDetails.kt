@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.domain.models.timeline
 
-import uk.ryanwong.gmap2ics.data.models.places.Result
+import uk.ryanwong.gmap2ics.data.models.places.ResultDto
 import uk.ryanwong.gmap2ics.domain.models.PlaceType
 
 data class PlaceDetails(
@@ -16,15 +16,15 @@ data class PlaceDetails(
     val url: String,
 ) {
     companion object {
-        fun from(placeDetailsResult: Result): PlaceDetails {
-            with(placeDetailsResult) {
+        fun from(placeDetailsResultDto: ResultDto): PlaceDetails {
+            with(placeDetailsResultDto) {
                 return PlaceDetails(
                     placeId = placeId,
                     name = name,
                     formattedAddress = formattedAddress,
                     geo = LatLng(
-                        latitude = geometry.location.lat,
-                        longitude = geometry.location.lng,
+                        latitude = geometryDto.locationDto.lat,
+                        longitude = geometryDto.locationDto.lng,
                     ),
                     types = types,
                     url = url,

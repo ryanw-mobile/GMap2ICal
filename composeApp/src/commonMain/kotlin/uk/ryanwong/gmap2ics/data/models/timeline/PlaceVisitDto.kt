@@ -7,16 +7,16 @@ package uk.ryanwong.gmap2ics.data.models.timeline
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PlaceVisit(
+data class PlaceVisitDto(
     val centerLatE7: Int? = null,
     val centerLngE7: Int? = null,
-    val duration: Duration,
+    val durationDto: DurationDto,
     val lastEditedTimestamp: String? = null,
-    val location: Location,
+    val locationDto: LocationDto,
     val locationAssertionType: String? = null,
     val locationConfidence: Int? = null,
     val placeConfidence: String? = null,
     val placeVisitType: String? = null,
     val visitConfidence: Int? = null,
-    val childVisits: List<ChildVisit>? = null,
+    val childVisitDtos: List<ChildVisitDto>? = null,
 )

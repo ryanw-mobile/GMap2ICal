@@ -7,6 +7,6 @@ package uk.ryanwong.gmap2ics.data.models.places
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Geometry(
-    val location: Location,
+data class GeometryDto(
+    val locationDto: LocationDto,
 )

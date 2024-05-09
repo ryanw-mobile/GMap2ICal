@@ -8,7 +8,7 @@ import com.esri.core.geometry.Polygon
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.app.utils.timezonemap.fakes.FakeTimeZoneMap
-import uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisitDataModelTestData.placeVisitDataModel
+import uk.ryanwong.gmap2ics.data.models.timeline.PlaceVisitDtoTestData.placeVisitDto
 import uk.ryanwong.gmap2ics.domain.models.RawTimestamp
 import uk.ryanwong.gmap2ics.domain.models.timeline.Location
 import us.dustinj.timezonemap.TimeZone
@@ -22,7 +22,7 @@ internal class PlaceVisitMapperTest : FreeSpec() {
             fakeTimeZoneMap = FakeTimeZoneMap().apply {
                 zoneId = "Europe/London"
             }
-            val placeVisitDataModel = placeVisitDataModel
+            val placeVisitDataModel = placeVisitDto
             val expectedDomainModel = PlaceVisit(
                 durationEndTimestamp = RawTimestamp(
                     timestamp = "2022-01-03T14:26:25Z",
@@ -73,8 +73,8 @@ internal class PlaceVisitMapperTest : FreeSpec() {
             fakeTimeZoneMap = FakeTimeZoneMap().apply {
                 zoneId = "Europe/London"
             }
-            val placeVisitDataModel = placeVisitDataModel.copy(
-                childVisits = null,
+            val placeVisitDataModel = placeVisitDto.copy(
+                childVisitDtos = null,
             )
             val expectedDomainModel = PlaceVisit(
                 durationEndTimestamp = RawTimestamp(
@@ -104,8 +104,8 @@ internal class PlaceVisitMapperTest : FreeSpec() {
 
         "should return null if Domain Model has no valid Location" {
             fakeTimeZoneMap = FakeTimeZoneMap()
-            val placeVisitDataModel = placeVisitDataModel.copy(
-                location = uk.ryanwong.gmap2ics.data.models.timeline.Location(),
+            val placeVisitDataModel = placeVisitDto.copy(
+                locationDto = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(),
             )
 
             val placeVisitDomainModel = placeVisitDataModel.toDomainModel(timeZoneMap = fakeTimeZoneMap)

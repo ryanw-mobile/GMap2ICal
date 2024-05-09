@@ -8,12 +8,12 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Result(
+data class ResultDto(
     @SerialName(value = "formatted_address")
     val formattedAddress: String,
     @SerialName(value = "formatted_phone_number")
     val formattedPhoneNumber: String? = null,
-    val geometry: Geometry,
+    val geometryDto: GeometryDto,
     val icon: String? = null,
     val name: String,
     @SerialName(value = "place_id")

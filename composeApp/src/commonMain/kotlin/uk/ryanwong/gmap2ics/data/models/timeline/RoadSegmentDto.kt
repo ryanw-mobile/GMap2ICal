@@ -7,11 +7,7 @@ package uk.ryanwong.gmap2ics.data.models.timeline
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Location(
-    val address: String? = null,
-    val latitudeE7: Int? = null,
-    val locationConfidence: Double? = null,
-    val longitudeE7: Int? = null,
-    val name: String? = null,
+data class RoadSegmentDto(
+    val duration: String? = null,
     val placeId: String? = null,
 )

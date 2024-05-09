@@ -7,6 +7,7 @@ package uk.ryanwong.gmap2ics.data.models.places
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PlaceDetails(
-    val result: Result? = null,
+data class LocationDto(
+    val lat: Double,
+    val lng: Double,
 )

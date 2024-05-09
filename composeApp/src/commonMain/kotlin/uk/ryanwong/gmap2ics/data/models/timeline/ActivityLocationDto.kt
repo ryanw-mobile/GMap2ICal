@@ -7,7 +7,7 @@ package uk.ryanwong.gmap2ics.data.models.timeline
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ActivityLocation(
+data class ActivityLocationDto(
     val address: String? = null,
     val latitudeE7: Int? = null,
     val locationConfidence: Double? = null,

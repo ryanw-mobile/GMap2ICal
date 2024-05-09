@@ -7,7 +7,6 @@ package uk.ryanwong.gmap2ics.data.models.timeline
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Duration(
-    val endTimestamp: String,
-    val startTimestamp: String,
+data class TimelineObjectsDto(
+    val timelineObjectDtos: List<TimelineObjectDto>? = null,
 )

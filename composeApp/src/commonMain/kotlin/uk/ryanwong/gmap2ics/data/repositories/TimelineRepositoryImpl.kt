@@ -11,7 +11,7 @@ import kotlinx.serialization.json.Json
 import uk.ryanwong.gmap2ics.data.datasources.local.LocalDataSource
 import uk.ryanwong.gmap2ics.data.datasources.local.impl.LocalDataSourceImpl
 import uk.ryanwong.gmap2ics.data.except
-import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjects
+import uk.ryanwong.gmap2ics.data.models.timeline.TimelineObjectsDto
 import uk.ryanwong.gmap2ics.domain.models.timeline.Timeline
 import uk.ryanwong.gmap2ics.domain.repositories.TimelineRepository
 import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapWrapper
@@ -28,8 +28,8 @@ class TimelineRepositoryImpl(
         return withContext(dispatcher) {
             Result.runCatching {
                 val jsonString = localDataSource.readStringFromFile(filePath = filePath)
-                val timelineObjects = kotlinJson.decodeFromString(TimelineObjects.serializer(), jsonString)
-                Timeline.from(timelineObjects = timelineObjects, timeZoneMap = timeZoneMap)
+                val timelineObjectsDto = kotlinJson.decodeFromString(TimelineObjectsDto.serializer(), jsonString)
+                Timeline.from(timelineObjectsDto = timelineObjectsDto, timeZoneMap = timeZoneMap)
             }.except<CancellationException, _>()
         }
     }
