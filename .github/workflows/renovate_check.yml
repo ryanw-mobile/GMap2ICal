@@ -23,16 +23,11 @@ jobs:
       - name: Copy ConfigProvider for CI
         run: cp composeApp/src/commonTest/kotlin/uk/ryanwong/gmap2ics/app/configs/ProvideConfig.kt composeApp/src/commonMain/kotlin/uk/ryanwong/gmap2ics/app/configs/ProvideConfig.kt
 
-      - name: Install Xvfb
-        run: sudo apt-get install -y xvfb
-
-      - name: Run Xvfb
-        run: |
-          export DISPLAY=':99.0'
-          Xvfb :99 -screen 0 1024x768x24 &
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
+      - name: Install Xvfb
+        run: sudo apt-get install -y xvfb
 
       - name: Gradle Check
         run: xvfb-run ./gradlew check --no-daemon
