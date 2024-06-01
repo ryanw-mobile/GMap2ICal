@@ -9,7 +9,7 @@ timezonemap = "4.5"
 napier = "2.7.1"
 gradleKtlint = "12.1.1"
 compose = "1.6.10"
-kover = "0.7.6"
+kover = "0.8.0"
 mockk = "1.13.11"
 junit = "5.10.2"
 jSystemThemeDetector = "3.9.1"
@@ -17,20 +17,11 @@ mokoMvvm = "0.16.1"
 kotlinTest = "2.0.0"
 koin = "3.5.6"
 
-[plugins]
-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kotest = { id = "io.kotest.multiplatform", version.ref = "kotest" }
-gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "gradleKtlint" }
-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-
 [libraries]
 kotlinx-coroutines-core-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core-jvm", version.ref = "coroutines" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "coroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
-kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlinTest" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 compose-ui-test-junit4 = { group = "org.jetbrains.compose.ui", name = "ui-test-junit4", version.ref = "compose" }
 timezonemap = { group = "us.dustinj.timezonemap", name = "timezonemap", version.ref = "timezonemap" }
@@ -51,3 +42,12 @@ moko-mvvm-compose = { group = "dev.icerock.moko", name = "mvvm-compose", version
 moko-mvvm-test = { group = "dev.icerock.moko", name = "mvvm-test", version.ref = "mokoMvvm" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
+
+[plugins]
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+kotest = { id = "io.kotest.multiplatform", version.ref = "kotest" }
+gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "gradleKtlint" }
