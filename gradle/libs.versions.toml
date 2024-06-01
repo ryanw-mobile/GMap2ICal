@@ -1,6 +1,6 @@
 [versions]
 packageVersion = "1.0.0"
-kotlin = "1.9.23"
+kotlin = "2.0.0"
 kotlinxSerialization = "1.6.3"
 coroutines = "1.8.0"
 kotest = "5.9.0"
@@ -14,7 +14,7 @@ mockk = "1.13.11"
 junit = "5.10.2"
 jSystemThemeDetector = "3.9.1"
 mokoMvvm = "0.16.1"
-kotlinTest = "1.9.23"
+kotlinTest = "2.0.0"
 koin = "3.5.6"
 
 [plugins]
