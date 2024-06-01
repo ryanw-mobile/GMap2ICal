@@ -18,7 +18,7 @@ jobs:
       - name: set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: 'corretto'
           java-version: '17'
           cache: gradle
 
@@ -37,7 +37,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Gradle build
-        run: ./gradlew build koverXmlReport --no-daemon
+        run: xvfb-run ./gradlew build koverXmlReport --no-daemon
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
