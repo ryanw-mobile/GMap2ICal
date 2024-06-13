@@ -41,3 +41,9 @@ jobs:
           files: build/reports/kover/report.xml
           fail_ci_if_error: true
           verbose: false
+
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1.3.0
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: build/reports/kover/report.xml
