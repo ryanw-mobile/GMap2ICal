@@ -1,4 +1,4 @@
-# GMap2iCal - Google Maps Timeline to iCal <br/>![Gradle Build](https://github.com/ryanw-mobile/GMap2ICal/actions/workflows/main_build.yml/badge.svg) [![codecov](https://codecov.io/github/ryanw-mobile/GMap2ICal/graph/badge.svg?token=4NZUBRYHT0)](https://codecov.io/github/ryanw-mobile/GMap2ICal)
+# GMap2iCal - Google Maps Timeline to iCal <br/>![Gradle Build](https://github.com/ryanw-mobile/GMap2ICal/actions/workflows/main_build.yml/badge.svg) [![codecov](https://codecov.io/github/ryanw-mobile/GMap2ICal/graph/badge.svg?token=4NZUBRYHT0)](https://codecov.io/github/ryanw-mobile/GMap2ICal) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8faef3d361244120b5075fbe8713ad24)](https://app.codacy.com/gh/ryanw-mobile/GMap2ICal/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 ### My first Kotlin MultiPlatform / Compose MultiPlatform (Desktop) App
 
