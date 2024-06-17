@@ -17,6 +17,9 @@ visit, I would appreciate if you could take things easy when you see me doing so
 
 ## TL;DR - Status and Roadmap
 
+> [!IMPORTANT]  
+> I have in mind to rewrite the UI for this app. I want the new version to mmanage the API key and other settings on the UI, so we do not need a compile-time config file. Also, I want the app to allow us select/confirm the events being exported to the ICal file, so we do not have to delete unwanted items on the Calendar app afterwards. I have no idea how to design the new UI, that is why it is not moving forward right now. Will kickstart once the UI design is done.
+
 This App is fully functional.
 
 * 169 unit tests written as at 1 Jan 2023 to protect changes
