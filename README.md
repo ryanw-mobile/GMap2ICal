@@ -1,4 +1,4 @@
-# GMap2iCal - Google Maps Timeline to iCal <br/>![Gradle Build](https://github.com/ryanw-mobile/GMap2ICal/actions/workflows/main_build.yml/badge.svg) [![codecov](https://codecov.io/github/ryanw-mobile/GMap2ICal/graph/badge.svg?token=4NZUBRYHT0)](https://codecov.io/github/ryanw-mobile/GMap2ICal) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8faef3d361244120b5075fbe8713ad24)](https://app.codacy.com/gh/ryanw-mobile/GMap2ICal/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+# GMap2iCal - Google Maps Timeline to iCal <br/>![Gradle Build](https://github.com/ryanw-mobile/GMap2ICal/actions/workflows/main_build.yml/badge.svg) [![Codacy Coverage Badge](https://app.codacy.com/project/badge/Coverage/8faef3d361244120b5075fbe8713ad24)](https://app.codacy.com/gh/ryanw-mobile/GMap2ICal/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage) [![Codacy Quality Badge](https://app.codacy.com/project/badge/Grade/8faef3d361244120b5075fbe8713ad24)](https://app.codacy.com/gh/ryanw-mobile/GMap2ICal/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 ### My first Kotlin MultiPlatform / Compose MultiPlatform (Desktop) App
 
@@ -18,7 +18,7 @@ visit, I would appreciate if you could take things easy when you see me doing so
 ## TL;DR - Status and Roadmap
 
 > [!IMPORTANT]  
-> I have in mind to rewrite the UI for this app. I want the new version to mmanage the API key and other settings on the UI, so we do not need a compile-time config file. Also, I want the app to allow us select/confirm the events being exported to the ICal file, so we do not have to delete unwanted items on the Calendar app afterwards. I have no idea how to design the new UI, that is why it is not moving forward right now. Will kickstart once the UI design is done.
+> I have in mind to rewrite the UI for this app. I want the new version to manage the API key and other settings on the UI, so we do not need a compile-time config file. Also, I want the app to allow us select/confirm the events being exported to the ICal file, so we do not have to delete unwanted items on the Calendar app afterwards. I have no idea how to design the new UI, that is why it is not moving forward right now. Will kickstart once the UI design is done.
 
 This App is fully functional.
 
