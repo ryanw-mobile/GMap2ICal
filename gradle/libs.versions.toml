@@ -15,7 +15,7 @@ junit = "5.11.4"
 jSystemThemeDetector = "3.9.1"
 mokoMvvm = "0.16.1"
 kotlinTest = "2.0.0"
-koin = "4.0.0"
+koin = "4.0.1"
 
 [libraries]
 kotlinx-coroutines-core-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core-jvm", version.ref = "coroutines" }
