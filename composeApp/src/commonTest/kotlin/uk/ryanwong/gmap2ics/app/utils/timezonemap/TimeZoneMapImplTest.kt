@@ -4,12 +4,13 @@
 
 package uk.ryanwong.gmap2ics.app.utils.timezonemap
 
-import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.shouldBe
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import org.junit.Before
 import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapImpl
 import us.dustinj.timezonemap.TimeZoneMap
 
-internal class TimeZoneMapImplTest : FreeSpec() {
+internal class TimeZoneMapImplTest {
 
     /***
      * Note:
@@ -19,47 +20,47 @@ internal class TimeZoneMapImplTest : FreeSpec() {
      */
     lateinit var timeZoneMapImpl: TimeZoneMapImpl
 
-    init {
-        beforeTest {
-            timeZoneMapImpl = TimeZoneMapImpl(timeZoneMap = TimeZoneMap.forEverywhere())
-        }
+    @Before
+    fun setup() {
+        timeZoneMapImpl = TimeZoneMapImpl(timeZoneMap = TimeZoneMap.forEverywhere())
+    }
 
-        "getOverlappingTimeZone" - {
-            "should return correct zoneId for Japan coordinates" {
-                val degreesLatitude = 26.217072
-                val degreesLongitude = 127.719477
+    @Test
+    fun `getOverlappingTimeZone should return correct zoneId for Japan coordinates`() {
+        val degreesLatitude = 26.217072
+        val degreesLongitude = 127.719477
 
-                val timeZone = timeZoneMapImpl.getOverlappingTimeZone(
-                    degreesLatitude = degreesLatitude,
-                    degreesLongitude = degreesLongitude,
-                )
+        val timeZone = timeZoneMapImpl.getOverlappingTimeZone(
+            degreesLatitude = degreesLatitude,
+            degreesLongitude = degreesLongitude,
+        )
 
-                timeZone!!.zoneId shouldBe "Asia/Tokyo"
-            }
+        assertEquals(expected = "Asia/Tokyo", actual = timeZone!!.zoneId)
+    }
 
-            "should return correct zoneId for Korea coordinates" {
-                val degreesLatitude = 37.55108
-                val degreesLongitude = 126.988148
+    @Test
+    fun `getOverlappingTimeZone should return correct zoneId for Korea coordinates`() {
+        val degreesLatitude = 37.55108
+        val degreesLongitude = 126.988148
 
-                val timeZone = timeZoneMapImpl.getOverlappingTimeZone(
-                    degreesLatitude = degreesLatitude,
-                    degreesLongitude = degreesLongitude,
-                )
+        val timeZone = timeZoneMapImpl.getOverlappingTimeZone(
+            degreesLatitude = degreesLatitude,
+            degreesLongitude = degreesLongitude,
+        )
 
-                timeZone!!.zoneId shouldBe "Asia/Seoul"
-            }
+        assertEquals(expected = "Asia/Seoul", actual = timeZone!!.zoneId)
+    }
 
-            "should return correct zoneId for UK coordinates" {
-                val degreesLatitude = 52.090277
-                val degreesLongitude = 1.448719
+    @Test
+    fun `getOverlappingTimeZone should return correct zoneId for UK coordinates`() {
+        val degreesLatitude = 52.090277
+        val degreesLongitude = 1.448719
 
-                val timeZone = timeZoneMapImpl.getOverlappingTimeZone(
-                    degreesLatitude = degreesLatitude,
-                    degreesLongitude = degreesLongitude,
-                )
+        val timeZone = timeZoneMapImpl.getOverlappingTimeZone(
+            degreesLatitude = degreesLatitude,
+            degreesLongitude = degreesLongitude,
+        )
 
-                timeZone!!.zoneId shouldBe "Europe/London"
-            }
-        }
+        assertEquals(expected = "Europe/London", actual = timeZone!!.zoneId)
     }
 }
