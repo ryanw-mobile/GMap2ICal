@@ -4,17 +4,15 @@
 
 package uk.ryanwong.gmap2ics.data.datasources.local
 
-import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
-import io.kotest.matchers.should
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.shouldEndWith
-import io.kotest.matchers.types.beInstanceOf
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileWriter
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertIs
+import kotlin.test.assertTrue
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
@@ -34,7 +32,7 @@ internal class LocalDataSourceImplTest {
     var tempFolder: TemporaryFolder = TemporaryFolder()
 
     @BeforeTest
-    fun setUp() {
+    fun setup() {
         // Simulate a virtual environment having some files
         tempDir = tempFolder.newFolder("some-temp-dir")
         tempFileList = listOf(
@@ -57,7 +55,7 @@ internal class LocalDataSourceImplTest {
     fun `getFileList should return correct file list if the file path exists`() = testScope.runTest {
         val absolutePath = tempDir.absolutePath
         val extension = "json"
-        val jsonFileList = tempFileList.mapNotNull { file ->
+        val expectedFileList = tempFileList.mapNotNull { file ->
             if (file.absolutePath.endsWith(".json")) {
                 file.absolutePath
             } else {
@@ -65,13 +63,13 @@ internal class LocalDataSourceImplTest {
             }
         }
 
-        val fileListResult = localDataSource.getFileList(
+        val actualFileList = localDataSource.getFileList(
             absolutePath = absolutePath,
             extension = extension,
         )
 
-        fileListResult.isSuccess shouldBe true
-        fileListResult.getOrNull() shouldContainExactlyInAnyOrder jsonFileList
+        assertTrue(actualFileList.isSuccess)
+        assertEquals(expectedFileList.sorted(), actualFileList.getOrNull()?.sorted())
     }
 
     @Test
@@ -79,13 +77,13 @@ internal class LocalDataSourceImplTest {
         val absolutePath = tempDir.absolutePath
         val extension = "some-strange-extension"
 
-        val fileListResult = localDataSource.getFileList(
+        val actualFileList = localDataSource.getFileList(
             absolutePath = absolutePath,
             extension = extension,
         )
 
-        fileListResult.isSuccess shouldBe true
-        fileListResult.getOrNull() shouldBe emptyList()
+        assertTrue(actualFileList.isSuccess)
+        assertEquals(emptyList(), actualFileList.getOrNull())
     }
 
     @Test
@@ -93,42 +91,45 @@ internal class LocalDataSourceImplTest {
         val absolutePath = tempDir.absolutePath + "/some-invalid-file-path"
         val extension = ".json"
 
-        val fileListResult = localDataSource.getFileList(
+        val actualFileList = localDataSource.getFileList(
             absolutePath = absolutePath,
             extension = extension,
         )
 
-        fileListResult.isFailure shouldBe true
-        fileListResult.exceptionOrNull() should beInstanceOf<java.nio.file.NoSuchFileException>()
+        assertTrue(actualFileList.isFailure)
+        assertIs<java.nio.file.NoSuchFileException>(actualFileList.exceptionOrNull())
     }
 
     @Test
     fun `readStringFromFile should return correct file contents if the file exists`() = testScope.runTest {
         val absolutePath = tempDir.absolutePath + "/some-temp-file-5"
-        val fileContents = localDataSource.readStringFromFile(filePath = absolutePath)
-        fileContents shouldBe "some-file-contents"
+        val actualFileContents = localDataSource.readStringFromFile(filePath = absolutePath)
+        assertEquals("some-file-contents", actualFileContents)
     }
 
     @Test
     fun `readStringFromFile should throw FileNotFoundException if the file does not exist`() = testScope.runTest {
         val absolutePath = tempDir.absolutePath + "/some-invalid-file-path"
-        val exception = shouldThrow<FileNotFoundException> { localDataSource.readStringFromFile(filePath = absolutePath) }
-        exception.message shouldEndWith "(No such file or directory)"
+
+        val exception = assertFailsWith<FileNotFoundException> {
+            localDataSource.readStringFromFile(filePath = absolutePath)
+        }
+        assertTrue(exception.message!!.endsWith("(No such file or directory)"))
     }
 
     @Test
     fun `fileWriter should correctly write the contents to the specified filepath`() = testScope.runTest {
         val absolutePath = tempDir.absolutePath + "/some-file-writer-path"
-        val contents = "some-contents\\nsome-more-contents"
+        val expectedContents = "some-contents\\nsome-more-contents"
 
         val result = localDataSource.fileWriter(
             filePath = absolutePath,
-            contents = contents,
+            contents = expectedContents,
         )
+        val actualFileContents = localDataSource.readStringFromFile(absolutePath)
 
-        result.isSuccess shouldBe true
-        val fileContents = localDataSource.readStringFromFile(absolutePath)
-        fileContents shouldBe contents
+        assertTrue(result.isSuccess)
+        assertEquals(expectedContents, actualFileContents)
     }
 
     @Test
@@ -140,8 +141,8 @@ internal class LocalDataSourceImplTest {
             contents = "some-contents",
         )
 
-        result.isFailure shouldBe true
-        result.exceptionOrNull() should beInstanceOf<FileNotFoundException>()
-        result.exceptionOrNull()!!.message shouldEndWith "(Is a directory)"
+        assertTrue(result.isFailure)
+        assertIs<FileNotFoundException>(result.exceptionOrNull())
+        assertTrue(result.exceptionOrNull()!!.message!!.endsWith("(Is a directory)"))
     }
 }

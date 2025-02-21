@@ -11,15 +11,15 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import io.ktor.utils.io.ByteReadChannel
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.KtorGoogleApiDataSourceTestData.PLACE_DETAILS_GREG_AVE_DTO
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.KtorGoogleApiDataSourceTestData.PLACE_DETAILS_GREG_AVE_JSON
 import uk.ryanwong.gmap2ics.data.repositories.PlaceDetailsNotFoundException
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class KtorGoogleApiDataSourceTest {
