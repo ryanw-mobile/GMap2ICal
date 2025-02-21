@@ -4,7 +4,7 @@
 
 package uk.ryanwong.gmap2ics.app.configs
 
-class ProvideConfig {
+internal class ProvideConfig {
     companion object {
         fun getConfig() = DefaultConfig()
     }

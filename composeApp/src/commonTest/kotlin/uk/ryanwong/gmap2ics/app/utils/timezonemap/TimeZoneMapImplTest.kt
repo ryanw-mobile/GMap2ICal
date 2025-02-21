@@ -4,11 +4,11 @@
 
 package uk.ryanwong.gmap2ics.app.utils.timezonemap
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import org.junit.Before
 import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapImpl
 import us.dustinj.timezonemap.TimeZoneMap
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 internal class TimeZoneMapImplTest {
 
