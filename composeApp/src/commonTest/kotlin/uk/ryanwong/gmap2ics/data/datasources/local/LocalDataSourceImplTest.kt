@@ -4,6 +4,12 @@
 
 package uk.ryanwong.gmap2ics.data.datasources.local
 
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
+import org.junit.Rule
+import org.junit.rules.TemporaryFolder
+import uk.ryanwong.gmap2ics.data.datasources.local.interfaces.LocalDataSource
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileWriter
@@ -13,12 +19,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.runTest
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
-import uk.ryanwong.gmap2ics.data.datasources.local.interfaces.LocalDataSource
 
 internal class LocalDataSourceImplTest {
 
