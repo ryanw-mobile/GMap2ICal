@@ -11,7 +11,6 @@ plugins {
     alias(libs.plugins.kover)
     alias(libs.plugins.compose)
     alias(libs.plugins.gradle.ktlint)
-    alias(libs.plugins.kotest)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -88,10 +87,6 @@ kotlin {
             implementation(libs.junit.jupiter)
             implementation(libs.junit.vintage.engine)
 
-            implementation(libs.kotest.framework.engine)
-            implementation(libs.kotest.runner.junit5.jvm)
-            implementation(libs.kotest.assertions.core)
-
             implementation(libs.moko.mvvm.test)
         }
         desktopTest.dependencies {
@@ -149,7 +144,5 @@ kover {
 }
 
 tasks.withType<Test>().configureEach {
-    // This is for kotest
-    useJUnitPlatform()
     jvmArgs = mutableListOf("--enable-preview")
 }

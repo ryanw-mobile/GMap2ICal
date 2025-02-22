@@ -72,7 +72,6 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * [Napier](https://github.com/AAkira/Napier) - Logging library for Kotlin Multiplatform
 * [MoKo MVVM](https://github.com/icerockdev/moko-mvvm) - Mobile Kotlin Model-View-ViewModel architecture components
 * [JUnit 5](https://github.com/junit-team/junit5) - Tests
-* [KOTest](https://kotest.io/) - Test runner and assertion library
 * [MockK](https://mockk.io/) - Mocking library
 * [Github Actions](https://github.com/features/actions) - CI
 * [Kover](https://github.com/Kotlin/kotlinx-kover) - code coverage
