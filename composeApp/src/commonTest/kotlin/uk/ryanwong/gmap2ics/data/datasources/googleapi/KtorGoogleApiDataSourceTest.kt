@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
+ * Copyright (c) 2022-2025. Ryan Wong (hello@ryanwebmail.com)
  */
 
 package uk.ryanwong.gmap2ics.data.datasources.googleapi
@@ -21,10 +21,10 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class KtorGoogleApiDataSourceTest {
     private lateinit var ktorGoogleApiDataSource: KtorGoogleApiDataSource
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun setupDataSource(status: HttpStatusCode, contentType: String, payload: String) {
         val mockEngine = MockEngine { _ ->
             respond(
