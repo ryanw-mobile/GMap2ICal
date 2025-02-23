@@ -8,7 +8,7 @@ import com.esri.core.geometry.Polygon
 import uk.ryanwong.gmap2ics.domain.utils.timezonemap.TimeZoneMapWrapper
 import us.dustinj.timezonemap.TimeZone
 
-class FakeTimeZoneMap : TimeZoneMapWrapper {
+internal class FakeTimeZoneMap : TimeZoneMapWrapper {
 
     var zoneId: String? = null
     override fun getOverlappingTimeZone(degreesLatitude: Double, degreesLongitude: Double): TimeZone {

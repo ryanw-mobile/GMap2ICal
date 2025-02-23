@@ -7,7 +7,7 @@ package uk.ryanwong.gmap2ics.data.datasources.local.fakes
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.interfaces.GoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.models.places.PlaceDetailsDto
 
-class FakeGoogleApiDataSource : GoogleApiDataSource {
+internal class FakeGoogleApiDataSource : GoogleApiDataSource {
     var fakeException: Throwable? = null
     var getMapsApiPlaceDetailsResponse: PlaceDetailsDto? = null
     var getMapsApiPlaceDetailsLanguageRequested: String? = null

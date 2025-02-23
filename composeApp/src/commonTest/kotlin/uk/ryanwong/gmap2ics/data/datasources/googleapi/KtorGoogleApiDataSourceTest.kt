@@ -1,12 +1,9 @@
 /*
- * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
+ * Copyright (c) 2022-2025. Ryan Wong (hello@ryanwebmail.com)
  */
 
 package uk.ryanwong.gmap2ics.data.datasources.googleapi
 
-import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.shouldBe
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -20,12 +17,14 @@ import kotlinx.coroutines.test.runTest
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.KtorGoogleApiDataSourceTestData.PLACE_DETAILS_GREG_AVE_DTO
 import uk.ryanwong.gmap2ics.data.datasources.googleapi.KtorGoogleApiDataSourceTestData.PLACE_DETAILS_GREG_AVE_JSON
 import uk.ryanwong.gmap2ics.data.repositories.PlaceDetailsNotFoundException
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
-internal class KtorGoogleApiDataSourceTest : FreeSpec() {
-
+internal class KtorGoogleApiDataSourceTest {
     private lateinit var ktorGoogleApiDataSource: KtorGoogleApiDataSource
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun setupDataSource(status: HttpStatusCode, contentType: String, payload: String) {
         val mockEngine = MockEngine { _ ->
             respond(
@@ -40,67 +39,59 @@ internal class KtorGoogleApiDataSourceTest : FreeSpec() {
         )
     }
 
-    init {
-        "getMapsApiPlaceDetails" - {
-            "should return PlaceDetails correctly if API request is successful" {
-                runTest {
-                    setupDataSource(
-                        status = HttpStatusCode.OK,
-                        contentType = "application/json",
-                        payload = PLACE_DETAILS_GREG_AVE_JSON,
-                    )
-                    val expectedPlaceDetails = PLACE_DETAILS_GREG_AVE_DTO
+    @Test
+    fun `returns PlaceDetails when API request is successful`() = runTest {
+        setupDataSource(
+            status = HttpStatusCode.OK,
+            contentType = "application/json",
+            payload = PLACE_DETAILS_GREG_AVE_JSON,
+        )
+        val expectedPlaceDetails = PLACE_DETAILS_GREG_AVE_DTO
 
-                    val placeDetails = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
-                        placeId = "some-place-id",
-                        apiKey = "some-api-key",
-                        language = "some-language",
-                    )
+        val placeDetails = ktorGoogleApiDataSource.getMapsApiPlaceDetails(
+            placeId = "some-place-id",
+            apiKey = "some-api-key",
+            language = "some-language",
+        )
 
-                    placeDetails shouldBe expectedPlaceDetails
-                }
-            }
+        assertEquals(expected = expectedPlaceDetails, actual = placeDetails)
+    }
 
-            "should return Failure.GetPlaceDetailsAPIErrorException if API request returns error message" {
-                runTest {
-                    setupDataSource(
-                        status = HttpStatusCode.OK,
-                        contentType = "application/json",
-                        payload = """{
+    @Test
+    fun `throws PlaceDetailsNotFoundException when API request returns error message`() = runTest {
+        setupDataSource(
+            status = HttpStatusCode.OK,
+            contentType = "application/json",
+            payload = """{
                                    "error_message" : "Missing the placeid or reference parameter.",
                                    "html_attributions" : [],
                                    "status" : "INVALID_REQUEST"
                                 }""",
-                    )
+        )
 
-                    val exception = shouldThrow<PlaceDetailsNotFoundException> {
-                        ktorGoogleApiDataSource.getMapsApiPlaceDetails(
-                            placeId = "some-place-id",
-                            apiKey = "some-api-key",
-                            language = "some-language",
-                        )
-                    }
-                    exception.message shouldBe "⛔\uFE0F placeId some-place-id not found"
-                }
-            }
+        assertFailsWith<PlaceDetailsNotFoundException>(message = "⛔\uFE0F placeId some-place-id not found") {
+            ktorGoogleApiDataSource.getMapsApiPlaceDetails(
+                placeId = "some-place-id",
+                apiKey = "some-api-key",
+                language = "some-language",
+            )
+        }
+    }
 
-            "Should throw NoTransformationFoundException if API request throws an exception" {
-                runTest {
-                    setupDataSource(
-                        status = HttpStatusCode.InternalServerError,
-                        contentType = "text/plain",
-                        payload = "Internal Server Error",
-                    )
+    @Test
+    fun `throws NoTransformationFoundException when API request throws an exception`() = runTest {
+        setupDataSource(
+            status = HttpStatusCode.InternalServerError,
+            contentType = "text/plain",
+            payload = "Internal Server Error",
+        )
 
-                    shouldThrow<NoTransformationFoundException> {
-                        ktorGoogleApiDataSource.getMapsApiPlaceDetails(
-                            placeId = "some-place-id",
-                            apiKey = "some-api-key",
-                            language = "some-language",
-                        )
-                    }
-                }
-            }
+        assertFailsWith<NoTransformationFoundException> {
+            ktorGoogleApiDataSource.getMapsApiPlaceDetails(
+                placeId = "some-place-id",
+                apiKey = "some-api-key",
+                language = "some-language",
+            )
         }
     }
 }

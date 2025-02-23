@@ -1,15 +1,12 @@
 /*
- * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
+ * Copyright (c) 2022-2025. Ryan Wong (hello@ryanwebmail.com)
  */
 
 package uk.ryanwong.gmap2ics.data.repositories
 
-import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.should
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.beInstanceOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import uk.ryanwong.gmap2ics.data.datasources.local.fakes.FakeGoogleApiDataSource
 import uk.ryanwong.gmap2ics.data.models.places.GeometryDto
 import uk.ryanwong.gmap2ics.data.models.places.LocationDto
@@ -18,9 +15,13 @@ import uk.ryanwong.gmap2ics.data.models.places.ResultDto
 import uk.ryanwong.gmap2ics.domain.models.timeline.LatLng
 import uk.ryanwong.gmap2ics.domain.models.timeline.PlaceDetails
 import uk.ryanwong.gmap2ics.domain.repositories.PlaceDetailsRepository
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
+import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
+internal class PlaceDetailsRepositoryImplTest {
 
     private lateinit var placeDetailsRepository: PlaceDetailsRepository
     private lateinit var fakeGoogleApiDataSource: FakeGoogleApiDataSource
@@ -35,176 +36,180 @@ internal class PlaceDetailsRepositoryImplTest : FreeSpec() {
         )
     }
 
-    init {
-        "getPlaceDetails" - {
-            "enablePlacesApiLookup is false" - {
-                "Should return PlaceDetailsNotFoundException if placeId is not cached" {
-                    setupRepository()
-                    val placeId = "some-place-id"
-                    val enablePlacesApiLookup = false
+    // 🗂️ getPlaceDetails
+    // ➡️ enablePlacesApiLookup is false
+    @Test
+    fun `returns PlaceDetailsNotFoundException when enablePlacesApiLookup is false and placeId is not cached`() = runTest {
+        setupRepository()
+        val placeId = "some-place-id"
+        val enablePlacesApiLookup = false
 
-                    val placeDetails = placeDetailsRepository.getPlaceDetails(
-                        placeId = placeId,
-                        placeTimeZoneId = "Asia/Tokyo",
-                        enablePlacesApiLookup = enablePlacesApiLookup,
-                    )
+        val placeDetails = placeDetailsRepository.getPlaceDetails(
+            placeId = placeId,
+            placeTimeZoneId = "Asia/Tokyo",
+            enablePlacesApiLookup = enablePlacesApiLookup,
+        )
 
-                    placeDetails.isFailure shouldBe true
-                    placeDetails.exceptionOrNull() should beInstanceOf<PlaceDetailsNotFoundException>()
-                }
+        assertTrue(placeDetails.isFailure)
+        assertIs<PlaceDetailsNotFoundException>(placeDetails.exceptionOrNull())
+    }
 
-                "Should return cached PlaceDetails if it is in the cache" {
-                    setupRepository()
-                    val placeId = "some-place-id"
-                    val enablePlacesApiLookup = false
+    @Test
+    fun `returns cached PlaceDetails when enablePlacesApiLookup is false and placeId is cached`() = runTest {
+        setupRepository()
+        val placeId = "some-place-id"
+        val enablePlacesApiLookup = false
 
-                    // cache the PlaceDetails first
-                    val apiResponse = PlaceDetailsDto(
-                        ResultDto(
-                            placeId = "some-place-id",
-                            name = "some-name",
-                            formattedAddress = "some-formatted-address",
-                            geometry = GeometryDto(LocationDto(lat = 53.6152405, lng = -1.5639315)),
-                            types = listOf(
-                                "some-unknown-type",
-                            ),
-                            url = "https://maps.google.com/?cid=1021876599690425051",
-                        ),
-                    )
-                    fakeGoogleApiDataSource.getMapsApiPlaceDetailsResponse = apiResponse
-                    placeDetailsRepository.getPlaceDetails(
-                        placeId = placeId,
-                        placeTimeZoneId = "Asia/Tokyo",
-                        enablePlacesApiLookup = true,
-                    )
-                    fakeGoogleApiDataSource.getMapsApiPlaceDetailsResponse = null
+        // cache the PlaceDetails first
+        val apiResponse = PlaceDetailsDto(
+            ResultDto(
+                placeId = "some-place-id",
+                name = "some-name",
+                formattedAddress = "some-formatted-address",
+                geometry = GeometryDto(LocationDto(lat = 53.6152405, lng = -1.5639315)),
+                types = listOf(
+                    "some-unknown-type",
+                ),
+                url = "https://maps.google.com/?cid=1021876599690425051",
+            ),
+        )
+        val expectedPlaceDetails = PlaceDetails(
+            placeId = "some-place-id",
+            name = "some-name",
+            formattedAddress = "some-formatted-address",
+            geo = LatLng(latitude = 53.6152405, longitude = -1.5639315),
+            types = listOf("some-unknown-type"),
+            url = "https://maps.google.com/?cid=1021876599690425051",
+        )
+        fakeGoogleApiDataSource.getMapsApiPlaceDetailsResponse = apiResponse
+        placeDetailsRepository.getPlaceDetails(
+            placeId = placeId,
+            placeTimeZoneId = "Asia/Tokyo",
+            enablePlacesApiLookup = true,
+        )
+        fakeGoogleApiDataSource.getMapsApiPlaceDetailsResponse = null
 
-                    val placeDetails = placeDetailsRepository.getPlaceDetails(
-                        placeId = placeId,
-                        placeTimeZoneId = "Asia/Tokyo",
-                        enablePlacesApiLookup = enablePlacesApiLookup,
-                    )
+        val placeDetails = placeDetailsRepository.getPlaceDetails(
+            placeId = placeId,
+            placeTimeZoneId = "Asia/Tokyo",
+            enablePlacesApiLookup = enablePlacesApiLookup,
+        )
 
-                    placeDetails.isSuccess shouldBe true
-                    placeDetails.getOrNull() shouldBe PlaceDetails(
-                        placeId = "some-place-id",
-                        name = "some-name",
-                        formattedAddress = "some-formatted-address",
-                        geo = LatLng(latitude = 53.6152405, longitude = -1.5639315),
-                        types = listOf("some-unknown-type"),
-                        url = "https://maps.google.com/?cid=1021876599690425051",
-                    )
-                }
-            }
+        assertTrue(placeDetails.isSuccess)
+        assertEquals(expectedPlaceDetails, placeDetails.getOrNull())
+    }
 
-            "enablePlacesApiLookup is true" - {
-                "Should return correct PlaceDetails if data source returns something" {
-                    setupRepository()
-                    val apiResponse = PlaceDetailsDto(
-                        ResultDto(
-                            placeId = "some-place-id",
-                            name = "some-name",
-                            formattedAddress = "some-formatted-address",
-                            geometry = GeometryDto(LocationDto(lat = 53.6152405, lng = -1.5639315)),
-                            types = listOf(
-                                "some-unknown-type",
-                            ),
-                            url = "https://maps.google.com/?cid=1021876599690425051",
-                        ),
-                    )
-                    fakeGoogleApiDataSource.getMapsApiPlaceDetailsResponse = apiResponse
+    // ➡️ enablePlacesApiLookup is true
+    @Test
+    fun `returns correct PlaceDetails when enablePlacesApiLookup is true and data source returns data`() = runTest {
+        setupRepository()
+        val apiResponse = PlaceDetailsDto(
+            ResultDto(
+                placeId = "some-place-id",
+                name = "some-name",
+                formattedAddress = "some-formatted-address",
+                geometry = GeometryDto(LocationDto(lat = 53.6152405, lng = -1.5639315)),
+                types = listOf(
+                    "some-unknown-type",
+                ),
+                url = "https://maps.google.com/?cid=1021876599690425051",
+            ),
+        )
+        val expectedPlaceDetails = PlaceDetails(
+            placeId = "some-place-id",
+            name = "some-name",
+            formattedAddress = "some-formatted-address",
+            geo = LatLng(latitude = 53.6152405, longitude = -1.5639315),
+            types = listOf("some-unknown-type"),
+            url = "https://maps.google.com/?cid=1021876599690425051",
+        )
+        fakeGoogleApiDataSource.getMapsApiPlaceDetailsResponse = apiResponse
 
-                    val placeDetails = placeDetailsRepository.getPlaceDetails(
-                        placeId = "some-place-id",
-                        placeTimeZoneId = "Asia/Tokyo",
-                        enablePlacesApiLookup = true,
-                    )
+        val placeDetails = placeDetailsRepository.getPlaceDetails(
+            placeId = "some-place-id",
+            placeTimeZoneId = "Asia/Tokyo",
+            enablePlacesApiLookup = true,
+        )
 
-                    placeDetails.isSuccess shouldBe true
-                    placeDetails.getOrNull() shouldBe PlaceDetails(
-                        placeId = "some-place-id",
-                        name = "some-name",
-                        formattedAddress = "some-formatted-address",
-                        geo = LatLng(latitude = 53.6152405, longitude = -1.5639315),
-                        types = listOf("some-unknown-type"),
-                        url = "https://maps.google.com/?cid=1021876599690425051",
-                    )
-                }
+        assertTrue(placeDetails.isSuccess)
+        assertEquals(expectedPlaceDetails, placeDetails.getOrNull())
+    }
 
-                "Should return PlaceDetailsNotFoundException if data source returns not found and placeId is not cached" {
-                    setupRepository()
-                    val placeId = "some-place-id"
-                    val enablePlacesApiLookup = true
-                    fakeGoogleApiDataSource.fakeException = PlaceDetailsNotFoundException(placeId = placeId)
+    @Test
+    fun `returns PlaceDetailsNotFoundException when enablePlacesApiLookup is true and data source returns not found and placeId is not cached`() = runTest {
+        setupRepository()
+        val placeId = "some-place-id"
+        val enablePlacesApiLookup = true
+        fakeGoogleApiDataSource.fakeException = PlaceDetailsNotFoundException(placeId = placeId)
 
-                    val placeDetails = placeDetailsRepository.getPlaceDetails(
-                        placeId = placeId,
-                        placeTimeZoneId = "Asia/Tokyo",
-                        enablePlacesApiLookup = enablePlacesApiLookup,
-                    )
+        val placeDetails = placeDetailsRepository.getPlaceDetails(
+            placeId = placeId,
+            placeTimeZoneId = "Asia/Tokyo",
+            enablePlacesApiLookup = enablePlacesApiLookup,
+        )
 
-                    placeDetails.isFailure shouldBe true
-                    placeDetails.exceptionOrNull() should beInstanceOf<PlaceDetailsNotFoundException>()
-                    placeDetails.exceptionOrNull()!!.message shouldBe "⛔️ placeId some-place-id not found"
-                }
+        assertTrue(placeDetails.isFailure)
+        assertIs<PlaceDetailsNotFoundException>(placeDetails.exceptionOrNull())
+        assertEquals("⛔️ placeId some-place-id not found", placeDetails.exceptionOrNull()!!.message)
+    }
 
-                "Should query data source by overriding language code if it is defined in apiLanguageOverride" {
-                    setupRepository(
-                        apiLanguageOverride = mapOf(
-                            Pair("Asia/Tokyo", "ja"),
-                            Pair("default", "some-language"),
-                        ),
-                    )
-                    val placeId = "some-place-id"
-                    val placeTimeZoneId = "Asia/Tokyo"
-                    val enablePlacesApiLookup = true
+    @Test
+    fun `queries data source with overridden language code when apiLanguageOverride has timezone-specific language`() = runTest {
+        setupRepository(
+            apiLanguageOverride = mapOf(
+                Pair("Asia/Tokyo", "ja"),
+                Pair("default", "some-language"),
+            ),
+        )
+        val placeId = "some-place-id"
+        val placeTimeZoneId = "Asia/Tokyo"
+        val enablePlacesApiLookup = true
 
-                    placeDetailsRepository.getPlaceDetails(
-                        placeId = placeId,
-                        placeTimeZoneId = placeTimeZoneId,
-                        enablePlacesApiLookup = enablePlacesApiLookup,
-                    )
+        placeDetailsRepository.getPlaceDetails(
+            placeId = placeId,
+            placeTimeZoneId = placeTimeZoneId,
+            enablePlacesApiLookup = enablePlacesApiLookup,
+        )
 
-                    fakeGoogleApiDataSource.getMapsApiPlaceDetailsLanguageRequested shouldBe "ja"
-                }
+        assertEquals("ja", fakeGoogleApiDataSource.getMapsApiPlaceDetailsLanguageRequested)
+    }
 
-                "Should query data source using default language code if it is defined in apiLanguageOverride" {
-                    setupRepository(
-                        apiLanguageOverride = mapOf(
-                            Pair("Asia/Tokyo", "ja"),
-                            Pair("default", "some-language"),
-                        ),
-                    )
-                    val placeId = "some-place-id"
-                    val placeTimeZoneId = "some-place-timezone-id"
-                    val enablePlacesApiLookup = true
+    @Test
+    fun `queries data source with default language code when apiLanguageOverride has default language`() = runTest {
+        setupRepository(
+            apiLanguageOverride = mapOf(
+                Pair("Asia/Tokyo", "ja"),
+                Pair("default", "some-language"),
+            ),
+        )
+        val placeId = "some-place-id"
+        val placeTimeZoneId = "some-place-timezone-id"
+        val enablePlacesApiLookup = true
 
-                    placeDetailsRepository.getPlaceDetails(
-                        placeId = placeId,
-                        placeTimeZoneId = placeTimeZoneId,
-                        enablePlacesApiLookup = enablePlacesApiLookup,
-                    )
+        placeDetailsRepository.getPlaceDetails(
+            placeId = placeId,
+            placeTimeZoneId = placeTimeZoneId,
+            enablePlacesApiLookup = enablePlacesApiLookup,
+        )
 
-                    fakeGoogleApiDataSource.getMapsApiPlaceDetailsLanguageRequested shouldBe "some-language"
-                }
+        assertEquals("some-language", fakeGoogleApiDataSource.getMapsApiPlaceDetailsLanguageRequested)
+    }
 
-                "Should query data source without specifying language if apiLanguageOverride has no default language" {
-                    setupRepository(
-                        apiLanguageOverride = mapOf(),
-                    )
-                    val placeId = "some-place-id"
-                    val placeTimeZoneId = "some-place-timezone-id"
-                    val enablePlacesApiLookup = true
+    @Test
+    fun `queries data source without language code when apiLanguageOverride is empty`() = runTest {
+        setupRepository(
+            apiLanguageOverride = mapOf(),
+        )
+        val placeId = "some-place-id"
+        val placeTimeZoneId = "some-place-timezone-id"
+        val enablePlacesApiLookup = true
 
-                    placeDetailsRepository.getPlaceDetails(
-                        placeId = placeId,
-                        placeTimeZoneId = placeTimeZoneId,
-                        enablePlacesApiLookup = enablePlacesApiLookup,
-                    )
+        placeDetailsRepository.getPlaceDetails(
+            placeId = placeId,
+            placeTimeZoneId = placeTimeZoneId,
+            enablePlacesApiLookup = enablePlacesApiLookup,
+        )
 
-                    fakeGoogleApiDataSource.getMapsApiPlaceDetailsLanguageRequested shouldBe null
-                }
-            }
-        }
+        assertEquals(null, fakeGoogleApiDataSource.getMapsApiPlaceDetailsLanguageRequested)
     }
 }

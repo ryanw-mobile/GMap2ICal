@@ -1,93 +1,97 @@
 /*
- * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
+ * Copyright (c) 2022-2025. Ryan Wong (hello@ryanwebmail.com)
  */
 
 package uk.ryanwong.gmap2ics.usecases.impl
 
-import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.shouldBe
 import uk.ryanwong.gmap2ics.domain.usecases.GetOutputFilenameUseCaseImpl
 import uk.ryanwong.gmap2ics.domain.usecases.interfaces.GetOutputFilenameUseCase
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class GetOutputFilenameUseCaseImplTest : FreeSpec() {
+internal class GetOutputFilenameUseCaseImplTest {
 
     private lateinit var getOutputFilenameUseCase: GetOutputFilenameUseCase
 
-    init {
-        beforeTest {
-            getOutputFilenameUseCase = GetOutputFilenameUseCaseImpl()
-        }
+    @BeforeTest
+    fun setup() {
+        getOutputFilenameUseCase = GetOutputFilenameUseCaseImpl()
+    }
 
-        "Should set correct filename when exportPlaceVisit and exportActivitySegment are true" {
-            val originalFilename = "/some-path/json/some-file-1.json"
-            val exportPlaceVisit = true
-            val exportActivitySegment = true
-            val jsonPath = "/some-path/json/"
-            val iCalPath = "/some-path/ical/"
+    @Test
+    fun `returns correct filename when exporting both place visit and activity segment`() {
+        val originalFilename = "/some-path/json/some-file-1.json"
+        val exportPlaceVisit = true
+        val exportActivitySegment = true
+        val jsonPath = "/some-path/json/"
+        val iCalPath = "/some-path/ical/"
 
-            val outputFilename = getOutputFilenameUseCase(
-                originalFilename = originalFilename,
-                jsonPath = jsonPath,
-                iCalPath = iCalPath,
-                exportPlaceVisit = exportPlaceVisit,
-                exportActivitySegment = exportActivitySegment,
-            )
+        val outputFilename = getOutputFilenameUseCase(
+            originalFilename = originalFilename,
+            jsonPath = jsonPath,
+            iCalPath = iCalPath,
+            exportPlaceVisit = exportPlaceVisit,
+            exportActivitySegment = exportActivitySegment,
+        )
 
-            outputFilename shouldBe "/some-path/ical/some-file-1_all.ics"
-        }
+        assertEquals("/some-path/ical/some-file-1_all.ics", outputFilename)
+    }
 
-        "Should set correct filename when only exportPlaceVisit is true" {
-            val originalFilename = "/some-path/json/some-file-1.json"
-            val exportPlaceVisit = true
-            val exportActivitySegment = false
-            val jsonPath = "/some-path/json/"
-            val iCalPath = "/some-path/ical/"
+    @Test
+    fun `returns correct filename when only exporting place visit`() {
+        val originalFilename = "/some-path/json/some-file-1.json"
+        val exportPlaceVisit = true
+        val exportActivitySegment = false
+        val jsonPath = "/some-path/json/"
+        val iCalPath = "/some-path/ical/"
 
-            val outputFilename = getOutputFilenameUseCase(
-                originalFilename = originalFilename,
-                jsonPath = jsonPath,
-                iCalPath = iCalPath,
-                exportPlaceVisit = exportPlaceVisit,
-                exportActivitySegment = exportActivitySegment,
-            )
+        val outputFilename = getOutputFilenameUseCase(
+            originalFilename = originalFilename,
+            jsonPath = jsonPath,
+            iCalPath = iCalPath,
+            exportPlaceVisit = exportPlaceVisit,
+            exportActivitySegment = exportActivitySegment,
+        )
 
-            outputFilename shouldBe "/some-path/ical/some-file-1_places.ics"
-        }
+        assertEquals("/some-path/ical/some-file-1_places.ics", outputFilename)
+    }
 
-        "Should set correct filename when only exportActivitySegment is true" {
-            val originalFilename = "/some-path/json/some-file-1.json"
-            val exportPlaceVisit = false
-            val exportActivitySegment = true
-            val jsonPath = "/some-path/json/"
-            val iCalPath = "/some-path/ical/"
+    @Test
+    fun `returns correct filename when only exporting activity segment`() {
+        val originalFilename = "/some-path/json/some-file-1.json"
+        val exportPlaceVisit = false
+        val exportActivitySegment = true
+        val jsonPath = "/some-path/json/"
+        val iCalPath = "/some-path/ical/"
 
-            val outputFilename = getOutputFilenameUseCase(
-                originalFilename = originalFilename,
-                jsonPath = jsonPath,
-                iCalPath = iCalPath,
-                exportPlaceVisit = exportPlaceVisit,
-                exportActivitySegment = exportActivitySegment,
-            )
+        val outputFilename = getOutputFilenameUseCase(
+            originalFilename = originalFilename,
+            jsonPath = jsonPath,
+            iCalPath = iCalPath,
+            exportPlaceVisit = exportPlaceVisit,
+            exportActivitySegment = exportActivitySegment,
+        )
 
-            outputFilename shouldBe "/some-path/ical/some-file-1_activities.ics"
-        }
+        assertEquals("/some-path/ical/some-file-1_activities.ics", outputFilename)
+    }
 
-        "Should set default filename when exportPlaceVisit and exportActivitySegment are false" {
-            val originalFilename = "/some-path/json/some-file-1.json"
-            val exportPlaceVisit = false
-            val exportActivitySegment = false
-            val jsonPath = "/some-path/json/"
-            val iCalPath = "/some-path/ical/"
+    @Test
+    fun `returns default filename when not exporting place visit and activity segment`() {
+        val originalFilename = "/some-path/json/some-file-1.json"
+        val exportPlaceVisit = false
+        val exportActivitySegment = false
+        val jsonPath = "/some-path/json/"
+        val iCalPath = "/some-path/ical/"
 
-            val outputFilename = getOutputFilenameUseCase(
-                originalFilename = originalFilename,
-                jsonPath = jsonPath,
-                iCalPath = iCalPath,
-                exportPlaceVisit = exportPlaceVisit,
-                exportActivitySegment = exportActivitySegment,
-            )
+        val outputFilename = getOutputFilenameUseCase(
+            originalFilename = originalFilename,
+            jsonPath = jsonPath,
+            iCalPath = iCalPath,
+            exportPlaceVisit = exportPlaceVisit,
+            exportActivitySegment = exportActivitySegment,
+        )
 
-            outputFilename shouldBe "/some-path/ical/some-file-1_activities.ics"
-        }
+        assertEquals("/some-path/ical/some-file-1_activities.ics", outputFilename)
     }
 }

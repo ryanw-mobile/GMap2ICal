@@ -18,8 +18,7 @@ internal class StatusBarKtTest {
 
     /***
      * 1. Currently, Compose Desktop test runs on JUnit4 only.
-     * 2. Can't sort out how to apply @get:Rule on Kotest so back to JUnit4.
-     * 3. Compose Desktop assertion library is not completed yet - limited what can be tested.
+     * 2. Compose Desktop assertion library is not completed yet - limited what can be tested.
      */
     @get:Rule
     val compose = createComposeRule()

@@ -1,13 +1,10 @@
 /*
- * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
+ * Copyright (c) 2022-2025. Ryan Wong (hello@ryanwebmail.com)
  */
 
 package uk.ryanwong.gmap2ics.ui.viewmodels
 
 import dev.icerock.moko.mvvm.test.TestViewModelScope
-import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,7 +13,6 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import uk.ryanwong.gmap2ics.app.configs.SampleConfig
 import uk.ryanwong.gmap2ics.data.repositories.fakes.FakeLocalFileRepository
 import uk.ryanwong.gmap2ics.data.repositories.fakes.FakeTimelineRepository
@@ -32,9 +28,14 @@ import uk.ryanwong.gmap2ics.usecases.fakes.FakeGetOutputFilenameUseCase
 import uk.ryanwong.gmap2ics.usecases.fakes.FakeGetPlaceVisitVEventUseCase
 import uk.ryanwong.gmap2ics.usecases.fakes.FakeVEventFromChildVisitUseCase
 import uk.ryanwong.gmap2ics.usecases.fakes.FakeVEventFromPlaceVisitUseCase
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalResourceApi::class)
-internal class MainScreenViewModelTest : FreeSpec() {
+@OptIn(ExperimentalCoroutinesApi::class)
+internal class MainScreenViewModelTest {
 
     private lateinit var mainScreenViewModel: MainScreenViewModel
     private lateinit var fakeTimelineRepository: FakeTimelineRepository
@@ -62,445 +63,409 @@ internal class MainScreenViewModelTest : FreeSpec() {
         lastModified = "2011-11-11T11:22:22.222Z",
     )
 
-    init {
-        beforeTest {
-            TestViewModelScope.setupViewModelScope(CoroutineScope(Dispatchers.Unconfined))
+    @BeforeTest
+    fun setup() {
+        TestViewModelScope.setupViewModelScope(CoroutineScope(Dispatchers.Unconfined))
 
-            fakeTimelineRepository = FakeTimelineRepository()
-            fakeLocalFileRepository = FakeLocalFileRepository()
-            fakeVEventFromPlaceVisitUseCase = FakeVEventFromPlaceVisitUseCase()
-            fakeVEventFromChildVisitUseCase = FakeVEventFromChildVisitUseCase()
-            fakeGetActivitySegmentVEventUseCase = FakeGetActivitySegmentVEventUseCase()
-            fakeGetOutputFilenameUseCase = FakeGetOutputFilenameUseCase()
-            fakeGetPlaceVisitVEventUseCase = FakeGetPlaceVisitVEventUseCase()
+        fakeTimelineRepository = FakeTimelineRepository()
+        fakeLocalFileRepository = FakeLocalFileRepository()
+        fakeVEventFromPlaceVisitUseCase = FakeVEventFromPlaceVisitUseCase()
+        fakeVEventFromChildVisitUseCase = FakeVEventFromChildVisitUseCase()
+        fakeGetActivitySegmentVEventUseCase = FakeGetActivitySegmentVEventUseCase()
+        fakeGetOutputFilenameUseCase = FakeGetOutputFilenameUseCase()
+        fakeGetPlaceVisitVEventUseCase = FakeGetPlaceVisitVEventUseCase()
 
-            mainScreenViewModel =
-                MainScreenViewModel(
-                    configFile = SampleConfig(),
-                    timelineRepository = fakeTimelineRepository,
-                    localFileRepository = fakeLocalFileRepository,
-                    getActivitySegmentVEventUseCase = fakeGetActivitySegmentVEventUseCase,
-                    getOutputFilenameUseCase = fakeGetOutputFilenameUseCase,
-                    getPlaceVisitVEventUseCase = fakeGetPlaceVisitVEventUseCase,
-                    projectBasePath = fakeProjectBasePath,
-                    dispatcher = UnconfinedTestDispatcher(),
-                )
+        mainScreenViewModel =
+            MainScreenViewModel(
+                configFile = SampleConfig(),
+                timelineRepository = fakeTimelineRepository,
+                localFileRepository = fakeLocalFileRepository,
+                getActivitySegmentVEventUseCase = fakeGetActivitySegmentVEventUseCase,
+                getOutputFilenameUseCase = fakeGetOutputFilenameUseCase,
+                getPlaceVisitVEventUseCase = fakeGetPlaceVisitVEventUseCase,
+                projectBasePath = fakeProjectBasePath,
+                dispatcher = UnconfinedTestDispatcher(),
+            )
+    }
+
+    @AfterTest
+    fun cleanup() {
+        TestViewModelScope.resetViewModelScope()
+    }
+
+    // 🗂️ setExportPlaceVisit
+    @Test
+    fun `setExportPlaceVisit should update exportPlaceVisit correctly when mainScreenUIState is Ready`() = runTest {
+        val initialState = mainScreenViewModel.exportPlaceVisit.first()
+        mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
+        assertEquals(!initialState, mainScreenViewModel.exportPlaceVisit.first())
+    }
+
+    @Test
+    fun `setExportPlaceVisit should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeICalPathDialog`() = runTest {
+        mainScreenViewModel.onChangeICalPath()
+        val initialState = mainScreenViewModel.exportPlaceVisit.first()
+        mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
+        assertEquals(initialState, mainScreenViewModel.exportPlaceVisit.first())
+    }
+
+    @Test
+    fun `setExportPlaceVisit should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeJsonPathDialog`() = runTest {
+        mainScreenViewModel.onChangeJsonPath()
+        val initialState = mainScreenViewModel.exportPlaceVisit.first()
+        mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
+        assertEquals(initialState, mainScreenViewModel.exportPlaceVisit.first())
+    }
+
+    @Test
+    fun `setExportPlaceVisit should keep exportPlaceVisit unchanged when mainScreenUIState is Error`() = runTest {
+        mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+        val initialState = mainScreenViewModel.exportPlaceVisit.first()
+        mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
+        assertEquals(initialState, mainScreenViewModel.exportPlaceVisit.first())
+    }
+
+    // 🗂️ setExportActivitySegment
+    @Test
+    fun `setExportActivitySegment should update exportActivitySegment correctly when mainScreenUIState is Ready`() = runTest {
+        val initialState = mainScreenViewModel.exportActivitySegment.first()
+        mainScreenViewModel.setExportActivitySegment(enabled = !initialState)
+        assertEquals(!initialState, mainScreenViewModel.exportActivitySegment.first())
+    }
+
+    @Test
+    fun `setExportActivitySegment should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeICalPathDialog`() = runTest {
+        mainScreenViewModel.onChangeICalPath()
+        val initialState = mainScreenViewModel.exportActivitySegment.first()
+        mainScreenViewModel.setExportActivitySegment(enabled = !initialState)
+        assertEquals(initialState, mainScreenViewModel.exportActivitySegment.first())
+    }
+
+    @Test
+    fun `setExportActivitySegment should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeJsonPathDialog`() = runTest {
+        mainScreenViewModel.onChangeJsonPath()
+        val initialState = mainScreenViewModel.exportActivitySegment.first()
+        mainScreenViewModel.setExportActivitySegment(enabled = !initialState)
+        assertEquals(initialState, mainScreenViewModel.exportActivitySegment.first())
+    }
+
+    @Test
+    fun `setExportActivitySegment should keep exportPlaceVisit unchanged when mainScreenUIState is Error`() = runTest {
+        mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+        val initialState = mainScreenViewModel.exportActivitySegment.first()
+        mainScreenViewModel.setExportActivitySegment(enabled = !initialState)
+        assertEquals(initialState, mainScreenViewModel.exportActivitySegment.first())
+    }
+
+    // 🗂️ setEnablePlacesApiLookup
+    @Test
+    fun `setEnablePlacesApiLookup should update enablePlacesApiLookup correctly when mainScreenUIState is Ready`() = runTest {
+        val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
+        mainScreenViewModel.setEnablePlacesApiLookup(enabled = !initialState)
+        assertEquals(!initialState, mainScreenViewModel.enablePlacesApiLookup.first())
+    }
+
+    @Test
+    fun `setEnablePlacesApiLookup should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeICalPathDialog`() = runTest {
+        mainScreenViewModel.onChangeICalPath()
+        val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
+        mainScreenViewModel.setEnablePlacesApiLookup(enabled = !initialState)
+        assertEquals(initialState, mainScreenViewModel.enablePlacesApiLookup.first())
+    }
+
+    @Test
+    fun `setEnablePlacesApiLookup should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeJsonPathDialog`() = runTest {
+        mainScreenViewModel.onChangeJsonPath()
+        val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
+        mainScreenViewModel.setEnablePlacesApiLookup(enabled = !initialState)
+        assertEquals(initialState, mainScreenViewModel.enablePlacesApiLookup.first())
+    }
+
+    @Test
+    fun `setEnablePlacesApiLookup should keep exportPlaceVisit unchanged when mainScreenUIState is Error`() = runTest {
+        mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+        val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
+        mainScreenViewModel.setEnablePlacesApiLookup(enabled = !initialState)
+        assertEquals(initialState, mainScreenViewModel.enablePlacesApiLookup.first())
+    }
+
+    // 🗂️ setVerboseLogs
+    @Test
+    fun `setVerboseLogs should update verboseLogs correctly when mainScreenUIState is Ready`() = runTest {
+        val initialState = mainScreenViewModel.verboseLogs.first()
+        mainScreenViewModel.setVerboseLogs(enabled = !initialState)
+        assertEquals(!initialState, mainScreenViewModel.verboseLogs.first())
+    }
+
+    @Test
+    fun `setVerboseLogs should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeICalPathDialog`() = runTest {
+        mainScreenViewModel.onChangeICalPath()
+        val initialState = mainScreenViewModel.verboseLogs.first()
+        mainScreenViewModel.setVerboseLogs(enabled = !initialState)
+        assertEquals(initialState, mainScreenViewModel.verboseLogs.first())
+    }
+
+    @Test
+    fun `setVerboseLogs should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeJsonPathDialog`() = runTest {
+        mainScreenViewModel.onChangeJsonPath()
+        val initialState = mainScreenViewModel.verboseLogs.first()
+        mainScreenViewModel.setVerboseLogs(enabled = !initialState)
+        assertEquals(initialState, mainScreenViewModel.verboseLogs.first())
+    }
+
+    @Test
+    fun `setVerboseLogs should keep exportPlaceVisit unchanged when mainScreenUIState is Error`() = runTest {
+        mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+        val initialState = mainScreenViewModel.verboseLogs.first()
+        mainScreenViewModel.setVerboseLogs(enabled = !initialState)
+        assertEquals(initialState, mainScreenViewModel.verboseLogs.first())
+    }
+
+    // 🗂️ onChangeJsonPath
+    @Test
+    fun `onChangeJsonPath when mainScreenUIState is Ready should set mainScreenUIState to ShowChangeJsonPathDialog`() = runTest {
+        assertEquals(MainScreenUIState.Ready, mainScreenViewModel.mainScreenUIState.first())
+        mainScreenViewModel.onChangeJsonPath()
+        assertEquals(MainScreenUIState.ChangeJsonPath, mainScreenViewModel.mainScreenUIState.first())
+    }
+
+    @Test
+    fun `onChangeJsonPath when mainScreenUIState is ShowChangeICalPathDialog should keep mainScreenUIState unchanged`() = runTest {
+        mainScreenViewModel.onChangeICalPath()
+        mainScreenViewModel.onChangeJsonPath()
+        assertEquals(MainScreenUIState.ChangeICalPath, mainScreenViewModel.mainScreenUIState.first())
+    }
+
+    @Test
+    fun `onChangeJsonPath when mainScreenUIState is Error should keep mainScreenUIState unchanged`() = runTest {
+        val errorMessage = "Error updating JSON path"
+        mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+
+        mainScreenViewModel.onChangeJsonPath()
+
+        val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
+        assertIs<MainScreenUIState.Error>(mainScreenUIState)
+        assertEquals(errorMessage, mainScreenUIState.errMsg)
+    }
+
+    // 🗂️ onChangeICalPath
+    @Test
+    fun `onChangeICalPath when mainScreenUIState is Ready should set mainScreenUIState to ShowChangeJsonPathDialog`() = runTest {
+        assertEquals(MainScreenUIState.Ready, mainScreenViewModel.mainScreenUIState.first())
+        mainScreenViewModel.onChangeICalPath()
+        assertEquals(MainScreenUIState.ChangeICalPath, mainScreenViewModel.mainScreenUIState.first())
+    }
+
+    @Test
+    fun `onChangeICalPath when mainScreenUIState is ShowChangeICalPathDialog should keep mainScreenUIState unchanged`() = runTest {
+        mainScreenViewModel.onChangeJsonPath()
+        mainScreenViewModel.onChangeICalPath()
+        assertEquals(MainScreenUIState.ChangeJsonPath, mainScreenViewModel.mainScreenUIState.first())
+    }
+
+    @Test
+    fun `onChangeICalPath when mainScreenUIState is Error should keep mainScreenUIState unchanged`() = runTest {
+        val errorMessage = "Error updating JSON path"
+        mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+
+        mainScreenViewModel.onChangeICalPath()
+
+        val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
+        assertIs<MainScreenUIState.Error>(mainScreenUIState)
+        assertEquals(errorMessage, mainScreenUIState.errMsg)
+    }
+
+    // 🗂️ updateJsonPath
+    @Test
+    fun `updateJsonPath when JFileChooserResult is AbsolutePath should correctly trim the path`() = runTest {
+        mainScreenViewModel.onChangeJsonPath()
+
+        val jFileChooserResult = JFileChooserResult.AbsolutePath(
+            absolutePath = fakeProjectBasePath + "sample-folder1/sample-folder2",
+        )
+        mainScreenViewModel.updateJsonPath(jFileChooserResult = jFileChooserResult)
+        assertEquals("sample-folder1/sample-folder2", mainScreenViewModel.jsonPath.first())
+    }
+
+    @Test
+    fun `updateJsonPath when JFileChooserResult is AbsolutePath should set MainScreenUIState = Ready`() = runTest {
+        mainScreenViewModel.onChangeJsonPath()
+
+        val jFileChooserResult = JFileChooserResult.AbsolutePath(
+            absolutePath = fakeProjectBasePath + "sample-folder1/sample-folder2",
+        )
+        mainScreenViewModel.updateJsonPath(jFileChooserResult = jFileChooserResult)
+        assertEquals(MainScreenUIState.Ready, mainScreenViewModel.mainScreenUIState.first())
+    }
+
+    @Test
+    fun `updateJsonPath when JFileChooserResult is Cancelled should set MainScreenUIState = Ready`() = runTest {
+        mainScreenViewModel.onChangeJsonPath()
+        mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Cancelled)
+        assertEquals(MainScreenUIState.Ready, mainScreenViewModel.mainScreenUIState.first())
+    }
+
+    @Test
+    fun `updateJsonPath when JFileChooserResult is Error should set MainScreenUIState = Error with correct error message`() = runTest {
+        val errorMessage = "Error updating JSON path"
+        mainScreenViewModel.onChangeJsonPath()
+
+        mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+
+        val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
+        assertIs<MainScreenUIState.Error>(mainScreenUIState)
+        assertEquals(errorMessage, mainScreenUIState.errMsg)
+    }
+
+    // 🗂️ updateICalPath
+    @Test
+    fun `when JFileChooserResult is AbsolutePath should correctly trim the path if it contains the base path`() = runTest {
+        mainScreenViewModel.onChangeICalPath()
+
+        val jFileChooserResult = JFileChooserResult.AbsolutePath(
+            absolutePath = fakeProjectBasePath + "sample-folder1/sample-folder2",
+        )
+        mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
+        assertEquals("sample-folder1/sample-folder2", mainScreenViewModel.iCalPath.first())
+    }
+
+    @Test
+    fun `when JFileChooserResult is AbsolutePath should keep the correct path if AbsolutePath does not contains the base path`() = runTest {
+        mainScreenViewModel.onChangeICalPath()
+
+        val jFileChooserResult = JFileChooserResult.AbsolutePath(
+            absolutePath = "/sample-folder3/sample-folder4",
+        )
+        mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
+        assertEquals("/sample-folder3/sample-folder4", mainScreenViewModel.iCalPath.first())
+    }
+
+    @Test
+    fun `when JFileChooserResult is AbsolutePath should set MainScreenUIState = Ready`() = runTest {
+        mainScreenViewModel.onChangeICalPath()
+
+        val jFileChooserResult = JFileChooserResult.AbsolutePath(
+            absolutePath = fakeProjectBasePath + "sample-folder1/sample-folder2",
+        )
+        mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
+        assertEquals(MainScreenUIState.Ready, mainScreenViewModel.mainScreenUIState.first())
+    }
+
+    @Test
+    fun `when JFileChooserResult is Cancelled should set MainScreenUIState = Ready`() = runTest {
+        mainScreenViewModel.onChangeICalPath()
+        mainScreenViewModel.updateICalPath(jFileChooserResult = JFileChooserResult.Cancelled)
+        assertEquals(MainScreenUIState.Ready, mainScreenViewModel.mainScreenUIState.first())
+    }
+
+    @Test
+    fun `when JFileChooserResult is Error should set MainScreenUIState = Error with correct error message`() = runTest {
+        val errorMessage = "Error updating iCal path"
+        mainScreenViewModel.onChangeICalPath()
+
+        mainScreenViewModel.updateICalPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
+
+        val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
+        assertIs<MainScreenUIState.Error>(mainScreenUIState)
+        assertEquals(errorMessage, mainScreenUIState.errMsg)
+    }
+
+    // 🗂️ notifyErrorMessageDisplayed
+    @Test
+    fun `should set MainScreenUIState = Ready`() = runTest {
+        mainScreenViewModel.onChangeICalPath() // Randomly alter the UI state
+        mainScreenViewModel.notifyErrorMessageDisplayed()
+
+        val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
+        assertEquals(MainScreenUIState.Ready, mainScreenUIState)
+    }
+
+    // 🗂️ startExport
+    @Test
+    fun `should set MainScreenUIState = Ready after running`() = runTest {
+        fakeLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
+        fakeGetOutputFilenameUseCase.useCaseResponse = "/some-path/some-file-1.ics"
+        fakeTimelineRepository.getTimeLineResponse = Result.success(timeLineWithActivityVisitAndChildVisit)
+        fakeVEventFromPlaceVisitUseCase.useCaseResponse = sampleDefaultVEvent
+        fakeGetActivitySegmentVEventUseCase.useCaseResponse = sampleDefaultVEvent
+        fakeVEventFromChildVisitUseCase.useCaseResponse = sampleDefaultVEvent
+        fakeGetPlaceVisitVEventUseCase.useCaseResponse = listOf(sampleDefaultVEvent)
+
+        mainScreenViewModel.startExport()
+
+        val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
+        assertEquals(MainScreenUIState.Ready, mainScreenUIState)
+    }
+
+    @Test
+    fun `should set MainScreenUIState = Error if localFileRepository,getFileList returns error`() = runTest {
+        fakeGetPlaceVisitVEventUseCase.useCaseResponse = listOf(sampleDefaultVEvent)
+        fakeLocalFileRepository.getFileListResponse =
+            Result.failure(exception = Exception("some-exception-message"))
+
+        mainScreenViewModel.startExport()
+
+        val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
+        with(mainScreenUIState as MainScreenUIState.Error) {
+            assertEquals("☠️ Error getting json file list: some-exception-message", errMsg)
         }
-
-        afterTest {
-            TestViewModelScope.resetViewModelScope()
-        }
-
-        "setExportPlaceVisit" - {
-            "should update exportPlaceVisit correctly when mainScreenUIState is Ready" {
-                val initialState = mainScreenViewModel.exportPlaceVisit.first()
-                mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
-                mainScreenViewModel.exportPlaceVisit.first() shouldBe !initialState
-            }
-
-            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeICalPathDialog" {
-                mainScreenViewModel.onChangeICalPath()
-                val initialState = mainScreenViewModel.exportPlaceVisit.first()
-
-                mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
-
-                mainScreenViewModel.exportPlaceVisit.first() shouldBe initialState
-            }
-
-            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeJsonPathDialog" {
-                mainScreenViewModel.onChangeJsonPath()
-                val initialState = mainScreenViewModel.exportPlaceVisit.first()
-
-                mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
-
-                mainScreenViewModel.exportPlaceVisit.first() shouldBe initialState
-            }
-
-            "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
-                runTest {
-                    mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
-                    val initialState = mainScreenViewModel.exportPlaceVisit.first()
-
-                    mainScreenViewModel.setExportPlaceVisit(enabled = !initialState)
-
-                    mainScreenViewModel.exportPlaceVisit.first() shouldBe initialState
-                }
-            }
-        }
-
-        "setExportActivitySegment" - {
-            "should update exportActivitySegment correctly when mainScreenUIState is Ready" {
-                val initialState = mainScreenViewModel.exportActivitySegment.first()
-                mainScreenViewModel.setExportActivitySegment(enabled = !initialState)
-                mainScreenViewModel.exportActivitySegment.first() shouldBe !initialState
-            }
-
-            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeICalPathDialog" {
-                mainScreenViewModel.onChangeICalPath()
-                val initialState = mainScreenViewModel.exportActivitySegment.first()
-
-                mainScreenViewModel.setExportActivitySegment(enabled = !initialState)
-
-                mainScreenViewModel.exportActivitySegment.first() shouldBe initialState
-            }
-
-            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeJsonPathDialog" {
-                mainScreenViewModel.onChangeJsonPath()
-                val initialState = mainScreenViewModel.exportActivitySegment.first()
-
-                mainScreenViewModel.setExportActivitySegment(enabled = !initialState)
-
-                mainScreenViewModel.exportActivitySegment.first() shouldBe initialState
-            }
-
-            "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
-                mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
-                val initialState = mainScreenViewModel.exportActivitySegment.first()
-
-                mainScreenViewModel.setExportActivitySegment(enabled = !initialState)
-
-                mainScreenViewModel.exportActivitySegment.first() shouldBe initialState
-            }
-        }
-
-        "setEnablePlacesApiLookup" - {
-            "should update enablePlacesApiLookup correctly when mainScreenUIState is Ready" {
-                val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
-
-                mainScreenViewModel.setEnablePlacesApiLookup(enabled = !initialState)
-
-                mainScreenViewModel.enablePlacesApiLookup.first() shouldBe !initialState
-            }
-
-            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeICalPathDialog" {
-                mainScreenViewModel.onChangeICalPath()
-                val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
-
-                mainScreenViewModel.setEnablePlacesApiLookup(enabled = !initialState)
-
-                mainScreenViewModel.enablePlacesApiLookup.first() shouldBe initialState
-            }
-
-            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeJsonPathDialog" {
-                mainScreenViewModel.onChangeJsonPath()
-                val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
-
-                mainScreenViewModel.setEnablePlacesApiLookup(enabled = !initialState)
-
-                mainScreenViewModel.enablePlacesApiLookup.first() shouldBe initialState
-            }
-
-            "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
-                mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
-                val initialState = mainScreenViewModel.enablePlacesApiLookup.first()
-
-                mainScreenViewModel.setEnablePlacesApiLookup(enabled = !initialState)
-
-                mainScreenViewModel.enablePlacesApiLookup.first() shouldBe initialState
-            }
-        }
-
-        "setVerboseLogs" - {
-            "should update verboseLogs correctly when mainScreenUIState is Ready" {
-                val initialState = mainScreenViewModel.verboseLogs.first()
-                mainScreenViewModel.setVerboseLogs(enabled = !initialState)
-                mainScreenViewModel.verboseLogs.first() shouldBe !initialState
-            }
-
-            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeICalPathDialog" {
-                mainScreenViewModel.onChangeICalPath()
-                val initialState = mainScreenViewModel.verboseLogs.first()
-
-                mainScreenViewModel.setVerboseLogs(enabled = !initialState)
-
-                mainScreenViewModel.verboseLogs.first() shouldBe initialState
-            }
-
-            "should keep exportPlaceVisit unchanged when mainScreenUIState is ShowChangeJsonPathDialog" {
-                mainScreenViewModel.onChangeJsonPath()
-                val initialState = mainScreenViewModel.verboseLogs.first()
-
-                mainScreenViewModel.setVerboseLogs(enabled = !initialState)
-
-                mainScreenViewModel.verboseLogs.first() shouldBe initialState
-            }
-
-            "should keep exportPlaceVisit unchanged when mainScreenUIState is Error" {
-                mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
-                val initialState = mainScreenViewModel.verboseLogs.first()
-
-                mainScreenViewModel.setVerboseLogs(enabled = !initialState)
-
-                mainScreenViewModel.verboseLogs.first() shouldBe initialState
-            }
-        }
-
-        "onChangeJsonPath" - {
-            "When mainScreenUIState is Ready" - {
-                "should set mainScreenUIState to ShowChangeJsonPathDialog" {
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.Ready
-                    mainScreenViewModel.onChangeJsonPath()
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.ChangeJsonPath
-                }
-            }
-
-            "When mainScreenUIState is ShowChangeICalPathDialog" - {
-                "should keep mainScreenUIState unchanged" {
-                    mainScreenViewModel.onChangeICalPath()
-                    mainScreenViewModel.onChangeJsonPath()
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.ChangeICalPath
-                }
-            }
-
-            "When mainScreenUIState is Error" - {
-                "should keep mainScreenUIState unchanged" {
-                    val errorMessage = "Error updating JSON path"
-                    mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
-
-                    mainScreenViewModel.onChangeJsonPath()
-
-                    val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
-                    mainScreenUIState.shouldBeTypeOf<MainScreenUIState.Error>()
-                    mainScreenUIState.errMsg shouldBe errorMessage
-                }
-            }
-        }
-
-        "onChangeICalPath" - {
-            "When mainScreenUIState is Ready" - {
-                "should set mainScreenUIState to ShowChangeJsonPathDialog" {
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.Ready
-                    mainScreenViewModel.onChangeICalPath()
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.ChangeICalPath
-                }
-            }
-
-            "When mainScreenUIState is ShowChangeICalPathDialog" - {
-                "should keep mainScreenUIState unchanged" {
-                    mainScreenViewModel.onChangeJsonPath()
-                    mainScreenViewModel.onChangeICalPath()
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.ChangeJsonPath
-                }
-            }
-
-            "When mainScreenUIState is Error" - {
-                "should keep mainScreenUIState unchanged" {
-                    val errorMessage = "Error updating JSON path"
-                    mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
-
-                    mainScreenViewModel.onChangeICalPath()
-
-                    val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
-                    mainScreenUIState.shouldBeTypeOf<MainScreenUIState.Error>()
-                    mainScreenUIState.errMsg shouldBe errorMessage
-                }
-            }
-        }
-
-        "updateJsonPath" - {
-            "When JFileChooserResult is AbsolutePath" - {
-                "should correctly trim the path" {
-                    mainScreenViewModel.onChangeJsonPath()
-
-                    val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = fakeProjectBasePath + "sample-folder1/sample-folder2",
-                    )
-                    mainScreenViewModel.updateJsonPath(jFileChooserResult = jFileChooserResult)
-
-                    mainScreenViewModel.jsonPath.first() shouldBe "sample-folder1/sample-folder2"
-                }
-
-                "should set MainScreenUIState = Ready" {
-                    mainScreenViewModel.onChangeJsonPath()
-
-                    val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = fakeProjectBasePath + "sample-folder1/sample-folder2",
-                    )
-                    mainScreenViewModel.updateJsonPath(jFileChooserResult = jFileChooserResult)
-
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.Ready
-                }
-            }
-
-            "When JFileChooserResult is Cancelled" - {
-                "should set MainScreenUIState = Ready" {
-                    mainScreenViewModel.onChangeJsonPath()
-                    mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Cancelled)
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.Ready
-                }
-            }
-
-            "When JFileChooserResult is Error" - {
-                "should set MainScreenUIState = Error with correct error message" {
-                    val errorMessage = "Error updating JSON path"
-                    mainScreenViewModel.onChangeJsonPath()
-
-                    mainScreenViewModel.updateJsonPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
-
-                    val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
-                    mainScreenUIState.shouldBeTypeOf<MainScreenUIState.Error>()
-                    mainScreenUIState.errMsg shouldBe errorMessage
-                }
-            }
-        }
-
-        "updateICalPath" - {
-            "When JFileChooserResult is AbsolutePath" - {
-                "should correctly trim the path if it contains the base path" {
-                    mainScreenViewModel.onChangeICalPath()
-
-                    val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = fakeProjectBasePath + "sample-folder1/sample-folder2",
-                    )
-                    mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
-
-                    mainScreenViewModel.iCalPath.first() shouldBe "sample-folder1/sample-folder2"
-                }
-
-                "should keep the correct path if AbsolutePath does not contains the base path" {
-                    mainScreenViewModel.onChangeICalPath()
-
-                    val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = "/sample-folder3/sample-folder4",
-                    )
-                    mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
-
-                    mainScreenViewModel.iCalPath.first() shouldBe "/sample-folder3/sample-folder4"
-                }
-
-                "should set MainScreenUIState = Ready" {
-                    mainScreenViewModel.onChangeICalPath()
-
-                    val jFileChooserResult = JFileChooserResult.AbsolutePath(
-                        absolutePath = fakeProjectBasePath + "sample-folder1/sample-folder2",
-                    )
-                    mainScreenViewModel.updateICalPath(jFileChooserResult = jFileChooserResult)
-
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.Ready
-                }
-            }
-
-            "When JFileChooserResult is Cancelled" - {
-                "should set MainScreenUIState = Ready" {
-                    mainScreenViewModel.onChangeICalPath()
-                    mainScreenViewModel.updateICalPath(jFileChooserResult = JFileChooserResult.Cancelled)
-                    mainScreenViewModel.mainScreenUIState.first() shouldBe MainScreenUIState.Ready
-                }
-            }
-
-            "When JFileChooserResult is Error" - {
-                "should set MainScreenUIState = Error with correct error message" {
-                    val errorMessage = "Error updating iCal path"
-                    mainScreenViewModel.onChangeICalPath()
-
-                    mainScreenViewModel.updateICalPath(jFileChooserResult = JFileChooserResult.Error(errorCode = 521))
-
-                    val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
-                    mainScreenUIState.shouldBeTypeOf<MainScreenUIState.Error>()
-                    mainScreenUIState.errMsg shouldBe errorMessage
-                }
-            }
-        }
-
-        "notifyErrorMessageDisplayed" - {
-            "Should set MainScreenUIState = Ready" {
-                mainScreenViewModel.onChangeICalPath() // Randomly alter the UI state
-
-                mainScreenViewModel.notifyErrorMessageDisplayed()
-
-                val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
-                mainScreenUIState shouldBe MainScreenUIState.Ready
-            }
-        }
-
-        "startExport" - {
-            "Should set MainScreenUIState = Ready after running" {
-                fakeLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
-                fakeGetOutputFilenameUseCase.useCaseResponse = "/some-path/some-file-1.ics"
-                fakeTimelineRepository.getTimeLineResponse = Result.success(timeLineWithActivityVisitAndChildVisit)
-                fakeVEventFromPlaceVisitUseCase.useCaseResponse = sampleDefaultVEvent
-                fakeGetActivitySegmentVEventUseCase.useCaseResponse = sampleDefaultVEvent
-                fakeVEventFromChildVisitUseCase.useCaseResponse = sampleDefaultVEvent
-                fakeGetPlaceVisitVEventUseCase.useCaseResponse = listOf(sampleDefaultVEvent)
-
-                mainScreenViewModel.startExport()
-
-                val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
-                mainScreenUIState shouldBe MainScreenUIState.Ready
-            }
-
-            "Should set MainScreenUIState = Error if localFileRepository.getFileList returns error" {
-                fakeGetPlaceVisitVEventUseCase.useCaseResponse = listOf(sampleDefaultVEvent)
-                fakeLocalFileRepository.getFileListResponse =
-                    Result.failure(exception = Exception("some-exception-message"))
-
-                mainScreenViewModel.startExport()
-
-                val mainScreenUIState = mainScreenViewModel.mainScreenUIState.first()
-                with(mainScreenUIState as MainScreenUIState.Error) {
-                    errMsg shouldBe "☠️ Error getting json file list: some-exception-message"
-                }
-            }
-
-            "getActivitySegmentVEventUseCase" - {
-                "Should append Ignore Log if getActivitySegmentVEventUseCase returns null" {
-                    fakeLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
-                    fakeGetOutputFilenameUseCase.useCaseResponse = "/some-path/some-file-1.ics"
-                    fakeTimelineRepository.getTimeLineResponse = Result.success(timeLineWithSingleActivity)
-                    fakeVEventFromPlaceVisitUseCase.useCaseResponse = sampleDefaultVEvent
-                    fakeGetActivitySegmentVEventUseCase.useCaseResponse = null
-                    fakeVEventFromChildVisitUseCase.useCaseResponse = sampleDefaultVEvent
-                    fakeGetPlaceVisitVEventUseCase.useCaseResponse = listOf(sampleDefaultVEvent)
-
-                    mainScreenViewModel.startExport()
-
-                    val ignoredLogs = mainScreenViewModel.ignoredLogs.first()
-                    ignoredLogs shouldBe listOf(
-                        UILogEntry(emoji = "🚫", message = "08/07/2019 12:00:33: Activity FLYING"),
-                    )
-                }
-
-                "Should append Exported Log if getActivitySegmentVEventUseCase returns VEvent" {
-                    fakeLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
-                    fakeGetOutputFilenameUseCase.useCaseResponse = "/some-path/some-file-1.ics"
-                    fakeTimelineRepository.getTimeLineResponse = Result.success(timeLineWithSingleActivity)
-                    fakeVEventFromPlaceVisitUseCase.useCaseResponse = null
-                    fakeGetActivitySegmentVEventUseCase.useCaseResponse = sampleDefaultVEvent
-                    fakeVEventFromChildVisitUseCase.useCaseResponse = null
-                    fakeGetPlaceVisitVEventUseCase.useCaseResponse = null
-
-                    mainScreenViewModel.startExport()
-
-                    val exportedLogs = mainScreenViewModel.exportedLogs.first()
-                    exportedLogs shouldBe listOf(
-                        UILogEntry(emoji = "🗓", message = "12/11/2011 05:11:11: 📍 some-summary"),
-                    )
-                }
-            }
-        }
-
-        "observeGetPlaceVisitVEventUseCaseFlows" - {
-            "Should append Ignore Log if getPlaceVisitVEventUseCase.ignoredEvents emits something" {
-                TestScope(StandardTestDispatcher()).runTest {
-                    val uiLogEntry = UILogEntry(emoji = "🚫", message = "08/07/2019 12:00:33: Activity FLYING")
-
-                    fakeGetPlaceVisitVEventUseCase.emitIgnoredEvent(uiLogEntry = uiLogEntry)
-
-                    val ignoredLogs = mainScreenViewModel.ignoredLogs.first()
-                    ignoredLogs shouldBe listOf(uiLogEntry)
-                }
-            }
-
-            "Should append Exported Log if getPlaceVisitVEventUseCase.exportedEvents emits something" {
-                TestScope(StandardTestDispatcher()).runTest {
-                    val uiLogEntry = UILogEntry(emoji = "🗓", message = "12/11/2011 05:11:11: 📍 some-summary")
-
-                    fakeGetPlaceVisitVEventUseCase.emitExportedEvent(uiLogEntry = uiLogEntry)
-
-                    val exportedLogs = mainScreenViewModel.exportedLogs.first()
-                    exportedLogs shouldBe listOf(uiLogEntry)
-                }
-            }
-        }
+    }
+
+    // ➡️ getActivitySegmentVEventUseCase
+    @Test
+    fun `should append Ignore Log if getActivitySegmentVEventUseCase returns null`() = runTest {
+        fakeLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
+        fakeGetOutputFilenameUseCase.useCaseResponse = "/some-path/some-file-1.ics"
+        fakeTimelineRepository.getTimeLineResponse = Result.success(timeLineWithSingleActivity)
+        fakeVEventFromPlaceVisitUseCase.useCaseResponse = sampleDefaultVEvent
+        fakeGetActivitySegmentVEventUseCase.useCaseResponse = null
+        fakeVEventFromChildVisitUseCase.useCaseResponse = sampleDefaultVEvent
+        fakeGetPlaceVisitVEventUseCase.useCaseResponse = listOf(sampleDefaultVEvent)
+        val expectedLogs = listOf(
+            UILogEntry(emoji = "🚫", message = "08/07/2019 12:00:33: Activity FLYING"),
+        )
+
+        mainScreenViewModel.startExport()
+
+        val ignoredLogs = mainScreenViewModel.ignoredLogs.first()
+        assertEquals(expectedLogs, ignoredLogs)
+    }
+
+    @Test
+    fun `should append Exported Log if getActivitySegmentVEventUseCase returns VEvent`() = runTest {
+        fakeLocalFileRepository.getFileListResponse = Result.success(listOf("/some-path/some-file-1.json"))
+        fakeGetOutputFilenameUseCase.useCaseResponse = "/some-path/some-file-1.ics"
+        fakeTimelineRepository.getTimeLineResponse = Result.success(timeLineWithSingleActivity)
+        fakeVEventFromPlaceVisitUseCase.useCaseResponse = null
+        fakeGetActivitySegmentVEventUseCase.useCaseResponse = sampleDefaultVEvent
+        fakeVEventFromChildVisitUseCase.useCaseResponse = null
+        fakeGetPlaceVisitVEventUseCase.useCaseResponse = null
+        val expectedLogs = listOf(
+            UILogEntry(emoji = "🗓", message = "12/11/2011 05:11:11: 📍 some-summary"),
+        )
+
+        mainScreenViewModel.startExport()
+
+        val exportedLogs = mainScreenViewModel.exportedLogs.first()
+        assertEquals(expectedLogs, exportedLogs)
+    }
+
+    // 🗂️ observeGetPlaceVisitVEventUseCaseFlows
+    @Test
+    fun `should append Ignore Log if getPlaceVisitVEventUseCase,ignoredEvents emits something`() = TestScope(StandardTestDispatcher()).runTest {
+        val uiLogEntry = UILogEntry(emoji = "🚫", message = "08/07/2019 12:00:33: Activity FLYING")
+        fakeGetPlaceVisitVEventUseCase.emitIgnoredEvent(uiLogEntry = uiLogEntry)
+
+        val ignoredLogs = mainScreenViewModel.ignoredLogs.first()
+        assertEquals(listOf(uiLogEntry), ignoredLogs)
+    }
+
+    @Test
+    fun `should append Exported Log if getPlaceVisitVEventUseCase,exportedEvents emits something`() = TestScope(StandardTestDispatcher()).runTest {
+        val uiLogEntry = UILogEntry(emoji = "🗓", message = "12/11/2011 05:11:11: 📍 some-summary")
+        fakeGetPlaceVisitVEventUseCase.emitExportedEvent(uiLogEntry = uiLogEntry)
+
+        val exportedLogs = mainScreenViewModel.exportedLogs.first()
+        assertEquals(listOf(uiLogEntry), exportedLogs)
     }
 }

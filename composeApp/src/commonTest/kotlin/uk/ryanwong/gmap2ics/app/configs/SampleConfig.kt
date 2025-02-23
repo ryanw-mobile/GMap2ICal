@@ -6,7 +6,7 @@ package uk.ryanwong.gmap2ics.app.configs
 
 import uk.ryanwong.gmap2ics.domain.models.ActivityType
 
-class SampleConfig : Config {
+internal class SampleConfig : Config {
     override val jsonPath = "./src/commonMain/resources"
 
     override val icalPath = "./src/commonMain/resources"

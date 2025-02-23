@@ -1,118 +1,117 @@
 /*
- * Copyright (c) 2023-2024. Ryan Wong (hello@ryanwebmail.com)
+ * Copyright (c) 2023-2025. Ryan Wong (hello@ryanwebmail.com)
  */
 
 package uk.ryanwong.gmap2ics.domain.models.timeline
 
-import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.shouldBe
+import junit.framework.TestCase.assertNull
+import uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocationDto
+import uk.ryanwong.gmap2ics.data.models.timeline.LocationDto
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class LocationMapperTest : FreeSpec() {
-    init {
-        "from Location Data Model" - {
-            "should convert locationDataModel to Location Domain Model correctly" - {
-                val locationDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(
-                    address = "some-address",
-                    latitudeE7 = 343970563,
-                    longitudeE7 = 1324677422,
-                    locationConfidence = 0.987654,
-                    name = "some-name",
-                    placeId = "some-place-id",
-                )
+internal class LocationMapperTest {
+    @Test
+    fun `returns Location domain model when LocationDto has valid latitudeE7 and longitudeE7`() {
+        val locationDtoDataModel = LocationDto(
+            address = "some-address",
+            latitudeE7 = 343970563,
+            longitudeE7 = 1324677422,
+            locationConfidence = 0.987654,
+            name = "some-name",
+            placeId = "some-place-id",
+        )
+        val expectedLocationDomainModel = Location(
+            placeId = "some-place-id",
+            latitudeE7 = 343970563,
+            longitudeE7 = 1324677422,
+            name = "some-name",
+            address = "some-address",
+        )
 
-                val locationDomainModel = locationDtoDataModel.toDomainModel()
+        val locationDomainModel = locationDtoDataModel.toDomainModel()
+        assertEquals(expectedLocationDomainModel, locationDomainModel)
+    }
 
-                locationDomainModel shouldBe Location(
-                    placeId = "some-place-id",
-                    latitudeE7 = 343970563,
-                    longitudeE7 = 1324677422,
-                    name = "some-name",
-                    address = "some-address",
-                )
-            }
+    @Test
+    fun `returns null when LocationDto does not contain latitudeE7`() {
+        val locationDtoDataModel = LocationDto(
+            address = "some-address",
+            latitudeE7 = null,
+            longitudeE7 = 1324677422,
+            locationConfidence = 0.987654,
+            name = "some-name",
+            placeId = "some-place-id",
+        )
 
-            "should return null if locationDataModel does not contain latitudeE7" {
-                val locationDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(
-                    address = "some-address",
-                    latitudeE7 = null,
-                    longitudeE7 = 1324677422,
-                    locationConfidence = 0.987654,
-                    name = "some-name",
-                    placeId = "some-place-id",
-                )
+        val locationDomainModel = locationDtoDataModel.toDomainModel()
+        assertNull(locationDomainModel)
+    }
 
-                val locationDomainModel = locationDtoDataModel.toDomainModel()
+    @Test
+    fun `returns null when LocationDto does not contain longitudeE7`() {
+        val locationDtoDataModel = LocationDto(
+            address = "some-address",
+            latitudeE7 = 343970563,
+            longitudeE7 = null,
+            locationConfidence = 0.987654,
+            name = "some-name",
+            placeId = "some-place-id",
+        )
 
-                locationDomainModel shouldBe null
-            }
+        val locationDomainModel = locationDtoDataModel.toDomainModel()
+        assertNull(locationDomainModel)
+    }
 
-            "should return null if locationDataModel does not contain longitudeE7" {
-                val locationDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(
-                    address = "some-address",
-                    latitudeE7 = 343970563,
-                    longitudeE7 = null,
-                    locationConfidence = 0.987654,
-                    name = "some-name",
-                    placeId = "some-place-id",
-                )
+    @Test
+    fun `returns Location domain model when ActivityLocationDto has valid latitudeE7 and longitudeE7`() {
+        val activityLocationDtoDataModel = ActivityLocationDto(
+            address = "some-address",
+            latitudeE7 = 343970563,
+            longitudeE7 = 1324677422,
+            locationConfidence = 0.987654,
+            name = "some-name",
+            placeId = "some-place-id",
+        )
+        val expectedLocationDomainModel = Location(
+            placeId = "some-place-id",
+            latitudeE7 = 343970563,
+            longitudeE7 = 1324677422,
+            name = "some-name",
+            address = "some-address",
+        )
 
-                val locationDomainModel = locationDtoDataModel.toDomainModel()
+        val locationDomainModel = activityLocationDtoDataModel.toDomainModel()
+        assertEquals(expectedLocationDomainModel, locationDomainModel)
+    }
 
-                locationDomainModel shouldBe null
-            }
-        }
+    @Test
+    fun `returns null when ActivityLocationDto does not contain latitudeE7`() {
+        val activityLocationDtoDataModel = ActivityLocationDto(
+            address = "some-address",
+            latitudeE7 = null,
+            longitudeE7 = 1324677422,
+            locationConfidence = 0.987654,
+            name = "some-name",
+            placeId = "some-place-id",
+        )
 
-        "from ActivityLocation Data Model" - {
-            "should convert activityLocationDataModel to Location Domain Model correctly" - {
-                val activityLocationDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocationDto(
-                    address = "some-address",
-                    latitudeE7 = 343970563,
-                    longitudeE7 = 1324677422,
-                    locationConfidence = 0.987654,
-                    name = "some-name",
-                    placeId = "some-place-id",
-                )
+        val locationDomainModel = activityLocationDtoDataModel.toDomainModel()
+        assertNull(locationDomainModel)
+    }
 
-                val locationDomainModel = activityLocationDtoDataModel.toDomainModel()
+    @Test
+    fun `returns null when ActivityLocationDto does not contain longitudeE7`() {
+        val activityLocationDtoDataModel = ActivityLocationDto(
+            address = "some-address",
+            latitudeE7 = 343970563,
+            longitudeE7 = null,
+            locationConfidence = 0.987654,
+            name = "some-name",
+            placeId = "some-place-id",
+        )
 
-                locationDomainModel shouldBe Location(
-                    placeId = "some-place-id",
-                    latitudeE7 = 343970563,
-                    longitudeE7 = 1324677422,
-                    name = "some-name",
-                    address = "some-address",
-                )
-            }
-
-            "should return null if activityLocationDataModel does not contain latitudeE7" {
-                val activityLocationDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocationDto(
-                    address = "some-address",
-                    latitudeE7 = null,
-                    longitudeE7 = 1324677422,
-                    locationConfidence = 0.987654,
-                    name = "some-name",
-                    placeId = "some-place-id",
-                )
-
-                val locationDomainModel = activityLocationDtoDataModel.toDomainModel()
-
-                locationDomainModel shouldBe null
-            }
-
-            "should return null if activityLocationDataModel does not contain longitudeE7" {
-                val activityLocationDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.ActivityLocationDto(
-                    address = "some-address",
-                    latitudeE7 = 343970563,
-                    longitudeE7 = null,
-                    locationConfidence = 0.987654,
-                    name = "some-name",
-                    placeId = "some-place-id",
-                )
-
-                val locationDomainModel = activityLocationDtoDataModel.toDomainModel()
-
-                locationDomainModel shouldBe null
-            }
-        }
+        val locationDomainModel = activityLocationDtoDataModel.toDomainModel()
+        assertNull(locationDomainModel)
     }
 }

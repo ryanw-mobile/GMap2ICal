@@ -1,23 +1,19 @@
 /*
- * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
+ * Copyright (c) 2022-2025. Ryan Wong (hello@ryanwebmail.com)
  */
 
 package uk.ryanwong.gmap2ics.domain.models.timeline
 
-import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.shouldBe
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-internal class LatLngTest : FreeSpec() {
-    init {
-        "getFormattedLatLng" - {
-            "should return rounded LatLng in a correct format" {
-                val latitude = 12.1234567
-                val longitude = 123.1234567
+internal class LatLngTest {
+    @Test
+    fun `returns formatted latlng when given latlng`() {
+        val latitude = 12.1234567
+        val longitude = 123.1234567
+        val latlng = LatLng(latitude = latitude, longitude = longitude)
 
-                val latlng = LatLng(latitude = latitude, longitude = longitude)
-
-                latlng.getFormattedLatLng() shouldBe "12.123457,123.123457"
-            }
-        }
+        assertEquals("12.123457,123.123457", latlng.getFormattedLatLng())
     }
 }
