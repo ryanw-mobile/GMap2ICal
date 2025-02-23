@@ -5,14 +5,15 @@
 package uk.ryanwong.gmap2ics.domain.models.timeline.activity
 
 import uk.ryanwong.gmap2ics.data.models.timeline.RoadSegmentDto
+import uk.ryanwong.gmap2ics.data.models.timeline.WaypointPathDto
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class WaypointPathMapperTest {
 
     @Test
-    fun `toDomainModel() should correctly map Data Model to Domain Model`() {
-        val waypointPathDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPathDto(
+    fun `returns correct WaypointPath when all fields are valid`() {
+        val waypointPathDtoDataModel = WaypointPathDto(
             confidence = 98.7,
             distanceMeters = 123.45,
             roadSegment = listOf(
@@ -33,8 +34,8 @@ internal class WaypointPathMapperTest {
     }
 
     @Test
-    fun `toDomainModel() should still correctly map Data Model to Domain Model when distanceMeters is null`() {
-        val waypointPathDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPathDto(
+    fun `returns correct WaypointPath when distanceMeters is null`() {
+        val waypointPathDtoDataModel = WaypointPathDto(
             confidence = 98.7,
             distanceMeters = null,
             roadSegment = listOf(
@@ -55,8 +56,8 @@ internal class WaypointPathMapperTest {
     }
 
     @Test
-    fun `toDomainModel() should still correctly map Data Model to Domain Model when roadSegment is null`() {
-        val waypointPathDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPathDto(
+    fun `returns correct WaypointPath when roadSegment is null`() {
+        val waypointPathDtoDataModel = WaypointPathDto(
             confidence = 98.7,
             distanceMeters = 123.45,
             roadSegment = null,
@@ -73,8 +74,8 @@ internal class WaypointPathMapperTest {
     }
 
     @Test
-    fun `toDomainModel() should still correctly map Data Model to Domain Model when roadSegment contains some invalid entries`() {
-        val waypointPathDtoDataModel = uk.ryanwong.gmap2ics.data.models.timeline.WaypointPathDto(
+    fun `returns correct WaypointPath when roadSegment contains null placeIds`() {
+        val waypointPathDtoDataModel = WaypointPathDto(
             confidence = 98.7,
             distanceMeters = 123.45,
             roadSegment = listOf(

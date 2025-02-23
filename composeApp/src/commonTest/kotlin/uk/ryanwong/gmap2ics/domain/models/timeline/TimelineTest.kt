@@ -15,7 +15,7 @@ internal class TimelineTest {
     private lateinit var fakeTimeZoneMap: FakeTimeZoneMap
 
     @Test
-    fun `Timeline should return correct Timeline`() {
+    fun `returns correct Timeline when timelineObjectsDto is valid`() {
         fakeTimeZoneMap = FakeTimeZoneMap().apply {
             zoneId = "Europe/London"
         }
@@ -26,7 +26,7 @@ internal class TimelineTest {
     }
 
     @Test
-    fun `Timeline should still return Timeline with empty list if timelineObjects is null`() {
+    fun `returns Timeline with empty list when timelineObjects is null`() {
         fakeTimeZoneMap = FakeTimeZoneMap().apply {
             zoneId = "Europe/London"
         }

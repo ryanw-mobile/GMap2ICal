@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 
 internal class LocationTest {
     @Test
-    fun `Location should return correct formatted values`() {
+    fun `returns correct formatted values when all parameters are valid`() {
         val location = Location(
             placeId = "some-place-id",
             latitudeE7 = 343970563,
@@ -34,7 +34,7 @@ internal class LocationTest {
     }
 
     @Test
-    fun `getGoogleMapsPlaceIdLink should return empty string if placeId is null`() {
+    fun `returns empty string when placeId is null`() {
         val location = Location(
             placeId = null,
             latitudeE7 = 1,

@@ -52,7 +52,7 @@ internal class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `getFileList should return correct file list if the file path exists`() = testScope.runTest {
+    fun `returns correct file list when file path exists`() = testScope.runTest {
         val absolutePath = tempDir.absolutePath
         val extension = "json"
         val expectedFileList = tempFileList.mapNotNull { file ->
@@ -73,7 +73,7 @@ internal class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `getFileList should return empty list if no files matching the extension`() = testScope.runTest {
+    fun `returns empty list when no files matching the extension`() = testScope.runTest {
         val absolutePath = tempDir.absolutePath
         val extension = "some-strange-extension"
 
@@ -87,7 +87,7 @@ internal class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `getFileList should return failure if the file path is invalid`() = testScope.runTest {
+    fun `returns failure when file path is invalid`() = testScope.runTest {
         val absolutePath = tempDir.absolutePath + "/some-invalid-file-path"
         val extension = ".json"
 
@@ -101,7 +101,7 @@ internal class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `readStringFromFile should return correct file contents if the file exists`() = testScope.runTest {
+    fun `returns correct file contents when file exists`() = testScope.runTest {
         val absolutePath = tempDir.absolutePath + "/some-temp-file-5"
         val actualFileContents = localDataSource.readStringFromFile(filePath = absolutePath)
         assertEquals("some-file-contents", actualFileContents)
@@ -109,7 +109,7 @@ internal class LocalDataSourceImplTest {
 
     @Test
     fun `readStringFromFile should throw FileNotFoundException if the file does not exist`() = testScope.runTest {
-        val absolutePath = tempDir.absolutePath + "/some-invalid-file-path"
+        val absolutePath = tempDir.absolutePath + "/some-invalid-file"
 
         val exception = assertFailsWith<FileNotFoundException> {
             localDataSource.readStringFromFile(filePath = absolutePath)
@@ -118,7 +118,7 @@ internal class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `fileWriter should correctly write the contents to the specified filepath`() = testScope.runTest {
+    fun `writes contents correctly to file path`() = testScope.runTest {
         val absolutePath = tempDir.absolutePath + "/some-file-writer-path"
         val expectedContents = "some-contents\\nsome-more-contents"
 
@@ -133,7 +133,7 @@ internal class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `fileWriter should return Failure if the given file path is not writable`() = testScope.runTest {
+    fun `returns failure when given file path is not writable`() = testScope.runTest {
         val absolutePath = tempDir.absolutePath
 
         val result = localDataSource.fileWriter(

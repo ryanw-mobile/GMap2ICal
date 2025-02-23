@@ -30,7 +30,7 @@ internal class LocalFileRepositoryImplTest {
     }
 
     @Test
-    fun `getFileList should return a list of filenames if datasource request success`() = runTest {
+    fun `returns file list when datasource request succeeds`() = runTest {
         val expectedFileList = Result.success(
             listOf(
                 "/some-absolute-path/some-file-1",
@@ -49,7 +49,7 @@ internal class LocalFileRepositoryImplTest {
     }
 
     @Test
-    fun `getFileList should return failure if datasource returns error`() = runTest {
+    fun `returns failure when datasource returns error`() = runTest {
         val expectedFileList: Result<List<String>> = Result.failure(Exception("some-data-source-exception"))
         localDataSource.getFileListResponse = expectedFileList
 
@@ -62,7 +62,7 @@ internal class LocalFileRepositoryImplTest {
     }
 
     @Test
-    fun `exportICal should export iCal with correct filename and contents`() = runTest {
+    fun `exports iCal with correct filename and contents when fileWriter succeeds`() = runTest {
         localDataSource.fileWriterResponse = Result.success(Unit)
         val vEventList = listOf(
             VEvent(
@@ -145,7 +145,7 @@ internal class LocalFileRepositoryImplTest {
     }
 
     @Test
-    fun `exportICal should return Result-failure if data source return error`() = runTest {
+    fun `returns failure when fileWriter returns error`() = runTest {
         localDataSource.fileWriterResponse = Result.failure(exception = IOException())
         val vEventList = listOf(
             VEvent(

@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 internal class ActivityTypeTest {
 
     @Test
-    fun `parse() should convert correctly from known ActivityType strings to the Enums`() {
+    fun `returns correct enum when input is a known activity type`() {
         val knownActivityTypes = mapOf(
             "BOATING" to ActivityType.BOATING,
             "CYCLING" to ActivityType.CYCLING,
@@ -40,14 +40,14 @@ internal class ActivityTypeTest {
     }
 
     @Test
-    fun `parse() should return ActivityType-UNKNOWN_ACTIVITY_TYPE for unknown strings`() {
+    fun `returns UNKNOWN_ACTIVITY_TYPE when input is an unknown activity type`() {
         val unknownActivityString = "some-unknown-activity-type"
         val actualActivityTypeEnum = ActivityType.parse(activityType = unknownActivityString)
         assertEquals(ActivityType.UNKNOWN_ACTIVITY_TYPE, actualActivityTypeEnum)
     }
 
     @Test
-    fun `parse() should return ActivityType-UNKNOWN_ACTIVITY_TYPE for null input`() {
+    fun `returns UNKNOWN_ACTIVITY_TYPE when input is null`() {
         val unknownActivityString = null
         val actualActivityTypeEnum = ActivityType.parse(activityType = unknownActivityString)
         assertEquals(ActivityType.UNKNOWN_ACTIVITY_TYPE, actualActivityTypeEnum)

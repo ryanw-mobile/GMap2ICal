@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 
 internal class LocationMapperTest {
     @Test
-    fun `from Location Data Model should convert locationDataModel to Location Domain Model correctly`() {
+    fun `returns Location domain model when LocationDto has valid latitudeE7 and longitudeE7`() {
         val locationDtoDataModel = LocationDto(
             address = "some-address",
             latitudeE7 = 343970563,
@@ -34,7 +34,7 @@ internal class LocationMapperTest {
     }
 
     @Test
-    fun `from Location Data Model should return null if locationDataModel does not contain latitudeE7`() {
+    fun `returns null when LocationDto does not contain latitudeE7`() {
         val locationDtoDataModel = LocationDto(
             address = "some-address",
             latitudeE7 = null,
@@ -49,7 +49,7 @@ internal class LocationMapperTest {
     }
 
     @Test
-    fun `from Location Data Model should return null if locationDataModel does not contain longitudeE7`() {
+    fun `returns null when LocationDto does not contain longitudeE7`() {
         val locationDtoDataModel = LocationDto(
             address = "some-address",
             latitudeE7 = 343970563,
@@ -64,7 +64,7 @@ internal class LocationMapperTest {
     }
 
     @Test
-    fun `from ActivityLocation Data Model should convert activityLocationDataModel to Location Domain Model correctly`() {
+    fun `returns Location domain model when ActivityLocationDto has valid latitudeE7 and longitudeE7`() {
         val activityLocationDtoDataModel = ActivityLocationDto(
             address = "some-address",
             latitudeE7 = 343970563,
@@ -86,7 +86,7 @@ internal class LocationMapperTest {
     }
 
     @Test
-    fun `from ActivityLocation Data Model should return null if activityLocationDataModel does not contain latitudeE7`() {
+    fun `returns null when ActivityLocationDto does not contain latitudeE7`() {
         val activityLocationDtoDataModel = ActivityLocationDto(
             address = "some-address",
             latitudeE7 = null,
@@ -101,7 +101,7 @@ internal class LocationMapperTest {
     }
 
     @Test
-    fun `from ActivityLocation Data Model should return null if activityLocationDataModel does not contain longitudeE7`() {
+    fun `returns null when ActivityLocationDto does not contain longitudeE7`() {
         val activityLocationDtoDataModel = ActivityLocationDto(
             address = "some-address",
             latitudeE7 = 343970563,

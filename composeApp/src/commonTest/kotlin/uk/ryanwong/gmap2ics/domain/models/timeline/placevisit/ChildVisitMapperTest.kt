@@ -38,7 +38,7 @@ internal class ChildVisitMapperTest {
     )
 
     @Test
-    fun `ChildVisitMapper should correctly map Data Model to Domain Model`() {
+    fun `returns ChildVisit domain model when data model has valid data`() {
         fakeTimeZoneMap = FakeTimeZoneMap().apply {
             zoneId = "Europe/London"
         }
@@ -63,7 +63,7 @@ internal class ChildVisitMapperTest {
     }
 
     @Test
-    fun `ChildVisitMapper should return null if Domain Model has no valid Location`() {
+    fun `returns null when data model has no valid location`() {
         fakeTimeZoneMap = FakeTimeZoneMap()
         val childVisitDataModel = childVisitDto.copy(
             location = uk.ryanwong.gmap2ics.data.models.timeline.LocationDto(),
@@ -75,7 +75,7 @@ internal class ChildVisitMapperTest {
     }
 
     @Test
-    fun `ChildVisitMapper should return null if Domain Model has no valid Duration`() {
+    fun `returns null when data model has no valid duration`() {
         fakeTimeZoneMap = FakeTimeZoneMap()
         val childVisitDataModel = childVisitDto.copy(
             duration = null,

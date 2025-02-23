@@ -79,6 +79,8 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * [Ktlint Gradle](https://github.com/jlleitschuh/ktlint-gradle) - ktlint plugin to check and apply code autoformat
 * [Mend Renovate](https://www.mend.io/free-developer-tools/renovate/) - automatic dependency updates
 
+I use Generative AI to name all my unit test functions.
+
 ## How to export the Google Maps Timeline as the data set for processing
 
 <div style="text-align:center"><img src="preview.png" style="width: 100%; max-width: 1000px; height: auto;" /></div>.

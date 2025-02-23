@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 internal class PlaceDetailsTest {
 
     @Test
-    fun `PlaceDetails should convert correctly from placeDetailsResultDto to PLaceDetails`() {
+    fun `returns correct PlaceDetails when converting from placeDetailsResultDto`() {
         val placeDetailsResult = placeDetailsResultDto
         val expectedPlaceDetails = PlaceDetails(
             placeId = "ChIJOX4_ortjeUgR2_LUcFpvLg4",
@@ -34,7 +34,7 @@ internal class PlaceDetailsTest {
     }
 
     @Test
-    fun `getFormattedName should format the name with a correct emoji if PlaceType is known`() {
+    fun `returns correct formatted name with emoji when place type is known`() {
         val placeDetails = PlaceDetails(
             placeId = "some-place-id",
             name = "some-name",
@@ -55,7 +55,7 @@ internal class PlaceDetailsTest {
     }
 
     @Test
-    fun `getFormattedName should format the name with a default emoji for unknown PlaceType`() {
+    fun `returns default emoji when place type is unknown`() {
         val placeDetails = PlaceDetails(
             placeId = "some-place-id",
             name = "some-name",

@@ -19,7 +19,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-class GetActivitySegmentVEventUseCaseImplTest {
+internal class GetActivitySegmentVEventUseCaseImplTest {
 
     private lateinit var getActivitySegmentVEventUseCase: GetActivitySegmentVEventUseCase
     private lateinit var fakeVEventFromActivitySegmentUseCase: FakeVEventFromActivitySegmentUseCase
@@ -51,7 +51,7 @@ class GetActivitySegmentVEventUseCaseImplTest {
     }
 
     @Test
-    fun `When enablePlaceApiLookup is true, should return VEvent correctly if ActivitySegment supplied is not in the ignoredActivityType`() = runTest {
+    fun `returns VEvent when enablePlaceApiLookup is true and ActivitySegment not in ignored list`() = runTest {
         val activitySegment = VEventTestData.activitySegment // Conversion is faked so doesn't matter
         val ignoredActivityType = listOf(ActivityType.STILL)
         val enablePlacesApiLookup = true
@@ -67,7 +67,7 @@ class GetActivitySegmentVEventUseCaseImplTest {
     }
 
     @Test
-    fun `When enablePlaceApiLookup is false, should return VEvent correctly if ActivitySegment supplied is not in the ignoredActivityType`() = runTest {
+    fun `returns VEvent when enablePlaceApiLookup is false and ActivitySegment not in ignored list`() = runTest {
         val activitySegment = VEventTestData.activitySegment
         val ignoredActivityType = listOf(ActivityType.STILL)
         val enablePlacesApiLookup = false
@@ -83,7 +83,7 @@ class GetActivitySegmentVEventUseCaseImplTest {
     }
 
     @Test
-    fun `Should return null if ActivitySegment supplied is in the ignoredActivityType`() = runTest {
+    fun `returns null when ActivitySegment is in ignored list`() = runTest {
         val activitySegment = VEventTestData.activitySegment // ActivityType inside matters
         val ignoredActivityType = listOf(ActivityType.IN_VEHICLE)
         val enablePlacesApiLookup = true

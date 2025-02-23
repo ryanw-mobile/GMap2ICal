@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
+ * Copyright (c) 2022-2025. Ryan Wong (hello@ryanwebmail.com)
  */
 
 package uk.ryanwong.gmap2ics.app.utils.timezonemap
@@ -26,7 +26,7 @@ internal class TimeZoneMapImplTest {
     }
 
     @Test
-    fun `getOverlappingTimeZone should return correct zoneId for Japan coordinates`() {
+    fun `returns correct zoneId when coordinates are in Japan`() {
         val degreesLatitude = 26.217072
         val degreesLongitude = 127.719477
 
@@ -39,7 +39,7 @@ internal class TimeZoneMapImplTest {
     }
 
     @Test
-    fun `getOverlappingTimeZone should return correct zoneId for Korea coordinates`() {
+    fun `returns correct zoneId when coordinates are in Korea`() {
         val degreesLatitude = 37.55108
         val degreesLongitude = 126.988148
 
@@ -52,7 +52,7 @@ internal class TimeZoneMapImplTest {
     }
 
     @Test
-    fun `getOverlappingTimeZone should return correct zoneId for UK coordinates`() {
+    fun `returns correct zoneId when coordinates are in UK`() {
         val degreesLatitude = 52.090277
         val degreesLongitude = 1.448719
 

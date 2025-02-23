@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024. Ryan Wong (hello@ryanwebmail.com)
+ * Copyright (c) 2022-2025. Ryan Wong (hello@ryanwebmail.com)
  */
 
 package uk.ryanwong.gmap2ics.domain.models
@@ -12,7 +12,7 @@ import kotlin.test.assertFailsWith
 internal class RawTimestampTest {
 
     @Test
-    fun `toLocalizedTimestamp should return correct localized Time Stamp for good timestamp and timezoneId`() {
+    fun `returns correct localized timestamp when timestamp and timezoneId are valid`() {
         val timestamp = "2011-11-11T11:22:22.222Z"
         val timezoneId = "Asia/Tokyo"
 
@@ -22,7 +22,7 @@ internal class RawTimestampTest {
     }
 
     @Test
-    fun `toLocalizedTimestamp should return exception if timezoneId is invalid`() {
+    fun `throws ZoneRulesException when timezoneId is invalid`() {
         val timestamp = "2011-11-11T11:22:22.222Z"
         val timezoneId = "some-incorrect-timezoneid"
 
@@ -35,7 +35,7 @@ internal class RawTimestampTest {
     }
 
     @Test
-    fun `toLocalizedTimestamp should return exception if timestamp is invalid`() {
+    fun `throws DateTimeParseException when timestamp is invalid`() {
         val timestamp = "some-invalid-timestamp"
         val timezoneId = "Asia/Tokyo"
 
@@ -48,18 +48,17 @@ internal class RawTimestampTest {
     }
 
     @Test
-    fun `toUITimestamp should return correct UI Time Stamp for good timestamp and timezoneId`() {
+    fun `returns correct UI timestamp when timestamp and timezoneId are valid`() {
         val timestamp = "2011-12-13T11:22:22.222Z"
         val timezoneId = "Asia/Tokyo"
 
-        val formattedTimeStamp =
-            RawTimestamp(timestamp = timestamp, timezoneId = timezoneId).toUITimestamp()
+        val formattedTimeStamp = RawTimestamp(timestamp = timestamp, timezoneId = timezoneId).toUITimestamp()
 
         assertEquals("13/12/2011 20:22:22", formattedTimeStamp)
     }
 
     @Test
-    fun `toUITimestamp should return exception if timezoneId is invalid`() {
+    fun `throws ZoneRulesException when timezoneId is invalid in toUITimestamp`() {
         val timestamp = "2011-11-11T11:22:22.222Z"
         val timezoneId = "some-incorrect-timezoneid"
 
@@ -72,7 +71,7 @@ internal class RawTimestampTest {
     }
 
     @Test
-    fun `toUITimestamp should return exception if timestamp is invalid`() {
+    fun `throws DateTimeParseException when timestamp is invalid in toUITimestamp`() {
         val timestamp = "some-invalid-timestamp"
         val timezoneId = "Asia/Tokyo"
 

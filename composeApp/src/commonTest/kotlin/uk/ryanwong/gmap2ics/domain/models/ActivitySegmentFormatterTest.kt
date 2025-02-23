@@ -15,7 +15,7 @@ internal class ActivitySegmentFormatterTest {
      * Test plan: Simply to protect changes by matching the string outputs.
      */
     @Test
-    fun `parseActivityRouteText should format string using startPlaceDetails if it is not null and endPlaceDetails is null`() {
+    fun `formats route text using startPlaceDetails when startPlaceDetails is not null and endPlaceDetails is null`() {
         val startPlaceDetails = PlaceDetails(
             placeId = "some-place-id",
             name = "some-start-name",
@@ -42,7 +42,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `parseActivityRouteText should format string using endPlaceDetails if it is not null and startPlaceDetails is null`() {
+    fun `formats route text using endPlaceDetails when endPlaceDetails is not null and startPlaceDetails is null`() {
         val startPlaceDetails = null
         val endPlaceDetails = PlaceDetails(
             placeId = "some-place-id",
@@ -69,7 +69,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `parseActivityRouteText should format string using startPlaceDetails and endPlaceDetails if both are not null`() {
+    fun `formats route text using startPlaceDetails and endPlaceDetails when both are not null`() {
         val startPlaceDetails = PlaceDetails(
             placeId = "some-place-id",
             name = "some-start-name",
@@ -106,7 +106,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `parseActivityRouteText should format string using startLocation and endLocation if both PlaceDetails are null`() {
+    fun `formats route text using startLocation and endLocation when both PlaceDetails are null`() {
         val startPlaceDetails = null
         val endPlaceDetails = null
         val startLocation = "some-start-location"
@@ -123,7 +123,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `parseActivityRouteText should return an empty string if all arguments are null`() {
+    fun `returns empty string when all arguments are null`() {
         val startPlaceDetails = null
         val endPlaceDetails = null
         val startLocation = null
@@ -140,7 +140,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `parseTimelineDescription should format string using startPlaceDetails if it is not null`() {
+    fun `formats timeline description using startPlaceDetails when startPlaceDetails is not null`() {
         val startPlaceDetails = PlaceDetails(
             placeId = "some-place-id",
             name = "some-start-name",
@@ -167,7 +167,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `parseTimelineDescription should format string using endPlaceDetails if it is not null`() {
+    fun `formats timeline description using endPlaceDetails when endPlaceDetails is not null`() {
         val startPlaceDetails = null
         val endPlaceDetails = PlaceDetails(
             placeId = "some-place-id",
@@ -194,7 +194,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `parseTimelineDescription should format string using startPlaceDetails and endPlaceDetails if both are not null`() {
+    fun `formats timeline description using startPlaceDetails and endPlaceDetails when both are not null`() {
         val startPlaceDetails = PlaceDetails(
             placeId = "some-place-id",
             name = "some-start-name",
@@ -231,7 +231,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `parseTimelineDescription should format string using startLocation and endLocation if both PlaceDetails are null`() {
+    fun `formats timeline description using startLocation and endLocation when both PlaceDetails are null`() {
         val startPlaceDetails = null
         val endPlaceDetails = null
         val startLocationText = "some-start-location-text"
@@ -248,7 +248,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `getStartLocationText should format string using placeDetails if it is not null`() {
+    fun `formats start location text using placeDetails when placeDetails is not null`() {
         val startLocation = Location(
             placeId = "some-place-id",
             latitudeE7 = 121234567,
@@ -277,7 +277,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `getStartLocationText should format string using startLocation if placeDetails is null`() {
+    fun `formats start location text using startLocation when placeDetails is null`() {
         val startLocation = Location(
             placeId = "some-place-id",
             latitudeE7 = 121234567,
@@ -296,7 +296,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `getEndLocationText should format string using placeDetails if it is not null`() {
+    fun `formats end location text using placeDetails when placeDetails is not null`() {
         val endLocation = Location(
             placeId = "some-place-id",
             latitudeE7 = 121234567,
@@ -325,7 +325,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `getEndLocationText should format string using endLocation if placeDetails is null`() {
+    fun `formats end location text using endLocation when placeDetails is null`() {
         val endLocation = Location(
             placeId = "some-place-id",
             latitudeE7 = 121234567,
@@ -344,7 +344,7 @@ internal class ActivitySegmentFormatterTest {
     }
 
     @Test
-    fun `kilometersToMiles should return correct miles`() {
+    fun `returns correct miles when converting kilometers to miles`() {
         val meters = 3000.0
         val miles = ActivitySegmentFormatter.kilometersToMiles(meters = meters)
         assertEquals(1863.0, miles)

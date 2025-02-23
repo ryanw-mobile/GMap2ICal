@@ -40,7 +40,7 @@ internal class KtorGoogleApiDataSourceTest {
     }
 
     @Test
-    fun `getMapsApiPlaceDetails should return PlaceDetails correctly if API request is successful`() = runTest {
+    fun `returns PlaceDetails when API request is successful`() = runTest {
         setupDataSource(
             status = HttpStatusCode.OK,
             contentType = "application/json",
@@ -58,7 +58,7 @@ internal class KtorGoogleApiDataSourceTest {
     }
 
     @Test
-    fun `getMapsApiPlaceDetails should return Failure-GetPlaceDetailsAPIErrorException if API request returns error message`() = runTest {
+    fun `throws PlaceDetailsNotFoundException when API request returns error message`() = runTest {
         setupDataSource(
             status = HttpStatusCode.OK,
             contentType = "application/json",
@@ -79,7 +79,7 @@ internal class KtorGoogleApiDataSourceTest {
     }
 
     @Test
-    fun `getMapsApiPlaceDetails should throw NoTransformationFoundException if API request throws an exception`() = runTest {
+    fun `throws NoTransformationFoundException when API request throws an exception`() = runTest {
         setupDataSource(
             status = HttpStatusCode.InternalServerError,
             contentType = "text/plain",

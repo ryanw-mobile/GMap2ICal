@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 
 internal class LatLngTest {
     @Test
-    fun `getFormattedLatLng should return rounded LatLng in a correct format`() {
+    fun `returns formatted latlng when given latlng`() {
         val latitude = 12.1234567
         val longitude = 123.1234567
         val latlng = LatLng(latitude = latitude, longitude = longitude)

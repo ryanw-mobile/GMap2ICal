@@ -65,7 +65,7 @@ internal class ActivitySegmentMapperTest {
     )
 
     @Test
-    fun `toDomainModel() should convert correctly from ActivitySegment Data Model to Domain Model`() {
+    fun `returns correct DomainModel when ActivitySegment DataModel is valid`() {
         val activitySegmentDataModel = activitySegmentDto
         fakeTimeZoneMap = FakeTimeZoneMap().apply {
             zoneId = "Asia/Tokyo"
@@ -77,7 +77,7 @@ internal class ActivitySegmentMapperTest {
     }
 
     @Test
-    fun `toDomainModel() should still convert correctly from Data Model to Domain Model when rawActivityType is null`() {
+    fun `returns correct DomainModel when rawActivityType is null`() {
         val activitySegmentDataModel = activitySegmentDto.copy(
             activityType = null,
         )
@@ -94,7 +94,7 @@ internal class ActivitySegmentMapperTest {
     }
 
     @Test
-    fun `toDomainModel() should still convert correctly from Data Model to Domain Model when activities is null`() {
+    fun `returns correct DomainModel when activities is null`() {
         val activitySegmentDataModel = activitySegmentDto.copy(
             activities = null,
         )
@@ -110,7 +110,7 @@ internal class ActivitySegmentMapperTest {
     }
 
     @Test
-    fun `toDomainModel() should still convert correctly from Data Model to Domain Model when rawActivityType is not defined in the Enums`() {
+    fun `returns correct DomainModel when rawActivityType is not defined in the Enums`() {
         val activitySegmentDataModel = activitySegmentDto.copy(
             activityType = "some-strange-activity-type",
         )
@@ -127,7 +127,7 @@ internal class ActivitySegmentMapperTest {
     }
 
     @Test
-    fun `toDomainModel() should return null if start location is null`() {
+    fun `returns null when start location is null`() {
         val activitySegmentDataModel = activitySegmentDto.copy(
             startLocation = ActivityLocationDto(),
         )
@@ -140,7 +140,7 @@ internal class ActivitySegmentMapperTest {
     }
 
     @Test
-    fun `toDomainModel() should return null if end location is null`() {
+    fun `returns null when end location is null`() {
         val activitySegmentDataModel = activitySegmentDto.copy(
             endLocation = ActivityLocationDto(),
         )

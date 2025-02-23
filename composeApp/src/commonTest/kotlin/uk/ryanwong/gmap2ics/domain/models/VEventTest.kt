@@ -32,7 +32,7 @@ internal class VEventTest {
      */
 
     @Test
-    fun `VEvent should convert ActivitySegment with PlaceDetails to VEvent correctly`() {
+    fun `returns VEvent with correct data when ActivitySegment has PlaceDetails`() {
         val activitySegment = activitySegment
         val shouldShowMiles = false
         val firstPlaceDetails = activityFirstSegmentPlaceDetails
@@ -66,7 +66,7 @@ internal class VEventTest {
     }
 
     @Test
-    fun `VEvent should convert ActivitySegment with null endLocation*placeId to VEvent correctly`() {
+    fun `returns VEvent with correct data when ActivitySegment has null endLocation placeId`() {
         val activitySegment = activitySegment.copy(
             endLocation = Location(
                 address = null,
@@ -108,7 +108,7 @@ internal class VEventTest {
     }
 
     @Test
-    fun `VEvent should convert kilometres to miles in VEvent if shouldShowMiles is true`() {
+    fun `returns VEvent with miles when shouldShowMiles is true`() {
         val activitySegment = activitySegment
         val shouldShowMiles = true
         val firstPlaceDetails = activityFirstSegmentPlaceDetails
@@ -142,7 +142,7 @@ internal class VEventTest {
     }
 
     @Test
-    fun `VEvent should convert ActivitySegment without PlaceDetails to VEvent correctly`() {
+    fun `returns VEvent with correct data when ActivitySegment has no PlaceDetails`() {
         val activitySegment = activitySegment
         val shouldShowMiles = false
         val firstPlaceDetails = null
@@ -176,7 +176,7 @@ internal class VEventTest {
     }
 
     @Test
-    fun `VEvent should convert PlaceVisit with PlaceDetails to VEvent correctly`() {
+    fun `returns VEvent with correct data when PlaceVisit has PlaceDetails`() {
         val placeVisit = placeVisit
         val placeDetails = placeVisitPlaceDetails
         val expectedVEvent = VEvent(
@@ -199,7 +199,7 @@ internal class VEventTest {
     }
 
     @Test
-    fun `VEvent should convert PlaceVisit without PlaceDetails to VEvent correctly`() {
+    fun `returns VEvent with correct data when PlaceVisit has no PlaceDetails`() {
         val placeVisit = placeVisit
         val placeDetails = null
         val expectedVEvent = VEvent(
@@ -222,7 +222,7 @@ internal class VEventTest {
     }
 
     @Test
-    fun `VEvent should convert ChildVisit with PlaceDetails to VEvent correctly`() {
+    fun `returns VEvent with correct data when ChildVisit has PlaceDetails`() {
         val childVisit = childVisit
         val placeDetails = childVisitPlaceDetails
         val expectedVEvent = VEvent(
@@ -245,7 +245,7 @@ internal class VEventTest {
     }
 
     @Test
-    fun `VEvent should convert ChildVisit without PlaceDetails to VEvent correctly`() {
+    fun `returns VEvent with correct data when ChildVisit has no PlaceDetails`() {
         val childVisit = childVisit
         val placeDetails = null
         val expectedVEvent = VEvent(
@@ -268,7 +268,7 @@ internal class VEventTest {
     }
 
     @Test
-    fun `VEvent should export correct iCal string`() {
+    fun `returns correct iCal string when export`() {
         val vEvent = VEvent(
             uid = "2011-11-11T11:22:22.222Z",
             placeId = "some-child-visit-place-id",
