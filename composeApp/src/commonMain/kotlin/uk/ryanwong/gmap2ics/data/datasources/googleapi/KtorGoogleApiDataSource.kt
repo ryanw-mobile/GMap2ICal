@@ -42,17 +42,15 @@ class KtorGoogleApiDataSource(
         placeId: String,
         apiKey: String,
         language: String?,
-    ): PlaceDetailsDto {
-        return withContext(dispatcher) {
-            val response: PlaceDetailsDto? = httpClient.get(placeDetailsUrl) {
-                parameter("place_id", placeId)
-                parameter("key", apiKey)
-                parameter("language", language)
-            }.body()
+    ): PlaceDetailsDto = withContext(dispatcher) {
+        val response: PlaceDetailsDto? = httpClient.get(placeDetailsUrl) {
+            parameter("place_id", placeId)
+            parameter("key", apiKey)
+            parameter("language", language)
+        }.body()
 
-            response?.result?.let {
-                response
-            } ?: throw PlaceDetailsNotFoundException(placeId = placeId)
-        }
+        response?.result?.let {
+            response
+        } ?: throw PlaceDetailsNotFoundException(placeId = placeId)
     }
 }

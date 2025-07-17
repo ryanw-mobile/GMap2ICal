@@ -9,7 +9,5 @@ import uk.ryanwong.gmap2ics.domain.repositories.TimelineRepository
 
 class FakeTimelineRepository : TimelineRepository {
     var getTimeLineResponse: Result<Timeline>? = null
-    override suspend fun getTimeLine(filePath: String): Result<Timeline> {
-        return getTimeLineResponse ?: Result.failure(Exception("response not defined"))
-    }
+    override suspend fun getTimeLine(filePath: String): Result<Timeline> = getTimeLineResponse ?: Result.failure(Exception("response not defined"))
 }

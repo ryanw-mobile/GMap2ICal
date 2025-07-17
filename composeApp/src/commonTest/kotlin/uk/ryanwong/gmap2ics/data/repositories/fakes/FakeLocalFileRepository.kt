@@ -18,7 +18,5 @@ class FakeLocalFileRepository : LocalFileRepository {
     }
 
     var getFileListResponse: Result<List<String>>? = null
-    override suspend fun getFileList(relativePath: String, extension: String): Result<List<String>> {
-        return getFileListResponse ?: Result.failure(Exception("response not defined"))
-    }
+    override suspend fun getFileList(relativePath: String, extension: String): Result<List<String>> = getFileListResponse ?: Result.failure(Exception("response not defined"))
 }

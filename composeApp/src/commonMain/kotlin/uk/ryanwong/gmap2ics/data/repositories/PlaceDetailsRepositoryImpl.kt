@@ -28,44 +28,42 @@ class PlaceDetailsRepositoryImpl(
         placeId: String,
         placeTimeZoneId: String?,
         enablePlacesApiLookup: Boolean,
-    ): Result<PlaceDetails> {
-        return when {
-            placesCache.contains(key = placeId) -> {
-                Result.success(placesCache.getValue(placeId))
-            }
+    ): Result<PlaceDetails> = when {
+        placesCache.contains(key = placeId) -> {
+            Result.success(placesCache.getValue(placeId))
+        }
 
-            !enablePlacesApiLookup -> {
-                Result.failure(PlaceDetailsNotFoundException(placeId = placeId))
-            }
+        !enablePlacesApiLookup -> {
+            Result.failure(PlaceDetailsNotFoundException(placeId = placeId))
+        }
 
-            placesApiKey == null -> {
-                Result.failure(PlaceDetailsNotFoundException(placeId = placeId))
-            }
+        placesApiKey == null -> {
+            Result.failure(PlaceDetailsNotFoundException(placeId = placeId))
+        }
 
-            else -> {
-                withContext(dispatcher) {
-                    // Do API lookup and cache the results
-                    // If user does not supply an API Key means we always return null
-                    runCatching {
-                        val language: String? = apiLanguageOverride.getOrDefault(
-                            key = placeTimeZoneId,
-                            defaultValue = apiLanguageOverride.get(key = "default"),
-                        )
+        else -> {
+            withContext(dispatcher) {
+                // Do API lookup and cache the results
+                // If user does not supply an API Key means we always return null
+                runCatching {
+                    val language: String? = apiLanguageOverride.getOrDefault(
+                        key = placeTimeZoneId,
+                        defaultValue = apiLanguageOverride.get(key = "default"),
+                    )
 
-                        val placeDetailsDto = networkDataSource.getMapsApiPlaceDetails(
-                            placeId = placeId,
-                            apiKey = placesApiKey,
-                            language = language,
-                        )
+                    val placeDetailsDto = networkDataSource.getMapsApiPlaceDetails(
+                        placeId = placeId,
+                        apiKey = placesApiKey,
+                        language = language,
+                    )
 
-                        val placeDetails = placeDetailsDto.result?.toPlaceDetails()
+                    val placeDetails = placeDetailsDto.result?.toPlaceDetails()
 
-                        placeDetails?.let {
-                            placesCache[placeId] = it
-                            it
-                        } ?: throw PlaceDetailsNotFoundException(placeId = placeId)
-                    }.except<CancellationException, _>()
-                }
+                    placeDetails?.let {
+                        placesCache[placeId] = it
+                        it
+                    } ?: throw PlaceDetailsNotFoundException(placeId = placeId)
+                }.except<CancellationException, _>()
             }
         }
     }

@@ -12,17 +12,13 @@ data class RawTimestamp(
     val timestamp: String,
     val timezoneId: String,
 ) {
-    fun toLocalizedTimestamp(): String {
-        return DateTimeFormatter
-            .ofPattern("yyyyMMdd'T'HHmmss")
-            .withZone(ZoneId.of(timezoneId))
-            .format(Instant.parse(timestamp))
-    }
+    fun toLocalizedTimestamp(): String = DateTimeFormatter
+        .ofPattern("yyyyMMdd'T'HHmmss")
+        .withZone(ZoneId.of(timezoneId))
+        .format(Instant.parse(timestamp))
 
-    fun toUITimestamp(): String {
-        return DateTimeFormatter
-            .ofPattern("dd/MM/yyyy HH:mm:ss")
-            .withZone(ZoneId.of(timezoneId))
-            .format(Instant.parse(timestamp))
-    }
+    fun toUITimestamp(): String = DateTimeFormatter
+        .ofPattern("dd/MM/yyyy HH:mm:ss")
+        .withZone(ZoneId.of(timezoneId))
+        .format(Instant.parse(timestamp))
 }

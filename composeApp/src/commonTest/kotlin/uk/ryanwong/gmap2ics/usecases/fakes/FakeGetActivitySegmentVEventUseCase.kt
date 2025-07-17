@@ -15,7 +15,5 @@ class FakeGetActivitySegmentVEventUseCase : GetActivitySegmentVEventUseCase {
         activitySegment: ActivitySegment,
         ignoredActivityType: List<ActivityType>,
         enablePlacesApiLookup: Boolean,
-    ): VEvent? {
-        return useCaseResponse
-    }
+    ): VEvent? = useCaseResponse
 }

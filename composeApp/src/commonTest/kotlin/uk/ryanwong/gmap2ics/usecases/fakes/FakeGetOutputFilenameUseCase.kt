@@ -14,7 +14,5 @@ class FakeGetOutputFilenameUseCase : GetOutputFilenameUseCase {
         iCalPath: String,
         exportPlaceVisit: Boolean,
         exportActivitySegment: Boolean,
-    ): String {
-        return useCaseResponse ?: throw Exception("response not defined")
-    }
+    ): String = useCaseResponse ?: throw Exception("response not defined")
 }

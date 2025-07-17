@@ -13,7 +13,5 @@ class FakeVEventFromChildVisitUseCase : VEventFromChildVisitUseCase {
     override suspend fun invoke(
         childVisit: ChildVisit,
         enablePlacesApiLookup: Boolean,
-    ): VEvent? {
-        return useCaseResponse
-    }
+    ): VEvent? = useCaseResponse
 }

@@ -270,12 +270,10 @@ class MainScreenViewModel(
         _mainScreenUIState.value = MainScreenUIState.Ready
     }
 
-    private fun stripBasePath(absolutePath: String): String {
-        return if (absolutePath.startsWith(projectBasePath)) {
-            absolutePath.removePrefix(projectBasePath)
-        } else {
-            absolutePath
-        }
+    private fun stripBasePath(absolutePath: String): String = if (absolutePath.startsWith(projectBasePath)) {
+        absolutePath.removePrefix(projectBasePath)
+    } else {
+        absolutePath
     }
 
     private fun appendExportedLog(uiLogEntry: UILogEntry) {

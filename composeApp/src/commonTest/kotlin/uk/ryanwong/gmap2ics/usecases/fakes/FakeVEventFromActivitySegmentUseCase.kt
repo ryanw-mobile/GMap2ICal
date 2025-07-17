@@ -10,7 +10,5 @@ import uk.ryanwong.gmap2ics.domain.usecases.interfaces.VEventFromActivitySegment
 
 class FakeVEventFromActivitySegmentUseCase : VEventFromActivitySegmentUseCase {
     var useCaseResponse: VEvent? = null
-    override suspend fun invoke(activitySegment: ActivitySegment, enablePlacesApiLookup: Boolean): VEvent {
-        return useCaseResponse ?: throw Exception("response not defined")
-    }
+    override suspend fun invoke(activitySegment: ActivitySegment, enablePlacesApiLookup: Boolean): VEvent = useCaseResponse ?: throw Exception("response not defined")
 }
