@@ -25,9 +25,7 @@ class FakeGetPlaceVisitVEventUseCase : GetPlaceVisitVEventUseCase {
         ignoredVisitedPlaceIds: List<String>,
         enablePlacesApiLookup: Boolean,
         verboseConsoleLog: Boolean,
-    ): List<VEvent> {
-        return useCaseResponse ?: throw Exception("response not defined")
-    }
+    ): List<VEvent> = useCaseResponse ?: throw Exception("response not defined")
 
     suspend fun emitIgnoredEvent(uiLogEntry: UILogEntry) {
         _ignoredEvents.emit(uiLogEntry)

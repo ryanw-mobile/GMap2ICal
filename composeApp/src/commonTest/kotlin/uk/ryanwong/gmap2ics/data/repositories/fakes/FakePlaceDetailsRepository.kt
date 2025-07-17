@@ -13,7 +13,5 @@ class FakePlaceDetailsRepository : PlaceDetailsRepository {
         placeId: String,
         placeTimeZoneId: String?,
         enablePlacesApiLookup: Boolean,
-    ): Result<PlaceDetails> {
-        return getPlaceDetailsResponse ?: Result.failure(Exception("response not defined"))
-    }
+    ): Result<PlaceDetails> = getPlaceDetailsResponse ?: Result.failure(Exception("response not defined"))
 }

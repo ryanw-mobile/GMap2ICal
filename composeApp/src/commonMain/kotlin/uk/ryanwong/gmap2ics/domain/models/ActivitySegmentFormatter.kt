@@ -47,19 +47,15 @@ object ActivitySegmentFormatter {
             lastSegmentText
     }
 
-    fun getStartLocationText(startLocation: Location, placeDetails: PlaceDetails?): String {
-        return placeDetails?.let { place ->
-            "Start Location: ${place.formattedAddress}\\n${startLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
-        }
-            ?: "Start Location: ${startLocation.getFormattedLatLng()}\\n${startLocation.getGoogleMapsLatLngLink()}\\n\\n"
+    fun getStartLocationText(startLocation: Location, placeDetails: PlaceDetails?): String = placeDetails?.let { place ->
+        "Start Location: ${place.formattedAddress}\\n${startLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
     }
+        ?: "Start Location: ${startLocation.getFormattedLatLng()}\\n${startLocation.getGoogleMapsLatLngLink()}\\n\\n"
 
-    fun getEndLocationText(endLocation: Location, placeDetails: PlaceDetails?): String {
-        return placeDetails?.let { place ->
-            "End Location: ${place.formattedAddress}\\n${endLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
-        }
-            ?: "End Location: ${endLocation.getFormattedLatLng()}\\n${endLocation.getGoogleMapsLatLngLink()}\\n\\n"
+    fun getEndLocationText(endLocation: Location, placeDetails: PlaceDetails?): String = placeDetails?.let { place ->
+        "End Location: ${place.formattedAddress}\\n${endLocation.getGoogleMapsPlaceIdLink()}\\n\\n"
     }
+        ?: "End Location: ${endLocation.getFormattedLatLng()}\\n${endLocation.getGoogleMapsLatLngLink()}\\n\\n"
 
     fun kilometersToMiles(meters: Double): Double = meters * 0.621
 }

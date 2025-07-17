@@ -14,14 +14,12 @@ data class PlaceDetails(
     val types: List<String>,
     val url: String,
 ) {
-    fun getFormattedName(): String {
-        return try {
-            val placeType = resolveEnum()
-            "${placeType.emoji} $name"
-        } catch (ex: PlaceTypeNotFoundException) {
-            ex.printStackTrace()
-            "\uD83D\uDCCD $name"
-        }
+    fun getFormattedName(): String = try {
+        val placeType = resolveEnum()
+        "${placeType.emoji} $name"
+    } catch (ex: PlaceTypeNotFoundException) {
+        ex.printStackTrace()
+        "\uD83D\uDCCD $name"
     }
 
     private fun resolveEnum(): PlaceType {

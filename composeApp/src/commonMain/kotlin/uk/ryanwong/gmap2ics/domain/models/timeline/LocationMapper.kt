@@ -22,16 +22,14 @@ fun uk.ryanwong.gmap2ics.data.models.timeline.LocationDto.toDomainModel(): Locat
 
 // Location without LatLng is meaningless.
 // Caller should consider dropping the entry should that happens.
-fun ActivityLocationDto.toDomainModel(): Location? {
-    return if (latitudeE7 == null || longitudeE7 == null) {
-        null
-    } else {
-        Location(
-            address = address,
-            latitudeE7 = latitudeE7,
-            longitudeE7 = longitudeE7,
-            name = name,
-            placeId = placeId,
-        )
-    }
+fun ActivityLocationDto.toDomainModel(): Location? = if (latitudeE7 == null || longitudeE7 == null) {
+    null
+} else {
+    Location(
+        address = address,
+        latitudeE7 = latitudeE7,
+        longitudeE7 = longitudeE7,
+        name = name,
+        placeId = placeId,
+    )
 }

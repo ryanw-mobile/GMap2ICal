@@ -13,7 +13,5 @@ class FakeVEventFromPlaceVisitUseCase : VEventFromPlaceVisitUseCase {
     override suspend fun invoke(
         placeVisit: PlaceVisit,
         enablePlacesApiLookup: Boolean,
-    ): VEvent {
-        return useCaseResponse ?: throw Exception("response not defined")
-    }
+    ): VEvent = useCaseResponse ?: throw Exception("response not defined")
 }

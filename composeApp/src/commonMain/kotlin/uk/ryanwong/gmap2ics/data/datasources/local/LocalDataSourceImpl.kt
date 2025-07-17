@@ -22,33 +22,27 @@ class LocalDataSourceImpl(
     /***
      * Note: Current implementation accepts paths outside the project directory
      */
-    override suspend fun getFileList(absolutePath: String, extension: String): Result<List<String>> {
-        return withContext(dispatcher) {
-            Result.runCatching {
-                val fileList = mutableListOf<String>()
+    override suspend fun getFileList(absolutePath: String, extension: String): Result<List<String>> = withContext(dispatcher) {
+        Result.runCatching {
+            val fileList = mutableListOf<String>()
 
-                Files.walk(Paths.get(absolutePath))
-                    .filter { file -> Files.isRegularFile(file) }
-                    .filter { file -> file.toString().endsWith(suffix = ".$extension") }
-                    .forEach { file -> fileList.add(file.toString()) }
-                fileList
-            }.except<CancellationException, _>()
-        }
+            Files.walk(Paths.get(absolutePath))
+                .filter { file -> Files.isRegularFile(file) }
+                .filter { file -> file.toString().endsWith(suffix = ".$extension") }
+                .forEach { file -> fileList.add(file.toString()) }
+            fileList
+        }.except<CancellationException, _>()
     }
 
-    override suspend fun readStringFromFile(filePath: String): String {
-        return withContext(dispatcher) {
-            File(filePath).readText(Charsets.UTF_8)
-        }
+    override suspend fun readStringFromFile(filePath: String): String = withContext(dispatcher) {
+        File(filePath).readText(Charsets.UTF_8)
     }
 
-    override suspend fun fileWriter(filePath: String, contents: String): Result<Unit> {
-        return withContext(dispatcher) {
-            Result.runCatching {
-                FileWriter(filePath, false).use { fileWriter ->
-                    fileWriter.write(contents)
-                }
-            }.except<CancellationException, _>()
-        }
+    override suspend fun fileWriter(filePath: String, contents: String): Result<Unit> = withContext(dispatcher) {
+        Result.runCatching {
+            FileWriter(filePath, false).use { fileWriter ->
+                fileWriter.write(contents)
+            }
+        }.except<CancellationException, _>()
     }
 }

@@ -9,10 +9,8 @@ import us.dustinj.timezonemap.TimeZoneMap
 
 class TimeZoneMapImpl(private val timeZoneMap: TimeZoneMap) : TimeZoneMapWrapper {
 
-    override fun getOverlappingTimeZone(degreesLatitude: Double, degreesLongitude: Double): TimeZone? {
-        return timeZoneMap.getOverlappingTimeZone(
-            degreesLatitude = degreesLatitude,
-            degreesLongitude = degreesLongitude,
-        )
-    }
+    override fun getOverlappingTimeZone(degreesLatitude: Double, degreesLongitude: Double): TimeZone? = timeZoneMap.getOverlappingTimeZone(
+        degreesLatitude = degreesLatitude,
+        degreesLongitude = degreesLongitude,
+    )
 }

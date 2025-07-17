@@ -24,13 +24,11 @@ class TimelineRepositoryImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : TimelineRepository {
 
-    override suspend fun getTimeLine(filePath: String): Result<Timeline> {
-        return withContext(dispatcher) {
-            Result.runCatching {
-                val jsonString = localDataSource.readStringFromFile(filePath = filePath)
-                val timelineObjectsDto = kotlinJson.decodeFromString(TimelineObjectsDto.serializer(), jsonString)
-                Timeline.from(timelineObjectsDto = timelineObjectsDto, timeZoneMap = timeZoneMap)
-            }.except<CancellationException, _>()
-        }
+    override suspend fun getTimeLine(filePath: String): Result<Timeline> = withContext(dispatcher) {
+        Result.runCatching {
+            val jsonString = localDataSource.readStringFromFile(filePath = filePath)
+            val timelineObjectsDto = kotlinJson.decodeFromString(TimelineObjectsDto.serializer(), jsonString)
+            Timeline.from(timelineObjectsDto = timelineObjectsDto, timeZoneMap = timeZoneMap)
+        }.except<CancellationException, _>()
     }
 }

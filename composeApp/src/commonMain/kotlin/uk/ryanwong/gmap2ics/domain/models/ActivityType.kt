@@ -28,14 +28,12 @@ enum class ActivityType(val emoji: String) {
     ;
 
     companion object {
-        fun parse(activityType: String?): ActivityType {
-            return activityType?.let {
-                try {
-                    ActivityType.valueOf(it)
-                } catch (e: IllegalArgumentException) {
-                    UNKNOWN_ACTIVITY_TYPE
-                }
-            } ?: UNKNOWN_ACTIVITY_TYPE
-        }
+        fun parse(activityType: String?): ActivityType = activityType?.let {
+            try {
+                ActivityType.valueOf(it)
+            } catch (e: IllegalArgumentException) {
+                UNKNOWN_ACTIVITY_TYPE
+            }
+        } ?: UNKNOWN_ACTIVITY_TYPE
     }
 }

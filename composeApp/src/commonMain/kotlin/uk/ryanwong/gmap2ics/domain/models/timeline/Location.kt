@@ -15,13 +15,9 @@ data class Location(
 ) {
     private val latLngFormat = DecimalFormat("###.######")
 
-    fun getLatitude(): Double {
-        return latitudeE7 / 10000000.0
-    }
+    fun getLatitude(): Double = latitudeE7 / 10000000.0
 
-    fun getLongitude(): Double {
-        return longitudeE7 / 10000000.0
-    }
+    fun getLongitude(): Double = longitudeE7 / 10000000.0
 
     fun getFormattedLatLng(): String {
         val lat = latLngFormat.format(latitudeE7 / 10000000.0)
@@ -29,13 +25,9 @@ data class Location(
         return "$lat,$lng"
     }
 
-    fun getGoogleMapsLatLngLink(): String {
-        return "https://maps.google.com?q=${getFormattedLatLng()}"
-    }
+    fun getGoogleMapsLatLngLink(): String = "https://maps.google.com?q=${getFormattedLatLng()}"
 
-    fun getGoogleMapsPlaceIdLink(): String {
-        return placeId?.let {
-            "https://www.google.com/maps/place/?q=place_id:$it"
-        } ?: ""
-    }
+    fun getGoogleMapsPlaceIdLink(): String = placeId?.let {
+        "https://www.google.com/maps/place/?q=place_id:$it"
+    } ?: ""
 }

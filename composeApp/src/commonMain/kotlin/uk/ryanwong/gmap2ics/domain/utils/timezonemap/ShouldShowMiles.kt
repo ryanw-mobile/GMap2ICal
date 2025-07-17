@@ -10,6 +10,4 @@ import us.dustinj.timezonemap.TimeZone
  * Only when the activity happened in UK we display values in miles.
  * Others are in kilometers.
  */
-fun TimeZone.shouldShowMiles(): Boolean {
-    return zoneId == "Europe/London"
-}
+fun TimeZone.shouldShowMiles(): Boolean = zoneId == "Europe/London"

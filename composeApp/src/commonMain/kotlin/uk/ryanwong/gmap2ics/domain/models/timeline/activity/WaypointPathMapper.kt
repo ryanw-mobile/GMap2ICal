@@ -4,11 +4,9 @@
 
 package uk.ryanwong.gmap2ics.domain.models.timeline.activity
 
-fun uk.ryanwong.gmap2ics.data.models.timeline.WaypointPathDto.toDomainModel(): WaypointPath {
-    return WaypointPath(
-        distanceMeters = distanceMeters ?: 0.0,
-        roadSegmentPlaceIds = roadSegment?.mapNotNull { roadSegment ->
-            roadSegment.placeId
-        } ?: emptyList(),
-    )
-}
+fun uk.ryanwong.gmap2ics.data.models.timeline.WaypointPathDto.toDomainModel(): WaypointPath = WaypointPath(
+    distanceMeters = distanceMeters ?: 0.0,
+    roadSegmentPlaceIds = roadSegment?.mapNotNull { roadSegment ->
+        roadSegment.placeId
+    } ?: emptyList(),
+)

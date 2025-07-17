@@ -16,15 +16,13 @@ data class Timeline(
         fun from(
             timelineObjectsDto: TimelineObjectsDto,
             timeZoneMap: TimeZoneMapWrapper,
-        ): Timeline {
-            return Timeline(
-                timelineEntries = timelineObjectsDto.timelineObjects?.map { timelineObject ->
-                    TimelineEntry(
-                        activitySegment = timelineObject.activitySegment?.toDomainModel(timeZoneMap = timeZoneMap),
-                        placeVisit = timelineObject.placeVisit?.toDomainModel(timeZoneMap = timeZoneMap),
-                    )
-                } ?: emptyList(),
-            )
-        }
+        ): Timeline = Timeline(
+            timelineEntries = timelineObjectsDto.timelineObjects?.map { timelineObject ->
+                TimelineEntry(
+                    activitySegment = timelineObject.activitySegment?.toDomainModel(timeZoneMap = timeZoneMap),
+                    placeVisit = timelineObject.placeVisit?.toDomainModel(timeZoneMap = timeZoneMap),
+                )
+            } ?: emptyList(),
+        )
     }
 }

@@ -8,9 +8,7 @@ import uk.ryanwong.gmap2ics.data.datasources.local.interfaces.LocalDataSource
 
 internal class FakeLocalDataSource : LocalDataSource {
     var getFileListResponse: Result<List<String>>? = null
-    override suspend fun getFileList(absolutePath: String, extension: String): Result<List<String>> {
-        return getFileListResponse ?: Result.failure(Exception("response not defined"))
-    }
+    override suspend fun getFileList(absolutePath: String, extension: String): Result<List<String>> = getFileListResponse ?: Result.failure(Exception("response not defined"))
 
     var fileWriterFileName: String? = null
         private set
@@ -24,7 +22,5 @@ internal class FakeLocalDataSource : LocalDataSource {
     }
 
     var getJsonStringResponse: String = ""
-    override suspend fun readStringFromFile(filePath: String): String {
-        return getJsonStringResponse
-    }
+    override suspend fun readStringFromFile(filePath: String): String = getJsonStringResponse
 }
