@@ -21,7 +21,6 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
-        withJava()
     }
 
     // https://github.com/JetBrains/compose-multiplatform/issues/3123
