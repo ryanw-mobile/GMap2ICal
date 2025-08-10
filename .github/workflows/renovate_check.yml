@@ -30,4 +30,4 @@ jobs:
         run: sudo apt-get install -y xvfb
 
       - name: Gradle Check
-        run: xvfb-run ./gradlew check --no-daemon
+        run: xvfb-run ./gradlew check
