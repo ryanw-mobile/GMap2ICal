@@ -8,10 +8,10 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.serialization)
-    alias(libs.plugins.kover)
     alias(libs.plugins.compose)
     alias(libs.plugins.gradle.ktlint)
     alias(libs.plugins.compose.compiler)
+    id("jacoco")
 }
 
 @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -114,32 +114,42 @@ compose.desktop {
     }
 }
 
-kover {
+val jacocoExcludes = listOf(
+    "**/ComposableSingletons*.class",
+    "**/MainKt.class",
+    "**/gmap2ical/composeapp/generated/resources/**",
+    "**/uk/ryanwong/gmap2ics/di/**",
+    "**/uk/ryanwong/gmap2ics/app/configs/**",
+    "**/uk/ryanwong/gmap2ics/ui/screens/**",
+    "**/uk/ryanwong/gmap2ics/ui/theme/**",
+)
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn(tasks.named("desktopTest"))
+
     reports {
-        // common filters for all reports of all variants
-        filters {
-            // exclusions for reports
-            excludes {
-                // excludes class by fully-qualified JVM class name, wildcards '*' and '?' are available
-                classes(
-                    listOf(
-                        "uk.ryanwong.gmap2ics.ComposableSingletons*",
-                        "uk.ryanwong.gmap2ics.MainKt",
-                    ),
-                )
-                // excludes all classes located in specified package and it subpackages, wildcards '*' and '?' are available
-                packages(
-                    listOf(
-                        "gmap2ical.composeapp.generated.resources*",
-                        "uk.ryanwong.gmap2ics.di*",
-                        "uk.ryanwong.gmap2ics.app.configs",
-                        "uk.ryanwong.gmap2ics.ui.screens",
-                        "uk.ryanwong.gmap2ics.ui.theme",
-                    ),
-                )
-            }
-        }
+        xml.required.set(true)
+        html.required.set(true)
     }
+
+    classDirectories.setFrom(
+        fileTree("${layout.buildDirectory.get()}/classes/kotlin/desktop/main") {
+            exclude(jacocoExcludes)
+        },
+    )
+
+    sourceDirectories.setFrom(
+        files(
+            "${project.projectDir}/src/commonMain/kotlin",
+            "${project.projectDir}/src/desktopMain/kotlin",
+        ),
+    )
+
+    executionData.setFrom(
+        fileTree(layout.buildDirectory) {
+            include("jacoco/desktopTest.exec")
+        },
+    )
 }
 
 tasks.withType<Test>().configureEach {
