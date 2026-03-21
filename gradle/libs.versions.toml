@@ -9,7 +9,6 @@ timezonemap = "4.5"
 napier = "2.7.1"
 gradleKtlint = "14.2.0"
 compose = "1.10.3"
-kover = "0.9.7"
 mockk = "1.14.9"
 junit = "6.0.3"
 jSystemThemeDetector = "3.9.1"
@@ -43,6 +42,5 @@ koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin"
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "gradleKtlint" }

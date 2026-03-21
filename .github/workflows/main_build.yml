@@ -32,10 +32,10 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Gradle build
-        run: xvfb-run ./gradlew build koverXmlReport
+        run: xvfb-run ./gradlew build jacocoTestReport
 
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: composeApp/build/reports/kover/report.xml
+          coverage-reports: composeApp/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
