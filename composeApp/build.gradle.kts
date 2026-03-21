@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.serialization)
     alias(libs.plugins.compose)
-    alias(libs.plugins.gradle.ktlint)
+    alias(libs.plugins.kotlinter)
     alias(libs.plugins.compose.compiler)
     id("jacoco")
 }
@@ -94,12 +94,12 @@ kotlin {
     }
 }
 
-ktlint {
-    enableExperimentalRules.set(true)
-    filter {
-        // exclude("**/generated/**")
-        exclude { projectDir.toURI().relativize(it.file.toURI()).path.contains("/generated/") }
-    }
+tasks.withType<org.jmailen.gradle.kotlinter.tasks.LintTask>().configureEach {
+    exclude("**/generated/**")
+}
+
+tasks.withType<org.jmailen.gradle.kotlinter.tasks.FormatTask>().configureEach {
+    exclude("**/generated/**")
 }
 
 compose.desktop {

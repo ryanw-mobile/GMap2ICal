@@ -76,7 +76,7 @@ Trying to reuse all my Android development knowledge as possible, otherwise nati
 * [Github Actions](https://github.com/features/actions) - CI
 * [Kover](https://github.com/Kotlin/kotlinx-kover) - code coverage
 * [codecov](https://codecov.io/) - code coverage
-* [Ktlint Gradle](https://github.com/jlleitschuh/ktlint-gradle) - ktlint plugin to check and apply code autoformat
+* [Kotlinter](https://github.com/jeremymailen/kotlinter-gradle) - Gradle plugin to lint and format Kotlin source files
 * [Mend Renovate](https://www.mend.io/free-developer-tools/renovate/) - automatic dependency updates
 
 I use Generative AI to name all my unit test functions.

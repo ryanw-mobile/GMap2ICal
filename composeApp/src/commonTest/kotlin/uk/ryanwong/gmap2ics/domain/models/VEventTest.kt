@@ -19,14 +19,14 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class VEventTest {
-    /**
+    /*
      * Test Plan -
      * 1. from() with happy flow - from ActivitySegment, PlaceVisit and ChildVisit
      * 2. export() with happy flow - test data need to include string replacement to make sure being substituted correctly
      * 3. getLocalizedTimeStamp() - test the fixed pattern for happy flow, and negative cases
      */
 
-    /**
+    /*
      * While for some strings we can safely replace them with "some-strings", for those we expect some special formatting,
      * like timestamp, or url, I would take a balance by making them meaningless enough but keeping the format.
      */

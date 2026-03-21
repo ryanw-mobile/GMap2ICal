@@ -7,7 +7,7 @@ coroutines = "1.10.2"
 ktor = "3.4.1"
 timezonemap = "4.5"
 napier = "2.7.1"
-gradleKtlint = "14.2.0"
+kotlinter = "5.4.2"
 compose = "1.10.3"
 mockk = "1.14.9"
 junit = "6.0.3"
@@ -43,4 +43,4 @@ multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotl
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
-gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "gradleKtlint" }
+kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
