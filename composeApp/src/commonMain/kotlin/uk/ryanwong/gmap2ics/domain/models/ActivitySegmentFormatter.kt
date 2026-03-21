@@ -21,6 +21,7 @@ object ActivitySegmentFormatter {
             }
 
             startLocation == null && endLocation == null -> ""
+
             else -> "($startLocation ➡ $endLocation)"
         }
     }

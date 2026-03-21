@@ -249,6 +249,7 @@ class MainScreenViewModel(
             }
 
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
+
             else ->
                 _mainScreenUIState.value = MainScreenUIState.Error(errMsg = "Error updating JSON path")
         }
@@ -262,6 +263,7 @@ class MainScreenViewModel(
             }
 
             is JFileChooserResult.Cancelled -> _mainScreenUIState.value = MainScreenUIState.Ready
+
             else -> _mainScreenUIState.value = MainScreenUIState.Error(errMsg = "Error updating iCal path")
         }
     }
