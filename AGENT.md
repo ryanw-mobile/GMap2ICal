@@ -22,8 +22,8 @@ GMap2iCal is a Kotlin Multiplatform **Compose Desktop** application that convert
 ./gradlew allTests                 # Run all platform tests
 
 # Code quality
-./gradlew ktlintCheck              # Lint check
-./gradlew ktlintFormat             # Auto-format
+./gradlew lintKotlin               # Lint check
+./gradlew formatKotlin             # Auto-format
 ./gradlew jacocoTestReport         # Code coverage report (XML + HTML)
 
 # Distribution
@@ -81,7 +81,7 @@ Uses `Result<T>` pattern with a custom `.except()` extension for exception wrapp
 | Serialization | Kotlin Serialization |
 | MVVM | MoKo MVVM 0.16.1 |
 | Testing | JUnit 5, MockK |
-| Linting | ktlint 14.2.0 |
+| Linting | Kotlinter 5.4.2 |
 | Coverage | JaCoCo (Gradle built-in) |
 
 ## Testing
