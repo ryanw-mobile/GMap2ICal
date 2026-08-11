@@ -14,28 +14,11 @@ data class PlaceDetails(
     val types: List<String>,
     val url: String,
 ) {
-    fun getFormattedName(): String = try {
-        val placeType = resolveEnum()
-        "${placeType.emoji} $name"
-    } catch (ex: PlaceTypeNotFoundException) {
-        ex.printStackTrace()
-        "\uD83D\uDCCD $name"
-    }
-
-    private fun resolveEnum(): PlaceType {
-        for (type in types) {
-            try {
-                return PlaceType.valueOf(type.uppercase())
-            } catch (ex: IllegalArgumentException) {
-                // do nothing - look for the next one as substitute
-                ex.printStackTrace()
-            }
+    fun getFormattedName(): String {
+        val placeType = types.firstNotNullOfOrNull { type ->
+            PlaceType.entries.firstOrNull { placeType -> placeType.name.equals(type, ignoreCase = true) }
         }
-        throw PlaceTypeNotFoundException(types = types, placeId = placeId)
+        val emoji = placeType?.emoji ?: "\uD83D\uDCCD"
+        return "$emoji $name"
     }
-}
-
-class PlaceTypeNotFoundException(val types: List<String>, val placeId: String) : Exception() {
-    override val message: String
-        get() = "⚠️ Unable to resolve any of the place types in $types for PlaceId $placeId"
 }
