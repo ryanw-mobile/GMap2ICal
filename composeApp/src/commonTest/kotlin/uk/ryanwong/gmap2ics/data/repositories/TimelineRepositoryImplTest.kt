@@ -15,6 +15,8 @@ import uk.ryanwong.gmap2ics.data.repositories.TimelineRepositoryImplTestData.tim
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -61,5 +63,81 @@ internal class TimelineRepositoryImplTest {
         // kotlinx.serialization.json.internal.JsonDecodingException is internal. Assert message only.
         assertTrue(timeLine.isFailure)
         assertEquals(expectedMessage, timeLine.exceptionOrNull()!!.message)
+    }
+
+    @Test
+    fun `converts on-device semantic segments into timeline entries`() = runTest {
+        localDataSource.getJsonStringResponse = MODERN_TIMELINE_JSON_STRING
+        fakeTimeZoneMap.zoneId = "America/Denver"
+
+        val result = timelineRepository.getTimeLine(filePath = "/some-absolute-path/Timeline.json")
+
+        assertTrue(result.isSuccess)
+        val entries = assertNotNull(result.getOrNull()).timelineEntries
+        assertEquals(2, entries.size)
+
+        val placeVisit = assertNotNull(entries[0].placeVisit)
+        assertNull(entries[0].activitySegment)
+        assertEquals("ChIJ-example", placeVisit.location.placeId)
+        assertEquals("Home", placeVisit.location.name)
+        assertEquals(39.7392, placeVisit.location.getLatitude())
+        assertEquals(-104.9903, placeVisit.location.getLongitude())
+        assertEquals("2026-08-10T08:30:00.000-06:00", placeVisit.durationStartTimestamp.timestamp)
+
+        val activitySegment = assertNotNull(entries[1].activitySegment)
+        assertNull(entries[1].placeVisit)
+        assertEquals("IN_PASSENGER_VEHICLE", activitySegment.rawActivityType)
+        assertEquals(1235, activitySegment.distance)
+        assertEquals(39.7392, activitySegment.startLocation.getLatitude())
+        assertEquals(-105.0103, activitySegment.endLocation.getLongitude())
+    }
+
+    @Test
+    fun `returns failure for valid JSON with an unsupported root schema`() = runTest {
+        localDataSource.getJsonStringResponse = """{"rawSignals": []}"""
+
+        val result = timelineRepository.getTimeLine(filePath = "/some-absolute-path/Timeline.json")
+
+        assertTrue(result.isFailure)
+        assertEquals(
+            "Unsupported Timeline JSON: expected 'timelineObjects' or 'semanticSegments' at the root",
+            result.exceptionOrNull()?.message,
+        )
+    }
+
+    private companion object {
+        const val MODERN_TIMELINE_JSON_STRING = """
+            {
+              "semanticSegments": [
+                {
+                  "startTime": "2026-08-10T08:30:00.000-06:00",
+                  "endTime": "2026-08-10T09:00:00.000-06:00",
+                  "visit": {
+                    "topCandidate": {
+                      "placeId": "ChIJ-example",
+                      "semanticType": "HOME",
+                      "placeLocation": {"latLng": "39.7392°, -104.9903°"}
+                    }
+                  }
+                },
+                {
+                  "startTime": "2026-08-10T09:00:00.000-06:00",
+                  "endTime": "2026-08-10T09:15:00.000-06:00",
+                  "activity": {
+                    "start": {"latLng": "39.7392°, -104.9903°"},
+                    "end": {"latLng": "39.7492°, -105.0103°"},
+                    "distanceMeters": 1234.6,
+                    "topCandidate": {"type": "IN_PASSENGER_VEHICLE"}
+                  }
+                },
+                {
+                  "startTime": "2026-08-10T09:00:00.000-06:00",
+                  "endTime": "2026-08-10T10:00:00.000-06:00",
+                  "timelinePath": []
+                }
+              ],
+              "rawSignals": [{"ignored": true}]
+            }
+        """
     }
 }
