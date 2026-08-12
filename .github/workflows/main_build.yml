@@ -8,6 +8,12 @@ on:
     branches:
       - main
 
+# This workflow builds untrusted contributor code, so it must never be granted
+# access to repository secrets. Coverage upload to Codacy (which needs a secret)
+# is handled by the coverage_report.yml workflow_run extension instead.
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -34,8 +40,14 @@ jobs:
       - name: Gradle build
         run: xvfb-run ./gradlew build jacocoTestReport
 
-      - name: Run codacy-coverage-reporter
-        uses: codacy/codacy-coverage-reporter-action@v1.3.0
+      # Only the report itself is handed over. The commit it belongs to is NOT
+      # passed through the artifact: this job runs contributor code, so anything
+      # it produces is attacker-controlled. Coverage Report reads the commit from
+      # the workflow_run event payload instead.
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v7
         with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: composeApp/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+          name: jacoco-coverage
+          path: composeApp/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+          retention-days: 1
+          if-no-files-found: error
