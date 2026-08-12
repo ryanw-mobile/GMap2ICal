@@ -69,4 +69,23 @@ internal class PlaceDetailsTest {
         val formattedName = placeDetails.getFormattedName()
         assertEquals("\uD83D\uDCCD some-name", formattedName)
     }
+
+    @Test
+    fun `skips unknown place type and uses the first known place type`() {
+        val placeDetails = PlaceDetails(
+            placeId = "some-place-id",
+            name = "some-name",
+            formattedAddress = "some-formatted-address",
+            geo = LatLng(latitude = 53.6152405, longitude = -1.5639315),
+            types = listOf(
+                "establishment",
+                "restaurant",
+            ),
+            url = "https://maps.google.com/?cid=1021876599690425051",
+        )
+
+        val formattedName = placeDetails.getFormattedName()
+
+        assertEquals("\uD83D\uDC68\u200D\uD83C\uDF73 some-name", formattedName)
+    }
 }
