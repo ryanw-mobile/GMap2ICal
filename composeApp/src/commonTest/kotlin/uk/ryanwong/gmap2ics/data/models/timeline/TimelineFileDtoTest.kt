@@ -88,12 +88,12 @@ internal class TimelineFileDtoTest {
         assertNull(SemanticActivityDto().toTimelineObjectDto(START_TIME, END_TIME))
         assertNull(
             SemanticActivityDto(
-                start = LatLngStringDto("39.7392, -104.9903"),
+                start = LatLngStringDto(START_COORDINATES),
             ).toTimelineObjectDto(START_TIME, END_TIME),
         )
         assertNull(
             SemanticActivityDto(
-                start = LatLngStringDto("39.7392, -104.9903"),
+                start = LatLngStringDto(START_COORDINATES),
                 end = LatLngStringDto("invalid"),
             ).toTimelineObjectDto(START_TIME, END_TIME),
         )
@@ -102,7 +102,7 @@ internal class TimelineFileDtoTest {
     @Test
     fun `maps an activity when optional metadata is absent`() {
         val result = SemanticActivityDto(
-            start = LatLngStringDto("39.7392, -104.9903"),
+            start = LatLngStringDto(START_COORDINATES),
             end = LatLngStringDto("39.7492, -105.0103"),
             topCandidate = SemanticActivityCandidateDto(),
         ).toTimelineObjectDto(START_TIME, END_TIME)
@@ -135,5 +135,6 @@ internal class TimelineFileDtoTest {
     private companion object {
         const val START_TIME = "2026-08-10T08:30:00.000-06:00"
         const val END_TIME = "2026-08-10T09:00:00.000-06:00"
+        const val START_COORDINATES = "39.7392, -104.9903"
     }
 }
