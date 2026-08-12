@@ -55,6 +55,30 @@ At the time of writing, `actions/download-artifact` is at `v8`, `actions/upload-
 version of `download-artifact` are incorrect. Note also that `run-id` and `github-token`, required to
 read an artifact produced by a different workflow run, are supported in the version in use.
 
+### S5 — Implicit `success()` on workflow steps
+
+Do not report a step as missing `if: success()`, and do not claim a step runs after an earlier step
+has failed. A step with no `if:` condition already carries an implicit `success()` and is skipped
+automatically once any earlier step in the job fails. Adding `if: success()` is a no-op.
+
+This applies specifically to the artifact upload in `main_build.yml`: when the Gradle build fails the
+upload is already skipped, `if-no-files-found: error` is never reached, and no build failure is
+masked. The absence of `if: always()` there is equally deliberate — the commit is read from the
+`workflow_run` event payload, not the artifact, so no artifact is needed on the failure path.
+
+### S6 — Coverage artifact path resolution
+
+Do not report `COVERAGE_REPORT` in `coverage_report.yml` as a path mismatch without accounting for
+both halves of how the path is produced:
+
+1. `upload-artifact` is given a single explicit file path, so it roots the archive at that file's
+   parent directory and the report sits at the artifact root.
+2. The download step sets `path: coverage`, so the contents are extracted into `coverage/` rather
+   than the workspace root.
+
+The report therefore resolves at `coverage/jacocoTestReport.xml`. Suggesting a bare
+`jacocoTestReport.xml` is incorrect and would break the verification step.
+
 ### S3 — Scope of CI workflow findings
 
 When reviewing `.github/workflows/`, report a finding only where there is a concrete exploitation or
