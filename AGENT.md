@@ -34,6 +34,17 @@ GMap2iCal is a Kotlin Multiplatform **Compose Desktop** application that convert
 
 CI runs: `xvfb-run ./gradlew build jacocoTestReport`
 
+CI is split across two workflows so that pull requests from forks can be built safely:
+
+- **Gradle Build** (`main_build.yml`) — builds and tests on `push` to `main` and on `pull_request`. Runs with no repository secrets because it executes contributor code. Uploads the JaCoCo XML report as the `jacoco-coverage` artifact, and nothing else: this job's output is attacker-controlled, so the commit the report belongs to is deliberately *not* passed through the artifact. Its job id `build` is a required status check on `main`, so do not rename it.
+- **Coverage Report** (`coverage_report.yml`) — triggered by `workflow_run` when Gradle Build completes. Downloads the artifact and uploads coverage to Codacy using `CODACY_PROJECT_TOKEN`. `workflow_run` always runs the copy of the file on the default branch in this repository's context, so the secret is never reachable from fork code.
+
+The commit both workflows are talking about is taken from `github.event.workflow_run.head_sha`, which GitHub generates and contributor code cannot influence. For a pull-request-triggered run this is the pull request HEAD commit rather than the merge commit, which is what Codacy needs and what a status must be posted against. Never reintroduce a scheme that reads the commit out of the artifact — a malicious pull request could then name any commit and publish a passing gate status onto another branch.
+
+`workflow_run` results are not attached to the pull request that triggered them, so Coverage Report posts its own commit status against that SHA, under the context `coverage-report`. **That context must be listed in the required status checks for `main`** — it is what makes coverage upload a blocking gate rather than an advisory run. The status is posted on every outcome, including a failed build, so the check never silently disappears.
+
+Both workflow names matter as identifiers: `workflow_run` matches Gradle Build by its `name:`, and branch protection matches the status by its context string.
+
 **Requirements**: JDK 17, Gradle 9.4.0+
 
 ## Architecture
