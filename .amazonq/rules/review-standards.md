@@ -39,6 +39,22 @@ on the grounds that it does not distinguish a build failure from an upload failu
   required status check on `main`; omitting it would leave the check permanently pending and block
   merges with no explanation. Failing closed is the intended contract.
 
+This also covers the variant claiming `steps.codacy.outcome` is empty or undefined when an earlier
+step fails. A step whose `if:` omits a status check function carries an implicit `success()`, so a
+failed download or verification skips the reporter step and `outcome` is `'skipped'` — a defined
+value that correctly yields `failure`.
+
+### S4 — Action version availability
+
+Do not report a pinned GitHub Action version as non-existent, unavailable, or newer than the latest
+release without first verifying against that action's published tags. Model training data lags
+behind action releases, and this repository tracks current majors via Renovate.
+
+At the time of writing, `actions/download-artifact` is at `v8`, `actions/upload-artifact` at `v7`,
+`actions/checkout` at `v7` and `actions/setup-java` at `v5`. Claims that `v4` is the latest available
+version of `download-artifact` are incorrect. Note also that `run-id` and `github-token`, required to
+read an artifact produced by a different workflow run, are supported in the version in use.
+
 ### S3 — Scope of CI workflow findings
 
 When reviewing `.github/workflows/`, report a finding only where there is a concrete exploitation or
