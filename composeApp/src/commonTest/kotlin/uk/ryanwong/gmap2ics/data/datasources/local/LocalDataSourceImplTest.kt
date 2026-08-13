@@ -108,6 +108,17 @@ internal class LocalDataSourceImplTest {
     }
 
     @Test
+    fun `opens file contents as an input stream`() = testScope.runTest {
+        val absolutePath = tempDir.absolutePath + "/some-temp-file-5"
+
+        val actualFileContents = localDataSource.openInputStream(filePath = absolutePath).use { inputStream ->
+            inputStream.bufferedReader().readText()
+        }
+
+        assertEquals("some-file-contents", actualFileContents)
+    }
+
+    @Test
     fun `readStringFromFile should throw FileNotFoundException if the file does not exist`() = testScope.runTest {
         val absolutePath = tempDir.absolutePath + "/some-invalid-file"
 

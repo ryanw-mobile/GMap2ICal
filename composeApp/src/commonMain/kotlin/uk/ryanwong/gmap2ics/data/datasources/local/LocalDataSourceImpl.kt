@@ -38,6 +38,10 @@ class LocalDataSourceImpl(
         File(filePath).readText(Charsets.UTF_8)
     }
 
+    override suspend fun openInputStream(filePath: String) = withContext(dispatcher) {
+        File(filePath).inputStream().buffered()
+    }
+
     override suspend fun fileWriter(filePath: String, contents: String): Result<Unit> = withContext(dispatcher) {
         Result.runCatching {
             FileWriter(filePath, false).use { fileWriter ->
